@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>地图测试</title>
+    <meta charset="utf-8">
+    <script src="../golba_rs/js/sys.js"></script>
+    <link rel="stylesheet" href="../golba_rs/css/mui.min.css">
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        .map{
+            width: 100%;
+            height: 50%;
+        }
+        .template{
+            display: none;
+        }
+        .icon-home{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border: solid 1px;
+            border-radius: 50%;
+            padding: 5px;
+            color: green;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="map" id="map"></div>
+<div class="template">
+    <div class="icon-home"><span class="mui-icon mui-icon-home"></span></div>
+</div>
+</body>
+<script src="http://webapi.amap.com/maps?v=1.3&key=bc59f27d65900532cc4f3c1048dd6122" type="text/javascript"></script>
+<script src="../golba_rs/js/jquery-1.9.1.min.js" __del__></script>
+<script>
+    $(function(){
+        AMap.homeControlDiv = function(position){
+            this.position = position;
+        };
+        AMap.homeControlDiv.prototype={
+           addTo: function(map, dom){
+              dom.appendChild(this._getHtmlDom(map));
+           },
+           _getHtmlDom:function(map){
+               var me = this;
+             this.map=map;
+             // 创建一个能承载控件的<div>容器
+             var controlUI=$('.template .icon-home').clone();
+
+             // 设置控件响应点击onclick事件
+             controlUI.click(function(){
+                map.setCenter(me.position);
+             });
+             return controlUI[0];
+           }
+        }
+     
+      var position=new AMap.LngLat(116.397428,39.90923);
+      var mapObj = window.mapobj =new AMap.Map("map",{
+          view: new AMap.View2D({//创建地图二维视口
+          center:position,//创建中心点坐标
+          zoom:17, //设置地图缩放级别      //1 -  17
+          rotation:0 //设置地图旋转角度
+         }),
+         lang:"zh_cn"//设置地图语言类型，默认：中文简体
+        });//创建地图实例
+        mapObj.plugin(["AMap.ToolBar","AMap.OverView","AMap.Scale","AMap.homeControlDiv"],function(){
+          //加载工具条
+          tool = new AMap.ToolBar({
+            direction:false,//隐藏方向导航
+            ruler:false,//隐藏视野级别控制尺
+            autoPosition:true//自动定位
+          });
+          mapObj.addControl(tool);
+          //加载鹰眼
+          view = new AMap.OverView();
+          mapObj.addControl(view);
+          //加载比例尺
+          scale = new AMap.Scale();
+          mapObj.addControl(scale);
+
+            hd = new AMap.homeControlDiv(position);
+            mapObj.addControl(hd);
+        });
+        AMap.event.addListener(mapObj,'click', function(e){
+            var lnglat = e.lnglat;
+            //console.log(this);
+            this.setCenter(lnglat);
+        });
+    });
+</script>
+</html>

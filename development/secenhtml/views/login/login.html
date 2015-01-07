@@ -1,0 +1,37 @@
+﻿<div class="page_body">
+<style>
+.login-user{
+	width:80%;
+	float: none;
+	margin-top:10px;
+	margin-bottom:10px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.login-input{
+	margin-bottom:15px;
+}
+</style>
+<div name="slider" style="margin-top: 20px">
+    <div name="loginpanel" class="mui-slider-item mui-control-content mui-active">
+        <div class="mui-input-row login-user">
+            <input name="userpanel_email" type="text" class="mui-input-clear login-input" placeholder="请输入您的账号" data-input-clear="">
+            <br/>
+            <input name="userpanel_password" type="Password" class="mui-input-clear login-input" placeholder="请输入您的密码" data-input-clear="4">
+            <button name="btlogin" class="mui-btn mui-btn-warning mui-btn-block">登录</button>
+        </div>
+
+    </div>
+</div>
+<div name='logininfo' style="height: 100%;">
+    <ul class="mui-table-view">
+        <li class="mui-table-view-divider">当前登录信息</li>
+        <li class="mui-table-view-cell"><span>登录账户:</span><span name='name'></span></li>
+        <li class="mui-table-view-cell"><span>账户类型:</span><span name='type'></span></li>
+        <li class="mui-table-view-cell"><span>账户状态:</span><span name='status'></span></li>
+        <li class="mui-table-view-cell"><span>PushID:</span><span name='PushID'></span></li>
+        <li></li>
+    </ul>
+    <div name='btquit' class="mui-btn mui-btn-danger mui-btn-block" style="position: absolute;bottom: 0">退出登录</div>
+</div>
+</div>

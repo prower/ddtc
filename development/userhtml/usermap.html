@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>车主地图</title>
+    <meta charset="utf-8">
+    <script src="../golba_rs/js/sys.js"></script>
+    <link rel="stylesheet" href="../golba_rs/css/mui.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+<body ontouchmove="return false" >
+<div id="usermap" class="page">
+
+    <form class="mui-input-group search" action="">
+        <div class="mui-input-row">
+            <input type="text" placeholder="输入查询地址">
+            <label><span class="mui-icon mui-icon-search"></span></label>
+        </div>
+    </form>
+    <div id="map" class="map"></div>
+    <div class="mui-card list">
+        <div class="innerlist">
+            <ul class="mui-table-view">
+
+            </ul>
+        </div>
+        <div class="info">
+            <div class="mybar">
+            	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" name="back"></a>
+            	<h1 class="mui-title">详细信息</h1>
+                <a class="mui-btn mui-btn-success mui-pull-right">订购 </a>
+            </div>
+           <div>
+               xxxxx
+           </div>
+        </div>
+    </div>
+    <div class="template">
+        <ul>
+            <li class="mui-table-view-cell" name='row'>
+                <a class="mui-navigate-right">
+                    Item 2
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+</body>
+<script src="http://webapi.amap.com/maps?v=1.3&key=bc59f27d65900532cc4f3c1048dd6122" type="text/javascript"></script>
+
+<script src="../golba_rs/js/jquery-1.9.1.min.js" __del__></script>
+<script src="../golba_rs/js/myscroll.js" __del__></script>
+<script __alljs__></script>
+
+
+<script type="text/javascript">
+    $(function(){
+          var position=new AMap.LngLat(116.397428,39.90923);
+          var mapObj= window.mapobj = new AMap.Map("map",{
+          view: new AMap.View2D({//创建地图二维视口
+          //center:position,//创建中心点坐标
+          zoom:16, //设置地图缩放级别
+          rotation:0 //设置地图旋转角度
+         }),
+         lang:"zh_cn"//设置地图语言类型，默认：中文简体
+        });//创建地图实例
+
+        mapObj.plugin(["AMap.ToolBar","AMap.OverView","AMap.Scale"],function(){
+          //加载工具条
+          tool = new AMap.ToolBar({
+            direction:true,//方向导航
+            ruler:true,//视野级别控制尺
+            autoPosition:true//自动定位
+          });
+          mapObj.addControl(tool);
+          //加载鹰眼
+          //view = new AMap.OverView();
+          //mapObj.addControl(view);
+          //加载比例尺
+          scale = new AMap.Scale();
+          mapObj.addControl(scale);
+        });
+
+        AMap.event.addListener(mapObj,'complete', function(){
+            var center = this.getBounds().getCenter();
+            console.log(center);
+            /**
+             * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
+             */
+            var datas = getData(center);
+            var map  =this;
+            setTimeout(function(){
+                addPoint(map,datas);
+                filllist(datas);
+
+            });
+        });
+
+        initinfo();
+
+
+        function getData(center){
+            var clng = center.lng;
+            var clat = center.lat;
+            var datas = [];
+            for(var i=0;i<10;i++){
+                var lng = clng+GetRandomNum(-0.004,0.004);
+                var lat = clat+GetRandomNum(-0.0025,0.0025);
+                var point = new AMap.LngLat(lng,lat);
+
+                (function(point){
+                    var data = {
+                        point:point
+                    }
+                    datas.push(data);
+                })(point);
+            }
+
+
+            function GetRandomNum(Min,Max){
+
+                    var Range = Max - Min;
+
+                    var Rand = Math.random();
+
+                    return(Min + Rand * Range);
+
+            }
+
+            return datas;
+        }
+
+
+        function addPoint(map,datas){
+            for(var i=0;i<datas.length;i++){
+                var data = datas[i];
+                var marker = new AMap.Marker({                 
+                  map:map,                 
+                  position:data.point,                 
+                  icon:"http://webapi.amap.com/images/0.png",                 
+                  offset:new AMap.Pixel(-10,-35)               
+               }); 
+            }
+        }
+        var listscroll = null;
+        function filllist(datas){
+            var listcontaion = $('.list');
+            listcontaion.removeClass('next');
+            var list = $('.innerlist>ul');
+            list.empty();
+            var rowt = $('.template [name=row]');
+            for(var i=0;i<datas.length;i++){
+                var row = getrow(datas[i]);
+                list.append(row);
+            }
+            setTimeout(function(){
+                if(listscroll){
+                    listscroll.refresh();
+                }else{
+                    listscroll = new iScroll(list[0], {desktopCompatibility:true});
+                }
+            });
+        }
+        function getrow(data){
+            var row = $('.template [name=row]').clone();
+            var a = data.point;
+            row.find('a').html(a.lng+'_'+a.lat);
+            row.find('a').click(function(){
+               showInfo(data);
+            });
+            return row;
+        }
+        function showInfo(data){
+            var listcontaion = $('.list');
+            listcontaion.addClass('next');
+        }
+        function initinfo(){
+            $('.mybar [name=back]').click(function(){
+                var listcontaion = $('.list');
+                listcontaion.removeClass('next');
+            })
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>嘟嘟停车现场</title>
+    <meta charset="UTF-8">
+    <script src="../golba_rs/js/sys.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="../golba_rs/css/mui.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <style>
+		.mui-bar-tab .mui-tab-item .mui-icon {
+			top: 2px;
+			width: 40px !important;
+			height: 40px !important;
+			padding-top: 0;
+			padding-bottom: 0;
+            border: solid 2px #ccc;
+            border-radius: 50%;
+            line-height: 35px;
+
+		}
+        .mui-bar-tab .mui-tab-item.mui-active .mui-icon{
+            border: solid 2px red;
+        }
+	
+        html{
+            height: 100%;
+        }
+        body{
+            height: 100%;
+            width:100%;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            line-height: 16px;
+            background-color: #ccc;
+        }
+        .template{
+            display: none;
+        }
+		
+	.mui-bar-top{
+		position: fixed;
+		right: 0;
+		left: 0;
+		z-index: 10;
+		height: 44px;
+		padding-right: 10px;
+		padding-left: 10px;
+		background-color: rgba(254,60,77,1);
+		border-bottom: 0;
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		color:#fff !important;
+		}
+		.mui-bar-top>a{
+		opacity: 1;
+		color:#fff !important;
+		}
+		.mui-bar-top>h1{
+		color:#fff !important;
+		}
+        .anim_rightin{
+            -webkit-animation-name:anim_rightin;
+        }
+        .anim_rightin_child{
+            -webkit-animation-name:anim_rightin_child;
+        }
+        .anim_rightin_un_child{
+            -webkit-animation-name:anim_rightin_un_child;
+        }
+        .anim_rightin_un{
+            -webkit-animation-name:anim_rightin_un;
+        }
+        .anim_leftin{
+            -webkit-animation-name:anim_leftin;
+        }
+        .anim_leftin_child{
+            -webkit-animation-name:anim_leftin_child;
+        }
+        .anim_leftin_un_child{
+            -webkit-animation-name:anim_leftin_un_child;
+        }
+        .anim_leftin_un{
+            -webkit-animation-name:anim_leftin_un;
+        }
+        @-webkit-keyframes anim_rightin{
+            0%{-webkit-transform:translateX(100%);}
+            100%{-webkit-transform:translateX(0);}
+        }
+        @-webkit-keyframes anim_rightin_child{
+            0%{-webkit-transform:translateX(0);}
+            100%{-webkit-transform:translateX(-50%);}
+        }
+        @-webkit-keyframes anim_rightin_un_child{
+            0%{-webkit-transform:translateX(-50%);}
+            100%{-webkit-transform:translateX(0%);}
+        }
+        @-webkit-keyframes anim_rightin_un{
+            0%{
+                -webkit-transform:translateX(0);
+            }
+            100%{-webkit-transform:translateX(100%);}
+        }
+        @-webkit-keyframes anim_leftin{
+            0%{-webkit-transform:translateX(-100%);}
+            100%{-webkit-transform:translateX(0);}
+        }
+        @-webkit-keyframes anim_leftin_child{
+            0%{-webkit-transform:translateX(0);}
+            100%{-webkit-transform:translateX(50%);}
+        }
+        @-webkit-keyframes anim_leftin_un_child{
+            0%{-webkit-transform:translateX(50%);}
+            100%{-webkit-transform:translateX(0%);}
+        }
+        @-webkit-keyframes anim_leftin_un{
+            0%{
+                -webkit-transform:translateX(0);
+            }
+            100%{-webkit-transform:translateX(-100%);}
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        head{
+            /*opacity: .5;*/
+        }
+        nav{
+            /*opacity: .5;*/
+        }
+        .pagecontainer{/***page容器 该容器决定了page的 宽高*/
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 100;
+            -webkit-transform:translateX(0);
+            -webkit-animation-duration:.4s;
+            -webkit-animation-iteration-count:1;
+            -webkit-animation-timing-function:ease
+        }
+        .page{          /**每个页面的最外层样式 必须放在 pagecontaion中**/
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .mytabs{
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            padding: 0;
+        }
+        .mytabs>div{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+		.mui-bar{
+            -webkit-box-shadow: 0 0 1px rgba(0,0,0,.3) !important;
+            box-shadow: 0 0 1px rgba(0,0,0,.3) !important;
+		}
+        .mytabs>div>*{
+            background-color: #fff;
+			min-height:100%;
+        }
+        .page_body{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            left: 0;
+            padding: 0;
+            margin: 0;
+            background-color: #fff;
+        }
+        .page_content{
+			background-color: #fff;
+			min-height:100%;
+        }
+		.page_content:before{
+			height: 100%;
+			position: absolute;
+			top: -100%;
+			background-color: #fe3c4d;
+			width: 100%;
+			content: ' ';
+			background-repeat: no-repeat;
+			background-position: center bottom;
+			background-size: 100% auto;
+		}
+        .nva_row{
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        .nva_row>ul{
+            width: 560px;
+            overflow: hidden;
+        }
+        .nva_row>ul>li{
+            float: left;
+            width: 70px;
+        }
+        .nva_row>ul>li>img{
+            width: 50px;
+            height: 50px;
+            display: block;
+            margin: 0 auto;
+			border-radius: 5px;
+        }
+        .nva_row>ul>li>span{
+            display: block;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            font-size: 16px;
+        }
+        .typerow{
+
+        }
+        .typerow>ul{
+
+        }
+        .typerow>ul>li{
+            float: left;
+            width: 80px;
+        }
+        .typerow>ul>li>img{
+            width: 60px;
+            height: 60px;
+            display: block;
+            margin: 0 auto;
+            border-radius: 5px;
+        }
+        .typerow>ul>li>span{
+            display: block;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
+        h5{
+            border-top: solid 1px #ccc;
+            border-bottom: solid 1px #ccc;
+            padding: 10px;
+			margin-top: 0px;
+			font-size: 16px;
+        }
+         #alert_pagecontainer, #pop_pagecontaion ,.pagecontainer{
+            position: absolute !important;
+            left: 0;
+            top: 0;
+        }
+        #pop_pagecontaion .page{
+            position: absolute;
+            width: 100%;
+            top: 44px;
+            bottom: 0;
+            left: 0;
+            height: auto;
+        }
+        .toppagecontainer{
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .toppagecontainer .page{
+            position: absolute;
+            width: 100%;
+            top: 44px;
+            bottom: 0;
+            left: 0;
+            height: auto;
+			background-color: #fff;
+        }
+        #topheardpagecontainer{
+            height: 50px;
+        }
+
+        .list-row{
+
+        }
+        .list-row>img{
+            width: 60px !important;
+            height: 86px!important;
+            max-width: 111px !important;
+        }
+        .list-row .title{
+        font-size:16px;
+        }
+        .list-row .title2{
+        float:right;
+        font-size:12px;
+        color:#565e69;
+		line-height: 26px;
+        }
+        .list-star-1{
+		width:80px;
+		height:16px;
+		float:left;
+		margin: 5px 0px 5px 0;
+
+		background-size:contain;
+		}
+        .list-star-1>div{width:100%; height:100%;background-size:contain;}
+        #offCanvas{
+            background-color: #fff !important;
+        }
+        .mui-search .mui-placeholder{
+            pointer-events: none;
+        }
+    .mui-slider-item{
+        /*height: 213px !important;*/
+    }
+    .loading{
+        width: 100%;
+        height: 100%;
+        border: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1000;
+    }
+        .loading div{
+            margin: 0 auto;
+            width: auto;
+            height: auto;
+        }
+	.touxiang {
+		background-color: #fff;
+		border-radius: 60px;
+		width: 90px;
+		height: 90px;
+		padding:5px;
+		float: left;
+		margin-right:10px;
+	}
+	.touxiang>img {
+		width: 80px;
+		height: 80px;
+		border-radius: 60px;
+	}
+	.touxiang-rank {
+		width: 90px;
+		height: 127px;
+		background-color: #CCCCCC;
+		float: left;
+		border-radius: 5px;
+	}
+	.touxiang-cafe-list {
+		width: 65px;
+		height: 65px;
+		background-color: #CCCCCC;
+		float: left;
+		border-radius: 5px;
+	}
+	.touxiang1-my-menu{height:90px;line-height:90px;color:#FFFFFF;white-space: normal!important;}
+	.touxiang1{padding-left: 10px;overflow: hidden;}
+	.touxiang1 li{ line-height:22px;}
+
+	
+	.useinfo-line{
+		background:rgba(250,250,250,0.8);
+	}
+    .startpage{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background-color: #000000;
+        color: #fff;
+        font-size: 48px;
+        text-align: center;
+        line-height: 300px;
+        z-index: 10000;
+    }
+	.userinfo-menu{
+	width:80%;
+	height:36px;
+	line-height:36px;
+	margin-left:10px;
+	float:left;
+	}
+	.mui-icon-userinfo{
+	width:36px;
+	height:36px;
+	float:left;
+	border-radius: 5px;
+	}
+	.mui-icon-bookmain{
+	width:18px;
+	height:18px;
+	float:left;
+	border-radius: 5px;
+	margin-right: 10px;
+	}
+	.main-icon-lit{
+	margin-top:6px !important;
+	margin-right:5px !important;
+	}
+<!--bookmain bookmsg css star -->
+	.rank-pic{
+	width:90px !important;
+	height:90px !important;
+	max-width: 90px !important;
+	margin:0px 6px 6px 0px;
+	}
+.rank-pic-big{
+	width:100% !important;
+	height:100% !important;
+	max-width: 100% !important;
+	margin:0px 6px 6px 0px;
+	}
+.rank-content{
+	padding:10px;
+	background-color:#fff;
+	border-bottom: 1px solid #ccc;
+	border-top:1px solid #ccc;
+	margin-top: -1px;
+	}
+.rank-face{
+	margin-bottom:10px;
+	}
+.rank-face1{
+	height:60px;
+	margin-bottom:10px;
+	}
+.rank-img-3{
+	margin-top: 10px;
+	}
+.mui-media-body{
+	line-height:21px;
+	color:#000000;
+	}
+.mui-ellipsis{
+	line-height:21px;
+	}
+.mui-ellipsis-bt{
+	font-size: 16px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color:#565e69;
+	white-space: normal!important;
+	}
+.rank-text-line{
+	overflow:hidden;
+	white-space:normal !important;
+}
+.rank-ms{
+	display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: normal!important;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+
+
+
+        .mytabs .mui-control-content{
+
+            background-repeat: no-repeat;
+            background-position: 10px 20px;
+            background-color: #fff;
+        }
+		
+		.mybooklist-row{ float:right;}
+    .bodypage{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        max-width: 600px;
+        overflow: hidden;
+        background-color: #fff;
+    }
+    #mybar{
+        display: none;
+    }
+    .mynext:after{
+        position: absolute;
+        right: 15px;
+        content: '\e583';
+        top: 50%;
+        display: inline-block;
+        font-family: Muiicons;
+        font-size: inherit;
+        line-height: 1;
+        color: #bbb;
+        text-decoration: none;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        -webkit-font-smoothing: antialiased;
+    }
+    </style>
+
+</head>
+<body>
+<div class="bodypage">
+    <div id="main_contaion" class="pagecontainer">
+        <div id="canvaswrap" class="mui-off-canvas-wrap page">
+    	<div class="mui-inner-wrap">
+    		<nav class="mui-bar mui-bar-tab" style="position: fixed" id="mybar">
+                <a class="mui-tab-item" id="btoffCanvas" href="javascript:;" name="tabscontrol">
+                    <span class="mui-icon mui-icon-contact"></span>
+                </a>
+                <a class="mui-tab-item" href="javascript:;" name="tabscontrol">
+                    <span class="mui-icon mui-icon-home"></span>
+                </a>
+                <a class="mui-tab-item  mui-active" href="javascript:;"  name="tabscontrol">
+                    <span class="mui-icon mui-icon-download"></span>
+                </a>
+                <a class="mui-tab-item" href="javascript:;"  name="tabscontrol">
+                    <span class="mui-icon mui-icon-upload"></span>
+                </a>
+            </nav>
+    		<aside id="offCanvas" class="mui-off-canvas-left">
+                <div class="page">
+                    会员中心
+                </div>
+    		</aside>
+    		<div class="mui-content mytabs">
+                <div id="tabbar-with-user" class="mui-control-content"   name='login'>
+                        <h3>登录</h3>
+                </div>
+                <div id="tabbar-with-collection" class="mui-control-content"   name='user'>
+                		<h3>主页</h3>
+                </div>
+                <div id="tabbar-with-in" class="mui-control-content"  name='secen_in'>
+                    <h3>入场管理</h3>
+                </div>
+                <div id="tabbar-with-out" class="mui-control-content"   name='secen_out'>
+                    <h3>出场管理</h3>
+                </div>
+    		</div>
+    		<!-- off-canvas backdrop -->
+    	</div>
+    </div>
+    </div>
+
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+        <div class="page">
+        </div>
+    </div>
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+            <div class="page">
+            </div>
+        </div>
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+            <div class="page">
+            </div>
+        </div>
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+            <div class="page">
+            </div>
+        </div>
+    <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+            <div class="page">
+            </div>
+        </div>
+    <div id="tophead"  class="pagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+        <header class="mui-bar mui-bar-nav">
+            <a name='btclose' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title"></h1>
+        </header>
+    </div>
+
+    <div id="topheardpagecontainer"  class="pagecontainer topheardpagecontainer" animname='anim_rightin' style="display: none"><!--list-->
+        <header class="mui-bar mui-bar-nav mui-bar-top">
+            <a name='btupclose' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title"></h1>
+            <button class="mui-btn mui-btn-link mui-btn-nav mui-pull-right main-icon-lit">
+             <a class="mui-icon mui-icon-gear mui-pull-right"></a>
+            </button>
+        </header>
+    </div>
+
+    <div id="pop_pagecontaion" class="pagecontainer" style="display: none">
+        <header class="mui-bar mui-bar-top">
+            <button name='btclose' class="mui-action-back mui-btn mui-pull-left">退出</button>
+            <h1 class="mui-title"></h1>
+            <button name='btcloseok' class="mui-action-back mui-btn mui-pull-right">确定</button>
+        </header>
+        <div class="page" style="background-color:#fff">
+        </div>
+    </div>
+    <div id="top_menu" class="pagecontainer" style=" display: none">
+        <div class="mui-popover mui-active" style="display: block;">
+            <ul class="mui-table-view" name='list'>
+                <li class="mui-table-view-cell" name='title'>菜单1:</li>
+                <li class="mui-table-view-cell" name='title'>菜单1:</li>
+                <li class="mui-table-view-cell" name='title'>菜单1:</li>
+            </ul>
+            <ul class="template"><li class="mui-table-view-cell" name='title'>菜单1:</li></ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+    <div id="alert_pagecontainer" class="pagecontainer" style=" display: none">
+        <div class="mui-popover mui-active" style="display: block;">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell" name='title'>错误信息:</li>
+                <li class="mui-table-view-cell" name='msg'>错误内容</li>
+            </ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+
+<table id="loading" class="loading" style="display: none">
+    <tr align='middel'>
+        <td style="text-align: center"><a><span class="mui-icon mui-icon-spinner mui-spin"></span></a></td>
+    </tr>
+</table>
+<div id="startpage" class="startpage">嘟嘟停车</div>
+    <div class="template">
+        <div class="page_body" id="login_html">
+        <style>
+        .login-user{
+        	width:80%;
+        	float: none;
+        	margin-top:10px;
+        	margin-bottom:10px;
+        	margin-left:auto;
+        	margin-right:auto;
+        }
+        .login-input{
+        	margin-bottom:15px;
+        }
+        </style>
+        <div name="slider" style="margin-top: 20px">
+            <div name="loginpanel" class="mui-slider-item mui-control-content mui-active">
+                <div class="mui-input-row login-user">
+                    <input name="userpanel_email" type="text" class="mui-input-clear login-input" placeholder="请输入您的账号" data-input-clear="">
+                    <br/>
+                    <input name="userpanel_password" type="Password" class="mui-input-clear login-input" placeholder="请输入您的密码" data-input-clear="4">
+                    <button name="btlogin" class="mui-btn mui-btn-warning mui-btn-block">登录</button>
+                </div>
+
+            </div>
+        </div>
+        <div name='logininfo' style="height: 100%;">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-divider">当前登录信息</li>
+                <li class="mui-table-view-cell"><span>登录账户:</span><span name='name'></span></li>
+                <li class="mui-table-view-cell"><span>账户类型:</span><span name='type'></span></li>
+                <li class="mui-table-view-cell"><span>账户状态:</span><span name='status'></span></li>
+                <li class="mui-table-view-cell"><span>PushID:</span><span name='PushID'></span></li>
+                <li></li>
+            </ul>
+            <div name='btquit' class="mui-btn mui-btn-danger mui-btn-block" style="position: absolute;bottom: 0">退出登录</div>
+        </div>
+        </div>
+        <div class="page_content userpage" id="user_html" style="" >
+            <style>
+                .mui-grid-view.mui-grid-9 .mui-table-view-cell.mui-active {
+                    background-color: #50CF65;
+                    color: #fff;
+                }
+                .mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body.body1{
+                    height: 20px;
+                    line-height: 20px;
+                }
+
+            </style>
+            <ul class="mui-table-view">
+                <li class="mui-table-view-divider">车位使用状态:<span class="mui-badge">5分钟前更新</span></li>
+            </ul>
+            <ul class="mui-table-view mui-grid-view mui-grid-9" name='kucunpanel'>
+                <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" type='1'><a href="#">
+                    <div class="mui-media-body">已满</div></a></li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 mui-active"  type='2'><a href="#">
+                        <div class="mui-media-body">少量</div></a></li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"  type='3'><a href="#">
+                        <div class="mui-media-body">较多</div></a></li>
+            </ul>
+
+            <ul class="mui-table-view">
+                <li class="mui-table-view-divider">当前有<span class="mui-badge mui-badge-danger">9</span>量车已下单预付，正在路上，请注意预留!</li>
+                <li class="mui-table-view-cell" name='jifenpanel'>
+                    <div>可以用积分:<span>391</span></div>
+                    <div>100积分兑换，手机话费100元</div>
+                    <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>兑换</div>
+                </li>
+                <li class="mui-table-view-cell"></li>
+                <li class="mui-table-view-cell" name='tixianpanel'>
+                    <div>今日收益：128.00元</div>
+                    <div>可以提现：100.00元</div>
+                    <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>提现</div>
+                </li>
+                <li class="mui-table-view-cell"></li>
+            </ul>
+
+            <ul class="mui-table-view mui-grid-view mui-grid-9">
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenin'>
+                    <div>入场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-danger">1</span>辆车准备入场</div>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenout'>
+                    <div>离场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-warning">2</span>辆车准备离开</div>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenat'>
+                    <div>在场车辆</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-success">5</span>辆车在场内</div>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4 mynext" name='bt_jiaoyi'>
+                    <div>交易清单</div><div class="mui-media-body body1">本周交易<span class="mui-badge mui-badge-purple">1</span>次</div>
+                </li>
+            </ul>
+        </div>
+        <div class="page_content userpage" id="jifen_html" style="" >
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell">当前可用积分:<span class="mui-badge mui-badge-success">391</span></li>
+            </ul>
+            <ul class="mui-table-view mui-grid-view mui-grid-9" name='list'>
+
+            </ul>
+
+            <div class="template">
+                <ul>
+                    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" name='row'>
+                        <a href="#">
+                            <span class="mui-icon mui-icon-home"></span>
+                            <div class="mui-media-body">Home</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="page_content userpage" id="tixian_html" style="" >
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell">
+                    <div>可以提现金额:</div>
+                    <div><span class="mui-badge mui-badge-success">391</span></div>
+                    <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>提现</div>
+                </li>
+            </ul>
+            <ul class="mui-table-view mui-grid-view mui-grid-9">
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4">
+                    <div>今天收益(元)</div><div class="mui-media-body body1">1200.00</div>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4">
+                    <div>总累计收益(元)</div><div class="mui-media-body body1">37800.00</div>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4">
+                    <div>总交易次数(次)</div><div class="mui-media-body body1">519</div>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4 mynext" name='bt_jiaoyi'>
+                    <div style="color:transparent">1</div><div class="mui-media-body body1">交易清单</div>
+                </li>
+            </ul>
+
+            <ul class="mui-table-view">
+                <li class="mui-table-view-divider">提现记录</li>
+            </ul>
+            <ul class="mui-table-view" name='list'>
+
+            </ul>
+            <div class="template">
+                <li class="mui-table-view-cell" name='row'>
+                    <span>1月5日 10:25</span>
+                    <ul style="padding-left: 10%">
+                        <li><span>账户名:</span><span>环球停车场</span></li>
+                        <li><span>开户银行:</span><span>中国招商银行徐汇支行</span></li>
+                        <li><span>账户号:</span><span>12345656666</span></li>
+                        <li><span>操作人:</span><span>工号005(琴月)</span></li>
+                        <li><span>提现金额:</span><span>2000.00</span></li>
+                    </ul>
+                </li>
+            </div>
+            <div style="position: absolute;width: 100%;height: 100%;left: 0;top: 0;display: none" name='infopanel'>
+                <div class="mui-popover mui-active" style="display: block;">
+                    <ul class="mui-table-view" style="max-height: 500px">
+                        <li class="mui-table-view-cell" name="title">转账方式</li>
+                        <li class="mui-table-view-cell">
+                            <div class="mui-card">
+                                <form class="mui-input-group">
+                                    <div class="mui-input-row mui-radio">
+                                        <label>转入支付宝</label>
+                                        <input name="radio1" type="radio">
+                                    </div>
+                                    <div class="mui-input-row mui-radio">
+                                        <label>转入银行</label>
+                                        <input name="radio1" type="radio">
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="mui-table-view-cell">
+                            <form class="mui-input-group">
+                                <div class="mui-input-row">
+                                    <label>公司抬头</label>
+                                    <input type="text" placeholder="公司抬头">
+                                </div>
+                                <div class="mui-input-row">
+                                    <label>账户</label>
+                                    <input type="text" placeholder="账户名称">
+                                </div>
+                                <div class="mui-input-row">
+                                    <label>提取金额</label>
+                                    <input type="text" placeholder="要换入的金额">
+                                </div>
+                            </form>
+                        </li>
+                        <li class="mui-table-view-cell">
+                            <div class="mui-btn mui-btn-success mui-btn-block" style="position: static;-webkit-transform: translateY(0%);transform: translateY(0%);" name='btaction'>提交</div>
+                        </li>
+                        <li class="mui-table-view-cell">
+                        </li>
+                    </ul>
+                </div>
+                <div name="make" class="mui-backdrop mui-active"></div>
+            </div>
+        </div>
+        <div class="page_content userpage" id="secen_in_html" style="" >
+            <ul class="mui-table-view" name='list'>
+
+            </ul>
+            <div class="template">
+                <ul>
+                    <li class="mui-table-view-cell" name='row'>
+                        <div name='pai'>沪A12333</div>
+                        <div><span name='time'>10:45</span>下单</div>
+                        <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>确认进入</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="page_content userpage" id="secen_out_html" style="" >
+            <ul class="mui-table-view" name='list'>
+
+            </ul>
+            <div class="template">
+                <ul>
+                    <li class="mui-table-view-cell" name='row'>
+                        <div name='pai'>沪A12333</div>
+                        <div><span name='time'>10:45</span>缴费<span class="mui-badge mui-badge-success">已结清</span></div>
+                        <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>确认离开</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="page_content userpage" id="jiaoyi_html" style="" >
+            <ul class="mui-table-view" name='list'>
+
+            </ul>
+            <div class="template">
+                <ul>
+                    <li class="mui-table-view-cell" name='row'>
+                        <span>1月5日 10:25</span>
+                        <ul style="padding-left: 10%">
+                            <li><span>沪A12</span></li>
+                            <li><span>8:40下单</span> <span>21:30缴费</span></li>
+                            <li>管理员李四确认</li>
+                        </ul>
+                        <div class="mui-btn mui-btn-success  mui-pull-right">25.00元</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="../golba_rs/js/iscroll.js"></script>
+<!--<script src="../golba_rs/js/jquery-1.9.1.min.js"></script>-->
+<script src="../golba_rs/js/require.js" data-main="./js/require_main"></script>
+<!--<script src="./views/login/login.js"></script>-->
+
+<script>
+    document.ontouchmove = function(e){return false;}; //文档禁止 touchmove事件
+    window.myinit = function($, utils, ajax,viewmanager){
+
+        //tab
+        var tabcontrols = $('[name=tabscontrol]');
+        var tabcards =  $('.mytabs>div');
+        var tabs = window.testtabs = utils.jq.initTab(tabcontrols,tabcards,'  mui-active');
+        var nowview = null;
+
+        tabs.activeHandle[5] = tabs.activeHandle[4] = tabs.activeHandle[3] =tabs.activeHandle[2] = tabs.activeHandle[1] = function(context){
+            viewmanager.viewroot('views/maintabs/');
+            var viewname = context.attr('name');
+            var view = viewmanager.loadview(viewname,function(v){
+                context.empty();
+                v.renderer(context);
+                if(nowview){
+                    nowview.obj.close();
+                }
+                nowview = v;
+            });
+        }
+        //tabs.activeTab(1);
+
+        setTimeout(function(){
+            btoffCanvas.aclick();
+            $('#startpage').hide();
+        });
+
+        var btoffCanvas = $('#btoffCanvas').aclick(function(){
+            utils.sys.loadpage('views/', 'login', null, '用户中心',function(v){
+                setTimeout(function(){
+                    $('#startpage').hide();
+                },1e3);
+                v.obj.onclose = function(){
+                    var userinfo = ajax.userinfo();
+                    if(userinfo){
+                        console.log(userinfo);
+                    }
+                    tabs.activeTab(1);
+                }
+            });
+        });
+
+    }
+</script>
+
+<!--phonegap-->
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+
+
+</html>
