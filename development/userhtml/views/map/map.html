@@ -1,0 +1,125 @@
+<div class="page_content userpage" style="" id="map_html">
+    <style>
+        .map_contaion{
+            display: box;
+            display: -webkit-box;
+            display: -moz-box;
+
+            -moz-box-orient:vertical;
+
+            -webkit-box-orient:vertical;
+
+            box-orient:vertical;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .map_contaion>*{
+            width: 100%;
+            -moz-box-flex: auto;
+            -webkit-flex: auto;
+            -ms-flex: auto;
+             flex: auto;
+            height: auto;
+        }
+        .map_contaion .map{
+            width: 100%;
+            /*height: 250px;*/
+            -moz-box-flex:1;
+            -webkit-box-flex:1;
+            box-flex:1;
+        }
+        .map_contaion .list{
+            -moz-box-flex:2;
+            -webkit-box-flex:2;
+            box-flex:2;
+            position: relative;
+        
+            transition: all .5s;
+            -moz-transition: all .5s;	/* Firefox 4 */
+            -webkit-transition: all .5s;	/* Safari 和 Chrome */
+            -o-transition: all .5s;
+        }
+        .map_contaion .list.next{
+            -webkit-transform:translate3d(-100%, 0px, 0px);
+            -moz-transform:translate3d(-100%, 0px, 0px);
+            -o-transform:translate3d(-100%, 0px, 0px);
+        }
+        .map_contaion .list>*{
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .map_contaion .list .innerlist{
+            left: 0;
+            overflow: hidden;
+        }
+        .map_contaion .list .info .mybar{
+            height: 44px;
+            padding-right: 10px;
+            padding-left: 10px;
+            background-color: rgba(247,247,247,.98);
+            border-bottom: 0;
+            -webkit-box-shadow: 0 0 1px rgba(0,0,0,.85);
+            box-shadow: 0 0 1px rgba(0,0,0,.85);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .map_contaion .list .info{
+            left: 100%;
+        }
+        .map_contaion .list .info li p{
+            padding: 5px;
+        }
+        .map_contaion .list .info>button{
+            position: absolute;
+            bottom: 10px;
+        }
+    </style>
+    <div class="map_contaion">
+        <div id="map_html_mapid" class="map"></div>
+        <div class="mui-card list">
+            <div class="innerlist">
+                <ul class="mui-table-view">
+
+                </ul>
+            </div>
+            <div class="info">
+                <header class="mui-bar mui-bar-nav" style="position: static;">
+                	<button class="mui-action-back mui-btn mui-btn-red mui-pull-left" name="btback">
+                		返回
+                	</button>
+                	<h1 class="mui-title" name='name'>停车场名称</h1>
+                    <button class="mui-action-back mui-btn mui-btn-blue mui-pull-right" name="btdaohang">
+                        导航
+                    </button>
+                </header>
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <p>空车位<span>较多</span></p>
+                        <p><label>价格:</label>5元/小时,40元/天</p>
+                        <p><label>备注:</label>不能过夜</p>
+                        <p><label>备注:</label>不能过夜</p>
+                        <p><label>地址:</label>上海市静安区豫园路168号</p>
+                    </li>
+                </ul>
+                <button class="mui-btn mui-btn-success mui-btn-block" style="">确认,预付5元>></button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="template">
+        <ul>
+            <li class="mui-table-view-cell" name='row'>
+                <h4>停车场名称</h4>
+                <p><span>距离</span>,<span>$5/小时</span>,<span>$40/小时</span></p>
+                <p>上海静安寺豫园路168号</p>
+                <div class="mui-btn mui-btn-primary">抢订</div>
+            </li>
+        </ul>
+    </div>
+</div>
