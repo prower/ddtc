@@ -34,8 +34,6 @@ define(['jquery', 'utils'], function($, utils){
             var jslurl = root + viewname +'/'+viewname+'.js?'+ (iscache?'':new Date);
             utils.sys.loading.show();
 
-
-
             $.get(htmlurl , function(html){
                 wininfo.dom = $(html);
                 require([jslurl], function(objfunc){

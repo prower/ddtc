@@ -108,6 +108,14 @@
                       var scale = new AMap.Scale();
                       mapObj.addControl(scale);
                     });
+
+                    navigator.geolocation.getCurrentPosition(function(a){
+                        console.log(a)
+                        //alert('当前支持获取位置');
+                    }, function(e){
+                        console.log('error',e);
+                        alert('当前不支持获取地理位置');
+                    })
                 }
                 ,close:function(){
                     this.mapobj.destroy();

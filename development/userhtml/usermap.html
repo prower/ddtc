@@ -107,7 +107,6 @@
                 var lng = clng+GetRandomNum(-0.004,0.004);
                 var lat = clat+GetRandomNum(-0.0025,0.0025);
                 var point = new AMap.LngLat(lng,lat);
-
                 (function(point){
                     var data = {
                         point:point
@@ -115,18 +114,11 @@
                     datas.push(data);
                 })(point);
             }
-
-
             function GetRandomNum(Min,Max){
-
                     var Range = Max - Min;
-
                     var Rand = Math.random();
-
                     return(Min + Rand * Range);
-
             }
-
             return datas;
         }
 

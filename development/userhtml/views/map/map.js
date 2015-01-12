@@ -31,14 +31,32 @@ function ui_map(){
         }
         ,c_init:function(){
             var me = this;
-            this.c_initMap(function(center){
-                me.m_getdata(center,function(datas){
-                    me.c_addpoint(me.mapObj,datas);
-                    me.c_fill(datas);
-                });
+
+
+            this.c_searchPosition(function(placedata){
+
+                me.c_initMap(function(center){
+                    me.m_getdata(center,function(datas){
+                        me.c_addpoint(me.mapObj,datas);
+                        me.c_fill(datas);
+                    });
+                }, placedata);
             });
         }
-        ,c_initMap:function(fn, locposition){//fn 加载后的回调， locposition 预定义的地图中心点 没有提供则获取当前地理坐标
+        ,c_searchPosition:function(fn){     //搜索地图
+
+            var model = utils.tools.getUrlParam('m');
+            if('mapsearch' == model){
+                sysmanager.loadpage('views/', 'searchmap', $('#pop_pagecontaion'),'搜索地图', function(view){
+                    view.obj.onclose = function(placedata){
+                        fn && fn(placedata);
+                    }
+                });
+            }else{
+                fn && fn(null);
+            }
+        }
+        ,c_initMap:function(fn, placedata){//fn 加载后的回调， placedata 预定义的地图搜索位置
 
               var mapObj = this.mapObj = window.mapobj = new AMap.Map("map_html_mapid",{
               view: new AMap.View2D({//创建地图二维视口
@@ -73,9 +91,22 @@ function ui_map(){
                 /**
                  * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
                  */
-                if(locposition){
-                    homecontrol.setPosition(locposition);
-                    fn && fn(locposition);
+                if(placedata){
+
+                    mapObj.plugin(["AMap.PlaceSearch"], function() {
+                        var msearch = new AMap.PlaceSearch();  //构造地点查询类
+                        AMap.event.addListener(msearch, "complete", placeSearch_CallBack); //查询成功时的回调函数
+                        msearch.setCity(placedata.adcode);
+                        msearch.search(placedata.name);  //关键字查询查询
+                    });
+                    function placeSearch_CallBack(data){
+                        console.log('placeSearch_CallBack', data);
+                        homecontrol.setPosition(locposition);
+                        fn && fn(locposition);
+                    }
+
+
+
                 }else{
                     AMap.event.addListener(maptool,'location',function callback(e){
                         locposition = e.lnglat;

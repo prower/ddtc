@@ -15,7 +15,7 @@ if(mobile.iphone){
 }else if(mobile.android){
     //alert('android');
     document.write('<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">');
-    document.write('<meta name="viewport" content="target-densitydpi=device-dpi">');
+    //document.write('<meta name="viewport" content="target-densitydpi=device-dpi">');
 }else{
     //alert('other');
     document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=0,minimal-ui">');

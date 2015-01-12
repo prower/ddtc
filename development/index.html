@@ -3,7 +3,7 @@
 <head>
     <title></title>
     <meta charset="utf-8">
-    <script src="./golba_rs/js/sys.js"></script>
+    <script src="golba_rs/js/sys.js"></script>
     <style>
         body{
                     font-size:14px;
@@ -60,6 +60,13 @@
         }
     </style>
 </head>
+<script src="golba_rs/js/jquery-1.9.1.min.js"></script>
+<script>
+    $(function(){
+
+
+    });
+</script>
 <body>
 <h1>测试入口页面</h1>
 <base target="_blank">
@@ -74,9 +81,8 @@
         <dt>车主</dt>
         <dd>
             <ul>
-                <li><a href="userhtml/usermap.html">地图搜索</a></li>
-                <li><a href="userhtml/userorderpay.html">结算订单</a></li>
-                <li><a href="userhtml/userorderlist.html">历史订单</a></li>
+                <li><a href="userhtml/index.html?m=map">找车位(本地)</a></li>
+                <li><a href="userhtml/index.html?m=mapsearch">找车位(查询)</a></li>
             </ul>
         </dd>
         <dt>现场</dt>

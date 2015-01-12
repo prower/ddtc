@@ -11,7 +11,7 @@ require.config({
         ,view:'viewloc'
     }
     ,waitSeconds:30
-    ,urlArgs : "version="       //    + new Date()
+    ,urlArgs : "version="           + new Date()
 });
 requirejs([],function(jQuery){
     //requirejs(['rs/bootstrap/js/bootstrap.min.js']);

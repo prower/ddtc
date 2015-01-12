@@ -265,7 +265,8 @@
         #pop_pagecontaion .page{
             position: absolute;
             width: 100%;
-            top: 44px;
+            /*top: 44px;*/
+            top:0;
             bottom: 0;
             left: 0;
             height: auto;
@@ -530,8 +531,8 @@
                 <div id="tabbar-with-collection" class="mui-control-content"   name='map'>
                 		<h3>地图</h3>
                 </div>
-                <div id="tabbar-with-in" class="mui-control-content"  name='secen_in'>
-                    <h3>入场管理</h3>
+                <div id="tabbar-with-in" class="mui-control-content"  name='searchmap'>
+                    <h3>地图搜索</h3>
                 </div>
                 <div id="tabbar-with-out" class="mui-control-content"   name='secen_out'>
                     <h3>出场管理</h3>
@@ -579,11 +580,11 @@
         </header>
     </div>
     <div id="pop_pagecontaion" class="pagecontainer" style="display: none">
-        <header class="mui-bar mui-bar-top">
-            <button name='btclose' class="mui-action-back mui-btn mui-pull-left">退出</button>
-            <h1 class="mui-title"></h1>
-            <button name='btcloseok' class="mui-action-back mui-btn mui-pull-right">确定</button>
-        </header>
+        <!--<header class="mui-bar mui-bar-top">-->
+            <!--<button name='btclose' class="mui-action-back mui-btn mui-pull-left">退出</button>-->
+            <!--<h1 class="mui-title"></h1>-->
+            <!--<button name='btcloseok' class="mui-action-back mui-btn mui-pull-right">确定</button>-->
+        <!--</header>-->
         <div class="page" style="background-color:#fff">
         </div>
     </div>
@@ -633,6 +634,7 @@
 
 <script src="./views/map/map.js"></script>
 <script src="./views/daohang/daohang.js"></script>
+<script src="./views/searchmap/searchmap.js"></script>
 <script>
     document.ontouchmove = function(e){     //文档禁止 touchmove事件
         return false;
@@ -658,8 +660,14 @@
                 nowview = v;
             });
         }
+        var model = utils.tools.getUrlParam('m');
+        switch (model){
+            case "map":
+            case "mapsearch":
+            default :
+                tabs.activeTab(1);
+        }
 
-        tabs.activeTab(1);
 
         setTimeout(function(){
             $('#startpage').hide();

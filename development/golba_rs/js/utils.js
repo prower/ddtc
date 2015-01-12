@@ -665,72 +665,78 @@ define(['jquery'],function($){
             language: (navigator.browserLanguage || navigator.language).toLowerCase()
         }
 
-    utils.anim = {};
-    utils.anim.entity = utils.Class.extend({
-        isRemove:false
-        ,word:null
-        ,init:function(word){
-            this.word = word;
+    utils.tools = {};
+    utils.tools.loadimg = function(c, d) {
+        var b = new Image();
+        b.src = c;
+        var a = function() {
+            d && d(b)
+        };
+        if (b.width) {
+            a()
+        } else {
+            b.onload = a
         }
-        ,update:function(){
-
+        b.onerror = function() {
+            d && d(false)
         }
-        ,draw:function(ctx){
-
+    };
+    utils.tools.loadimgs = function(c, h) {
+        var a = 0;
+        var f = [];
+        var b = [];
+        if (!c || 0 == c.length) {
+            h(f, b)
+        } else {
+            for (var d = 0; d < c.length; d++) {
+                a++;
+                var g = c[d];
+                (function(i) {
+                    setTimeout(function() {
+                        utils.tools.loadimg(i, function(j) {
+                            e(i, j)
+                        })
+                    }, d * 10)
+                })(g)
+            }
         }
-        ,remove:function(){
-            this.isRemove = true;
+        function e(j, i) {
+            if (i) {
+                f.push({src: j,img: i})
+            } else {
+                b.push({src: j,img: i})
+            }
+            h(f, b)
         }
-    });
-    utils.anim.word = utils.Class.extend({
-        runhandler:null
-        ,runspeed:0
-        ,canvas:null
-        ,ctx:null
-        ,isStart:false
-        ,init:function(canvas){
-            this.canvas = canvas;
-            this.ctx = this.canvas.getContext('2d');
-        }
-        ,enties:[]
-        ,update:function(){
-            var n = [];
-            for(var i=0;i<this.enties.length;i++){
-                var en = this.enties[i];
-                en.update();
-                if(!en.isRemove){
-                    n.push(en);
+    };
+    utils.tools.getUrlParam  = function(c) {
+        var b = window.location.href;
+        var d = new RegExp("[?&]" + c + "=([^&]+)", "g");
+        var g = d.exec(b);
+        var a = null;
+        if (null != g) {
+            try {
+                a = decodeURIComponent(decodeURIComponent(g[1]))
+            } catch (f) {
+                try {
+                    a = decodeURIComponent(g[1])
+                } catch (f) {
+                    a = g[1]
                 }
             }
-            this.enties = n;
         }
-        ,draw:function(){
-            this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
-            for(var i=0;i<this.enties.length;i++){
-                this.enties[i].draw(this.ctx);
+        return a
+    };
+    utils.getUrlPath = (function() {
+        var a = window.location.origin;
+        var d = window.location.pathname.split("/");
+        var c = a + "/";
+        for (var b = 0; b < d.length - 1; b++) {
+            if (d[b]) {
+                c += d[b] + "/"
             }
         }
-        ,start:function(){
-            if(!this.runhandler){
-                var me = this;
-                this.runhandler = setInterval(function(){
-                    try{
-                        me.update();
-                        me.draw();
-                    }catch(e){
-                        console.log('word run error', e);
-                    }
-                },this.runspeed);
-                this.isStart = true;
-            }
-        }
-        ,end:function(){
-            if(this.runhandler){
-                setInterval(this.runhandler);
-                this.runhandler = null;
-            }
-            this.isStart = false;
-        }
-    });
+        return c
+    })();
     return utils;
 });
