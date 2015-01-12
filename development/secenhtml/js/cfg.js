@@ -9,7 +9,7 @@ define((function(){
 
     var cfg = {
         start:null
-        ,ajaxroot:'../../yiche.php/Home/'
+        ,ajaxroot:'http://115.29.160.95:81/Park.php/Home/'
     }
     /**
     var href = window.location.href;

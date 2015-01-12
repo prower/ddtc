@@ -57,10 +57,15 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,login:function(){
                       var email = me.dom.loginpanel.email.val();
                       var password = me.dom.loginpanel.pwd.val();
-                      utils.sys.login(email, password, function(data){
-                          me.dom.loginpanel.pwd.val('');
-                          me.c_showUserinfo(data);
-                      });
+
+                    me.m_test(email,function(){
+                        utils.sys.login(email, password, function(data){
+                              me.dom.loginpanel.pwd.val('');
+                              me.c_showUserinfo(data);
+                          });
+                    });
+
+
                   }
               }
 
@@ -98,6 +103,13 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 utils.sys.quitlogin(function(){
                     me.c_check();
                 });
+            });
+        }
+        ,m_test:function(username, fn){
+            ajax.get('Index','test',{username:username}, function(result){
+                console.log('test', result);
+                fn && fn();
+
             });
         }
         ,close:function(){
