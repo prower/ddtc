@@ -6,23 +6,55 @@
             position: absolute;
             left: 0;
             top: 0;
+            display: box;
+            display: -webkit-box;
+            display: -moz-box;
+
+            -moz-box-orient:vertical;
+            -webkit-box-orient:vertical;
+            box-orient:vertical;
+            position: absolute;
+        }
+        .daohang_contaion>*{
+            width: 100%;
+            -moz-box-flex: auto;
+            -webkit-flex: auto;
+            -ms-flex: auto;
+             flex: auto;
+            height: auto;
         }
         .daohang_contaion .map{
             width: 100%;
-            height: 100%;
+            -moz-box-flex:2;
+            -webkit-box-flex:2;
+            box-flex:2;
+            position: relative;
         }
         .daohang_contaion .daohanginfo{
-            position: absolute;
+            position: relative;
             width: 100%;
-            height: 40%;
             overflow: hidden;
-            bottom: 0;
-            background-color: rgba(0,0,0,.5);
-            color: #fff;
+            background-color: #fff;
+            z-index: 1000;
+            -moz-box-flex:1;
+            -webkit-box-flex:1;
+            box-flex:1;
+        }
+        .daohang_contaion .daohanginfo .active{
+            background-color: rgba(0,0,0,.1);
         }
     </style>
     <div class="daohang_contaion">
         <div id="daohang_html_mapid" class="map"></div>
-        <div class="daohanginfo"></div>
+        <div class="daohanginfo">
+            <ul class="mui-table-view" name='list'>
+            </ul>
+        </div>
+        <div class="template">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-divider" name='title'>单行列表</li>
+                <li class="mui-table-view-cell" name='row'>列表第1项</li>
+            </ul>
+        </div>
     </div>
 </div>

@@ -61,7 +61,7 @@ function ui_map(){
               var mapObj = this.mapObj = window.mapobj = new AMap.Map("map_html_mapid",{
               view: new AMap.View2D({//创建地图二维视口
               //center:position,//创建中心点坐标
-              zoom:17, //设置地图缩放级别
+              zoom:16, //设置地图缩放级别
               rotation:0 //设置地图旋转角度
              }),
              lang:"zh_cn"//设置地图语言类型，默认：中文简体
@@ -71,6 +71,7 @@ function ui_map(){
             var maptool = null;
 
                 mapObj.plugin(["AMap.ToolBar","AMap.Scale","AMap.myHomeControl"],function(){
+
                      //加载工具条
                     maptool = window.maptool = new AMap.ToolBar({
                        direction:false,//隐藏方向导航
@@ -92,20 +93,11 @@ function ui_map(){
                  * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
                  */
                 if(placedata){
-
-                    mapObj.plugin(["AMap.PlaceSearch"], function() {
-                        var msearch = new AMap.PlaceSearch();  //构造地点查询类
-                        AMap.event.addListener(msearch, "complete", placeSearch_CallBack); //查询成功时的回调函数
-                        msearch.setCity(placedata.adcode);
-                        msearch.search(placedata.name);  //关键字查询查询
+                    mapObj.setCenter(placedata);
+                    setTimeout(function(){
+                        homecontrol.setPosition(placedata,mapObj);
+                        fn && fn(placedata);
                     });
-                    function placeSearch_CallBack(data){
-                        console.log('placeSearch_CallBack', data);
-                        homecontrol.setPosition(locposition);
-                        fn && fn(locposition);
-                    }
-
-
 
                 }else{
                     AMap.event.addListener(maptool,'location',function callback(e){
@@ -114,6 +106,9 @@ function ui_map(){
                         fn && fn(locposition);
                     });
                     maptool.doLocation();
+                }
+                mapObj.gotoHome = function(){
+                    this.panTo(homecontrol.position);
                 }
             });
 
@@ -142,6 +137,7 @@ function ui_map(){
             });
         }
         ,c_addpoint:function(map,datas){
+
             for(var i=0;i<datas.length;i++){
                 var data = datas[i];
                 var marker = new AMap.Marker({                 
@@ -149,7 +145,8 @@ function ui_map(){
                   position:data.point,                 
                   icon:"http://webapi.amap.com/images/0.png",                 
                   offset:new AMap.Pixel(-10,-35)               
-               }); 
+               });
+                data.marker = marker;
             }
         }
         ,c_showinfo:function(data){
@@ -165,11 +162,26 @@ function ui_map(){
                 v.obj.settarget(me.nowdata);
             });
         }
-        ,c_getrow:function(data){
+        ,c_setActiveRow:function(row, data){
+            this.dom.list.find('>*').removeClass('active');
+            row.addClass('active');
+            this.mapObj.setCenter(data.point);
+            data.marker.setAnimation('AMAP_ANIMATION_DROP');
+        }
+        ,c_getrow:function(data, index){
             var me = this;
             var row = this.dom.row.clone();
+            row.find('[name=distance]>span').html(data.distance);
             row.find('.mui-btn').click(function(){
                me.c_showinfo(data);
+            });
+            row.bind('touchstart', function(){
+                //data.marker.setAnimation('AMAP_ANIMATION_DROP');
+                //me.mapObj.panTo(data.point);
+                me.c_setActiveRow(row, data);
+            });
+            row.bind('touchend', function(){
+//               me.mapObj.gotoHome();
             });
             return row;
         }
@@ -177,18 +189,24 @@ function ui_map(){
             var clng = center.lng;
             var clat = center.lat;
             var datas = [];
-            for(var i=0;i<50;i++){
-                var lng = clng+GetRandomNum(-0.014,0.014);
-                var lat = clat+GetRandomNum(-0.0125,0.0125);
+            for(var i=0;i<10;i++){
+                var lng = clng+GetRandomNum(-0.004,0.004);
+                var lat = clat+GetRandomNum(-0.0025,0.0025);
                 var point = new AMap.LngLat(lng,lat);
                 (function(point){
                     var data = {
                         point:point
-                        ,name:'XXX街道xxx号'
+                        ,name:'第{0}街，第{0}号'.replace('{0}',i).replace('{0}',i)
+                        ,distance:Math.abs(parseInt(point.distance(center)))+'米'
                     }
                     datas.push(data);
                 })(point);
             }
+
+            datas.sort(function(a,b){
+                return parseInt(a.distance) - parseInt(b.distance);
+            })
+
             function GetRandomNum(Min,Max){
 
                     var Range = Max - Min;

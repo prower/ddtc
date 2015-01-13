@@ -30,6 +30,8 @@
             -moz-box-flex:1;
             -webkit-box-flex:1;
             box-flex:1;
+            position: relative;
+            overflow: hidden;
         }
         .map_contaion .list{
             -moz-box-flex:2;
@@ -57,6 +59,9 @@
             left: 0;
             overflow: hidden;
         }
+        .map_contaion .list .innerlist .active{
+            background-color: rgba(0,0,0,.1);
+        }
         .map_contaion .list .info .mybar{
             height: 44px;
             padding-right: 10px;
@@ -80,7 +85,7 @@
         }
     </style>
     <div class="map_contaion">
-        <div id="map_html_mapid" class="map"></div>
+        <div class="map" id="map_html_mapid"></div>
         <div class="mui-card list">
             <div class="innerlist">
                 <ul class="mui-table-view">
@@ -107,7 +112,6 @@
                     </li>
                 </ul>
                 <button class="mui-btn mui-btn-success mui-btn-block" style="">确认,预付5元>></button>
-
             </div>
         </div>
     </div>
@@ -116,7 +120,7 @@
         <ul>
             <li class="mui-table-view-cell" name='row'>
                 <h4>停车场名称</h4>
-                <p><span>距离</span>,<span>$5/小时</span>,<span>$40/小时</span></p>
+                <p><span name='distance'>距离:<span></span></span>,<span>$5/小时</span>,<span>$40/天</span></p>
                 <p>上海静安寺豫园路168号</p>
                 <div class="mui-btn mui-btn-primary">抢订</div>
             </li>

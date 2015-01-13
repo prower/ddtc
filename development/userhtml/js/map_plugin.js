@@ -21,12 +21,36 @@ window.mapPluginInit = function(){
 
          // 设置控件响应点击onclick事件
          controlUI.click(function(){
-            map.setCenter(me.position);
+            map.panTo(me.position);
          });
          return controlUI[0];
        }
         ,setPosition:function(position, map){
             this.position = position;
+            if(this.marker){
+                map.removeControl(this.marker);
+            }
+            this.marker = new AMap.Circle({
+                map:map
+                ,center:position
+                ,radius:50          //半径 米
+                ,strokeColor:'#007aff'
+                ,strokeWeight:2
+                ,fillColor:'#007aff'
+                ,fillOpacity:.3
+
+            });
+            this.marker2 = new AMap.Circle({
+                map:map
+                ,center:position
+                ,radius:1          //半径 米
+                ,strokeColor:'#007aff'
+                ,strokeOpacity:1
+                ,strokeWeight:10
+                ,fillColor:'#007aff'
+                ,fillOpacity:1
+
+            });
         }
     }
     AMap.myUtils = {

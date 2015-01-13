@@ -52,22 +52,34 @@ function ui_searchmap(){
                 }
             });
 
-            AMap.service(["AMap.CitySearch"], function() {
-                //实例化城市查询类
-                var citysearch = new AMap.CitySearch();
-                //自动获取用户IP，返回当前城市
-                citysearch.getLocalCity(function(status, result){
-                    //当结果状态为“complete”且状态信息为“OK”时，解析服务返回结果
-                    if(status === 'complete' && result.info === 'OK'){
-                        if(result && result.city && result.bounds) {
-                            console.log('搜索城市1:',result);
-                        }
-                    }
-                    //当结果状态为“complete”且状态信息为其他时，解析服务提示信息
-                    else{
-                        console.log('搜索城市2:',result.info);
-                    }
+//            AMap.service(["AMap.CitySearch"], function() {
+//                //实例化城市查询类
+//                var citysearch = new AMap.CitySearch();
+//                //自动获取用户IP，返回当前城市
+//                citysearch.getLocalCity(function(status, result){
+//                    //当结果状态为“complete”且状态信息为“OK”时，解析服务返回结果
+//                    if(status === 'complete' && result.info === 'OK'){
+//                        if(result && result.city && result.bounds) {
+//                            console.log('搜索城市1:',result);
+//                        }
+//                    }
+//                    //当结果状态为“complete”且状态信息为其他时，解析服务提示信息
+//                    else{
+//                        console.log('搜索城市2:',result.info);
+//                    }
+//                });
+//            });
+        }
+        ,c_search_geocoder:function(){
+            var me = this;
+            var keywords = this.dom.input.val();
+            AMap.service(["AMap.Geocoder"], function() {     //加载地理编码插件
+                var MGeocoder = new AMap.Geocoder();
+                //返回地理编码结果
+                AMap.event.addListener(MGeocoder, "complete", function(data){
+                    me.c_search_geocoder_callback(data);
                 });
+                MGeocoder.getLocation(keywords);  //地理编码
             });
         }
         ,c_search_callback:function(data){
@@ -84,6 +96,31 @@ function ui_searchmap(){
                 }
             }
         }
+        ,c_search_geocoder_callback:function(data){
+            console.log('search',data);
+            /**
+             * geocodes: Array[10]
+             *      adcode: "411103"
+             *      addressComponent: Object
+             *      formattedAddress: "河南省漯河市郾城区西康路"
+             *      level: "道路"
+             *      location: cB: 33.647901lat: 33.647901lng: 114.038094r: 114.038094
+             * info: "OK"
+             * resultNum: "10"
+             * type: "complete"
+             */
+            var me = this;
+            this.dom.list.empty();
+            if(!data.geocodes || data.geocodes.length<=0){
+                var row = this.c_getrow_nodata();
+                this.dom.list.append(row);
+            }else{
+                for(var i=0;i<data.geocodes.length;i++){
+                    var row = this.c_getrow_geocode(data.geocodes[i]);
+                    this.dom.list.append(row);
+                }
+            }
+        }
         ,c_getrow:function(data){
             var me = this;
             var row = this.dom.row.clone();
@@ -93,9 +130,18 @@ function ui_searchmap(){
             });
             return row;
         }
+        ,c_getrow_geocode:function(data){
+            var me = this;
+            var row = this.dom.row.clone();
+            row.html(data.formattedAddress);
+            row.click(function(){
+                me.c_select(data.location);
+            });
+            return row;
+        }
         ,c_getrow_nodata:function(){
             var row = this.dom.row.clone();
-            row.html('没有查询到相关位置信息');
+            row.html('<span style="color: red">没有查询到相关位置信息</span>');
             return row;
         }
         ,r_init:function(){
@@ -109,19 +155,20 @@ function ui_searchmap(){
             });
             this.r_init_input();
         }
-        ,c_select:function(data){
+        ,c_select:function(position){
             var me = this;
             var c = me.context.parent().parent();
             sysmanager.pagecontainerManager.hide(c);
-            me.close(data);
+            me.close(position);
         }
         ,r_init_input:function(){
             var me = this;
             this.dom.input.bind('keyup', function(event){
-                var key = (event || window.event).keyCode;
+                //var key = (event || window.event).keyCode;
                 //var result = document.getElementById("result1");
                 //var cur = result.curSelect;
-                me.c_search();
+                //me.c_search();
+                me.c_search_geocoder();
             });
         }
         ,close:function(data){
