@@ -45,9 +45,16 @@
             -o-transition: all .5s;
         }
         .map_contaion .list.next{
-            -webkit-transform:translate3d(-100%, 0px, 0px);
-            -moz-transform:translate3d(-100%, 0px, 0px);
-            -o-transform:translate3d(-100%, 0px, 0px);
+            /*-webkit-transform:translate3d(-100%, 0px, 0px);*/
+            /*-moz-transform:translate3d(-100%, 0px, 0px);*/
+            /*-o-transform:translate3d(-100%, 0px, 0px);*/
+        }
+        .map_contaion .list .info{
+            display: none;
+        }
+        .map_contaion .list.next .info{
+            display: block;
+            background-color: #fff;
         }
         .map_contaion .list>*{
             position: absolute;
@@ -74,7 +81,7 @@
             backface-visibility: hidden;
         }
         .map_contaion .list .info{
-            left: 100%;
+            left: 0;
         }
         .map_contaion .list .info li p{
             padding: 5px;
@@ -94,12 +101,12 @@
             </div>
             <div class="info">
                 <header class="mui-bar mui-bar-nav" style="position: static;">
-                	<button class="mui-action-back mui-btn mui-btn-red mui-pull-left" name="btback">
-                		返回
+                    <h1 class="mui-title" name='title'>停车场名称</h1>
+                	<button class="mui-action-back mui-btn mui-btn-red mui-pull-left" name="btback" style="position: absolute;left: 10px">
+                		返回1
                 	</button>
-                	<h1 class="mui-title" name='name'>停车场名称</h1>
-                    <button class="mui-action-back mui-btn mui-btn-blue mui-pull-right" name="btdaohang">
-                        导航
+                    <button class="mui-action-back mui-btn mui-btn-blue mui-pull-right" name="btdaohang" style="position: absolute;right: 10px">
+                        导航1
                     </button>
                 </header>
                 <ul class="mui-table-view">
@@ -111,9 +118,26 @@
                         <p><label>地址:</label>上海市静安区豫园路168号</p>
                     </li>
                 </ul>
-                <button class="mui-btn mui-btn-success mui-btn-block" style="">确认,预付5元>></button>
+                <button class="mui-btn mui-btn-success mui-btn-block" style="" name="btpay">确认,预付5元>></button>
             </div>
         </div>
+    </div>
+
+    <div class="pagecontainer" name="daohangmenu" style="display: none;z-index: 1000">
+        <div class="mui-popover mui-active" style="display: block;top:45%">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell">
+                     <a name="daohang_gaode" target="_blank" href="">高德地图导航</a>
+                </li>
+                <li class="mui-table-view-cell">
+                    <a name="daohang_my" name="daohang_gaode"  href=":;">查看路线</a>
+                </li>
+                <li class="mui-table-view-cell">
+                    <button  class="mui-btn mui-btn-success mui-btn-block" style="-webkit-transform: translateY(0);transform: translateY(0);position: static;" name="btclosemenu">关闭</button>
+                </li>
+            </ul>
+        </div>
+        <div name="make" class="mui-backdrop mui-active"></div>
     </div>
 
     <div class="template">

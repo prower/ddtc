@@ -15,6 +15,12 @@ function ui_map(){
             ,listcontaion:'.list'
             ,btback:'[name=btback]'
             ,btdaohang:'[name=btdaohang]'
+            ,bttitle:'[name=title]'
+            ,btpay:'[name=btpay]'
+            ,daohangmenu:'[name=daohangmenu]'
+            ,daohang_gaode:'[name=daohang_gaode]'
+            ,daohang_my:'[name=daohang_my]'
+            ,btclosemenu:'[name=btclosemenu]'
         }
         ,iscroll:null
         ,mapObj:null
@@ -123,6 +129,19 @@ function ui_map(){
             this.dom.btdaohang.aclick(function(){
                 me.c_daohang();
             });
+            this.dom.daohang_gaode.aclick(function(){
+                me.c_daohang_gaode($(this));
+            });
+            this.dom.btclosemenu.aclick(function(){
+               me.dom.daohangmenu.hide();
+            });
+            this.dom.daohang_my.aclick(function(){
+                me.c_daohang_my();
+            });
+            //this.dom.bttitle.aclick(function(){alert('title');});
+            this.dom.btpay.aclick(function(){
+               alert('pay');
+            });
         }
         ,c_fill:function(datas){
             var me = this;
@@ -158,6 +177,68 @@ function ui_map(){
         }
         ,c_daohang:function(){
             var me = this;
+            this.dom.daohangmenu.show();
+
+        }
+        ,c_daohang_gaode:function(alink){
+            var me = this;
+
+            var iosinfo = {
+                root:'iosamap://navi?'
+                ,ioskey: {
+                    sourceApplication: 'dudutingche'            //应用名称
+                    , backScheme: ''                              //第三方调回使用的 scheme
+                    , poiname: ''                             //poi 名称
+                    , poiid: ''                             //sourceApplication的poi id
+                    , lat: this.nowdata.point.lat                           //经度
+                    , lon: this.nowdata.point.lng                             //纬度
+                    , dev: 1                             //是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密
+                    , style: 2                       //导航方式：(=0：速度最快，=1：费用最少，=2：距离最短，=3：不走高速，=4：躲避拥堵，=5：不走高速且避免收费，=6：不走高速且躲避拥堵，=7：躲避收费和拥堵，=8：不走高速躲避收费和拥堵)
+                }
+            };
+
+            var androidinfo = {
+                root:'androidamap://navi?'
+                ,ioskey: {
+                    sourceApplication: 'dudutingche'            //应用名称
+                    //, backScheme: ''                              //第三方调回使用的 scheme
+                    , poiname: ''                             //poi 名称
+                    //, poiid: ''                             //sourceApplication的poi id
+                    , lat: this.nowdata.point.lat                           //经度
+                    , lon: this.nowdata.point.lng                             //纬度
+                    , dev: 1                             //是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密
+                    , style: 2                       //导航方式：(=0：速度最快，=1：费用最少，=2：距离最短，=3：不走高速，=4：躲避拥堵，=5：不走高速且避免收费，=6：不走高速且躲避拥堵，=7：躲避收费和拥堵，=8：不走高速躲避收费和拥堵)
+                }
+            };
+            //$(this).attr('href','iosamap://navi?sourceApplication=applicationName&backScheme=applicationScheme&poiname=fangheng&poiid=BGVIS&lat=36.547901&lon=104.258354&dev=1&style=2');
+
+
+            var info = utils.browser.versions.ios?iosinfo:androidinfo;
+
+            var href = info.root;
+            var first = true;
+            for(var k in info.ioskey){
+                var v = info.ioskey[k];
+                if(!first){
+                    href+='&';
+                }else{
+                    first = false;
+                }
+                href+=k+'='+v;
+            }
+            //alert(href);
+            console.log(href);
+
+            alink.attr('href', href);
+            setTimeout(function(){
+                me.dom.daohangmenu.hide();
+            },1e3);
+        }
+        ,c_daohang_my:function(){
+            var me = this;
+            setTimeout(function(){
+                me.dom.daohangmenu.hide();
+            },1e3);
             sysmanager.loadpage('views/', 'daohang', null, '导 航',function(v){
                 v.obj.settarget(me.nowdata);
             });
@@ -202,19 +283,13 @@ function ui_map(){
                     datas.push(data);
                 })(point);
             }
-
             datas.sort(function(a,b){
                 return parseInt(a.distance) - parseInt(b.distance);
-            })
-
+            });
             function GetRandomNum(Min,Max){
-
                     var Range = Max - Min;
-
                     var Rand = Math.random();
-
                     return(Min + Rand * Range);
-
             }
             fn && fn(datas);
         }
