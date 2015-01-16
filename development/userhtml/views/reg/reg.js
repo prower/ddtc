@@ -5,12 +5,14 @@
  * Time: 上午11:55
  * To change this template use File | Settings | File Templates.
  */
-function ui_test(){
+function ui_reg(){
     var ui = {
         isInit: false
         ,context:null
         ,dom:{
-
+            userpanel_phone:'[name=userpanel_phone]'
+            ,userpanel_chepai:'[name=userpanel_chepai]'
+            ,btreg:'[name=btreg]'
         }
         ,iscroll:null
         ,init:function(context){
@@ -24,7 +26,15 @@ function ui_test(){
         }
         ,c_init:function(){
             var me = this;
-
+            this.dom.btreg.aclick(function(){
+               me.c_reg();
+            });
+        }
+        ,c_reg:function(){
+            var me = this;
+            var c = me.context.parent().parent();
+            sysmanager.pagecontainerManager.hide(c);
+            me.close();
         }
         ,c_showInfo:function(){
             this.dom.info.panel.show();
@@ -34,7 +44,6 @@ function ui_test(){
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
         }
         ,close:function(){
-
         }
     };
     return  ui;

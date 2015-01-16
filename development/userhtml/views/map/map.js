@@ -67,7 +67,7 @@ function ui_map(){
               var mapObj = this.mapObj = window.mapobj = new AMap.Map("map_html_mapid",{
               view: new AMap.View2D({//创建地图二维视口
               //center:position,//创建中心点坐标
-              zoom:16, //设置地图缩放级别
+              zoom:15, //设置地图缩放级别
               rotation:0 //设置地图旋转角度
              }),
              lang:"zh_cn"//设置地图语言类型，默认：中文简体
