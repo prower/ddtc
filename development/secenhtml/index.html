@@ -379,12 +379,15 @@
         height: 100%;
         left: 0;
         top: 0;
-        background-color: #000000;
-        color: #fff;
+        background-color: #FFF;
+        /* color: #fff; */
         font-size: 48px;
         text-align: center;
         line-height: 300px;
         z-index: 10000;
+        background-image: url(./img/icon.png);
+        background-repeat: no-repeat;
+        background-position: center center;
     }
 	.userinfo-menu{
 	width:80%;
@@ -622,7 +625,10 @@
         <td style="text-align: center"><a><span class="mui-icon mui-icon-spinner mui-spin"></span></a></td>
     </tr>
 </table>
-<div id="startpage" class="startpage">嘟嘟停车</div>
+    <div id="startpage" class="startpage">
+        嘟嘟停车
+        <p class="mui-bar-footer">xxx公司</p>
+    </div>
     <div class="template">
         <div class="page_body" id="login_html">
         <style>
@@ -902,7 +908,7 @@
         setTimeout(function(){
             btoffCanvas.aclick();
             $('#startpage').hide();
-        });
+        },1e3*2);
 
         var btoffCanvas = $('#btoffCanvas').aclick(function(){
             utils.sys.loadpage('views/', 'login', null, '用户中心',function(v){
