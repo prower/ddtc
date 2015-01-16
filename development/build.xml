@@ -9,7 +9,7 @@
 
 
     <!--<target name="compile" depends='init,compileuser,compilesecen' >-->
-    <target name="compile" depends='init,compilesecen' >
+    <target name="compile" depends='init,compileuser,compilesecen' >
 
 
     </target>
@@ -22,31 +22,68 @@
               output="${pubdir}/${userdir}/js/all.js"
               languagein="ECMASCRIPT5">
           <sources dir="${basedir}">
+              <!--
+              <script src="../golba_rs/js/jquery-1.9.1.min.js"></script>
+                <script src="../golba_rs/js/iscroll.js"></script>
+                <script src="./js/utils.js"></script>
+                <script src="./js/manager.js"></script>
+                <script src="./js/view.js"></script>
+                <script src="./js/map_plugin.js"></script>
+
+                <script src="./views/map/map.js"></script>
+                <script src="./views/daohang/daohang.js"></script>
+                <script src="./views/searchmap/searchmap.js"></script>
+              -->
               <file name="golba_rs/js/jquery-1.9.1.min.js"/>
+              <file name="golba_rs/js/iscroll.js"/>
+              <file name="${userdir}/js/utils.js"/>
+              <file name="${userdir}/js/manager.js"/>
+              <file name="${userdir}/js/view.js"/>
+              <file name="${userdir}/js/map_plugin.js"/>
+              <file name="${userdir}/views/map/map.js"/>
+              <file name="${userdir}/views/daohang/daohang.js"/>
+              <file name="${userdir}/views/searchmap/searchmap.js"/>
           </sources>
         </jscomp>
 
         <!--copy htmlfile-->
-        <copy file='${basedir}/userhtml/usermap.html' tofile='${pubdir}/${userdir}/usermap.html' ></copy>
-        <copy file='${basedir}/userhtml/userorderlist.html' tofile='${pubdir}/${userdir}/userorderlist.html' ></copy>
-        <copy file='${basedir}/userhtml/userorderpay.html' tofile='${pubdir}/${userdir}/userorderpay.html' ></copy>
+        <copy file='${basedir}/${userdir}/index.html' tofile='${pubdir}/${userdir}/index.html' ></copy>
         <!--copy golba file-->
         <copy file="${basedir}/golba_rs/js/sys.js" tofile='${pubdir}/${userdir}/js/sys.js'></copy>
+        <!--copy css-->
+        <copy todir='${pubdir}/${userdir}/fonts'>
+            <fileset dir='${basedir}/golba_rs/fonts'></fileset>
+        </copy>
+        <copy file='${basedir}/golba_rs/css/mui.min.css' tofile='${pubdir}/${userdir}/css/mui.min.css' ></copy>
+        <copy file='${basedir}/${userdir}/css/main.css' tofile='${pubdir}/${userdir}/css/main.css' ></copy>
+        <!--copy view-->
+        <copy todir="${pubdir}/${userdir}/views">
+            <fileset dir="${basedir}/${userdir}/views"/>
+        </copy>
+        <!--copy img-->
+        <copy todir='${pubdir}/${userdir}/img'>
+            <fileset dir='${basedir}/${userdir}/img'></fileset>
+        </copy>
         <!--replace file-->
         <replaceregexp byline="true" encoding='utf-8'>
             <regexp pattern="\.\./golba_rs/js/sys\.js"/>
             <substitution expression="\./js/sys\.js"/>
-            <fileset file="${pubdir}/${userdir}/usermap.html"/>
+            <fileset file="${pubdir}/${userdir}/index.html"/>
+        </replaceregexp>
+        <replaceregexp byline="true" encoding='utf-8'>
+            <regexp pattern="\.\./golba_rs/css/mui\.min\.css"/>
+            <substitution expression="\./css/mui\.min\.css"/>
+            <fileset file="${pubdir}/${userdir}/index.html"/>
         </replaceregexp>
         <replaceregexp byline="true"  encoding='utf-8'>
             <regexp pattern=".*__del__.*"/>
             <substitution expression=""/>
-            <fileset file="${pubdir}/${userdir}/usermap.html"/>
+            <fileset file="${pubdir}/${userdir}/index.html"/>
         </replaceregexp>
         <replaceregexp byline="true"  encoding='utf-8'>
             <regexp pattern="__alljs__"/>
             <substitution expression="src=\./js/all\.js"/>
-            <fileset file="${pubdir}/${userdir}/usermap.html"/>
+            <fileset file="${pubdir}/${userdir}/index.html"/>
         </replaceregexp>
 
     </target>
