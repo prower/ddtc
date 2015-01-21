@@ -206,8 +206,8 @@ window.sysmanager = {
     }
     ,checkLogin:function(callback){
         var userinfo = myajax.userinfo() || {};
-        var uid = userinfo.uid;
-        var uuid = userinfo.uuid;
+        var uid = userinfo.uid || '';
+        var uuid = userinfo.uuid || '';
         window.myajax.get('Public','checkLogin',{'uid':uid,'uuid':uuid},function(result){
             if(0 == result.code){
                 callback && callback(true);

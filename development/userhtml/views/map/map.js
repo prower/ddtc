@@ -21,6 +21,7 @@ function ui_map(){
             ,daohang_gaode:'[name=daohang_gaode]'
             ,daohang_my:'[name=daohang_my]'
             ,btclosemenu:'[name=btclosemenu]'
+            ,mk1:'.template [name=mk1]'
         }
         ,iscroll:null
         ,mapObj:null
@@ -159,14 +160,25 @@ function ui_map(){
 
             for(var i=0;i<datas.length;i++){
                 var data = datas[i];
-                var marker = new AMap.Marker({                 
-                  map:map,                 
-                  position:data.point,                 
-                  icon:"http://webapi.amap.com/images/0.png",                 
-                  offset:new AMap.Pixel(-10,-35)               
-               });
-                data.marker = marker;
+                var maker = this.c_getpoint(map,data, i);
+
             }
+        }
+        ,c_getpoint:function(map,data, index){
+            var me = this;
+            var content = this.dom.mk1.html();
+            content = content.replace('{0}', '$10');
+            var marker = new AMap.Marker({                 
+              map:map,                 
+              position:data.point,                 
+              icon:"http://webapi.amap.com/images/0.png",
+             content:content,
+             offset:new AMap.Pixel(-10,-35)               
+           });
+            data.marker = marker;
+            AMap.event.addListener(marker,'touchstart',function callback(e){
+                me.c_activeRow(index);
+            });
         }
         ,c_showinfo:function(data){
             this.nowdata = data;
@@ -243,11 +255,19 @@ function ui_map(){
                 v.obj.settarget(me.nowdata);
             });
         }
-        ,c_setActiveRow:function(row, data){
+        ,c_setActiveRow:function(row, data, elemmove){
             this.dom.list.find('>*').removeClass('active');
             row.addClass('active');
             this.mapObj.setCenter(data.point);
             data.marker.setAnimation('AMAP_ANIMATION_DROP');
+            if(!!elemmove){
+                this.iscroll.scrollToElement(row[0]);
+            }
+        }
+        ,c_activeRow:function(index){
+            var row = this.dom.list.find('>*').eq(index);
+            var data = this.datas[index];
+            this.c_setActiveRow(row,data, true);
         }
         ,c_getrow:function(data, index){
             var me = this;
@@ -271,6 +291,7 @@ function ui_map(){
             var clat = center.lat;
             var datas = [];
             for(var i=0;i<10;i++){
+                var lng = clng+GetRandomNum(-0.004,0.004);
                 var lng = clng+GetRandomNum(-0.004,0.004);
                 var lat = clat+GetRandomNum(-0.0025,0.0025);
                 var point = new AMap.LngLat(lng,lat);
