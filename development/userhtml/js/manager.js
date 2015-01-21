@@ -192,6 +192,30 @@ window.sysmanager = {
            })
            return this;
        }
+    ,login:function(phone, carid, callback){
+        window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
+            if(0 == result.code){
+                var userinfo = {
+                    uid:result.data.uid
+                    ,uuid:result.data.uuid
+                }
+                window.myajax.userinfo(userinfo);
+                callback && callback();
+            }
+        });
+    }
+    ,checkLogin:function(callback){
+        var userinfo = myajax.userinfo() || {};
+        var uid = userinfo.uid;
+        var uuid = userinfo.uuid;
+        window.myajax.get('Public','checkLogin',{'uid':uid,'uuid':uuid},function(result){
+            if(0 == result.code){
+                callback && callback(true);
+            }else{
+                callback && callback(false);
+            }
+        },null,true);
+    }
        ,loading:(function(){
            var loading = $('#loading');
           var obj = {

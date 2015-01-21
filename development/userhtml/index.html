@@ -646,8 +646,10 @@
 
 <script src="../golba_rs/js/jquery-1.9.1.min.js" __del__></script>
 <script src="../golba_rs/js/iscroll.js" __del__></script>
+<script src="./js/cfg.js" __del__></script>
 <script src="./js/utils.js" __del__></script>
 <script src="./js/manager.js" __del__></script>
+<script src="./js/ajax.js" __del__></script>
 <script src="./js/view.js" __del__></script>
 <script src="./js/map_plugin.js" __del__></script>
 
@@ -683,22 +685,9 @@
                 nowview = v;
             });
         }
-        var model = utils.tools.getUrlParam('m');
-        switch (model){
-            case 'myorder':
-                tabs.activeTab(2);
-                break;
-            case "map":
-            case "mapsearch":
-            default :
-                tabs.activeTab(1);
-                break;
-        }
-
 
         setTimeout(function(){
             $('#startpage').hide();
-
             sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
                 view.obj.onclose = function(placedata){
                     fn && fn(placedata);
@@ -706,6 +695,20 @@
             });
 
         },1e3*2);
+
+        (function activeTab(){
+            var model = utils.tools.getUrlParam('m');
+            switch (model){
+                case 'myorder':
+                    tabs.activeTab(2);
+                    break;
+                case "map":
+                case "mapsearch":
+                default :
+                    tabs.activeTab(1);
+                    break;
+            }
+        })();
     });
 
 </script>

@@ -9,7 +9,7 @@ define((function(){
 
     var cfg = {
         start:null
-        ,ajaxroot:'http://115.29.160.95:81/Park.php/Home/'
+        ,ajaxroot:'http://115.29.160.95/park.php/Home/'
     }
     /**
     var href = window.location.href;

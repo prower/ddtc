@@ -26,11 +26,28 @@ function ui_reg(){
         }
         ,c_init:function(){
             var me = this;
-            this.dom.btreg.aclick(function(){
-               me.c_reg();
+            this.c_checkLogin();
+
+        }
+        ,c_checkLogin:function(){
+            sysmanager.checkLogin(function(islogin){
+                if(islogin){
+                    sysmanager.alert('已经登陆');
+                }else{
+                    sysmanager.alert('没有登陆');
+                }
             });
         }
         ,c_reg:function(){
+            var me = this;
+            var phone = this.dom.userpanel_phone.val();
+            var chepai = this.dom.userpanel_chepai.val();
+
+            sysmanager.login(phone,chepai,function(){
+                me.c_quit();
+            });
+        }
+        ,c_quit:function(){
             var me = this;
             var c = me.context.parent().parent();
             sysmanager.pagecontainerManager.hide(c);
@@ -42,6 +59,9 @@ function ui_reg(){
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            this.dom.btreg.aclick(function(){
+                me.c_reg();
+            });
         }
         ,close:function(){
         }
