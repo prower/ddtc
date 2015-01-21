@@ -26,7 +26,7 @@ function ui_reg(){
         }
         ,c_init:function(){
             var me = this;
-            this.c_checkLogin();
+            //this.c_checkLogin();
 
         }
         ,c_checkLogin:function(){
@@ -64,6 +64,7 @@ function ui_reg(){
             });
         }
         ,close:function(){
+            this.onclose && this.onclose();
         }
     };
     return  ui;
