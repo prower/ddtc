@@ -38,10 +38,7 @@ function ui_map(){
         }
         ,c_init:function(){
             var me = this;
-
-
             this.c_searchPosition(function(placedata){
-
                 me.c_initMap(function(center){
                     me.m_getdata(center,function(datas){
                         me.c_addpoint(me.mapObj,datas);
@@ -167,10 +164,10 @@ function ui_map(){
         ,c_getpoint:function(map,data, index){
             var me = this;
             var content = this.dom.mk1.html();
-            content = content.replace('{0}', '$10');
+            content = content.replace('{0}', '$'+data.prepay);
             var marker = new AMap.Marker({                 
               map:map,                 
-              position:data.point,                 
+              position:data.point,
               icon:"http://webapi.amap.com/images/0.png",
              content:content,
              offset:new AMap.Pixel(-10,-35)               
@@ -183,6 +180,7 @@ function ui_map(){
         ,c_showinfo:function(data){
             this.nowdata = data;
             this.dom.listcontaion.addClass('next');
+            //fill
         }
         ,c_back:function(){
             this.dom.listcontaion.removeClass('next');
@@ -258,7 +256,7 @@ function ui_map(){
         ,c_setActiveRow:function(row, data, elemmove){
             this.dom.list.find('>*').removeClass('active');
             row.addClass('active');
-            this.mapObj.setCenter(data.point);
+            this.mapObj.setCenter(data.marker.getPosition());
             data.marker.setAnimation('AMAP_ANIMATION_DROP');
             if(!!elemmove){
                 this.iscroll.scrollToElement(row[0]);
@@ -270,9 +268,25 @@ function ui_map(){
             this.c_setActiveRow(row,data, true);
         }
         ,c_getrow:function(data, index){
+            /**
+             * address: "中山北路3300号"
+             * lat: "31.232164"
+             * lng: "121.476364"
+             * marker: c
+             * name: "环球港地下车库及5楼车库"
+             * note: ""
+             * parkstate: "2"
+             * pid: "8"
+             * prepay: "5"
+             * rules: "5元/半小时，9元/小时，封顶72元，购物满200元可免费停车2小时"spacesum: "2200"
+             * @type {*}
+             */
             var me = this;
             var row = this.dom.row.clone();
+            row.find('[name=title]').html(data.name);
             row.find('[name=distance]>span').html(data.distance);
+            row.find('[name=rules]').html(data.rules);
+            row.find('[name=address]').html(data.address);
             row.find('.mui-btn').click(function(){
                me.c_showinfo(data);
             });
@@ -287,6 +301,19 @@ function ui_map(){
             return row;
         }
         ,m_getdata:function(center, fn){
+            var clng = center.lng;
+            var clat = center.lat;
+            window.myajax.userget('index','search',{lat:clat,lng:clng}, function(result){
+                var data = result.data;
+                for(var i=0;i<data.length;i++){
+                    var d = data[i];
+                    d.point = new AMap.LngLat(d.lng, d.lat);
+                    d.distance = Math.abs(parseInt(d.point.distance(center)));
+                }
+                fn && fn(result.data);
+            }, null, false);
+        }
+        ,m_getdata1:function(center, fn){
             var clng = center.lng;
             var clat = center.lat;
             var datas = [];

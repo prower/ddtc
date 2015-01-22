@@ -54,13 +54,13 @@
                 }
             }); 
         }
-        ,userget:function(model,control,data, success, error){            //带用户身份的访问
+        ,userget:function(model,control,data, success, error,myprocess){            //带用户身份的访问
             if(userinfo && uid && key){
                 data = data || {};
                 data.uid = this.uid();
                 data.uuid = this.key();
             }
-            this.get(model,control,data, success, error);
+            this.get(model,control,data, success, error, myprocess);
 
         }
         ,userinfo:function(_userinfo){      //获取或者设置用户信息

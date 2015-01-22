@@ -90,6 +90,10 @@
             position: absolute;
             bottom: 10px;
         }
+        .map_contaion .tccrow p{
+            width: 80%;
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
     </style>
     <div class="map_contaion">
         <div class="map" id="map_html_mapid"></div>
@@ -142,10 +146,10 @@
 
     <div class="template">
         <ul>
-            <li class="mui-table-view-cell" name='row'>
-                <h4>停车场名称</h4>
-                <p><span name='distance'>距离:<span></span></span>,<span>$5/小时</span>,<span>$40/天</span></p>
-                <p>上海静安寺豫园路168号</p>
+            <li class="mui-table-view-cell tccrow" name='row'>
+                <h4 name='title'>停车场名称</h4>
+                <p name='address'>上海静安寺豫园路168号</p>
+                <p><span name='distance'>距离:<span></span>米</span>,<span name='rules'></span></p>
                 <div class="mui-btn mui-btn-primary">抢订</div>
             </li>
         </ul>
