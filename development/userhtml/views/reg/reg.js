@@ -42,10 +42,13 @@ function ui_reg(){
             var me = this;
             var phone = this.dom.userpanel_phone.val();
             var chepai = this.dom.userpanel_chepai.val();
-
-            sysmanager.login(phone,chepai,function(){
-                me.c_quit();
-            });
+            if('' == phone){
+                alert('手机号不能为空!');
+            }else{
+                sysmanager.login(phone,chepai,function(){
+                    me.c_quit();
+                });
+            }
         }
         ,c_quit:function(){
             var me = this;
