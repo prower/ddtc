@@ -15,7 +15,8 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
               ,btreg:'[name=btreg]'
               ,loginpanel:{
                   panel:'[name=loginpanel]'
-                  ,email:'[name=loginpanel] [name=userpanel_email]'
+                  ,parkname:'[name=loginpanel] [name=userpanel_parkname]'
+                  ,name:'[name=loginpanel] [name=userpanel_name]'
                   ,pwd:'[name=loginpanel] [name=userpanel_password]'
                   ,btlogin:'[name=loginpanel] [name=btlogin]'
               }
@@ -55,14 +56,21 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
 
                   }
                 ,login:function(){
-                      var email = me.dom.loginpanel.email.val();
+                      var parkname = me.dom.loginpanel.parkname.val();
+                      var name = me.dom.loginpanel.name.val();
                       var password = me.dom.loginpanel.pwd.val();
 
-                    me.m_test(email,function(){
-                        utils.sys.login(email, password, function(data){
-                              me.dom.loginpanel.pwd.val('');
-                              me.c_showUserinfo(data);
-                          });
+                    alert([parkname,name,password]);
+
+//                    me.m_test(email,function(){
+//                        utils.sys.login(email, password, function(data){
+//                              me.dom.loginpanel.pwd.val('');
+//                              me.c_showUserinfo(data);
+//                          });
+//                    });
+
+                    utils.sys.login(parkname,name,password, function(userinfo){
+                        console.log(userinfo);
                     });
 
 
@@ -74,6 +82,8 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_check:function(){
             var me = this;
+            me.c_showUserinfo(null);
+            return;
 
             utils.sys.checklogin(function(data){
                 console.log(data);
@@ -104,6 +114,9 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     me.c_check();
                 });
             });
+        }
+        ,m_login:function(gs, name, pwd, fn){
+
         }
         ,m_test:function(username, fn){
             ajax.get('Index','test',{username:username}, function(result){

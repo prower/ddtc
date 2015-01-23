@@ -193,26 +193,23 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
            })
            return this;
        }
-       ,login:function(email, pwd, fn){         //通用登录方法
+       ,login:function(parkname,name,password, fn){         //通用登录方法
            //alert([email, pwd]);
-           fn && fn({
-               name:'测试'
-               ,type:'0'
-               ,status:'1'
-           });
-           return;
-           ajax.get('Index','login',{name:email,password:pwd}, function(result){
+//           fn && fn({
+//               name:'测试'
+//               ,type:'0'
+//               ,status:'1'
+//           });
+//           return;
+           ajax.get('public','login',{parkname:parkname,username:name,password:password}, function(result){
                if(0 == result.code){
 
                    var uid = result.data.uid;
-                   var key = result.data.key;
-                   ajax.userinfo(result.data.userinfo);
-                   ajax.key(key);
-                   ajax.uid(uid);
-                   if(window.localStorage){
-                       window.localStorage.setItem('key', key);
-                       window.localStorage.setItem('uid', uid);
+                   var key = result.data.uid;
+                   var userinfo = {
+                       uid:uid,uuid:key
                    }
+                   ajax.userinfo(userinfo);
                    fn && fn(result.data.userinfo);
                }else{
                    fn && fn(null);
