@@ -47,23 +47,35 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
         }
         ,c_getrow:function(data){
+            var me = this;
             var row = this.dom.row.clone();
-            row.find('[name=pai]').html(data.pai).end().find('[name=time]').html(data.time)
+            row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.orderTime)
                 .end().find('[name=btaction]').aclick(function(){
-                   row.remove();
+                   me.c_setIn(data.oid, row);
                 });
 
             return  row;
         }
+        ,c_setIn:function(oid, row){
+            this.m_setIn(oid,function(){
+                row.remove();
+            })
+        }
         ,m_getdata:function(fn){
-            fn && fn([
-                {pai:'沪a1231',time:'10:45'}
-                ,{pai:'沪asaasda',time:'11:45'}
-                ,{pai:'沪a12a0a',time:'13:45'}
-                ,{pai:'沪aczxczc',time:'14:45'}
-                ,{pai:'沪azxczxc',time:'14:55'}
-                ,{pai:'沪asfdsdfsd',time:'15:01'}
-            ]);
+            ajax.userget('index','getEntries',null, function(result){
+                /**
+                 * data:［{"oid":"1","carid":"11111","orderTime":"1970-01-01 08:00:00"}
+                 */
+                var data = result.data;
+                fn && fn(data);
+            });
+        }
+        ,m_setIn:function(oid, fn){
+            ajax.userget('index','setEntry',{oid:oid}, function(result){
+                var data = result.data;
+                fn && fn(data);
+
+            });
         }
         ,close:function(){
 
