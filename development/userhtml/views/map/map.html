@@ -84,7 +84,7 @@
             left: 0;
         }
         .map_contaion .list .info li p{
-            padding: 5px;
+            margin: 10px;
         }
         .map_contaion .list .info>button{
             position: absolute;
@@ -93,6 +93,13 @@
         .map_contaion .tccrow p{
             width: 80%;
             white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+        .map_contaion .list .info p label{
+            color: #000;
+            min-width: 50px;
+            display: inline-block;
+        }
+        .map_contaion .list .info p span{
         }
     </style>
     <div class="map_contaion">
@@ -103,7 +110,7 @@
 
                 </ul>
             </div>
-            <div class="info">
+            <div class="info" name='infopanel'>
                 <header class="mui-bar mui-bar-nav" style="position: static;">
                     <h1 class="mui-title" name='title'>停车场名称</h1>
                 	<button class="mui-action-back mui-btn mui-btn-red mui-pull-left" name="btback" style="position: absolute;left: 10px">
@@ -115,11 +122,10 @@
                 </header>
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell">
-                        <p>空车位<span>较多</span></p>
-                        <p><label>价格:</label>5元/小时,40元/天</p>
-                        <p><label>备注:</label>不能过夜</p>
-                        <p><label>备注:</label>不能过夜</p>
-                        <p><label>地址:</label>上海市静安区豫园路168号</p>
+                        <p><label>空车位:</label><span name='numberstatus'></span><span name='numbermax'></span></p>
+                        <p><label>价格:</label><span name='rules'></span></p>
+                        <p><label>备注:</label><span name='note'>晚上关门</span></p>
+                        <p><label>地址:</label><span name='address'>西康路10号</span></p>
                     </li>
                 </ul>
                 <button class="mui-btn mui-btn-success mui-btn-block" style="" name="btpay">确认,预付5元>></button>

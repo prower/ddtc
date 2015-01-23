@@ -13,15 +13,26 @@ function ui_map(){
             list:'.innerlist>ul'
             ,row:'.template [name=row]'
             ,listcontaion:'.list'
-            ,btback:'[name=btback]'
-            ,btdaohang:'[name=btdaohang]'
+
             ,bttitle:'[name=title]'
-            ,btpay:'[name=btpay]'
+
             ,daohangmenu:'[name=daohangmenu]'
             ,daohang_gaode:'[name=daohang_gaode]'
             ,daohang_my:'[name=daohang_my]'
             ,btclosemenu:'[name=btclosemenu]'
             ,mk1:'.template [name=mk1]'
+            ,infopanel:{
+                panel:'[name=infopanel]'
+                ,btback:'[name=infopanel] [name=btback]'
+                ,btdaohang:'[name=infopanel] [name=btdaohang]'
+                ,btpay:'[name=infopanel] [name=btpay]'
+                ,title:'[name=infopanel] [name=title]'
+                ,address:'[name=infopanel] [name=address]'
+                ,note:'[name=infopanel] [name=note]'
+                ,rules:'[name=infopanel] [name=rules]'
+                ,numberstatus:'[name=infopanel] [name=numberstatus]'
+                ,numbermax:'[name=infopanel] [name=numbermax]'
+            }
         }
         ,iscroll:null
         ,mapObj:null
@@ -121,10 +132,10 @@ function ui_map(){
             var me = this;
             this.iscroll = new iScroll(this.dom.list[0], {desktopCompatibility:true});
 
-            this.dom.btback.aclick(function(){
+            this.dom.infopanel.btback.aclick(function(){
                 me.c_back();
             });
-            this.dom.btdaohang.aclick(function(){
+            this.dom.infopanel.btdaohang.aclick(function(){
                 me.c_daohang();
             });
             this.dom.daohang_gaode.aclick(function(){
@@ -137,9 +148,35 @@ function ui_map(){
                 me.c_daohang_my();
             });
             //this.dom.bttitle.aclick(function(){alert('title');});
-            this.dom.btpay.aclick(function(){
-               alert('pay');
+            this.dom.infopanel.btpay.aclick(function(){
+               me.c_startPay()
             });
+        }
+        ,c_startPay:function(){
+            var me = this;
+            this.m_startPay(this.nowdata.pid, function(data){
+                /**
+                 * WeixinJSBridge.invoke('getBrandWCPayRequest',<?php echo $wxPayHelper->create_biz_package(); ?>,function(res){
+                     WeixinJSBridge.log(res.err_msg);
+                     alert(res.err_code+res.err_desc+res.err_msg);
+                     });
+                 */
+                WeixinJSBridge.invoke('getBrandWCPayRequest', data,function(res){
+                    //WeixinJSBridge.log(res.err_msg);
+                    //alert(res.err_code+'\n'+res.err_desc+'\n'+res.err_msg);
+                     if('get_brand_wcpay_request:ok' == res.err_msg){
+                         me.c_startPayok();
+                     }else{
+                         me.c_startPayfalid();
+                     }
+                 });
+            });
+        }
+        ,c_startPayok:function(){           //预付款成功
+            alert('预付款成功');
+        }
+        ,c_startPayfalid:function(){        //预付款失败
+            alert('预付款失败');
         }
         ,c_fill:function(datas){
             var me = this;
@@ -181,6 +218,12 @@ function ui_map(){
             this.nowdata = data;
             this.dom.listcontaion.addClass('next');
             //fill
+            this.dom.infopanel.btpay.html('确认,预付{0}元'.replace('{0}',data.prepay));
+            this.dom.infopanel.title.html(data.name);
+            this.dom.infopanel.address.html(data.address);
+            this.dom.infopanel.rules.html(data.rules);
+            this.dom.infopanel.numbermax.html(data.spacesum);
+            this.dom.infopanel.numberstatus.html((['满了','少量','很多'][data.spacesum])||'未知');
         }
         ,c_back:function(){
             this.dom.listcontaion.removeClass('next');
@@ -340,6 +383,11 @@ function ui_map(){
                     return(Min + Rand * Range);
             }
             fn && fn(datas);
+        }
+        ,m_startPay:function(pid, fn){
+            window.myajax.userget('index','genorder',{pid:pid}, function(result){
+                fn && fn(result.data);
+            }, null, false);
         }
         ,close:function(){
 
