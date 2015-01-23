@@ -206,9 +206,7 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
 
                    var uid = result.data.uid;
                    var key = result.data.uid;
-                   var userinfo = {
-                       uid:uid,uuid:key
-                   }
+                   var userinfo = result.data;
                    ajax.userinfo(userinfo);
                    fn && fn(result.data.userinfo);
                }else{
@@ -216,41 +214,20 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
                }
           });
        }
-       ,checklogin:function(fn){
-           var key = ajax.key();
-           var uid = ajax.uid();
-           if( (!key || !uid) && window.localStorage){
-               key = window.localStorage.getItem('key');
-               uid = window.localStorage.getItem('uid');
-           }
-           if(!key || !uid){
-               fn && fn(null);
+       ,checkLogin:function(fn){
+
+           var userinfo = ajax.userinfo();
+           if(userinfo){
+               fn && fn(true);
            }else{
-               var me = this;
-               ajax.get('Index','checkLogin',{uid:uid, key:key},function(result){
-                   var data = result.data;
-                   if(!data){
-                        me.clearLoginInfo();
-                   }else{
-                       ajax.userinfo(result.data);
-                       ajax.key(key);
-                       ajax.uid(uid);
-                       if(window.localStorage){
-                           window.localStorage.setItem('key', key);
-                           window.localStorage.setItem('uid', uid);
-                       }
-                   }
-                   fn && fn(data);
-               });
+               fn && fn(false);
            }
 
        }
        ,quitlogin:function(fn){
            var me = this;
-           ajax.userget('Index','quitLogin',null,function(result){
-               me.clearLoginInfo();
-               fn && fn();
-           });
+           ajax.clearInfo();
+           fn && fn();
 
        }
        ,clearLoginInfo:function(){

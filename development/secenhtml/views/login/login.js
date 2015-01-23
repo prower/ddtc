@@ -56,12 +56,17 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
 
                   }
                 ,login:function(){
-                      var parkname = me.dom.loginpanel.parkname.val();
-                      var name = me.dom.loginpanel.name.val();
-                      var password = me.dom.loginpanel.pwd.val();
+                        me.c_login();
 
-                    alert([parkname,name,password]);
-
+                  }
+              }
+            this.c_check();
+        }
+        ,c_login:function(){
+            var me = this;
+            var parkname = me.dom.loginpanel.parkname.val();
+              var name = me.dom.loginpanel.name.val();
+              var password = me.dom.loginpanel.pwd.val();
 //                    me.m_test(email,function(){
 //                        utils.sys.login(email, password, function(data){
 //                              me.dom.loginpanel.pwd.val('');
@@ -69,16 +74,13 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
 //                          });
 //                    });
 
-                    utils.sys.login(parkname,name,password, function(userinfo){
-                        console.log(userinfo);
-                    });
+            utils.sys.login(parkname,name,password, function(userinfo){
+                console.log('userinfo',userinfo);
+                var c = me.context.parent().parent();
+                utils.sys.pagecontainerManager.hide(c);
+                me.close();
+            });
 
-
-                  }
-              }
-
-
-            this.c_check();
         }
         ,c_check:function(){
             var me = this;
@@ -114,9 +116,6 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     me.c_check();
                 });
             });
-        }
-        ,m_login:function(gs, name, pwd, fn){
-
         }
         ,m_test:function(username, fn){
             ajax.get('Index','test',{username:username}, function(result){

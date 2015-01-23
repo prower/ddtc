@@ -599,6 +599,9 @@
         <div class="page" style="background-color:#fff">
         </div>
     </div>
+    <div id="login_pagecontaion" class="pagecontainer" style="display: none">
+        <div class="page" style="background-color:#fff"></div>
+    </div>
     <div id="top_menu" class="pagecontainer" style=" display: none">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view" name='list'>
@@ -681,7 +684,9 @@
                 }
 
             </style>
+
             <ul class="mui-table-view">
+                <li class="mui-table-view-divider"><h3 name='fullname'>停车场名称</h3></li>
                 <li class="mui-table-view-divider">车位使用状态:<span class="mui-badge">5分钟前更新</span></li>
             </ul>
             <ul class="mui-table-view mui-grid-view mui-grid-9" name='kucunpanel'>
@@ -723,6 +728,7 @@
                     <div>交易清单</div><div class="mui-media-body body1">本周交易<span class="mui-badge mui-badge-purple">1</span>次</div>
                 </li>
             </ul>
+            <div name='btquit' class="mui-btn mui-btn-danger mui-btn-block">退出</div>
         </div>
         <div class="page_content userpage" id="jifen_html" style="" >
             <ul class="mui-table-view">
@@ -835,7 +841,7 @@
             <div class="template">
                 <ul>
                     <li class="mui-table-view-cell" name='row'>
-                        <div name='pai'>沪A12333</div>
+                        <div name='cardid'>沪A12333</div>
                         <div><span name='time'>10:45</span>下单</div>
                         <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>确认进入</div>
                     </li>
@@ -905,28 +911,39 @@
                 nowview = v;
             });
         }
-        //tabs.activeTab(1);
-
+        tabs.activeTab(1);
         setTimeout(function(){
-            btoffCanvas.aclick();
+            //btoffCanvas.aclick();
             $('#startpage').hide();
         },1e3*2);
 
-        var btoffCanvas = $('#btoffCanvas').aclick(function(){
-            utils.sys.loadpage('views/', 'login', null, '用户中心',function(v){
-                setTimeout(function(){
-                    $('#startpage').hide();
-                },1e3);
-                v.obj.onclose = function(){
-                    var userinfo = ajax.userinfo();
-                    if(userinfo){
-                        console.log(userinfo);
-                    }
-                    tabs.activeTab(1);
-                }
-            });
-        });
+//        var btoffCanvas = $('#btoffCanvas').aclick(function(){
+//            utils.sys.loadpage('views/', 'login', null, '用户中心',function(v){
+//                setTimeout(function(){
+//                    $('#startpage').hide();
+//                },1e3);
+//                v.obj.onclose = function(){
+//                    var userinfo = ajax.userinfo();
+//                    if(userinfo){
+//                        console.log(userinfo);
+//                    }
+//                    tabs.activeTab(1);
+//                }
+//            });
+//        });
 
+//        sysmanager.checkLogin(function(islogin){
+//            if(islogin){
+//                initstart();
+//            }else{
+//                sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
+//                    view.obj.onclose = function(){
+//                        initstart();
+//                    }
+//                });
+//            }
+//            $('#startpage').hide();
+//        });
     }
 </script>
 

@@ -5,20 +5,24 @@
 
 define(['cfg', 'utils'], function(cfg, utils){
     var ajaxroot= cfg.ajaxroot;
+    var key = 'uuid';
+    var uid = 'uid';
+    var userinfokey = 'secen_userinfo';
     var userinfo = null;
-    var key = 'user_key';
-    var uid = 'user_uid';
+    setTimeout(function(){
+        userinfo = JSON.parse(localStorage.getItem('secen_userinfo'));
+    });
     var process = function(result){
         switch(result.code){
             case 0:     //正确返回
                 return true;
-            case 10:    //没有登录
+            case 100:    //没有登录
                 utils.sys.alert('当前没有登录');
                 return false;
             case 11:    //没有登录
                 utils.sys.alert('登录失败');
                 return false;
-            case 100:   //错误警告信息
+            case 10:   //错误警告信息
                 utils.sys.alert(result.data);
                 return false;
         }
@@ -52,22 +56,27 @@ define(['cfg', 'utils'], function(cfg, utils){
             if(userinfo && uid && key){
                 data = data || {};
                 data.uid = this.uid();
-                data.key = this.key();
+                data.uuid = this.key();
             }
             this.get(model,control,data, success, error);
 
         }
         ,userinfo:function(_userinfo){      //获取或者设置用户信息
+            if(_userinfo){
+                localStorage.setItem(userinfokey,JSON.stringify(_userinfo));
+            }
             userinfo = _userinfo || userinfo;
             return userinfo;
         }
+        ,clearInfo:function(){
+            userinfo = null;
+            localStorage.removeItem(userinfokey);
+        }
         ,key:function(_key){
-            window[key] = _key || window[key];
-            return window[key];
+            return userinfo[key];
         }
         ,uid:function(_uid){
-            window[uid] = _uid || window[uid];
-            return window[uid];
+            return userinfo[uid];
         }
         ,clearInfo:function(){
             userinfo = null;
