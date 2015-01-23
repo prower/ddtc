@@ -29,6 +29,8 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,bt_secenat:'[name=bt_secenat]'
                 ,bt_jiaoyi:'[name=bt_jiaoyi]'
             }
+            ,btquit:'[name=btquit]'
+            ,fullname:'[name=fullname]'
         }
         ,iscroll:null
         ,init:function(context){
@@ -42,7 +44,26 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_init:function(){
             var me = this;
-            this.c_setKucun(3);
+            //this.c_setKucun(3);
+            utils.sys.checkLogin(function(islogin){
+               if(islogin){
+                   //alert('有登录信息')
+                   var userinfo = ajax.userinfo();
+                  me.dom.fullname.html(userinfo.fullname);
+               }else{
+                   me.c_login();
+               }
+               $('#startpage').hide();
+           });
+        }
+        ,c_login:function(){
+            var me = this;
+            utils.sys.loadpage('views/', 'login', $('#login_pagecontaion'),null, function(view){
+               view.obj.onclose = function(){
+                   var userinfo = ajax.userinfo();
+                   me.dom.fullname.html(userinfo.fullname);
+               }
+           });
         }
         ,c_setKucun:function(type){     //设置库存
             this.dom.kucun.panel.find('>*').removeClass('mui-active');
@@ -83,6 +104,17 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             this.dom.buttons.bt_jiaoyi.aclick(function(){
                 utils.sys.loadpage('views/', 'jiaoyi', null, '交易清单',function(v){});
             });
+            this.dom.btquit.aclick(function(){
+                me.c_quit();
+            });
+        }
+        ,c_quit:function(){
+            if(window.confirm('确认退出当前账户?')){
+                var me = this;
+                utils.sys.quitlogin(function(){
+                   me.c_login();
+                });
+            }
         }
         ,close:function(){
 
