@@ -509,7 +509,14 @@
         -webkit-font-smoothing: antialiased;
     }
     </style>
-
+<script>
+    window.PUSH_ID = function(pushid){
+        alert('pushid\n' + pushid);
+    }
+    window.PUSH_MSG = function(msg){
+        alert('pushmsg\n' + msg);
+    }
+</script>
 </head>
 <body>
 <div class="bodypage">
