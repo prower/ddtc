@@ -161,6 +161,8 @@ function ui_map(){
                      alert(res.err_code+res.err_desc+res.err_msg);
                      });
                  */
+                return me.c_startPayok();
+
                 WeixinJSBridge.invoke('getBrandWCPayRequest', data,function(res){
                     //WeixinJSBridge.log(res.err_msg);
                     //alert(res.err_code+'\n'+res.err_desc+'\n'+res.err_msg);
@@ -173,10 +175,18 @@ function ui_map(){
             });
         }
         ,c_startPayok:function(){           //预付款成功
-            alert('预付款成功');
+            var me = this;
+            sysmanager.loadpage('views/', 'orderpay', null, '当前停车订单',function(view){
+                view.obj.c_initinfo(me.nowdata);
+                view.obj.onclose = function(){
+                }
+            });
+
+
         }
         ,c_startPayfalid:function(){        //预付款失败
             alert('预付款失败');
+            this.c_startPayok();
         }
         ,c_fill:function(datas){
             var me = this;

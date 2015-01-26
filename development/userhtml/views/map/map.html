@@ -86,9 +86,13 @@
         .map_contaion .list .info li p{
             margin: 10px;
         }
-        .map_contaion .list .info>button{
+        .map_contaion .list .info>.buttonc{
             position: absolute;
-            bottom: 10px;
+            bottom: 0px;
+            width: 100%;
+        }
+        .map_contaion .list .info>.buttonc>button{
+            margin: 0;
         }
         .map_contaion .tccrow p{
             width: 80%;
@@ -128,7 +132,11 @@
                         <p><label>地址:</label><span name='address'>西康路10号</span></p>
                     </li>
                 </ul>
-                <button class="mui-btn mui-btn-success mui-btn-block" style="" name="btpay">确认,预付5元>></button>
+                <div class="buttonc">
+                    <p>当前车位状态</p>
+                    <button class="mui-btn mui-btn-success mui-btn-block" style="" name="btpay">确认,预付5元>></button>
+                </div>
+
             </div>
         </div>
     </div>
