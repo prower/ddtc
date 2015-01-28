@@ -97,6 +97,7 @@
             <fileset dir='${basedir}/golba_rs/fonts'></fileset>
         </copy>
         <copy file='${basedir}/golba_rs/css/mui.min.css' tofile='${pubdir}/${secendir}/css/mui.min.css' ></copy>
+        <copy file='${basedir}/golba_rs/css/animate.css' tofile='${pubdir}/${secendir}/css/animate.css' ></copy>
         <copy file='${basedir}/secenhtml/css/main.css' tofile='${pubdir}/${secendir}/css/main.css' ></copy>
         <!--copy js-->
         <copy todir='${pubdir}/${secendir}/js'>
@@ -139,6 +140,11 @@
         <replaceregexp byline="true" encoding='utf-8'>
             <regexp pattern="\.\./golba_rs/css/mui\.min\.css"/>
             <substitution expression="\./css/mui\.min\.css"/>
+            <fileset file="${pubdir}/${secendir}/index.html"/>
+        </replaceregexp>
+        <replaceregexp byline="true" encoding='utf-8'>
+            <regexp pattern="\.\./golba_rs/css/animate.css"/>
+            <substitution expression="\./css/animate.css"/>
             <fileset file="${pubdir}/${secendir}/index.html"/>
         </replaceregexp>
 
