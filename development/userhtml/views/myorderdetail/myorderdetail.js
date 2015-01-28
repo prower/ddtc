@@ -63,15 +63,38 @@ function ui_myorderdetail(){
                 fn && fn(result.data);
             }, null, false);
         }
+        ,m_checkout_start:function(oid, fn){         //获取没有结算的订单
+            //duduche.me/driver.php/home/index/checkOut /oid/1/
+            window.myajax.userget('index','checkOut',{oid:oid}, function(result){
+                fn && fn(result.data);
+            }, null, false);
+        }
         ,r_init:function(){
             var me = this;
             //this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             this.dom.btpay.aclick(function(){
-                me.c_pay();
+                me.c_checkout_start();
             });
         }
-        ,c_pay:function(){
-            alert('结算');
+        ,c_checkout_start:function(){
+            var me = this;
+            this.m_checkout_start(this.oid, function(data){
+                WeixinJSBridge.invoke('getBrandWCPayRequest', data,function(res){
+                    //WeixinJSBridge.log(res.err_msg);
+                    //alert(res.err_code+'\n'+res.err_desc+'\n'+res.err_msg);
+                     if('get_brand_wcpay_request:ok' == res.err_msg){
+                         me.c_startPayok();
+                     }else{
+                         me.c_startPayfalid();
+                     }
+                 });
+            });
+        }
+        ,c_startPayok:function(){
+            alert('支付成功');
+        }
+        ,c_startPayfalid:function(){
+            alert('支付失败');
         }
         ,close:function(){
 

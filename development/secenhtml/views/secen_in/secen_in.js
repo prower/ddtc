@@ -12,7 +12,9 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,context:null
         ,dom:{
             row:'.template [name=row]'
+            ,row_none:'.template [name=row_none]'
             ,list:'[name=list]'
+            ,btrefresh:'[name=btrefresh]'
         }
         ,iscroll:null
         ,init:function(context){
@@ -33,6 +35,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            this.dom.btrefresh.aclick(function(){
+                me.c_refresh();
+            });
+        }
+        ,c_refresh:function(){
+            this.c_init();
         }
         ,c_fill:function(datas){
             var me = this;
@@ -41,6 +49,9 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 var data = datas[i];
                 var row = this.c_getrow(data);
                 this.dom.list.append(row);
+            }
+            if(0 == datas.length){
+                this.dom.list.append(this.c_getrow_none());
             }
             setTimeout(function(){
                 me.iscroll && me.iscroll.refresh();
@@ -55,6 +66,10 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 });
 
             return  row;
+        }
+        ,c_getrow_none:function(){
+            var row = this.dom.row_none.clone();
+            return row;
         }
         ,c_setIn:function(oid, row){
             this.m_setIn(oid,function(){

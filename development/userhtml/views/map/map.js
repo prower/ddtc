@@ -20,6 +20,7 @@ function ui_map(){
             ,daohang_gaode:'[name=daohang_gaode]'
             ,daohang_my:'[name=daohang_my]'
             ,btclosemenu:'[name=btclosemenu]'
+            ,btclosemenu:'[name=btclosemenu]'
             ,mk1:'.template [name=mk1]'
             ,infopanel:{
                 panel:'[name=infopanel]'
@@ -161,7 +162,7 @@ function ui_map(){
                      alert(res.err_code+res.err_desc+res.err_msg);
                      });
                  */
-                return me.c_startPayok();
+                //return me.c_startPayok();
 
                 WeixinJSBridge.invoke('getBrandWCPayRequest', data,function(res){
                     //WeixinJSBridge.log(res.err_msg);

@@ -238,7 +238,7 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
           }
        }
        ,loading:(function(){
-           var loading = $('#loading');
+          var loading = $('#loading');
           var obj = {
               show:function(){
                   loading.show();
@@ -249,6 +249,13 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
           };
            return obj;
        })()
+       ,nologin:function(){
+           this.loadpage('views/', 'login', $('#login_pagecontaion'),null, function(view){
+          });
+       }
+       ,setPushid:function(pushid){     //设置当前账户的pushid
+
+       }
        ,alert:(function(){
            var alertpanel = $('#alert_pagecontainer');
            var titledom = alertpanel.find('[name=title]');

@@ -17,7 +17,7 @@ define(['cfg', 'utils'], function(cfg, utils){
             case 0:     //正确返回
                 return true;
             case 100:    //没有登录
-                utils.sys.alert('当前没有登录');
+                utils.sys.nologin();
                 return false;
             case 11:    //没有登录
                 utils.sys.alert('登录失败');

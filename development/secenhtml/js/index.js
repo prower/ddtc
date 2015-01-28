@@ -66,9 +66,7 @@ var app = {
         console.log('PushID: ' + data);
          */
         setTimeout(function(){
-            requirejs(['utils'],function(u){
-                u.sys.PushID(data);
-            });
+            window.PUSH_ID(data);
         });
     },
     onMsgData: function(data) {
@@ -84,9 +82,7 @@ var app = {
     console.log('MsgData: ' + data);
          */
         setTimeout(function(){
-           requirejs(['utils'],function(u){
-               u.sys.PushMsg(data);
-           });
+            window.PUSH_MSG(data);
         });
     }
 };

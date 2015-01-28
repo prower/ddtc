@@ -30,6 +30,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,bt_jiaoyi:'[name=bt_jiaoyi]'
             }
             ,btquit:'[name=btquit]'
+            ,bttestpushid:'[name=bttestpushid]'
             ,fullname:'[name=fullname]'
         }
         ,iscroll:null
@@ -66,14 +67,18 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
            });
         }
         ,c_setKucun:function(type){     //设置库存
-            this.dom.kucun.panel.find('>*').removeClass('mui-active');
-            this.dom.kucun.panel.find('[type={0}]'.replace('{0}',type)).addClass('mui-active');
+            var me = this;
+            this.m_setKucun(type, function(){
+                me.dom.kucun.panel.find('>*').removeClass('mui-active');
+                me.dom.kucun.panel.find('[type={0}]'.replace('{0}',type)).addClass('mui-active');
+            });
+
         }
         ,c_willSetkuncun:function(type){
             var info = {
-                '1':'设置：停车位已满?'
-                ,'2':'设置：有少量停车位?'
-                ,'3':'设置：有大量停车位?'
+                '0':'设置：停车位已满?'
+                ,'1':'设置：有少量停车位?'
+                ,'2':'设置：有大量停车位?'
             }
             if(window.confirm(info[type])){
                 this.c_setKucun(type);
@@ -88,24 +93,40 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 me.c_willSetkuncun(that.attr('type'));
             });
 
-            this.dom.jifen.btaction.aclick(function(){
+            this.dom.jifen.btaction.click(function(){
                 utils.sys.loadpage('views/', 'jifen', null, '积分兑换',function(v){});
             });
-            this.dom.tixian.btaction.aclick(function(){
+            this.dom.tixian.btaction.click(function(){
                 utils.sys.loadpage('views/', 'tixian', null, '资金统计',function(v){});
             });
 
-            this.dom.buttons.bt_secenin.aclick(function(){
+            this.dom.buttons.bt_secenin.click(function(){
                 utils.sys.loadpage('views/', 'secen_in', null, '入场管理',function(v){});
             });
-            this.dom.buttons.bt_secenout.aclick(function(){
+            this.dom.buttons.bt_secenout.click(function(){
                 utils.sys.loadpage('views/', 'secen_out', null, '离场管理',function(v){});
             });
-            this.dom.buttons.bt_jiaoyi.aclick(function(){
+            this.dom.buttons.bt_jiaoyi.click(function(){
                 utils.sys.loadpage('views/', 'jiaoyi', null, '交易清单',function(v){});
             });
-            this.dom.btquit.aclick(function(){
+            this.dom.btquit.click(function(){
                 me.c_quit();
+            });
+            this.dom.bttestpushid.click(function(){
+                me.c_bttestpushid();
+            });
+        }
+        ,c_bttestpushid:function(){
+            var pushid = 'kk3k2005';
+            ajax.userget('index','setPushId',{pushid:pushid}, function(result){
+                var data = result.data;
+                fn && fn(data);
+            });
+        }
+        ,m_setKucun:function(type, fn){
+            ajax.userget('index','setParkState',{state:type}, function(result){
+                var data = result.data;
+                fn && fn(data);
             });
         }
         ,c_quit:function(){

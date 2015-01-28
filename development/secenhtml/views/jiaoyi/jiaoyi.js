@@ -47,15 +47,31 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
         }
         ,c_getrow:function(data){
+            /**
+             * admin: "堵彬"carid: "浙D6s139"endtime: "1970-01-01 08:00:00"money: 0startime: "1970-01-01 08:00:00"
+             * @type {*}
+             */
             var row = this.dom.row.clone();
-            row.find('[name=pai]').html(data.pai).end().find('[name=time]').html(data.time)
-                .end().find('[name=btaction]').aclick(function(){
-                   row.remove();
+            row.find('[name=pai]').html(data.carid).end().find('[name=start]').html(data.startime)
+                .end().find('[name=end]').html(data.endtime)
+                .end().find('[name=admin]').html(data.admin)
+                .end().find('[name=money]').html(data.money)
+                .find('[name=btaction]').aclick(function(){
+
                 });
 
             return  row;
         }
         ,m_getdata:function(fn){
+            ajax.userget('index','getDeals',null, function(result){
+                /**
+                 * data:［{"oid":"1","carid":"11111","orderTime":"1970-01-01 08:00:00"}
+                 */
+                var data = result.data;
+                fn && fn(data);
+            });
+        }
+        ,m_getdata1:function(fn){
             fn && fn([
                 {pai:'沪a1231',time:'10:45'}
                 ,{pai:'沪asaasda',time:'11:45'}
