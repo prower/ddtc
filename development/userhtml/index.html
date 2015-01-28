@@ -556,8 +556,8 @@
                 <div id="tabbar-with-in" class="mui-control-content"  name='myorder'>
                     <h3>我的订单</h3>
                 </div>
-                <div id="tabbar-with-out" class="mui-control-content"   name='secen_out'>
-                    <h3>出场管理</h3>
+                <div id="tabbar-with-out" class="mui-control-content"   name='myorderdetail'>
+                    <h3>结算</h3>
                 </div>
     		</div>
     		<!-- off-canvas backdrop -->
@@ -703,6 +703,9 @@
             switch (model){
                 case 'myorder':
                     tabs.activeTab(2);
+                    break;
+                case 'myjiesuan':
+                    tabs.activeTab(3);
                     break;
                 case "map":
                 case "mapsearch":

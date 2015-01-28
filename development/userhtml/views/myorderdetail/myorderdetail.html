@@ -16,13 +16,18 @@
             height: 100%;
             position: absolute;
         }
-        .order_pay, .order_wait{
+        .order_pay, .order_wait, .no_pay{
             width: 100%;
             height: 100%;
         }
     </style>
     <div class="myorderdetail_html_contaion">
-        <div class="order_pay ">
+        <div class="order_no" name='order_no'>
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell"><p>当前没有需要缴费的清单</p></li>
+            </ul>
+        </div>
+        <div class="order_pay" name='order_pay'>
             <ul class="mui-table-view">
                 <li class="mui-table-view-divider"><h3 name='title'></h3></li>
                 <li class="mui-table-view-cell">开始时间:<span name='starttime'></span></li>
@@ -31,10 +36,13 @@
                 <li class="mui-table-view-cell">预付金额:<span name='preFee'></span></li>
                 <li class="mui-table-view-cell">需要付款金额:<span name='remainFee'></span></li>
             </ul>
-            <button name="btpay" style="bottom: 5%;position: absolute" class="mui-btn mui-btn-success mui-btn-block">结算付款>></button>
+            <div style="bottom: 0;margin:0;position: absolute">
+                <button name="btpay"  class="mui-btn mui-btn-success mui-btn-block">结算付款>></button>
+                <p>请在支付结清后的15分钟内驶离至出口,否则可能需加附费用.</p>
+            </div>
         </div>
-        <div class="order_wait">
-
+        <div class="order_wait" name='order_wait'>
+            当前等待中
         </div>
     </div>
 </div>

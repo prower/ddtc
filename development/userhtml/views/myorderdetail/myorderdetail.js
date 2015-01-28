@@ -16,6 +16,11 @@ function ui_myorderdetail(){
             ,preFee:'[name=preFee]'
             ,remainFee:'[name=remainFee]'
             ,btpay:'[name=btpay]'
+            ,panel:{
+                order_no:'[name=order_no]'
+                ,order_pay:'[name=order_pay]'
+                ,order_wait:'[name=order_wait]'
+            }
         }
         ,iscroll:null
         ,oid:null
@@ -30,25 +35,39 @@ function ui_myorderdetail(){
         }
         ,initoid:function(oid){
             this.oid = oid;
-            this.c_initinfo();
-
         }
         ,c_initinfo:function(){
             var me = this;
-            this.m_getordedertail(this.oid, function(data){
+            this.m_getordedertail(function(data){
                 me.c_fill(data);
             });
         }
         ,c_init:function(){
             var me = this;
-
+            this.c_initinfo();
         }
         ,c_fill:function(data){
+
+
+            this.dom.panel.order_no.hide();
+            this.dom.panel.order_pay.hide();
+            this.dom.panel.order_wait.hide();
+
+            if(!data){
+                this.c_fill_order_no();
+            }else{
+                this.c_fill_pay(data);
+            }
+
+
+        }
+        ,c_fill_order_no:function(){
+            this.dom.panel.order_no.show();
+        }
+        ,c_fill_pay:function(data){
+            this.dom.panel.order_pay.show();
             /**
-             * address: "金沙江路102号"carid: "沪A888888"
-             * remainFee: 20            //还要付多少钱
-             * totalFee: 20             //总共要付多少钱
-             * startTime: "2015-01-23 14:00:00"
+             * address: "金沙江路102号"carid: "沪A888888"id: "53"lat: "31.231529"lng: "121.471352"remainFee: 15remaintime: -17044startTime: "2015-01-23 14:00:00"state: "1"totalFee: 20
              */
             this.dom.title.html(data.address);
             this.dom.starttime.html(data.startTime);
@@ -57,9 +76,12 @@ function ui_myorderdetail(){
             this.dom.remainFee.html(data.remainFee);
 
         }
-        ,m_getordedertail:function(oid, fn){         //获取没有结算的订单
+        ,c_fill_wait:function(){
+            this.dom.panel.order_wait.show();
+        }
+        ,m_getordedertail:function(fn){         //获取没有结算的订单
             //duduche.me/driver.php/home/index/getOrder
-            window.myajax.userget('index','detailOrder',{oid:oid}, function(result){
+            window.myajax.userget('index','getOrder',{last:1}, function(result){
                 fn && fn(result.data);
             }, null, false);
         }
@@ -78,7 +100,8 @@ function ui_myorderdetail(){
         }
         ,c_checkout_start:function(){
             var me = this;
-            this.m_checkout_start(this.oid, function(data){
+            this.m_checkout_start(function(data){
+                return [alert('跳过支付直接成功［测试］'), me.c_startPayok()];
                 WeixinJSBridge.invoke('getBrandWCPayRequest', data,function(res){
                     //WeixinJSBridge.log(res.err_msg);
                     //alert(res.err_code+'\n'+res.err_desc+'\n'+res.err_msg);

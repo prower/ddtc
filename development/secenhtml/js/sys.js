@@ -296,9 +296,20 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
        }
        ,PushID:function(pushid){
            alert('触发事件获得pushid\n'+pushid);
+           ajax.userget('index','setPushId',{pushid:pushid}, function(result){
+               var data = result.data;
+               alert('pushid发送服务器');
+               //fn && fn(data);
+           });
        }
        ,PushMsg:function(msg){
            alert('触发事件获得pushmsg\n'+msg);
+           var obj = JSON.parse(msg);
+           if('in' == obj.t){
+               utils.sys.loadpage('views/', 'secen_in', null, '入场管理',function(v){});
+           }else if('out' == obj.t){
+               utils.sys.loadpage('views/', 'secen_out', null, '离场管理',function(v){});
+           }
        }
    }
    return obj;

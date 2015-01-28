@@ -39,6 +39,7 @@ function ui_map(){
         ,mapObj:null
         ,datas:null
         ,nowdata:null
+        ,nowoid:null
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -162,9 +163,10 @@ function ui_map(){
                      alert(res.err_code+res.err_desc+res.err_msg);
                      });
                  */
-                //return me.c_startPayok();
+                me.nowoid = data.oid;
+                return [alert('跳过支付直接成功![测试s]'), me.c_startPayok()];
 
-                WeixinJSBridge.invoke('getBrandWCPayRequest', data,function(res){
+                WeixinJSBridge.invoke('getBrandWCPayRequest', data.paydata,function(res){
                     //WeixinJSBridge.log(res.err_msg);
                     //alert(res.err_code+'\n'+res.err_desc+'\n'+res.err_msg);
                      if('get_brand_wcpay_request:ok' == res.err_msg){
@@ -178,8 +180,9 @@ function ui_map(){
         ,c_startPayok:function(){           //预付款成功
             var me = this;
             sysmanager.loadpage('views/', 'orderpay', null, '当前停车订单',function(view){
-                view.obj.c_initinfo(me.nowdata);
+                view.obj.c_initinfo(me.nowdata, me.nowoid);
                 view.obj.onclose = function(){
+
                 }
             });
 

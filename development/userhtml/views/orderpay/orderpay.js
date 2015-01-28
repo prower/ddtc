@@ -15,9 +15,11 @@ function ui_orderpay(){
             ,rules:'[name=rules]'
             ,address:'[name=address]'
             ,note:'[name=note]'
+            ,btpay:'[name=btpay]'
         }
         ,iscroll:null
         ,nowdata:null
+        ,oid:null
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -31,9 +33,10 @@ function ui_orderpay(){
             var me = this;
             this.c_fill(this.nowdata);
         }
-        ,c_initinfo:function(data){
+        ,c_initinfo:function(data, oid){
             console.log(data);
             this.nowdata = data;
+            this.oid = oid;
 
         }
         ,c_fill:function(data){
@@ -45,6 +48,16 @@ function ui_orderpay(){
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+
+            this.dom.btpay.aclick(function(){
+                me.c_topay();
+            });
+        }
+        ,c_topay:function(){
+            var me = this;
+            sysmanager.loadpage('views/', 'myorderdetail', null, '订单结算',function(v){
+                v.obj.initoid(me.oid);
+            });
         }
         ,close:function(){
 
