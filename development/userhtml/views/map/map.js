@@ -164,7 +164,8 @@ function ui_map(){
                      });
                  */
                 me.nowoid = data.oid;
-                return [alert('跳过支付直接成功![测试s]'), me.c_startPayok()];
+                alert(data.oid);
+                //return [alert('跳过支付直接成功![测试s]'), me.c_startPayok()];
 
                 WeixinJSBridge.invoke('getBrandWCPayRequest', data.paydata,function(res){
                     //WeixinJSBridge.log(res.err_msg);

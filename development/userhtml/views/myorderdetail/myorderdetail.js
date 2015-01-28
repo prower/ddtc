@@ -21,9 +21,14 @@ function ui_myorderdetail(){
                 ,order_pay:'[name=order_pay]'
                 ,order_wait:'[name=order_wait]'
             }
+            ,waitpanel:{
+                rtime:'[name=order_wait] [name=rtime]'
+            }
         }
         ,iscroll:null
         ,oid:null
+        ,handler:null
+        ,data:null
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -33,11 +38,18 @@ function ui_myorderdetail(){
             }
             this.c_init();
         }
+        ,c_clearHandler:function(){
+            if(this.handler){
+                clearInterval(this.handler);
+            }
+            this.handler = null;
+        }
         ,initoid:function(oid){
             this.oid = oid;
         }
         ,c_initinfo:function(){
             var me = this;
+            this.c_clearHandler();
             this.m_getordedertail(function(data){
                 me.c_fill(data);
             });
@@ -47,24 +59,31 @@ function ui_myorderdetail(){
             this.c_initinfo();
         }
         ,c_fill:function(data){
-
+            this.oid = data.oid;
 
             this.dom.panel.order_no.hide();
             this.dom.panel.order_pay.hide();
             this.dom.panel.order_wait.hide();
 
+
+
             if(!data){
                 this.c_fill_order_no();
             }else{
-                this.c_fill_pay(data);
+                this.data = data;
+                if(2==data.state && data.remaintime>0){
+                    this.c_fill_wait(data);
+                }else{
+                    this.c_fill_pay(data);
+                }
             }
-
-
         }
         ,c_fill_order_no:function(){
             this.dom.panel.order_no.show();
         }
         ,c_fill_pay:function(data){
+            var me = this;
+
             this.dom.panel.order_pay.show();
             /**
              * address: "金沙江路102号"carid: "沪A888888"id: "53"lat: "31.231529"lng: "121.471352"remainFee: 15remaintime: -17044startTime: "2015-01-23 14:00:00"state: "1"totalFee: 20
@@ -75,9 +94,25 @@ function ui_myorderdetail(){
             this.dom.preFee.html(data.totalFee - data.remainFee);
             this.dom.remainFee.html(data.remainFee);
 
+            this.handler = setInterval(function(){
+                me.c_initinfo();
+            },1e3*60);
         }
-        ,c_fill_wait:function(){
+        ,c_fill_wait:function(data){
+            var me = this;
             this.dom.panel.order_wait.show();
+            this.dom.waitpanel.rtime.html(data.remaintime);
+            data.rendtime  = new Date((new Date-0) + data.remaintime*1000);
+            this.c_clearHandler();
+            this.handler = setInterval(function(){
+                //console.log(me.data.rendtime);
+                var sp = parseInt((me.data.rendtime - (new Date - 0))/1000);
+                if(sp>0){
+                    me.dom.waitpanel.rtime.html(sp);
+                }else{
+                    me.c_initinfo();
+                }
+            },1e3);
         }
         ,m_getordedertail:function(fn){         //获取没有结算的订单
             //duduche.me/driver.php/home/index/getOrder
@@ -100,8 +135,9 @@ function ui_myorderdetail(){
         }
         ,c_checkout_start:function(){
             var me = this;
-            this.m_checkout_start(function(data){
-                return [alert('跳过支付直接成功［测试］'), me.c_startPayok()];
+            alert(this.oid);
+            this.m_checkout_start(this.oid, function(data){
+                //return [alert('跳过支付直接成功［测试］'), me.c_startPayok()];
                 WeixinJSBridge.invoke('getBrandWCPayRequest', data,function(res){
                     //WeixinJSBridge.log(res.err_msg);
                     //alert(res.err_code+'\n'+res.err_desc+'\n'+res.err_msg);
@@ -115,12 +151,13 @@ function ui_myorderdetail(){
         }
         ,c_startPayok:function(){
             alert('支付成功');
+            this.c_initinfo();
         }
         ,c_startPayfalid:function(){
             alert('支付失败');
         }
         ,close:function(){
-
+            this.c_clearHandler();
         }
     };
     return  ui;
