@@ -510,14 +510,7 @@
     }
     </style>
 <script>
-    (function(){
-        window.PUSH_ID = function(pushid){
-            alert('pushid\n' + pushid);
-        }
-        window.PUSH_MSG = function(msg){
-            alert('pushmsg\n' + msg);
-        }
-    })();
+
 </script>
 </head>
 <body>
@@ -930,6 +923,7 @@
         tabs.activeTab(1);
         setTimeout(function(){
             //btoffCanvas.aclick();
+            utils.sys.Pushinit();
             $('#startpage').hide();
         },1e3*2);
 

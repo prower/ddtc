@@ -190,7 +190,8 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
             */
            setTimeout(function(){
                //me.checklogin();
-           })
+           });
+
            return this;
        }
        ,login:function(parkname,name,password, fn){         //通用登录方法
@@ -274,19 +275,30 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
        ,imgpath:function(imgname){
            return cfg.imgpath + imgname;
        }
-       ,PushID:(function(){
-           var pushid = '';
-           var o = function(){
-               if(arguments.length>0){
-                   pushid = arguments[0];
-                   this.alert(arguments[0],'PushID');
+       ,Pushinit:function(){
+           var me = this;
+           window.PushManager.bind('pushid', function(){
+               me.PushID(this.pushid);
+           });
+           window.PushManager.bind('pushmsg', function(){
+               var msg = null;
+               while(msg = this.getPushmsg()){
+                   (function(msg){
+                       setTimeout(function(){
+                          me.PushMsg(msg);
+                      });
+                   })(msg);
                }
-               return  pushid;
-           }
-           return o;
-       })()
-       ,PushMsg:function(data){
-           this.alert(data,'推送信息');
+           });
+           window.PushManager.fire('pushid');
+           window.PushManager.fire('pushmsg');
+
+       }
+       ,PushID:function(pushid){
+           alert('触发事件获得pushid\n'+pushid);
+       }
+       ,PushMsg:function(msg){
+           alert('触发事件获得pushmsg\n'+msg);
        }
    }
    return obj;

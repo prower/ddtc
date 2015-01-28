@@ -71,7 +71,7 @@ function ui_myorderdetail(){
         }
         ,r_init:function(){
             var me = this;
-            //this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             this.dom.btpay.aclick(function(){
                 me.c_checkout_start();
             });
