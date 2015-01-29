@@ -125,6 +125,9 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
         }
         ,close:function(){
+            setTimeout(function(){
+                window.PushManager.fire('pushid');
+            });
             this.onclose && this.onclose();
         }
     };

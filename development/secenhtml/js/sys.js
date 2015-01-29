@@ -216,7 +216,7 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
           });
        }
        ,checkLogin:function(fn){
-
+            ajax.loadinfo();
            var userinfo = ajax.userinfo();
            if(userinfo){
                fn && fn(true);
@@ -253,9 +253,6 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
        ,nologin:function(){
            this.loadpage('views/', 'login', $('#login_pagecontaion'),null, function(view){
           });
-       }
-       ,setPushid:function(pushid){     //设置当前账户的pushid
-
        }
        ,alert:(function(){
            var alertpanel = $('#alert_pagecontainer');
@@ -295,12 +292,16 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
 
        }
        ,PushID:function(pushid){
-           alert('触发事件获得pushid\n'+pushid);
-           ajax.userget('index','setPushId',{pushid:pushid}, function(result){
-               var data = result.data;
-               alert('pushid发送服务器');
-               //fn && fn(data);
-           });
+           if(pushid){
+               alert('触发事件获得pushid\n'+pushid);
+               if(ajax.userinfo()){
+                   ajax.userget('index','setPushId',{pushid:pushid}, function(result){
+                       var data = result.data;
+                       alert('pushid发送服务器');
+                       //fn && fn(data);
+                   });
+               }
+           }
        }
        ,PushMsg:function(msg){
            alert('触发事件获得pushmsg\n'+msg);

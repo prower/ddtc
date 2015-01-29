@@ -9,9 +9,7 @@ define(['cfg', 'utils'], function(cfg, utils){
     var uid = 'uid';
     var userinfokey = 'secen_userinfo';
     var userinfo = null;
-    setTimeout(function(){
-        userinfo = JSON.parse(localStorage.getItem('secen_userinfo'));
-    });
+
     var process = function(result){
         switch(result.code){
             case 0:     //正确返回
@@ -80,8 +78,11 @@ define(['cfg', 'utils'], function(cfg, utils){
         }
         ,clearInfo:function(){
             userinfo = null;
-            window[key] = null;
-            window[uid] = null;
+            //window[key] = null;
+            //window[uid] = null;
+        }
+        ,loadinfo:function(){
+            userinfo = JSON.parse(localStorage.getItem(userinfokey));
         }
     }
     return myajax;

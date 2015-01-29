@@ -46,16 +46,17 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,c_init:function(){
             var me = this;
             //this.c_setKucun(3);
-            utils.sys.checkLogin(function(islogin){
-               if(islogin){
-                   //alert('有登录信息')
-                   var userinfo = ajax.userinfo();
-                  me.dom.fullname.html(userinfo.fullname);
-               }else{
-                   me.c_login();
-               }
-               $('#startpage').hide();
-           });
+//            utils.sys.checkLogin(function(islogin){
+//               if(islogin){
+//                   //alert('有登录信息')
+//                   var userinfo = ajax.userinfo();
+//                  me.dom.fullname.html(userinfo.fullname);
+//               }else{
+//                   me.c_login();
+//               }
+//               $('#startpage').hide();
+//           });
+            me.c_login();
         }
         ,c_login:function(){
             var me = this;

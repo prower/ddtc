@@ -23,6 +23,7 @@ function ui_myorderdetail(){
             }
             ,waitpanel:{
                 rtime:'[name=order_wait] [name=rtime]'
+                ,partname:'[name=order_wait] [name=partname]'
             }
         }
         ,iscroll:null
@@ -59,7 +60,7 @@ function ui_myorderdetail(){
             this.c_initinfo();
         }
         ,c_fill:function(data){
-            this.oid = data.oid;
+
 
             this.dom.panel.order_no.hide();
             this.dom.panel.order_pay.hide();
@@ -71,6 +72,7 @@ function ui_myorderdetail(){
                 this.c_fill_order_no();
             }else{
                 this.data = data;
+                this.oid = data.oid;
                 if(2==data.state && data.remaintime>0){
                     this.c_fill_wait(data);
                 }else{
@@ -102,6 +104,7 @@ function ui_myorderdetail(){
             var me = this;
             this.dom.panel.order_wait.show();
             this.dom.waitpanel.rtime.html(data.remaintime);
+            this.dom.waitpanel.partname.html(data.name);
             data.rendtime  = new Date((new Date-0) + data.remaintime*1000);
             this.c_clearHandler();
             this.handler = setInterval(function(){
