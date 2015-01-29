@@ -32,6 +32,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ,btquit:'[name=btquit]'
             ,bttestpushid:'[name=bttestpushid]'
             ,fullname:'[name=fullname]'
+            ,info:{
+                manager_in:'[name=manager_in]'
+                ,manager_out:'[name=manager_out]'
+                ,manager_at:'[name=manager_at]'
+                ,manager_deals:'[name=manager_deals]'
+            }
         }
         ,iscroll:null
         ,init:function(context){
@@ -64,10 +70,26 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                view.obj.onclose = function(){
                    var userinfo = ajax.userinfo();
                    me.dom.fullname.html(userinfo.fullname);
+                   me.c_initinfo();
                }
            });
         }
-        ,c_setKucun:function(type){     //设置库存
+        ,c_initinfo:function(){
+            var me = this;
+            this.m_baseinfo(function(data){
+                /**
+                 * at: 4deals: 1in: 0out: 1parkstate: "0"
+                 */
+                me.dom.kucun.panel.find('>*').removeClass('mui-active');
+                me.dom.kucun.panel.find('[type={0}]'.replace('{0}',data.parkstate)).addClass('mui-active');
+
+                me.dom.info.manager_at.html(data.at);
+                me.dom.info.manager_in.html(data.in);
+                me.dom.info.manager_out.html(data.out);
+                me.dom.info.manager_deals.html(data.deals);
+            });
+        }
+        ,c_setKucun:function(type, nofalse){     //设置库存
             var me = this;
             this.m_setKucun(type, function(){
                 me.dom.kucun.panel.find('>*').removeClass('mui-active');
@@ -107,6 +129,9 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             this.dom.buttons.bt_secenout.click(function(){
                 utils.sys.loadpage('views/', 'secen_out', null, '离场管理',function(v){});
             });
+            this.dom.buttons.bt_secenat.click(function(){
+                utils.sys.loadpage('views/', 'secen_at', null, '在场管理',function(v){});
+            });
             this.dom.buttons.bt_jiaoyi.click(function(){
                 utils.sys.loadpage('views/', 'jiaoyi', null, '交易清单',function(v){});
             });
@@ -126,6 +151,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,m_setKucun:function(type, fn){
             ajax.userget('index','setParkState',{state:type}, function(result){
+                var data = result.data;
+                fn && fn(data);
+            });
+        }
+        ,m_baseinfo:function(fn){
+            ajax.userget('index','getBaseInfo',null, function(result){
                 var data = result.data;
                 fn && fn(data);
             });
