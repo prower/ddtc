@@ -12,9 +12,33 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,context:null
         ,dom:{
             row:'.template [name=row]'
+            ,row_none:'.template [name=row_none]'
             ,list:'[name=list]'
+            ,btrefresh:'[name=btrefresh]'
         }
         ,iscroll:null
+        ,handler:null
+        ,c_clearHandler:function(){
+            if(this.handler){
+                clearInterval(this.handler);
+                this.handler = null;
+            }
+        }
+        ,c_startHandler:function(){
+            var me = this;
+            this.handler = setInterval(function(){
+                me.dom.list.find('>*').each(function(){
+                    var td = $(this).find('[name=rtime]');
+                    var rtime = td.attr('rtime');
+                    var sp = parseInt((rtime - (new Date - 0)));
+                    if(sp>0){
+                        td.html(utils.tools.t2s(sp));
+                    }else{
+                        me.c_refresh();
+                    }
+                });
+            },1e3);
+        }
         ,init:function(context){
             if (!this.isInit) {
                 this.isInit = true;
@@ -26,39 +50,65 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_init:function(){
             var me = this;
+            this.c_clearHandler();
             this.m_getdata(function(datas){
                 me.c_fill(datas);
             });
         }
+        ,c_refresh:function(){
+            this.c_init();
+        }
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            this.dom.btrefresh.aclick(function(){
+                me.c_refresh();
+            });
         }
         ,c_fill:function(datas){
             var me = this;
             this.dom.list.empty();
-            for(var i=0;i<datas.length;i++){
-                var data = datas[i];
-                var row = this.c_getrow(data);
-                this.dom.list.append(row);
+            if(datas){
+                for(var i=0;i<datas.length;i++){
+                    var data = datas[i];
+                    var row = this.c_getrow(data);
+                    this.dom.list.append(row);
+                }
+            }
+            if(datas && 0 == datas.length){
+                this.dom.list.append(this.c_getrow_none());
+            }else{
+                setTimeout(function(){
+                    me.c_startHandler();
+                });
             }
             setTimeout(function(){
                 me.iscroll && me.iscroll.refresh();
             });
+
         }
         ,c_getrow:function(data){
             var row = this.dom.row.clone();
             var me = this;
-            row.find('[name=pai]').html(data.carid).end().find('[name=time]').html(data.startTime)
+            var rtime = new Date((new Date-0) + data.remaintime*1000) - 0;
+            row.find('[name=pai]').html(data.carid).end().find('[name=endtime]').html(data.endtime)
+                .end().find('[name=rtime]').attr('rtime',rtime)
                 .end().find('[name=btaction]').aclick(function(){
                    me.c_setOut(data.oid, row);
                 });
 
             return  row;
         }
+        ,c_getrow_none:function(){
+            var row = this.dom.row_none.clone();
+            return row;
+        }
         ,c_setOut:function(oid, row){
             this.m_setout(oid, function(){
-                row.remove();
+                row.addClass('bounceOutLeft');
+                row.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                    row.remove()
+                });
             });
         }
         ,m_getdata:function(fn){
@@ -93,7 +143,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ]);
         }
         ,close:function(){
-
+            this.c_clearHandler();
         }
     };
 
