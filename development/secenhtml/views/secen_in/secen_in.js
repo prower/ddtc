@@ -60,7 +60,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,c_getrow:function(data){
             var me = this;
             var row = this.dom.row.clone();
-            row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.orderTime)
+            row.find('[name=cardid]').html(data.carid).end().find('[name=starttime]').html(data.orderTime)
                 .end().find('[name=btaction]').aclick(function(){
                    me.c_setIn(data.oid, row);
                 });
