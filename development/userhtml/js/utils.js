@@ -661,7 +661,45 @@
             language: (navigator.browserLanguage || navigator.language).toLowerCase()
         }
 
-    utils.tools = {};
+    utils.tools = {
+        t2s:function(ms){//将毫秒数换算成x天x时x分x秒x毫秒
+           var ss = 1000;
+           var mi = ss * 60;
+           var hh = mi * 60;
+           var dd = hh * 24;
+           var day = parseInt(ms / dd);
+           var hour = parseInt((ms - day * dd) / hh);
+           var minute = parseInt((ms - day * dd - hour * hh) / mi);
+           var second = parseInt((ms - day * dd - hour * hh - minute * mi) / ss);
+           var milliSecond = parseInt(ms - day * dd - hour * hh - minute * mi - second * ss);
+           /**
+           var strDay = day < 10 ? "0" + day : "" + day;
+           var strHour = hour < 10 ? "0" + hour : "" + hour;
+           var strMinute = minute < 10 ? "0" + minute : "" + minute;
+           var strSecond = second < 10 ? "0" + second : "" + second;
+           var strMilliSecond = milliSecond < 10 ? "0" + milliSecond : "" + milliSecond;
+
+           strMilliSecond = milliSecond < 100 ? "0" + strMilliSecond : "" + strMilliSecond;
+            */
+           //return strDay + " " + strHour + ":" + strMinute + ":" + strSecond + " " + strMilliSecond;
+            var tstring = "";
+            if(day>0){
+                tstring+=day+'天';
+            }
+            if(hour>0){
+                tstring+=hour+'小时';
+            }
+            if(minute>0){
+                tstring+=minute+'分钟';
+            }
+            if(second>0){
+                tstring+=second+'秒';
+            }
+
+            return tstring;
+
+        }
+    };
     utils.tools.loadimg = function(c, d) {
         var b = new Image();
         b.src = c;

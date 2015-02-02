@@ -239,15 +239,37 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
           }
        }
        ,loading:(function(){
-          var loading = $('#loading');
-          var obj = {
+           var loading = $('#loading');
+            var bt = loading.find('[name=bt]');
+            bt.click(function(){
+                loading.hide();
+            });
+            var handler = null;
+            var wait = 5000;
+            function clearHandler(){
+                if(!handler){
+                    clearTimeout(handler);
+                    handler = false;
+                }
+            }
+            function startHnadler(callback){
+                clearHandler();
+                handler = setTimeout(function(){
+                    bt.show();
+                }, wait);
+            }
+
+            var obj = {
               show:function(){
+                  bt.hide();
                   loading.show();
+                  startHnadler();
               }
               ,hide:function(){
+                  clearHandler();
                   loading.hide();
               }
-          };
+            };
            return obj;
        })()
        ,nologin:function(){
@@ -272,6 +294,15 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
        ,imgpath:function(imgname){
            return cfg.imgpath + imgname;
        }
+       ,ReguiManager:(function(){
+           var uis = {
+           }
+           var inui_key = 'in_ui_key';
+           var obj = {
+
+           };
+           return obj;
+        })()
        ,Pushinit:function(){
            var me = this;
            window.PushManager.bind('pushid', function(){

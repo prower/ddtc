@@ -204,6 +204,16 @@ window.sysmanager = {
             }
         });
     }
+    ,loginUI:function(callback){                    //弹出登录的窗口 提供登录后的回调
+        var contaion = $('#reg_pagecontaion');
+        if(!contaion.is(':visible')){
+            sysmanager.loadpage('views/', 'reg', contaion,null, function(view){
+                view.obj.onclose = function(){
+                    callback && callback();
+                }
+            });
+        }
+    }
     ,checkLogin:function(callback){
         var userinfo = myajax.userinfo() || {};
         var uid = userinfo.uid || '';
@@ -217,15 +227,37 @@ window.sysmanager = {
         },null,true);
     }
        ,loading:(function(){
-           var loading = $('#loading');
-          var obj = {
+            var loading = $('#loading');
+            var bt = loading.find('[name=bt]');
+            bt.click(function(){
+                loading.hide();
+            });
+            var handler = null;
+            var wait = 5000;
+            function clearHandler(){
+                if(!handler){
+                    clearTimeout(handler);
+                    handler = false;
+                }
+            }
+            function startHnadler(callback){
+                clearHandler();
+                handler = setTimeout(function(){
+                    bt.show();
+                }, wait);
+            }
+
+            var obj = {
               show:function(){
+                  bt.hide();
                   loading.show();
+                  startHnadler();
               }
               ,hide:function(){
+                  clearHandler();
                   loading.hide();
               }
-          };
+            };
            return obj;
        })()
        ,alert:(function(){

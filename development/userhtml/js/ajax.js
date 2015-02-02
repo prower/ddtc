@@ -12,18 +12,17 @@
 
 
 
-    var process = function(result){
+    var process = function(result,model,control,data, success, error, myprocess){
         switch(result.code){
             case 0:     //正确返回
                 return true;
-            case 10:    //没有登录
-                sysmanager.alert('当前没有登录');
-                return false;
-            case 11:    //没有登录
-                sysmanager.alert('登录失败');
-                return false;
-            case 100:   //错误警告信息
+            case 10:    //错误警告信息
                 sysmanager.alert(result.data);
+                return false;
+            case 100:   //没有登录
+                sysmanager.loginUI(function(){
+                    myajax.userget(model,control,data, success, error, myprocess);
+                });
                 return false;
         }
     }
@@ -44,7 +43,7 @@
                     console.log(result);
                     if(!!myprocess){
                         success && success(result);
-                    }else if(process(result)){
+                    }else if(process.apply(this, [result,model,control,data, success, error, myprocess])){
                         success && success(result);
                     }
                 },

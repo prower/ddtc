@@ -628,7 +628,7 @@
 
 <table id="loading" class="loading" style="display: none">
     <tr align='middel'>
-        <td style="text-align: center"><a><span class="mui-icon mui-icon-spinner mui-spin"></span></a></td>
+        <td style="text-align: center"><a><span class="mui-icon mui-icon-spinner mui-spin"></span></a><a name="bt" style="display: inline-block;padding-left: 5px">当前网路不给力</a></td>
     </tr>
 </table>
     <div id="startpage" class="startpage">
@@ -720,16 +720,16 @@
 
             <ul class="mui-table-view mui-grid-view mui-grid-9">
                 <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenin'>
-                    <div>入场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-danger">1</span>辆车准备入场</div>
+                    <div>入场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-danger" name='manager_in'>1</span>辆车准备入场</div>
                 </li>
                 <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenout'>
-                    <div>离场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-warning">2</span>辆车准备离开</div>
+                    <div>离场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-warning" name='manager_out'>2</span>辆车准备离开</div>
                 </li>
                 <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenat'>
-                    <div>在场车辆</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-success">5</span>辆车在场内</div>
+                    <div>在场车辆</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-success"  name='manager_at'>5</span>辆车在场内</div>
                 </li>
                 <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4 mynext" name='bt_jiaoyi'>
-                    <div>交易清单</div><div class="mui-media-body body1">本周交易<span class="mui-badge mui-badge-purple">1</span>次</div>
+                    <div>交易清单</div><div class="mui-media-body body1">本周交易<span class="mui-badge mui-badge-purple"  name='manager_deals'>1</span>次</div>
                 </li>
             </ul>
             <div name='btquit' class="mui-btn mui-btn-danger mui-btn-block">退出</div>
@@ -861,12 +861,35 @@
             <ul class="mui-table-view" name='list'>
 
             </ul>
+            <div class="mui-btn mui-btn-success mui-btn-block" name='btrefresh'>刷新离场记录</div>
+            <div class="template">
+                <ul>
+                    <li class="mui-table-view-cell animated" name='row'>
+                        <div><span  name='pai'></span><span class="mui-badge mui-badge-success">已结清</span></div>
+                        <div>截止:<span name='endtime'></span></div>
+                        <div>剩余:<span name='rtime'></span></div>
+                        <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>确认离开</div>
+                    </li>
+                    <li class="mui-table-view-cell" name='row_none'>
+                        <h3><p>当前没有准备离场记录.</p></h3>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="page_content userpage" id="secen_at_html" style="" >
+            <ul class="mui-table-view" name='list'>
+
+            </ul>
+            <div class="mui-btn mui-btn-success mui-btn-block" name='btrefresh'>刷新在场记录</div>
             <div class="template">
                 <ul>
                     <li class="mui-table-view-cell" name='row'>
-                        <div name='pai'>沪A12333</div>
-                        <div><span name='time'>10:45</span>缴费<span class="mui-badge mui-badge-success">已结清</span></div>
-                        <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>确认离开</div>
+                        <div name='cardid'></div>
+                        <div>开始时间:<span name='time'>10:45</span></div>
+                        <a class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>联系车主</a>
+                    </li>
+                    <li class="mui-table-view-cell" name='row_none'>
+                        <h3><p>当前没有在场记录.</p></h3>
                     </li>
                 </ul>
             </div>
@@ -924,6 +947,7 @@
         setTimeout(function(){
             //btoffCanvas.aclick();
             utils.sys.Pushinit();
+            $('#startpage').hide();
             $('#startpage').hide();
         },1e3*2);
 

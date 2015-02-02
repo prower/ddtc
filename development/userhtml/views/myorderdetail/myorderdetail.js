@@ -12,6 +12,7 @@ function ui_myorderdetail(){
         ,dom:{
             title:'[name=title]'
             ,starttime:'[name=starttime]'
+            ,stoptime:'[name=stoptime]'
             ,totalFee:'[name=totalFee]'
             ,preFee:'[name=preFee]'
             ,remainFee:'[name=remainFee]'
@@ -73,7 +74,7 @@ function ui_myorderdetail(){
             }else{
                 this.data = data;
                 this.oid = data.oid;
-                if(2==data.state && data.remaintime>0){
+                if(data.remaintime>0){
                     this.c_fill_wait(data);
                 }else{
                     this.c_fill_pay(data);
@@ -90,8 +91,10 @@ function ui_myorderdetail(){
             /**
              * address: "金沙江路102号"carid: "沪A888888"id: "53"lat: "31.231529"lng: "121.471352"remainFee: 15remaintime: -17044startTime: "2015-01-23 14:00:00"state: "1"totalFee: 20
              */
+            var stoptime = utils.tools.t2s(new Date - new Date(data.startTime));
             this.dom.title.html(data.address);
             this.dom.starttime.html(data.startTime);
+            this.dom.stoptime.html(stoptime);
             this.dom.totalFee.html(data.totalFee);
             this.dom.preFee.html(data.totalFee - data.remainFee);
             this.dom.remainFee.html(data.remainFee);
