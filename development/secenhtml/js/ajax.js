@@ -36,7 +36,7 @@ define(['cfg', 'utils'], function(cfg, utils){
                 dataType:'jsonp',                          //指定为jsonp类型
                 data:data,                //数据参数
                 jsonp:'callback',                          //服务器端获取回调函数名的key，
-                jsonpCallback:'myjsonpReturn',                   //回调函数名
+                //jsonpCallback:'myjsonpReturn',                   //回调函数名
                 success:function(result){                  //成功执行处理，对应后台返回的getName(data)方法。
                     utils.sys.loading.hide();
                     console.log(result);

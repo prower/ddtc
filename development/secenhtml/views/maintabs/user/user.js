@@ -83,7 +83,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                      * at: 4deals: 1in: 0out: 1parkstate: "0"
                      */
 
-                    alert(JSON.stringify(data));
+                    //alert(JSON.stringify(data));
 
                     me.dom.kucun.panel.find('>*').removeClass('mui-active');
                     me.dom.kucun.panel.find('[type={0}]'.replace('{0}',data.parkstate)).addClass('mui-active');
