@@ -274,12 +274,12 @@
         ,pushmsg:[]
         ,PUSH_ID:function(pushid){
             this.pushid = pushid;
-            alert('pushid\n' + pushid);
+//            alert('pushid\n' + pushid);
             this.fire('pushid');
         }
         ,PUSH_MSG:function(msg){
             this.pushmsg.push(msg);
-            alert('pushmsg\n' + msg);
+//            alert('pushmsg\n' + msg);
             this.fire('pushmsg');
         }
         ,getPushid:function(){

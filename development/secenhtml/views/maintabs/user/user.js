@@ -31,6 +31,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             }
             ,btquit:'[name=btquit]'
             ,bttestpushid:'[name=bttestpushid]'
+            ,bttestrefresh:'[name=bttestrefresh]'
             ,fullname:'[name=fullname]'
             ,info:{
                 manager_in:'[name=manager_in]'
@@ -74,20 +75,25 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                }
            });
         }
-        ,c_initinfo:function(){
+        ,c_initinfo:function(fn){
             var me = this;
-            this.m_baseinfo(function(data){
-                /**
-                 * at: 4deals: 1in: 0out: 1parkstate: "0"
-                 */
-                me.dom.kucun.panel.find('>*').removeClass('mui-active');
-                me.dom.kucun.panel.find('[type={0}]'.replace('{0}',data.parkstate)).addClass('mui-active');
+            setTimeout(function(){
+                me.m_baseinfo(function(data){
+                    /**
+                     * at: 4deals: 1in: 0out: 1parkstate: "0"
+                     */
+                    me.dom.kucun.panel.find('>*').removeClass('mui-active');
+                    me.dom.kucun.panel.find('[type={0}]'.replace('{0}',data.parkstate)).addClass('mui-active');
 
-                me.dom.info.manager_at.html(data.at);
-                me.dom.info.manager_in.html(data.in);
-                me.dom.info.manager_out.html(data.out);
-                me.dom.info.manager_deals.html(data.deals);
+                    me.dom.info.manager_at.html(data.at);
+                    me.dom.info.manager_in.html(data.in);
+                    me.dom.info.manager_out.html(data.out);
+                    me.dom.info.manager_deals.html(data.deals);
+                    fn && fn(data);
+
+                });
             });
+
         }
         ,c_setKucun:function(type, nofalse){     //设置库存
             var me = this;
@@ -141,8 +147,13 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             this.dom.bttestpushid.click(function(){
                 me.c_bttestpushid();
             });
+            this.dom.bttestrefresh.click(function(){
+                me.c_initinfo(function(data){
+                    alert(JSON.stringify(data));
+                });
+            });
         }
-        ,c_bttestpushid:function(){
+        ,c_bttestpushid:function(fn){
             var pushid = 'kk3k2005';
             ajax.userget('index','setPushId',{pushid:pushid}, function(result){
                 var data = result.data;

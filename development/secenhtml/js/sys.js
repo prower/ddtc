@@ -204,12 +204,9 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
 //           return;
            ajax.get('public','login',{parkname:parkname,username:name,password:password}, function(result){
                if(0 == result.code){
-
-                   var uid = result.data.uid;
-                   var key = result.data.uid;
                    var userinfo = result.data;
                    ajax.userinfo(userinfo);
-                   fn && fn(result.data.userinfo);
+                   fn && fn(userinfo);
                }else{
                    fn && fn(null);
                }
@@ -324,18 +321,18 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
        }
        ,PushID:function(pushid){
            if(pushid){
-               alert('触发事件获得pushid\n'+pushid);
+//               alert('触发事件获得pushid\n'+pushid);
                if(ajax.userinfo()){
                    ajax.userget('index','setPushId',{pushid:pushid}, function(result){
                        var data = result.data;
-                       alert('pushid发送服务器');
+                       //alert('pushid发送服务器');
                        //fn && fn(data);
                    });
                }
            }
        }
        ,PushMsg:function(msg){
-           alert('触发事件获得pushmsg\n'+msg);
+//           alert('触发事件获得pushmsg\n'+msg);
            var obj = JSON.parse(msg);
            if('in' == obj.t){
                utils.sys.loadpage('views/', 'secen_in', null, '入场管理',function(v){});
