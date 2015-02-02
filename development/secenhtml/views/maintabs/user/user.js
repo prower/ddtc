@@ -69,9 +69,9 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var me = this;
             utils.sys.loadpage('views/', 'login', $('#login_pagecontaion'),null, function(view){
                view.obj.onclose = function(){
+                   me.c_initinfo();
                    var userinfo = ajax.userinfo();
                    me.dom.fullname.html(userinfo.fullname);
-                   me.c_initinfo();
                }
            });
         }
@@ -82,6 +82,9 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     /**
                      * at: 4deals: 1in: 0out: 1parkstate: "0"
                      */
+
+                    alert(JSON.stringify(data));
+
                     me.dom.kucun.panel.find('>*').removeClass('mui-active');
                     me.dom.kucun.panel.find('[type={0}]'.replace('{0}',data.parkstate)).addClass('mui-active');
 
@@ -89,6 +92,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     me.dom.info.manager_in.html(data.in);
                     me.dom.info.manager_out.html(data.out);
                     me.dom.info.manager_deals.html(data.deals);
+
                     fn && fn(data);
 
                 });

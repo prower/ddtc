@@ -76,13 +76,9 @@ define(['cfg', 'utils'], function(cfg, utils){
         ,uid:function(_uid){
             return userinfo[uid];
         }
-        ,clearInfo:function(){
-            userinfo = null;
-            //window[key] = null;
-            //window[uid] = null;
-        }
         ,loadinfo:function(){
-            userinfo = JSON.parse(localStorage.getItem(userinfokey));
+            var val = localStorage.getItem(userinfokey);
+            userinfo = val?JSON.parse(val):null;
         }
     }
     return myajax;

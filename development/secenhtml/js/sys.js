@@ -192,6 +192,31 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
                //me.checklogin();
            });
 
+           if(!window.localStorage){
+               window.localStorage = (function(){
+                   return {
+                       setItem:function(key, val){
+
+                       }
+                       ,removeItem:function(key){
+
+                       }
+                       ,getItem:function(key){
+
+                       }
+                   };
+               })();
+           }
+           window.onerror= function(msg,url,l){
+               txt="There was an error on this page.\n\n"
+               txt+="Error: " + msg + "\n"
+               txt+="URL: " + url + "\n"
+               txt+="Line: " + l + "\n\n"
+               txt+="Click OK to continue.\n\n"
+               alert(txt)
+               return true
+           }
+
            return this;
        }
        ,login:function(parkname,name,password, fn){         //通用登录方法
