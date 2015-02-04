@@ -189,7 +189,7 @@ window.sysmanager = {
             */
            setTimeout(function(){
                //me.checklogin();
-           })
+           });
            return this;
        }
     ,login:function(phone, carid, callback){
@@ -215,16 +215,23 @@ window.sysmanager = {
         }
     }
     ,checkLogin:function(callback){
+        var me = this;
         var userinfo = myajax.userinfo() || {};
         var uid = userinfo.uid || '';
         var uuid = userinfo.uuid || '';
-        window.myajax.get('Public','checkLogin',{'uid':uid,'uuid':uuid},function(result){
-            if(0 == result.code){
-                callback && callback(true);
-            }else{
-                callback && callback(false);
-            }
-        },null,true);
+        if('' == uid || '' == uuid){
+            this.alert('当前没有缓存的登录凭据［测试］');
+            callback && callback(false);
+        }else{
+            window.myajax.get('Public','checkLogin',{'uid':uid,'uuid':uuid},function(result){
+                if(0 == result.code){
+                    callback && callback(true);
+                }else{
+                    me.alert('检查登录失败\n'+JSON.stringify(result));
+                    callback && callback(false);
+                }
+            },null,true);
+        }
     }
        ,loading:(function(){
             var loading = $('#loading');
@@ -278,4 +285,30 @@ window.sysmanager = {
        ,imgpath:function(imgname){
            return cfg.imgpath + imgname;
        }
+        ,loadMapscript:(function(){     //地图异步加载
+           var callback = null;
+            var isloading = false;
+           var initname = 'loadmapscriptinit_'+(new Date()-0);
+           window[initname] = function(){
+               isloading = true;
+               window.mapPluginInit();
+               callback && callback();
+           }
+
+
+           var obj = {
+               load:function(_callback){
+                   if(isloading){
+                       callback && callback();
+                   }else{
+                       callback = _callback;
+                       var script = document.createElement("script");
+                       script.type = "text/javascript";
+                       script.src = "http://webapi.amap.com/maps?v=1.3&key=bc59f27d65900532cc4f3c1048dd6122&callback="+initname;
+                       document.body.appendChild(script);
+                   }
+               }
+           };
+           return obj;
+        })()
    }

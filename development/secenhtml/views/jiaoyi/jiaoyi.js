@@ -82,7 +82,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ]);
         }
         ,close:function(){
-
+            this.onclose && this.onclose();
         }
     };
 

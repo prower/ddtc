@@ -42,6 +42,8 @@ function ui_reg(){
             var me = this;
             var phone = this.dom.userpanel_phone.val();
             var chepai = this.dom.userpanel_chepai.val();
+            this.dom.userpanel_phone.blur();
+            this.dom.userpanel_chepai.blur();
             if('' == phone){
                 alert('手机号不能为空!');
             }else{

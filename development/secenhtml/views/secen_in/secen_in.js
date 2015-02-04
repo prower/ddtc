@@ -60,11 +60,10 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,c_getrow:function(data){
             var me = this;
             var row = this.dom.row.clone();
-            row.find('[name=cardid]').html(data.carid).end().find('[name=starttime]').html(data.orderTime)
+            row.find('[name=cardid]').html(data.carid).end().find('[name=time]').html(data.orderTime)
                 .end().find('[name=btaction]').aclick(function(){
                    me.c_setIn(data.oid, row);
                 });
-
             return  row;
         }
         ,c_getrow_none:function(){
@@ -93,7 +92,10 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
         }
         ,close:function(){
-
+            this.onclose && this.onclose();
+        }
+        ,ForcedRefrdsh:function(){        //强制刷新 外部调用
+            this.c_refresh();
         }
     };
 

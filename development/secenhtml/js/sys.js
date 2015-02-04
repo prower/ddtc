@@ -189,7 +189,7 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
            });
             */
            setTimeout(function(){
-               //me.checklogin();
+               //me.checklogin();       //todo:设置自动登录
            });
 
            if(!window.localStorage){
@@ -294,8 +294,9 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
             };
            return obj;
        })()
-       ,nologin:function(){
+       ,nologin:function(fn){
            this.loadpage('views/', 'login', $('#login_pagecontaion'),null, function(view){
+               fn && fn(view);
           });
        }
        ,alert:(function(){
@@ -331,14 +332,21 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
                me.PushID(this.pushid);
            });
            window.PushManager.bind('pushmsg', function(){
-               var msg = null;
-               while(msg = this.getPushmsg()){
-                   (function(msg){
-                       setTimeout(function(){
-                          me.PushMsg(msg);
-                      });
-                   })(msg);
+               //1)window.UserManager = this;  全局存在改对象
+               //2)当前处于登录状态
+               //执行消息
+
+               if(window.UserManager && ajax.userinfo()){
+                  var msg = null;
+                  while(msg = this.getPushmsg()){
+                      (function(msg){
+                          setTimeout(function(){
+                             me.PushMsg(msg);
+                         });
+                      })(msg);
+                  }
                }
+
            });
            window.PushManager.fire('pushid');
            window.PushManager.fire('pushmsg');
@@ -360,9 +368,9 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
 //           alert('触发事件获得pushmsg\n'+msg);
            var obj = JSON.parse(msg);
            if('in' == obj.t){
-               utils.sys.loadpage('views/', 'secen_in', null, '入场管理',function(v){});
+               window.UserManager.c_secen_in_Manager();
            }else if('out' == obj.t){
-               utils.sys.loadpage('views/', 'secen_out', null, '离场管理',function(v){});
+               window.UserManager.c_secen_out_Manager();
            }
        }
    }

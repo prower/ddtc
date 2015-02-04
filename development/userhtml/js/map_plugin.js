@@ -25,32 +25,42 @@ window.mapPluginInit = function(){
          });
          return controlUI[0];
        }
-        ,setPosition:function(position, map){
+        ,setPosition:function(position, map, ismarker){
             this.position = position;
-            if(this.marker){
-                map.removeControl(this.marker);
+            if(!!ismarker){
+                if(this.marker){
+                    //map.removeControl(this.marker);
+                    this.marker.setPosition(position);
+                }else{
+                    this.marker = new AMap.Marker({
+                        map:map
+                        ,content:"<div style='width: 50px;height: 50px;border-radius: 25px;background-color: rgba(0,0,0,.2)'><div style='position: absolute;left: 50%;top:50%;width: 6px;height: 6px;border-radius: 3px;margin-left: -3px;margin-top: -3px;background-color:red'></div></div>"
+                        ,position:position
+                         ,offset:new AMap.Pixel(-25,-25)
+                    });
+    //                this.marker1 = new AMap.Circle({
+    //                    map:map
+    //                    ,center:position
+    //                    ,radius:50          //半径 米
+    //                    ,strokeColor:'#007aff'
+    //                    ,strokeWeight:2
+    //                    ,fillColor:'#007aff'
+    //                    ,fillOpacity:.3
+    //
+    //                });
+    //                this.marker2 = new AMap.Circle({
+    //                    map:map
+    //                    ,center:position
+    //                    ,radius:1          //半径 米
+    //                    ,strokeColor:'#007aff'
+    //                    ,strokeOpacity:1
+    //                    ,strokeWeight:10
+    //                    ,fillColor:'#007aff'
+    //                    ,fillOpacity:1
+    //
+    //                });
+                }
             }
-            this.marker = new AMap.Circle({
-                map:map
-                ,center:position
-                ,radius:50          //半径 米
-                ,strokeColor:'#007aff'
-                ,strokeWeight:2
-                ,fillColor:'#007aff'
-                ,fillOpacity:.3
-
-            });
-            this.marker2 = new AMap.Circle({
-                map:map
-                ,center:position
-                ,radius:1          //半径 米
-                ,strokeColor:'#007aff'
-                ,strokeOpacity:1
-                ,strokeWeight:10
-                ,fillColor:'#007aff'
-                ,fillOpacity:1
-
-            });
         }
     }
     AMap.myUtils = {

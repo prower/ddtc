@@ -50,7 +50,8 @@
 		height: 44px;
 		padding-right: 10px;
 		padding-left: 10px;
-		background-color: rgba(254,60,77,1);
+		/*background-color: rgba(254,60,77,1);*/
+		background-color: #16a7de;
 		border-bottom: 0;
 		-webkit-backface-visibility: hidden;
 		backface-visibility: hidden;
@@ -195,7 +196,7 @@
 			height: 100%;
 			position: absolute;
 			top: -100%;
-			background-color: #fe3c4d;
+			background-color: #fff;
 			width: 100%;
 			content: ' ';
 			background-repeat: no-repeat;
@@ -508,6 +509,92 @@
         transform: translateY(-50%);
         -webkit-font-smoothing: antialiased;
     }
+    .mui-table-view-divider{
+        background-color: #f0f0f0;
+    }
+    .mui-table-view-cell{
+        background-image: none;
+        border-bottom:solid 1px #c8c7cc;
+    }
+    .mui-grid-view.mui-grid-9 .mui-media{
+        border: 0;
+    }
+
+
+        #user_html .mygrid .mui-badge,.mui-badge1{
+            background-color: transparent;
+            font-size: 25px;
+        }
+        #user_html .mygrid{
+            margin: 0;
+            overflow: hidden;
+            padding: 3%;
+        }
+        #user_html .mygrid>li{
+            float: left;
+            width: 47%;
+            border: solid 1px #ccc;
+            border-radius: 7px;
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 0;
+        }
+        #user_html .kucunlist{
+            /*background-image: url(./img/deng.png);*/
+            width: 272px;
+            height: 62px;
+            background-size: 272px 62px;
+            background-repeat: no-repeat;
+            margin: 0 auto;
+        }
+        #user_html .kucunlist>li{
+            display: block;
+            width: 33.3%;
+            margin: 0;
+            padding: 0;
+            float: left;
+            background-image: url(./img/deng.png);
+            height: 62px;
+            background-size: 272px 62px;
+            background-repeat: no-repeat;
+        }
+        #user_html .kucunlist>li.mui-active{
+            background-image: url(./img/deng1.png);
+        }
+
+        #user_html .secenicon{
+            width: 34px;
+            height: 34px;
+            float: left;
+            background-size: 136px 34px;
+            background-image: url(./img/icon_4.png);
+        }
+        #user_html .mui-table-view-cell>div.mui-btn{
+            line-height: normal;
+        }
+        #user_html .mui-table-view-cell>div{
+            line-height: 25px;
+        }
+        #user_html .secenicon.s_1{
+
+        }
+        #user_html .secenicon.s_2{
+            background-position: -34px 0;
+        }
+        #user_html .secenicon.s_3{
+            background-position: -68px 0;
+        }
+        #user_html .secenicon.s_4{
+            background-position: -102px 0;
+        }
+    .mui-btn-green, .mui-btn-positive, .mui-btn-success{
+        background-color: #16a7de;
+        border: 1px solid #16a7de;
+    }
+    .mui-btn-block {
+        margin: 10px auto;
+        width: 95%;
+    }
     </style>
 <script>
 
@@ -602,10 +689,26 @@
         <div class="page" style="background-color:#fff">
         </div>
     </div>
-    <div id="login_pagecontaion" class="pagecontainer" style="display: none">
-        <div class="page" style="background-color:#fff"></div>
+    <div id="sence_in_pagecontaion" class="pagecontainer" style="display: none;z-index: 199">
+        <header class="mui-bar mui-bar-top">
+            <a name='btclose_sence_in' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">入场管理</h1>
+        </header>
+        <div class="page" style="background-color:#fff;padding-top: 44px;">
+        </div>
     </div>
-    <div id="top_menu" class="pagecontainer" style=" display: none">
+    <div id="sence_out_pagecontaion" class="pagecontainer" style="display: none;z-index: 200">
+        <header class="mui-bar mui-bar-top">
+            <a name='btclose_sence_out' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">离场管理</h1>
+        </header>
+        <div class="page" style="background-color:#fff;padding-top: 44px;">
+        </div>
+    </div>
+    <div id="login_pagecontaion" class="pagecontainer" style="display: none;z-index: 400">
+        <div class="page" style="background-color:#fff;"></div>
+    </div>
+    <div id="top_menu" class="pagecontainer" style=" display: none;z-index: 400">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view" name='list'>
                 <li class="mui-table-view-cell" name='title'>菜单1:</li>
@@ -616,7 +719,7 @@
         </div>
         <div name='make' class="mui-backdrop mui-active"></div>
     </div>
-    <div id="alert_pagecontainer" class="pagecontainer" style=" display: none">
+    <div id="alert_pagecontainer" class="pagecontainer" style=" display: none;z-index: 500">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view">
                 <li class="mui-table-view-cell" name='title'>错误信息:</li>
@@ -686,55 +789,75 @@
                     line-height: 20px;
                 }
 
+
+
             </style>
             <!--<h1 class="animated infinite bounce">Example</h1>-->
 
             <ul class="mui-table-view">
-                <li class="mui-table-view-divider"><h3 name='fullname'>停车场名称</h3></li>
-                <li class="mui-table-view-divider">车位使用状态:<span class="mui-badge">5分钟前更新</span></li>
-            </ul>
-            <ul class="mui-table-view mui-grid-view mui-grid-9" name='kucunpanel'>
-                <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" type='0'><a href="#">
-                    <div class="mui-media-body">已满</div></a></li>
-                <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3 mui-active"  type='1'><a href="#">
-                        <div class="mui-media-body">少量</div></a></li>
-                <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"  type='2'><a href="#">
-                        <div class="mui-media-body">较多</div></a></li>
-            </ul>
-
-            <ul class="mui-table-view">
-                <li class="mui-table-view-divider">当前有<span class="mui-badge mui-badge-danger">9</span>量车已下单预付，正在路上，请注意预留!</li>
+                <li class="mui-table-view-divider" style="color: #000;background-color: transparent;border-bottom: solid 1px #aaa;"><h3 name='fullname'>停车场名称</h3></li>
+                <li class="mui-table-view-cell">
+                    <div style="margin: 10px">车位使用状态:<span class="mui-badge">5分钟前更新</span></div>
+                    <ul  class="kucunlist" name='kucunpanel'>
+                        <li type='0'></li>
+                        <li type='1'  style="background-position-x: -91px;"></li>
+                        <li type='2' style="background-position-x: -182px;"></li>
+                    </ul>
+                    <div style="margin: 10px">当前有<span class="mui-badge mui-badge1" name='manager_in'>9</span>辆车已下单预付，正在路上，请注意预留!</div>
+                </li>
+                <li class="mui-table-view-divider" style="padding: 0">
+                    <ul class="mygrid">
+                        <li name='bt_secenin' style="margin-right: 5%;margin-bottom: 5%">
+                            <div class="secenicon s_1"></div>
+                            <div  class="mui-media-body body1">入场管理</div>
+                            <p><span class="mui-badge" name='manager_in'>1</span>辆</p>
+                        </li>
+                        <li name='bt_secenout'>
+                            <div class="secenicon s_2"></div>
+                            <div class="mui-media-body body1">离场管理</div><p><span class="mui-badge" name='manager_out'>2</span>辆</p>
+                        </li>
+                        <li name='bt_secenat' style="margin-right: 5%">
+                            <div class="secenicon s_3"></div>
+                            <div class="mui-media-body body1">在场车辆</div><p><span class="mui-badge"  name='manager_at'>5</span>辆</p>
+                        </li>
+                        <li name='bt_jiaoyi'>
+                            <div class="secenicon s_4"></div>
+                            <div class="mui-media-body body1">交易清单</div><p><span class="mui-badge"  name='manager_deals'>1</span>次<span>(本周)</span></p>
+                        </li>
+                    </ul>
+                </li>
                 <li class="mui-table-view-cell" name='jifenpanel'>
                     <div>可以用积分:<span>391</span></div>
                     <div>100积分兑换，手机话费100元</div>
                     <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>兑换</div>
                 </li>
-                <li class="mui-table-view-cell"></li>
                 <li class="mui-table-view-cell" name='tixianpanel'>
                     <div>今日收益：128.00元</div>
                     <div>可以提现：100.00元</div>
                     <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>提现</div>
                 </li>
-                <li class="mui-table-view-cell"></li>
+
+                <!--<li class="mui-table-view-divider" style="padding: 0">-->
+                    <!--<ul class="mui-table-view mui-grid-view mui-grid-9">-->
+                        <!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenin'>-->
+                            <!--<div>入场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-danger" name='manager_in'>1</span>辆车准备入场</div>-->
+                        <!--</li>-->
+                        <!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenout'>-->
+                            <!--<div>离场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-warning" name='manager_out'>2</span>辆车准备离开</div>-->
+                        <!--</li>-->
+                        <!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenat'>-->
+                            <!--<div>在场车辆</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-success"  name='manager_at'>5</span>辆车在场内</div>-->
+                        <!--</li>-->
+                        <!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4 mynext" name='bt_jiaoyi'>-->
+                            <!--<div>交易清单</div><div class="mui-media-body body1">本周交易<span class="mui-badge mui-badge-purple"  name='manager_deals'>1</span>次</div>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</li>-->
             </ul>
 
-            <ul class="mui-table-view mui-grid-view mui-grid-9">
-                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenin'>
-                    <div>入场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-danger" name='manager_in'>1</span>辆车准备入场</div>
-                </li>
-                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenout'>
-                    <div>离场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-warning" name='manager_out'>2</span>辆车准备离开</div>
-                </li>
-                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenat'>
-                    <div>在场车辆</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-success"  name='manager_at'>5</span>辆车在场内</div>
-                </li>
-                <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4 mynext" name='bt_jiaoyi'>
-                    <div>交易清单</div><div class="mui-media-body body1">本周交易<span class="mui-badge mui-badge-purple"  name='manager_deals'>1</span>次</div>
-                </li>
-            </ul>
-            <div name='btquit' class="mui-btn mui-btn-danger mui-btn-block">退出</div>
+            <div name='btquit' class="mui-btn mui-btn-danger mui-btn-block" style="background-color: #de5752">退出</div>
             <div name='bttestrefresh' class="mui-btn mui-btn-danger mui-btn-block">刷新当前页面[测试]</div>
-            <div name='bttestpushid' class="mui-btn mui-btn-danger mui-btn-block">提交pushid［测试］</div>
+            <!--<div name='bttestpushid' class="mui-btn mui-btn-danger mui-btn-block">提交pushid［测试］</div>-->
         </div>
         <div class="page_content userpage" id="jifen_html" style="" >
             <ul class="mui-table-view">
@@ -948,7 +1071,6 @@
         setTimeout(function(){
             //btoffCanvas.aclick();
             utils.sys.Pushinit();
-            $('#startpage').hide();
             $('#startpage').hide();
         },1e3*2);
 

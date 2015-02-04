@@ -144,6 +144,10 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,close:function(){
             this.c_clearHandler();
+            this.onclose && this.onclose();
+        }
+        ,ForcedRefrdsh:function(){        //强制刷新 外部调用
+            this.c_refresh();
         }
     };
 

@@ -12,6 +12,7 @@ function ui_searchmap(){
         ,context:null
         ,dom:{
             btetst:'[name=test]'
+            ,form1:'[name=form1]'
             ,input:'[name=searchinpit]'
             ,list:'.innerlist'
             ,row:'.template [name=row]'
@@ -70,6 +71,40 @@ function ui_searchmap(){
 //                });
 //            });
         }
+        ,c_search_PlaceSearch:function(){
+            var me = this;
+            var keywords = this.dom.input.val();
+            if(keywords.length>0){
+                var MSearch;
+                AMap.service(["AMap.PlaceSearch"], function() {
+                    MSearch = new AMap.PlaceSearch({ //构造地点查询类
+                        pageSize:10,
+                        pageIndex:1,
+                        city:"021" //城市
+                    });
+                    //关键字查询
+                    MSearch.search(keywords, function(status, result){
+                        if(status === 'complete' && result.info === 'OK'){
+                            me.c_search_PlaceSearch_callback(result);
+                        }
+                    });
+                });
+            }
+        }
+        ,c_search_PlaceSearch_callback:function(data){
+            console.log('c_search_PlaceSearch_callback',data);
+            var me = this;
+            this.dom.list.empty();
+            if(!data.poiList.pois || data.poiList.pois.length<=0){
+                var row = this.c_getrow_nodata();
+                this.dom.list.append(row);
+            }else{
+                for(var i=0;i<data.poiList.pois.length;i++){
+                    var row = this.c_getrow_PlaceSearch(data.poiList.pois[i]);
+                    this.dom.list.append(row);
+                }
+            }
+        }
         ,c_search_geocoder:function(){
             var me = this;
             var keywords = this.dom.input.val();
@@ -121,6 +156,15 @@ function ui_searchmap(){
                 }
             }
         }
+        ,c_getrow_PlaceSearch:function(data){
+            var me = this;
+            var row = this.dom.row.clone();
+            row.html(data.name);
+            row.click(function(){
+                me.c_select(data.location);
+            });
+            return row;
+        }
         ,c_getrow:function(data){
             var me = this;
             var row = this.dom.row.clone();
@@ -168,7 +212,13 @@ function ui_searchmap(){
                 //var result = document.getElementById("result1");
                 //var cur = result.curSelect;
                 //me.c_search();
-                me.c_search_geocoder();
+                //me.c_search_geocoder();
+                me.c_search_PlaceSearch();
+
+            });
+            this.dom.form1.bind('submit', function(){
+                console.log('不提交');
+               return false;
             });
         }
         ,close:function(data){

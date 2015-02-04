@@ -51,7 +51,11 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             this.c_init();
         }
         ,c_init:function(){
+            //给自己一个全局变量引用,给予外部操作当前ui的机会，（todo:以后考虑使用事件机制）
+            window.UserManager = this;
+
             var me = this;
+
             //this.c_setKucun(3);
 //            utils.sys.checkLogin(function(islogin){
 //               if(islogin){
@@ -67,13 +71,13 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_login:function(){
             var me = this;
-            utils.sys.loadpage('views/', 'login', $('#login_pagecontaion'),null, function(view){
-               view.obj.onclose = function(){
-                   me.c_initinfo();
-                   var userinfo = ajax.userinfo();
-                   me.dom.fullname.html(userinfo.fullname);
-               }
-           });
+            utils.sys.nologin(function(view){
+                view.obj.onclose = function(){
+                       me.c_initinfo();
+                       var userinfo = ajax.userinfo();
+                       me.dom.fullname.html(userinfo.fullname);
+                   }
+            });
         }
         ,c_initinfo:function(fn){
             var me = this;
@@ -134,16 +138,24 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
 
             this.dom.buttons.bt_secenin.click(function(){
-                utils.sys.loadpage('views/', 'secen_in', null, '入场管理',function(v){});
+                me.c_secen_in_Manager();
             });
             this.dom.buttons.bt_secenout.click(function(){
-                utils.sys.loadpage('views/', 'secen_out', null, '离场管理',function(v){});
+                me.c_secen_out_Manager();
             });
             this.dom.buttons.bt_secenat.click(function(){
-                utils.sys.loadpage('views/', 'secen_at', null, '在场管理',function(v){});
+                utils.sys.loadpage('views/', 'secen_at', null, '在场管理',function(v){
+                    v.obj.onclose = function(){
+                        me.c_refreshInfo();
+                    }
+                });
             });
             this.dom.buttons.bt_jiaoyi.click(function(){
-                utils.sys.loadpage('views/', 'jiaoyi', null, '交易清单',function(v){});
+                utils.sys.loadpage('views/', 'jiaoyi', null, '交易清单',function(v){
+                    v.obj.onclose = function(){
+                        me.c_refreshInfo();
+                    }
+                });
             });
             this.dom.btquit.click(function(){
                 me.c_quit();
@@ -156,6 +168,98 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     alert(JSON.stringify(data));
                 });
             });
+            $('#sence_in_pagecontaion>header>[name=btclose_sence_in]').aclick(function(){
+                $('#sence_in_pagecontaion').hide();
+                if(me.View.secen_in){
+                    var v = me.View.secen_in;
+                    me.View.secen_in = null;
+                    v.obj.close();
+                }
+            });
+            $('#sence_out_pagecontaion>header>[name=btclose_sence_out]').aclick(function(){
+                $('#sence_out_pagecontaion').hide();
+                if(me.View.secen_out){
+                    var v = me.View.secen_out;
+                    me.View.secen_out = null;
+                    v.obj.close();
+                }
+            });
+        }
+        ,View:{
+            secen_in:null
+            ,secen_out:null
+        }
+        ,c_secen_in_Manager:function(wait){
+            var me = this;
+            if(me.View.secen_in){
+                me.View.secen_in.obj.ForcedRefrdsh();
+                setTimeout(function(){
+                    if(me.View.secen_out){
+                        me.View.secen_in.obj.context.parent().parent().css('z-index','200');
+                        me.View.secen_out.obj.context.parent().parent().css('z-index','199');
+                    }
+                });
+            }else{
+                var viewmanager = requirejs('view');
+                viewmanager.viewroot('views/');
+                var viewname = 'secen_in';
+                var context = $('#sence_in_pagecontaion');
+                var view = viewmanager.loadview(viewname,function(v){
+                    var page = context.find('>.page');
+                    page.empty();
+                    v.renderer(page);
+                    me.View.secen_in = v;
+                    context.show();
+                    v.obj.onclose = function(){
+                        me.View.secen_in = null;
+                        me.c_initinfo();
+                    }
+                    setTimeout(function(){
+                        if(me.View.secen_out){
+                            me.View.secen_in.obj.context.parent().parent().css('z-index','199');
+                            me.View.secen_out.obj.context.parent().parent().css('z-index','200');
+                        }
+                    });
+                });
+            }
+        }
+        ,c_secen_out_Manager:function(wait){
+            var me = this;
+            if(me.View.secen_out){
+                me.View.secen_out.obj.ForcedRefrdsh();
+                setTimeout(function(){
+                    if(me.View.secen_in){
+                        me.View.secen_in.obj.context.parent().parent().css('z-index','199');
+                        me.View.secen_out.obj.context.parent().parent().css('z-index','200');
+                    }
+                });
+            }else{
+                var viewmanager = requirejs('view');
+                viewmanager.viewroot('views/');
+                var viewname = 'secen_out';
+                var context = $('#sence_out_pagecontaion');
+                var view = viewmanager.loadview(viewname,function(v){
+                    var page = context.find('>.page');
+                    page.empty();
+                    v.renderer(page);
+                    me.View.secen_out = v;
+                    context.show();
+                    v.obj.onclose = function(){
+                        me.View.secen_out = null;
+                        me.c_initinfo();
+                    }
+                    setTimeout(function(){
+                        if(me.View.secen_in){
+                            me.View.secen_in.obj.context.parent().parent().css('z-index','199');
+                            me.View.secen_out.obj.context.parent().parent().css('z-index','200');
+                        }
+                    });
+                });
+            }
+
+        }
+        ,c_refreshInfo:function(){
+            this.c_initinfo();
         }
         ,c_bttestpushid:function(fn){
             var pushid = 'kk3k2005';

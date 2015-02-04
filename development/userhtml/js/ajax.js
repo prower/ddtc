@@ -65,7 +65,7 @@
         ,userinfo:function(_userinfo){      //获取或者设置用户信息
             if(arguments.length>0) {
                 userinfo = _userinfo;
-                window.localStorage.setItem(userinfokey,JSON.stringify(_userinfo));
+                utils.cache.setItem(userinfokey,JSON.stringify(_userinfo));
             }else{
 
             }
@@ -85,6 +85,8 @@
     }
     window.myajax =  myajax;
 
-    userinfo = JSON.parse(window.localStorage.getItem(userinfokey));
-})();
+    var tmp = utils.cache.getItem(userinfokey);
+
+    userinfo = tmp?JSON.parse(tmp):null;
+})(null, window.utils);
 

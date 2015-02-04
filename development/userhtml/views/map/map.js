@@ -51,13 +51,15 @@ function ui_map(){
         }
         ,c_init:function(){
             var me = this;
-            this.c_searchPosition(function(placedata){
-                me.c_initMap(function(center){
-                    me.m_getdata(center,function(datas){
-                        me.c_addpoint(me.mapObj,datas);
-                        me.c_fill(datas);
-                    });
-                }, placedata);
+            sysmanager.loadMapscript.load(function(){
+                me.c_searchPosition(function(placedata){
+                    me.c_initMap(function(center){
+                        me.m_getdata(center,function(datas){
+                            me.c_addpoint(me.mapObj,datas);
+                            me.c_fill(datas);
+                        });
+                    }, placedata);
+                });
             });
         }
         ,c_searchPosition:function(fn){     //搜索地图
@@ -93,7 +95,12 @@ function ui_map(){
                     maptool = window.maptool = new AMap.ToolBar({
                        direction:false,//隐藏方向导航
                        ruler:false,//隐藏视野级别控制尺
-                       autoPosition:false//自动定位
+                       autoPosition:false,//自动定位
+                       locationMarker1:new AMap.Marker({
+                           map:mapObj
+                           ,content:"<div style='width: 50px;height: 50px;border-radius: 25px;background-color: rgba(0,0,0,.2)'><div style='position: absolute;left: 50%;top:50%;width: 6px;height: 6px;border-radius: 3px;margin-left: -3px;margin-top: -3px;background-color:red'></div></div>"
+                            ,offset:new AMap.Pixel(-25,-25)
+                       })
                      });
                      mapObj.addControl(maptool);
                      //加载比例尺
@@ -112,17 +119,49 @@ function ui_map(){
                 if(placedata){
                     mapObj.setCenter(placedata);
                     setTimeout(function(){
-                        homecontrol.setPosition(placedata,mapObj);
+                        homecontrol.setPosition(placedata,mapObj, true);
                         fn && fn(placedata);
                     });
 
                 }else{
                     AMap.event.addListener(maptool,'location',function callback(e){
-                        locposition = e.lnglat;
-                        homecontrol.setPosition(locposition);
+                        var locposition = e.lnglat;
+                        homecontrol.setPosition(locposition, mapObj);
                         fn && fn(locposition);
                     });
                     maptool.doLocation();
+
+                    /**
+                    var callbacking = false;
+                    mapObj.plugin('AMap.Geolocation', function () {
+                        var geolocation = new AMap.Geolocation({
+                            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                            maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+                            convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+                            showButton: true,        //显示定位按钮，默认：true
+                            buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+                            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                            showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+                            showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+                            panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+                            zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                        });
+                        mapObj.addControl(geolocation);
+                        AMap.event.addListener(geolocation, 'complete', function(arg){
+                            console.log('定位成功', arg);
+                            homecontrol.setPosition(arg.position,mapObj);
+                            if(!callbacking){
+                                fn && fn(arg.position);
+                            }else{
+                                callbacking = true;
+                            }
+                        });//返回定位信息
+                        AMap.event.addListener(geolocation, 'error', function(){
+                            alert('当前捐精不支持获取定位');
+                        });      //返回定位出错信息
+                    });
+                     */
                 }
                 mapObj.gotoHome = function(){
                     this.panTo(homecontrol.position);

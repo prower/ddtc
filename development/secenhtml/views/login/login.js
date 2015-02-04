@@ -126,8 +126,11 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,close:function(){
             setTimeout(function(){
-                window.PushManager.fire('pushid');
+                window.PushManager.fire('pushid');          //主动触发pushid推送事件
             });
+            setTimeout(function(){
+                window.PushManager.fire('pushmsg');         //主动触发pushmsg推送事件
+            },1e3);
             this.onclose && this.onclose();
         }
     };
