@@ -717,20 +717,61 @@
                     tabs.activeTab(1);
                     break;
             }
+            $('#startpage').hide();
         }
 
-        sysmanager.checkLogin(function(islogin){
-            if(islogin){
-                initstart();
-            }else{
-                sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
-                    view.obj.onclose = function(){
-                        initstart();
-                    }
-                });
-            }
+        function type_1(){
+            sysmanager.checkLogin(function(islogin){
+                if(islogin){
+                    initstart();
+                }else{
+                    sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
+                        view.obj.onclose = function(){
+                            initstart();
+                        }
+                    });
+                }
+
+            });
             $('#startpage').hide();
-        });
+        }
+
+        function type_2(){
+            sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
+                view.obj.onclose = function(){
+                    initstart();
+                }
+            });
+            $('#startpage').hide();
+        }
+
+        function type_3(){      //已经注册
+            var userinfo = {
+                uid:utils.tools.getUrlParam('uid')
+                ,uuid:utils.tools.getUrlParam('uuid')
+            }
+            window.myajax.userinfo(userinfo);
+            setTimeout(function(){
+                initstart();
+            });
+            $('#startpage').hide();
+        }
+
+
+        var type = utils.tools.getUrlParam('type') || '1';
+        var openid = utils.tools.getUrlParam('openid');
+
+        switch (type){
+            case '1':       //非openid模式
+                    type_1();
+                break;
+            case '2':       //openid未注册
+                    type_2();
+                break;
+            case '3':       //openid注册
+                    type_3();
+                break;
+        }
     });
 
 </script>

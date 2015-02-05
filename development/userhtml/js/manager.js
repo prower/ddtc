@@ -193,16 +193,32 @@ window.sysmanager = {
            return this;
        }
     ,login:function(phone, carid, callback){
-        window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
-            if(0 == result.code){
-                var userinfo = {
-                    uid:result.data.uid
-                    ,uuid:result.data.uuid
+        var type = utils.tools.getUrlParam('type') || '1';
+
+        if(type == 1){      //非openid模式
+            window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
+                if(0 == result.code){
+                    var userinfo = {
+                        uid:result.data.uid
+                        ,uuid:result.data.uuid
+                    }
+                    window.myajax.userinfo(userinfo);
+                    callback && callback();
                 }
-                window.myajax.userinfo(userinfo);
-                callback && callback();
-            }
-        });
+            });
+        }else{
+            var openid = utils.tools.getUrlParam('openid');
+            window.myajax.get('Public','wxlogin',{openid:openid,'phone':phone,'carid':carid},function(result){
+                if(0 == result.code){
+                    var userinfo = {
+                        uid:result.data.uid
+                        ,uuid:result.data.uuid
+                    }
+                    window.myajax.userinfo(userinfo);
+                    callback && callback();
+                }
+            });
+        }
     }
     ,loginUI:function(callback){                    //弹出登录的窗口 提供登录后的回调
         var contaion = $('#reg_pagecontaion');

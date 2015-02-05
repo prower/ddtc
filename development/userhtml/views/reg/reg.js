@@ -52,6 +52,21 @@ function ui_reg(){
                 });
             }
         }
+        ,c_reg_openid:function(){
+            var me = this;
+            var phone = this.dom.userpanel_phone.val();
+            var chepai = this.dom.userpanel_chepai.val();
+            var openid =  utils.tools.getUrlParam('openid');
+            this.dom.userpanel_phone.blur();
+            this.dom.userpanel_chepai.blur();
+            if('' == phone){
+                alert('手机号不能为空!');
+            }else{
+                sysmanager.login(phone,chepai,function(){
+                    me.c_quit();
+                });
+            }
+        }
         ,c_quit:function(){
             var me = this;
             var c = me.context.parent().parent();
@@ -63,10 +78,14 @@ function ui_reg(){
         }
         ,r_init:function(){
             var me = this;
+            var type = utils.tools.getUrlParam('type') || 1;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
-            this.dom.btreg.aclick(function(){
+
+
+            me.dom.btreg.aclick(function(){
                 me.c_reg();
             });
+
         }
         ,close:function(){
             this.onclose && this.onclose();
