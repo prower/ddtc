@@ -34,9 +34,36 @@
             width:100%;
             margin: 0;
             padding: 0;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 16px;
             background-color: #ccc;
+        }
+        .mui-btn-green, .mui-btn-positive, .mui-btn-success{
+            background-color: #16a7de;
+            border: 1px solid #16a7de;
+        }
+        .mui-btn-block {
+            margin: 10px auto;
+            width: 95%;
+            font-size: 20px;
+        }
+        p{
+            color:#707070;
+            line-height: 1.5;
+        }
+        .mui-btn{
+            font-size: 16px;
+        }
+        label{
+            font-size: 16px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .mui-table-view-cell>div.mui-btn{
+            line-height: normal;
+        }
+        .mui-table-view-cell>div{
+            line-height: 25px;
         }
         .template{
             display: none;
@@ -528,16 +555,16 @@
         #user_html .mygrid{
             margin: 0;
             overflow: hidden;
-            padding: 3%;
+            padding: 1%;
         }
         #user_html .mygrid>li{
             float: left;
-            width: 47%;
+            width: 48%;
             border: solid 1px #ccc;
             border-radius: 7px;
             background-color: #fff;
             padding: 10px;
-            margin-bottom: 0;
+            margin: 1%;
         }
         #user_html .kucunlist{
             /*background-image: url(./img/deng.png);*/
@@ -569,12 +596,7 @@
             background-size: 136px 34px;
             background-image: url(./img/icon_4.png);
         }
-        #user_html .mui-table-view-cell>div.mui-btn{
-            line-height: normal;
-        }
-        #user_html .mui-table-view-cell>div{
-            line-height: 25px;
-        }
+
         #user_html .secenicon.s_1{
 
         }
@@ -587,17 +609,7 @@
         #user_html .secenicon.s_4{
             background-position: -102px 0;
         }
-    .mui-btn-green, .mui-btn-positive, .mui-btn-success{
-        background-color: #16a7de;
-        border: 1px solid #16a7de;
-    }
-    .mui-btn-block {
-        margin: 10px auto;
-        width: 95%;
-    }
-    p{
-        color:#707070;
-    }
+
     </style>
 <script>
 
@@ -791,6 +803,11 @@
                     height: 20px;
                     line-height: 20px;
                 }
+                #user_html .body1{
+                    font-size: 20px;
+
+                }
+
 
 
 
@@ -800,8 +817,8 @@
             <ul class="mui-table-view">
                 <li class="mui-table-view-divider" style="color: #000;background-color: transparent;border-bottom: solid 1px #aaa;"><h3 name='fullname'>停车场名称</h3></li>
                 <li class="mui-table-view-cell">
-                    <div style="margin: 10px">车位使用状态:<span class="mui-badge">5分钟前更新</span></div>
-                    <ul  class="kucunlist" name='kucunpanel'>
+                    <div style="margin: 10px"><label>车位使用状态:</label><span class="mui-badge">5分钟前更新</span></div>
+                    <ul  class="kucunlist" name='kucunpanel' p='1'> <!--库存更新-->
                         <li type='0'></li>
                         <li type='1'  style="background-position-x: -91px;"></li>
                         <li type='2' style="background-position-x: -182px;"></li>
@@ -810,33 +827,33 @@
                 </li>
                 <li class="mui-table-view-divider" style="padding: 0">
                     <ul class="mygrid">
-                        <li name='bt_secenin' style="margin-right: 5%;margin-bottom: 5%">
+                        <li name='bt_secenin' p='1'> <!--入场管理-->
                             <div class="secenicon s_1"></div>
                             <div  class="mui-media-body body1">入场管理</div>
                             <p><span class="mui-badge" name='manager_in'>1</span>辆</p>
                         </li>
-                        <li name='bt_secenout'>
+                        <li name='bt_secenout' p='2'>   <!--离场管理-->
                             <div class="secenicon s_2"></div>
                             <div class="mui-media-body body1">离场管理</div><p><span class="mui-badge" name='manager_out'>2</span>辆</p>
                         </li>
-                        <li name='bt_secenat' style="margin-right: 5%">
+                        <li name='bt_secenat' p='1,2,8' > <!--在场管理-->
                             <div class="secenicon s_3"></div>
                             <div class="mui-media-body body1">在场车辆</div><p><span class="mui-badge"  name='manager_at'>5</span>辆</p>
                         </li>
-                        <li name='bt_jiaoyi'>
+                        <li name='bt_jiaoyi' p='4,8,16'>                           <!--交易清单-->
                             <div class="secenicon s_4"></div>
                             <div class="mui-media-body body1">交易清单</div><p><span class="mui-badge"  name='manager_deals'>1</span>次<span>(本周)</span></p>
                         </li>
                     </ul>
                 </li>
-                <li class="mui-table-view-cell" name='jifenpanel'>
-                    <div>可以用积分:<span>391</span></div>
+                <li class="mui-table-view-cell" name='jifenpanel' p='1,2'>                  <!--积分-->
+                    <div><label>可以用积分:</label><span>391</span></div>
                     <div>100积分兑换，手机话费100元</div>
                     <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>兑换</div>
                 </li>
-                <li class="mui-table-view-cell" name='tixianpanel'>
-                    <div>今日收益：128.00元</div>
-                    <div>可以提现：100.00元</div>
+                <li class="mui-table-view-cell" name='tixianpanel' p='16'>                         <!--提现-->
+                    <div><label>今日收益:</label>128.00元</div>
+                    <div><label>可以提现:</label>100.00元</div>
                     <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>提现</div>
                 </li>
 
@@ -1012,8 +1029,8 @@
                 <ul>
                     <li class="mui-table-view-cell" name='row'>
                         <div name='cardid'></div>
-                        <div>开始时间:<span name='time'>10:45</span></div>
-                        <a class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>联系车主</a>
+                        <p><label>开始时间:</label><span name='time'>10:45</span></p>
+                        <a class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>联系</a>
                     </li>
                     <li class="mui-table-view-cell" name='row_none'>
                         <h3><p>当前没有在场记录.</p></h3>

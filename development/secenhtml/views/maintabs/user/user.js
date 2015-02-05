@@ -39,6 +39,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,manager_at:'[name=manager_at]'
                 ,manager_deals:'[name=manager_deals]'
             }
+            ,permissionDom:'[p]'
         }
         ,iscroll:null
         ,init:function(context){
@@ -73,10 +74,11 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var me = this;
             utils.sys.nologin(function(view){
                 view.obj.onclose = function(){
-                       me.c_initinfo();
-                       var userinfo = ajax.userinfo();
-                       me.dom.fullname.html(userinfo.fullname);
-                   }
+                   me.c_initinfo();
+                   var userinfo = ajax.userinfo();
+                   me.dom.fullname.html(userinfo.fullname);
+                    me.c_setPermission();
+               }
             });
         }
         ,c_initinfo:function(fn){
@@ -190,72 +192,94 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ,secen_out:null
         }
         ,c_secen_in_Manager:function(wait){
-            var me = this;
-            if(me.View.secen_in){
-                me.View.secen_in.obj.ForcedRefrdsh();
-                setTimeout(function(){
-                    if(me.View.secen_out){
-                        me.View.secen_in.obj.context.parent().parent().css('z-index','200');
-                        me.View.secen_out.obj.context.parent().parent().css('z-index','199');
-                    }
-                });
-            }else{
-                var viewmanager = requirejs('view');
-                viewmanager.viewroot('views/');
-                var viewname = 'secen_in';
-                var context = $('#sence_in_pagecontaion');
-                var view = viewmanager.loadview(viewname,function(v){
-                    var page = context.find('>.page');
-                    page.empty();
-                    v.renderer(page);
-                    me.View.secen_in = v;
-                    context.show();
-                    v.obj.onclose = function(){
-                        me.View.secen_in = null;
-                        me.c_initinfo();
-                    }
+            var permission = parseInt(ajax.userinfo().permission);
+            if(permission & 1){
+                var me = this;
+                if(me.View.secen_in){
+                    me.View.secen_in.obj.ForcedRefrdsh();
                     setTimeout(function(){
                         if(me.View.secen_out){
-                            me.View.secen_in.obj.context.parent().parent().css('z-index','199');
-                            me.View.secen_out.obj.context.parent().parent().css('z-index','200');
+                            me.View.secen_in.obj.context.parent().parent().css('z-index','200');
+                            me.View.secen_out.obj.context.parent().parent().css('z-index','199');
                         }
                     });
-                });
+                }else{
+                    var viewmanager = requirejs('view');
+                    viewmanager.viewroot('views/');
+                    var viewname = 'secen_in';
+                    var context = $('#sence_in_pagecontaion');
+                    var view = viewmanager.loadview(viewname,function(v){
+                        var page = context.find('>.page');
+                        page.empty();
+                        v.renderer(page);
+                        me.View.secen_in = v;
+                        context.show();
+                        v.obj.onclose = function(){
+                            me.View.secen_in = null;
+                            me.c_initinfo();
+                        }
+                        setTimeout(function(){
+                            if(me.View.secen_out){
+                                me.View.secen_in.obj.context.parent().parent().css('z-index','199');
+                                me.View.secen_out.obj.context.parent().parent().css('z-index','200');
+                            }
+                        });
+                    });
+                }
             }
         }
         ,c_secen_out_Manager:function(wait){
-            var me = this;
-            if(me.View.secen_out){
-                me.View.secen_out.obj.ForcedRefrdsh();
-                setTimeout(function(){
-                    if(me.View.secen_in){
-                        me.View.secen_in.obj.context.parent().parent().css('z-index','199');
-                        me.View.secen_out.obj.context.parent().parent().css('z-index','200');
-                    }
-                });
-            }else{
-                var viewmanager = requirejs('view');
-                viewmanager.viewroot('views/');
-                var viewname = 'secen_out';
-                var context = $('#sence_out_pagecontaion');
-                var view = viewmanager.loadview(viewname,function(v){
-                    var page = context.find('>.page');
-                    page.empty();
-                    v.renderer(page);
-                    me.View.secen_out = v;
-                    context.show();
-                    v.obj.onclose = function(){
-                        me.View.secen_out = null;
-                        me.c_initinfo();
-                    }
+            var permission = parseInt(ajax.userinfo().permission);
+            if(permission & 2){
+                var me = this;
+                if(me.View.secen_out){
+                    me.View.secen_out.obj.ForcedRefrdsh();
                     setTimeout(function(){
                         if(me.View.secen_in){
                             me.View.secen_in.obj.context.parent().parent().css('z-index','199');
                             me.View.secen_out.obj.context.parent().parent().css('z-index','200');
                         }
                     });
-                });
+                }else{
+                    var viewmanager = requirejs('view');
+                    viewmanager.viewroot('views/');
+                    var viewname = 'secen_out';
+                    var context = $('#sence_out_pagecontaion');
+                    var view = viewmanager.loadview(viewname,function(v){
+                        var page = context.find('>.page');
+                        page.empty();
+                        v.renderer(page);
+                        me.View.secen_out = v;
+                        context.show();
+                        v.obj.onclose = function(){
+                            me.View.secen_out = null;
+                            me.c_initinfo();
+                        }
+                        setTimeout(function(){
+                            if(me.View.secen_in){
+                                me.View.secen_in.obj.context.parent().parent().css('z-index','199');
+                                me.View.secen_out.obj.context.parent().parent().css('z-index','200');
+                            }
+                        });
+                    });
+                }
             }
+
+        }
+        ,c_setPermission:function(){        //设置权限显示
+            this.dom.permissionDom.hide();
+            var permission = parseInt(ajax.userinfo().permission);
+            this.dom.permissionDom.each(function(){
+               var pstring = $(this).attr('p') || '';
+                var ps = pstring.split(',');
+                for(var i=0;i<ps.length;i++){
+                    var p = parseInt(ps[i]);
+                    if(permission & p){
+                        $(this).show();
+                        break;
+                    }
+                }
+            });
 
         }
         ,c_refreshInfo:function(){
