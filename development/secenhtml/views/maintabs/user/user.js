@@ -70,9 +70,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
 //           });
             me.c_login();
         }
-        ,c_login:function(){
+        ,c_login:function(isquit){
             var me = this;
             utils.sys.nologin(function(view){
+                if(!!isquit){
+                    view.obj.clearInfo();
+                }
                 view.obj.onclose = function(){
                    me.c_initinfo();
                    var userinfo = ajax.userinfo();
@@ -125,7 +128,11 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,r_init:function(){
             var me = this;
-            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true,onScrollMove:function(m){
+                    console.log('iscroll move',m);
+                }
+                }
+            );
 
             this.dom.kucun.panel.find('>*').aclick(function(){
                 var that = $(this);
@@ -308,7 +315,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             if(window.confirm('确认退出当前账户?')){
                 var me = this;
                 utils.sys.quitlogin(function(){
-                   me.c_login();
+                   me.c_login(true);
                 });
             }
         }

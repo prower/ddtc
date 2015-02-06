@@ -84,13 +84,21 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_check:function(){
             var me = this;
-            me.c_showUserinfo(null);
-            return;
+            this.c_showUserinfo(null);
 
-            utils.sys.checklogin(function(data){
-                console.log(data);
-                me.c_showUserinfo(data);
-            });
+            var dudu_secen_logininfo = this.getInfo();
+            if(dudu_secen_logininfo){
+                me.dom.loginpanel.parkname.val(dudu_secen_logininfo.parkname);
+                me.dom.loginpanel.name.val(dudu_secen_logininfo.name);
+                me.dom.loginpanel.pwd.val(dudu_secen_logininfo.pwd);
+                if(dudu_secen_logininfo.pwd){
+                    setTimeout(function(){
+                        me.loginpanel.login();
+                    });
+                }
+            }
+
+
         }
         ,c_showUserinfo:function(data){
             var me = this;
@@ -121,8 +129,41 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ajax.get('Index','test',{username:username}, function(result){
                 console.log('test', result);
                 fn && fn();
-
             });
+        }
+        ,infokey:'dudu_secen_logininfo'
+        ,setInfo:function(){
+            var me = this;
+            var parkname = me.dom.loginpanel.parkname.val();
+            var name = me.dom.loginpanel.name.val();
+            var pwd = me.dom.loginpanel.pwd.val();
+            var dudu_secen_logininfo = {
+                parkname:parkname
+                ,name:name
+                ,pwd:pwd
+            }
+            localStorage.setItem(this.infokey, JSON.stringify(dudu_secen_logininfo));
+        }
+        ,getInfo:function(){
+            var dudu_secen_logininfo_string  =  localStorage.getItem(this.infokey);
+            var dudu_secen_logininfo = null;
+            try{
+                dudu_secen_logininfo = JSON.parse(dudu_secen_logininfo_string);
+                return dudu_secen_logininfo;
+            }catch(e){
+
+            }
+            return dudu_secen_logininfo;
+        }
+        ,clearInfo:function(){
+            var dudu_secen_logininfo = this.getInfo();
+            if(dudu_secen_logininfo){
+                dudu_secen_logininfo = {
+                    parkname:dudu_secen_logininfo.parkname
+                    ,name:dudu_secen_logininfo.name
+                }
+                localStorage.setItem(this.infokey, JSON.stringify(dudu_secen_logininfo));
+            }
         }
         ,close:function(){
             setTimeout(function(){
@@ -132,6 +173,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 window.PushManager.fire('pushmsg');         //主动触发pushmsg推送事件
             },1e3);
             this.onclose && this.onclose();
+            this.setInfo();
         }
     };
 
