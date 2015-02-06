@@ -100,8 +100,7 @@
         }
         .map_contaion .list .info p label{
             color: #000;
-            min-width: 50px;
-            display: inline-block;
+            text-align: right;
         }
         .map_contaion .list .info p span{
         }
@@ -126,14 +125,21 @@
                 </header>
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell">
-                        <p><label>空车位:</label><span name='numberstatus'></span><span name='numbermax'></span></p>
-                        <p><label>价格:</label><span name='rules'></span></p>
-                        <p><label>备注:</label><span name='note'>晚上关门</span></p>
-                        <p><label>地址:</label><span name='address'>西康路10号</span></p>
+                        <table style="width: 100%;table-layout: fixed">
+                            <tr>
+                                <td style="width: 50px"><label>空车位:</label></td><td><p><span name='numberstatus'></span>/<span name='numbermax'></span></p></td>
+                            </tr>
+                            <tr><td><label>价格:</label></td><td><p><span name='rules'></span></p></td></tr>
+                            <tr><td><label>备注:</label></td><td><p><span name='note'>晚上关门</span></p></td></tr>
+                            <tr><td><label>地址:</label></td><td><p><span name='address'>西康路10号</span></p></td></tr>
+                        </table>
+                        <!--<p><label>空车位:</label><span name='numberstatus'></span><span name='numbermax'></span></p>-->
+                        <!--<p><label>价格:</label><span name='rules'></span></p>-->
+                        <!--<p><label>备注:</label><span name='note'>晚上关门</span></p>-->
+                        <!--<p><label>地址:</label><span name='address'>西康路10号</span></p>-->
                     </li>
                 </ul>
                 <div class="buttonc">
-                    <p>当前车位状态</p>
                     <button class="mui-btn mui-btn-success mui-btn-block" style="" name="btpay">确认,预付5元>></button>
                 </div>
 

@@ -95,12 +95,12 @@ function ui_map(){
                     maptool = window.maptool = new AMap.ToolBar({
                        direction:false,//隐藏方向导航
                        ruler:false,//隐藏视野级别控制尺
-                       autoPosition:false,//自动定位
-                       locationMarker1:new AMap.Marker({
-                           map:mapObj
-                           ,content:"<div style='width: 50px;height: 50px;border-radius: 25px;background-color: rgba(0,0,0,.2)'><div style='position: absolute;left: 50%;top:50%;width: 6px;height: 6px;border-radius: 3px;margin-left: -3px;margin-top: -3px;background-color:red'></div></div>"
-                            ,offset:new AMap.Pixel(-25,-25)
-                       })
+                       autoPosition:false//自动定位
+//                       ,locationMarker1:new AMap.Marker({
+//                           map:mapObj
+//                           ,content:"<div style='width: 50px;height: 50px;border-radius: 25px;background-color: rgba(0,0,0,.2)'><div style='position: absolute;left: 50%;top:50%;width: 6px;height: 6px;border-radius: 3px;margin-left: -3px;margin-top: -3px;background-color:red'></div></div>"
+//                            ,offset:new AMap.Pixel(-25,-25)
+//                       })
                      });
                      mapObj.addControl(maptool);
                      //加载比例尺
@@ -177,7 +177,8 @@ function ui_map(){
                 me.c_back();
             });
             this.dom.infopanel.btdaohang.aclick(function(){
-                me.c_daohang();
+                //me.c_daohang();
+                me.c_daohang_my();
             });
             this.dom.daohang_gaode.aclick(function(){
                 me.c_daohang_gaode($(this));
@@ -203,7 +204,7 @@ function ui_map(){
                      });
                  */
                 me.nowoid = data.oid;
-                alert(data.oid);
+                //alert(data.oid);
                 //return [alert('跳过支付直接成功![测试s]'), me.c_startPayok()];
 
                 WeixinJSBridge.invoke('getBrandWCPayRequest', data.paydata,function(res){
@@ -276,8 +277,9 @@ function ui_map(){
             this.dom.infopanel.title.html(data.name);
             this.dom.infopanel.address.html(data.address);
             this.dom.infopanel.rules.html(data.rules);
+            this.dom.infopanel.note.html(data.note || '--');
             this.dom.infopanel.numbermax.html(data.spacesum);
-            this.dom.infopanel.numberstatus.html((['满了','少量','很多'][data.spacesum])||'未知');
+            this.dom.infopanel.numberstatus.html((['满了','少量','很多'][data.parkstate])||'未知');
         }
         ,c_back:function(){
             this.dom.listcontaion.removeClass('next');

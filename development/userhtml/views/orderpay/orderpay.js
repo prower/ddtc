@@ -15,6 +15,8 @@ function ui_orderpay(){
             ,rules:'[name=rules]'
             ,address:'[name=address]'
             ,note:'[name=note]'
+            ,prepay:'[name=prepay]'
+            ,paytime:'[name=paytime]'
             ,btpay:'[name=btpay]'
         }
         ,iscroll:null
@@ -43,7 +45,9 @@ function ui_orderpay(){
             this.dom.name.html(data.name);
             this.dom.rules.html(data.rules);
             this.dom.address.html(data.address);
-            this.dom.note.html(data.note);
+            this.dom.note.html(data.note || '--');
+            this.dom.prepay.html(data.prepay);
+            this.dom.paytime.html((new Date()).Format('yyyy/MM/dd hh:mm:ss'));
         }
         ,r_init:function(){
             var me = this;

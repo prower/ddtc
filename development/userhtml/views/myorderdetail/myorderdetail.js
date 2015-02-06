@@ -52,9 +52,16 @@ function ui_myorderdetail(){
         ,c_initinfo:function(){
             var me = this;
             this.c_clearHandler();
-            this.m_getordedertail(function(data){
-                me.c_fill(data);
-            });
+            if(this.oid){
+                this.m_getordedertailFromoid(this.oid, function(data){
+                    me.c_fill(data);
+                });
+            }else{
+                this.m_getordedertail(function(data){
+                    me.c_fill(data);
+                });
+            }
+
         }
         ,c_init:function(){
             var me = this;
@@ -94,7 +101,8 @@ function ui_myorderdetail(){
             var stoptime = utils.tools.t2s(new Date - new Date(data.startTime));
             this.dom.title.html(data.address);
             this.dom.starttime.html(data.startTime);
-            this.dom.stoptime.html(stoptime);
+            var rendtime  = Math.abs(new Date -  new Date(data.startTime));
+            this.dom.stoptime.html(utils.tools.t2s(rendtime));
             this.dom.totalFee.html(data.totalFee);
             this.dom.preFee.html(data.totalFee - data.remainFee);
             this.dom.remainFee.html(data.remainFee);
@@ -106,15 +114,15 @@ function ui_myorderdetail(){
         ,c_fill_wait:function(data){
             var me = this;
             this.dom.panel.order_wait.show();
-            this.dom.waitpanel.rtime.html(data.remaintime);
+            //this.dom.waitpanel.rtime.html(data.remaintime);
             this.dom.waitpanel.partname.html(data.name);
             data.rendtime  = new Date((new Date-0) + data.remaintime*1000);
             this.c_clearHandler();
             this.handler = setInterval(function(){
                 //console.log(me.data.rendtime);
-                var sp = parseInt((me.data.rendtime - (new Date - 0))/1000);
+                var sp = (me.data.rendtime - (new Date - 0));
                 if(sp>0){
-                    me.dom.waitpanel.rtime.html(sp);
+                    me.dom.waitpanel.rtime.html(utils.tools.t2s(sp));
                 }else{
                     me.c_initinfo();
                 }
@@ -123,6 +131,12 @@ function ui_myorderdetail(){
         ,m_getordedertail:function(fn){         //获取没有结算的订单
             //duduche.me/driver.php/home/index/getOrder
             window.myajax.userget('index','getOrder',{last:1}, function(result){
+                fn && fn(result.data);
+            }, null, false);
+        }
+        ,m_getordedertailFromoid:function(oid, fn){         //获取没有结算的订单
+            //duduche.me/driver.php/home/index/getOrder
+            window.myajax.userget('index','detailOrder',{oid:oid}, function(result){
                 fn && fn(result.data);
             }, null, false);
         }

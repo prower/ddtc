@@ -21,8 +21,23 @@
             line-height: 35px;
 
 		}
+        .mui-table-view-cell{
+            padding: 18px 15px;
+        }
+        .mui-table-view-cell label{
+            display: inline-block;
+            min-width: 80px;
+        }
         .mui-bar-tab .mui-tab-item.mui-active .mui-icon{
             border: solid 2px red;
+        }
+        .mui-table-view-divider{
+            background-color: #f0f0f0;
+            color: #000;
+        }
+        .mui-btn-green, .mui-btn-positive, .mui-btn-success, .mui-btn-primary{
+            background-color: #16a7de;
+            border: 1px solid #16a7de;
         }
 	
         html{
@@ -33,7 +48,7 @@
             width:100%;
             margin: 0;
             padding: 0;
-            font-size: 14px;
+            font-size: 16px;
             line-height: 16px;
             background-color: #ccc;
         }
@@ -49,7 +64,7 @@
 		height: 44px;
 		padding-right: 10px;
 		padding-left: 10px;
-		background-color: rgba(254,60,77,1);
+		background-color: #16a7de;
 		border-bottom: 0;
 		-webkit-backface-visibility: hidden;
 		backface-visibility: hidden;
@@ -194,7 +209,7 @@
 			height: 100%;
 			position: absolute;
 			top: -100%;
-			background-color: #fe3c4d;
+			/*background-color: #fe3c4d;*/
 			width: 100%;
 			content: ' ';
 			background-repeat: no-repeat;
@@ -510,12 +525,12 @@
     }
     .map_control_home{
         position: absolute;
-        right: 10px;
+        left: 10px;
         top: 10px;
-        border: solid 1px;
+        border: solid 2px;
         border-radius: 50%;
         padding: 5px;
-        color: green;
+        color: #000;
     }
     .amap-container .amap-logo{
         border: solid 1px red;
@@ -542,6 +557,10 @@
             line-height: 32px;
             color: rgb(42, 28, 134);
             text-align: center;
+        }
+        .payinfo{
+            font-size: 30px;
+            color: #16a7de;
         }
     </style>
 </head>

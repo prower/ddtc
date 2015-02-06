@@ -15,31 +15,32 @@
             width: 100%;
             height: 100%;
             position: absolute;
+            background-color: #f0f0f0;
         }
         .order_pay, .order_wait, .no_pay{
             width: 100%;
             height: 100%;
         }
+
     </style>
     <div class="myorderdetail_html_contaion">
         <div class="order_no" name='order_no'>
             <ul class="mui-table-view">
-                <li class="mui-table-view-cell"><p>当前没有需要缴费的清单</p></li>
+                <li class="mui-table-view-divider"><h3>当前没有需要缴费的清单!</h3></li>
             </ul>
         </div>
         <div class="order_pay" name='order_pay'>
             <ul class="mui-table-view">
                 <li class="mui-table-view-divider"><h3 name='title'></h3></li>
-                <li class="mui-table-view-cell">开始时间:<span name='starttime'></span></li>
-                <li class="mui-table-view-cell">停放时间:<span name='stoptime'></span></li>
-                <li class="mui-table-view-cell">总计金额:<span name='totalFee'></span></li>
-                <li class="mui-table-view-cell">已付金额:<span name='preFee'></span></li>
-                <li class="mui-table-view-cell">需要付款金额:<span name='remainFee'></span></li>
+                <li class="mui-table-view-cell"><label>开始时间:</label><span name='starttime'></span></li>
+                <li class="mui-table-view-cell"><label>停放时间:</label><span name='stoptime'></span></li>
+                <li class="mui-table-view-cell"><label>总计金额:</label><span name='totalFee'></span></li>
+                <li class="mui-table-view-cell"><label>已付金额:</label><span name='preFee'></span></li>
+                <li class="mui-table-view-divider"></li>
+                <li class="mui-table-view-cell payinfo"><label>需付金额:</label><span name='remainFee'></span></li>
             </ul>
-            <div style="bottom: 0;margin:0;position: absolute">
-                <p>请在支付结清后的15分钟内驶离至出口,否则可能需加附费用.</p>
-                <button name="btpay"  class="mui-btn mui-btn-success mui-btn-block">结算付款>></button>
-            </div>
+            <p style="padding: 20px">请在支付结清后的15分钟内驶离至出口,否则可能需加付费用.</p>
+            <button style="position: absolute;bottom: 0;left: 0;right: 0" name="btpay"  class="mui-btn mui-btn-success mui-btn-block">结算付款>></button>
         </div>
         <div class="order_wait" name='order_wait'>
             <ul class="mui-table-view">

@@ -8,19 +8,25 @@
 
         }
         #myorder_html .row .title,#myorder_html .row .info{
-            padding-left: 20px;
+
         }
 
         .myorder_html_contaion{
             width: 100%;
-            height: 100%;
+            height: auto;
             position: absolute;
+        }
+        #myorder_html .mui-table-view-cell>div{
+            line-height: 25px;
+        }
+        #myorder_html .mui-table-view-cell>p{
+            line-height: 20px;
         }
 
     </style>
-    <div class="myorder_html_contaion">
+    <div class="myorder_html_contaion" name='scrollpanel'>
         <ul class="mui-table-view">
-            <li class="mui-table-view-divider">进行中订单</li>
+            <li class="mui-table-view-divider">我的订单</li>
         </ul>
         <ul class="mui-table-view" name='list'>
 
@@ -28,14 +34,22 @@
         <div class="template">
             <ul>
                 <li class="mui-table-view-cell row" name='row'>
-                    <p class="time" name='time'>2015 1月 21号</p>
-                    <h4 class="title" name='title'>伸大厦停车场</h4>
-                    <p class="info" name='info'>已经停车:<span>2小时8分钟</span></p>
-                    <button class="mui-btn mui-btn-success" name='btpay'>缴费结算</button>
+                    <div class="title" name='title'>伸大厦停车场</div>
+                    <p><label>场所地址:</label><span name='address'></span></p>
+                    <p><label>下单时间:</label><span name='time'></span></p>
+                    <p><label>停车时间:</label><span name='info'></span></p>
+                    <button class="mui-btn mui-btn-red" name='btpay' style="bottom: 0;top:inherit">结算</button>
+                </li>
+                <li class="mui-table-view-cell row" name='row2'>
+                    <div class="title" name='title'>伸大厦停车场</div>
+                    <p><label>场所地址:</label><span name='address'></span></p>
+                    <p><label>下单时间:</label><span name='time'></span></p>
+                    <p><label>停车时间:</label><span name='info'>2小时8分钟</span></p>
+                    <!--<button class="mui-btn mui-btn-success" name='btpay' style="bottom: 0;top:inherit">详情</button>-->
                 </li>
             </ul>
         </div>
-        <button style="bottom: 5%;position: absolute" class="mui-btn mui-btn-success mui-btn-block">查看你历史订单>></button>
+        <!--<button style="bottom: 5%;position: absolute" class="mui-btn mui-btn-success mui-btn-block">查看你历史订单>></button>-->
     </div>
 
 </div>
