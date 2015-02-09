@@ -473,12 +473,12 @@
                     ,pushmsg:[]
                     ,PUSH_ID:function(pushid){
                         this.pushid = pushid;
-            //            alert('pushid\n' + pushid);
+                        alert('pushid\n' + pushid);
                         this.fire('pushid');
                     }
                     ,PUSH_MSG:function(msg){
                         this.pushmsg.push(msg);
-            //            alert('pushmsg\n' + msg);
+                        alert('pushmsg\n' + msg);
                         this.fire('pushmsg');
                     }
                     ,getPushid:function(){
@@ -522,8 +522,8 @@
                 //将json字符串转为json对象，然后从中分离出原始信息
                 var personInfoJSON = JSON.parse(ev.data);
 
-                if(personInfoJSON.pishid){      //当前是一个pushid推送
-                    window.PushManager.PUSH_ID(personInfoJSON.pishid);
+                if(personInfoJSON.pushid){      //当前是一个pushid推送
+                    window.PushManager.PUSH_ID(personInfoJSON.pushid);
                 }else if(personInfoJSON.t){         //当前是一个消息推送
                     window.PushManager.PUSH_MSG(ev.data);
                 }

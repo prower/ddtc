@@ -355,6 +355,7 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
        ,PushID:function(pushid){
            if(pushid){
 //               alert('触发事件获得pushid\n'+pushid);
+
                if(ajax.userinfo()){
                    ajax.userget('index','setPushId',{pushid:pushid}, function(result){
                        var data = result.data;

@@ -43,12 +43,12 @@
     </style>
 </head>
 <body>
-<iframe class="if1" border='0' src="http://10.0.1.119/kkgit/ddtc/development/secenhtml/index.html"></iframe>
+<iframe class="if1" border='0' src="http://duduche.me/html/secenhtml/index.html?1"></iframe>
 <script>
 
     function sendInfoToAnotherDomain(info){
         var iframe=window.frames[0];
-        iframe.postMessage(info,'http://10.0.1.119');           //限制域名
+        iframe.postMessage(info,'http://duduche.me');           //限制域名
     }
 
 </script>
@@ -112,7 +112,6 @@ var app = {
         setTimeout(function(){
             sendInfoToAnotherDomain(JSON.stringify(obj));
         });
-
     },
     onMsgData: function(data) {
         /**
