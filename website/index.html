@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>嘟嘟停车</title>
+    <script>
+/**
+ * Created by Common on 14-9-12.
+ */
+var deviceAgent = navigator.userAgent.toLowerCase();
+var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/) || '';
+var mobile = {
+    iphone:agentID.indexOf("iphone")>=0
+    ,android:agentID.indexOf("android")>=0
+    ,ipad:agentID.indexOf("ipad")>=0
+    ,ipad:agentID.indexOf("ipod")>=0
+}
+if(mobile.iphone){
+    //alert('iphone');
+    document.write('<meta name="viewport" content="width=device-width, initial-scale=01, user-scalable=0,minimal-ui">');
+}else if(mobile.android){
+    //alert('android');
+    document.write('<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">');
+    //document.write('<meta name="viewport" content="target-densitydpi=device-dpi">');
+}else{
+    //alert('other');
+    document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=0,minimal-ui">');
+}
+    </script>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <style>
+    	html,body{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #226BD1;
+        		color: #fff;
+        }
+    .startpage{
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 10px;
+        font-size: 48px;
+        text-align: center;
+    }
+    .btn_android {
+background-image: url(img/btn_down.png);
+background-repeat: no-repeat;
+width: 220px;
+height: 70px;
+font-size: 0;
+text-indent: -999px;
+overflow: hidden;
+display: block;
+background-position: -240px 0;
+position:absolute;left:0;right:0;margin:0 auto;bottom:30px;
+}
+    </style>
+</head>
+<body>
+<div id="startpage" class="startpage">
+	嘟嘟停车
+	<div style='font-size: 20px;margin-top: 10px;'>
+		最方便的车位销售系统
+		<br><br>
+	<img src="img/icon_w_logo.png" width="200px"/>
+	</div>
+</div>
+<a href="http://duduche.me/test/adminapp.apk" target="_blank" class="btn_android">Android下载</a>
+<div style='position:absolute;left:0;right:0;margin:0 auto;bottom:10px;font-size: 12px;text-align: center;'>
+		沪ICP备15002999号-1
+	</div>
+</body>
+</html>
