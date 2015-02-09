@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script>
+        /**
+         * Created by Common on 14-9-12.
+         */
+        var deviceAgent = navigator.userAgent.toLowerCase();
+        var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/) || '';
+        var mobile = {
+            iphone:agentID.indexOf("iphone")>=0
+            ,android:agentID.indexOf("android")>=0
+            ,ipad:agentID.indexOf("ipad")>=0
+            ,ipad:agentID.indexOf("ipod")>=0
+        }
+        if(mobile.iphone){
+            //alert('iphone');
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=01, user-scalable=0,minimal-ui">');
+        }else if(mobile.android){
+            //alert('android');
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">');
+            //document.write('<meta name="viewport" content="target-densitydpi=device-dpi">');
+        }else{
+            //alert('other');
+            document.write('<meta name="viewport" content="width=device-width, initial-scale=0.5, user-scalable=0,minimal-ui">');
+        }
+    </script>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        body{
+
+        }
+        .if1{
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<iframe class="if1" border='0' src="http://10.0.1.119/kkgit/ddtc/development/secenhtml/index.html"></iframe>
+<script>
+
+    function sendInfoToAnotherDomain(info){
+        var iframe=window.frames[0];
+        iframe.postMessage(info,'http://10.0.1.119');           //限制域名
+    }
+
+</script>
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>
