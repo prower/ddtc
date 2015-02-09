@@ -1,3 +1,33 @@
-﻿<div class="page_content userpage" style="" >
-    <div>交易清单</div>
+﻿<div class="page_content userpage" id="jiaoyi_html" style="" >
+    <style>
+        #jiaoyi_html .mui-table-view-cell{
+
+        }
+        #jiaoyi_html .mui-table-view-cell>p{
+            line-height: 25px;
+        }
+        #jiaoyi_html .mui-table-view-cell>p>label{
+            min-width: 66px;
+            display: inline-block;
+        }
+        #jiaoyi_html .mui-table-view-cell>div[name=pai]{
+            font-size: 18px;
+            line-height: 30px;
+        }
+
+    </style>
+    <ul class="mui-table-view" name='list'>
+
+    </ul>
+    <div class="template">
+        <ul>
+            <li class="mui-table-view-cell" name='row'>
+                <div name='pai'></div>
+                <p><label>下单时间:</label><span name='start'>沪A12</span></p>
+                <!--<p>结算:<span name='end'></span></p>-->
+                <p><label>管理员:</label><span name='admin'></span>(确认)</p>
+                <div name='money' class="mui-btn mui-btn-success  mui-pull-right">25.00元</div>
+            </li>
+        </ul>
+    </div>
 </div>

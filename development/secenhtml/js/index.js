@@ -346,9 +346,14 @@ var app = {
 
         console.log('PushID: ' + data);
          */
+        //setTimeout(function(){window.PushManager.PUSH_ID(data);});
+        var obj = {
+            pushid:data
+        }
         setTimeout(function(){
-            window.PushManager.PUSH_ID(data);
+            sendInfoToAnotherDomain(JSON.stringify(obj));
         });
+
     },
     onMsgData: function(data) {
         /**
@@ -362,8 +367,9 @@ var app = {
     
     console.log('MsgData: ' + data);
          */
+        //setTimeout(function(){window.PushManager.PUSH_MSG(data);});
         setTimeout(function(){
-            window.PushManager.PUSH_MSG(data);
+            sendInfoToAnotherDomain(data);
         });
     }
 };

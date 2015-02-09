@@ -1,3 +1,19 @@
-﻿<div class="page_content userpage" style="" >
-    <h1>出场</h1>
+﻿<div class="page_content userpage" id="secen_out_html" style="" >
+    <ul class="mui-table-view" name='list'>
+
+    </ul>
+    <div class="mui-btn mui-btn-success mui-btn-block" name='btrefresh'>刷新离场记录</div>
+    <div class="template">
+        <ul>
+            <li class="mui-table-view-cell animated" name='row'>
+                <div><span  name='pai'></span><span class="mui-badge mui-badge-success">已结清</span></div>
+                <div>截止:<span name='endtime'></span></div>
+                <div>剩余:<span name='rtime'></span></div>
+                <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>确认离开</div>
+            </li>
+            <li class="mui-table-view-cell" name='row_none'>
+                <h3><p>当前没有准备离场记录.</p></h3>
+            </li>
+        </ul>
+    </div>
 </div>

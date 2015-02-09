@@ -1,22 +1,85 @@
-﻿<div class="page_content userpage" style="" >
+﻿<div class="page_content userpage" id="tixian_html" style="" >
     <ul class="mui-table-view">
         <li class="mui-table-view-cell">
-            当前可以提现:<span class="mui-badge mui-badge-success">1997.00元</span>
-
+            <div>可以提现金额:</div>
+            <div><span class="mui-badge mui-badge-success">391</span></div>
+            <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>提现</div>
         </li>
     </ul>
-    <ul class="mui-table-view mui-grid-view mui-grid-9" name='list'>
-
+    <ul class="mui-table-view mui-grid-view mui-grid-9">
+        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4">
+            <div>今天收益(元)</div><div class="mui-media-body body1">1200.00</div>
+        </li>
+        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4">
+            <div>总累计收益(元)</div><div class="mui-media-body body1">37800.00</div>
+        </li>
+        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4">
+            <div>总交易次数(次)</div><div class="mui-media-body body1">519</div>
+        </li>
+        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4 mynext" name='bt_jiaoyi'>
+            <div style="color:transparent">1</div><div class="mui-media-body body1">交易清单</div>
+        </li>
     </ul>
 
+    <ul class="mui-table-view">
+        <li class="mui-table-view-divider">提现记录</li>
+    </ul>
+    <ul class="mui-table-view" name='list'>
+
+    </ul>
     <div class="template">
-        <ul>
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" name='row'>
-                <a href="#">
-                    <span class="mui-icon mui-icon-home"></span>
-                    <div class="mui-media-body">Home</div>
-                </a>
-            </li>
-        </ul>
+        <li class="mui-table-view-cell" name='row'>
+            <span>1月5日 10:25</span>
+            <ul style="padding-left: 10%">
+                <li><span>账户名:</span><span>环球停车场</span></li>
+                <li><span>开户银行:</span><span>中国招商银行徐汇支行</span></li>
+                <li><span>账户号:</span><span>12345656666</span></li>
+                <li><span>操作人:</span><span>工号005(琴月)</span></li>
+                <li><span>提现金额:</span><span>2000.00</span></li>
+            </ul>
+        </li>
+    </div>
+    <div style="position: absolute;width: 100%;height: 100%;left: 0;top: 0;display: none" name='infopanel'>
+        <div class="mui-popover mui-active" style="display: block;">
+            <ul class="mui-table-view" style="max-height: 500px">
+                <li class="mui-table-view-cell" name="title">转账方式</li>
+                <li class="mui-table-view-cell">
+                    <div class="mui-card">
+                        <form class="mui-input-group">
+                            <div class="mui-input-row mui-radio">
+                                <label>转入支付宝</label>
+                                <input name="radio1" type="radio">
+                            </div>
+                            <div class="mui-input-row mui-radio">
+                                <label>转入银行</label>
+                                <input name="radio1" type="radio">
+                            </div>
+                        </form>
+                    </div>
+                </li>
+                <li class="mui-table-view-cell">
+                    <form class="mui-input-group">
+                        <div class="mui-input-row">
+                            <label>公司抬头</label>
+                            <input type="text" placeholder="公司抬头">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>账户</label>
+                            <input type="text" placeholder="账户名称">
+                        </div>
+                        <div class="mui-input-row">
+                            <label>提取金额</label>
+                            <input type="text" placeholder="要换入的金额">
+                        </div>
+                    </form>
+                </li>
+                <li class="mui-table-view-cell">
+                    <div class="mui-btn mui-btn-success mui-btn-block" style="position: static;-webkit-transform: translateY(0%);transform: translateY(0%);" name='btaction'>提交</div>
+                </li>
+                <li class="mui-table-view-cell">
+                </li>
+            </ul>
+        </div>
+        <div name="make" class="mui-backdrop mui-active"></div>
     </div>
 </div>

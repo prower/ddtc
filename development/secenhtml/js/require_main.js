@@ -8,7 +8,7 @@
 require.config({
     paths: {
         jquery:'../../golba_rs/js/jquery-1.9.1.min'
-        ,view:'viewloc'
+        ,view:'view'
     }
     ,waitSeconds:30
     ,urlArgs : "version="           + new Date()

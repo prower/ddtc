@@ -213,6 +213,7 @@ function ui_map(){
                      if('get_brand_wcpay_request:ok' == res.err_msg){
                          me.c_startPayok();
                      }else{
+                         alert(res.err_msg);
                          me.c_startPayfalid();
                      }
                  });
