@@ -516,6 +516,9 @@
                     ,getPushmsg:function(){
                         return this.pushmsg.shift();
                     }
+                    ,setMsg:function(info){
+                        window.top.postMessage(info, "*");
+                    }
                 });
 
 

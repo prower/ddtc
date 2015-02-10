@@ -2,6 +2,7 @@
 <html>
 <head>
     <title></title>
+    <meta charset="utf-8">
     <script>
         /**
          * Created by Common on 14-9-12.
@@ -47,9 +48,9 @@
             top: 0;
             font-size: 25px;
             text-align: center;
-            line-height: 300px;
+            line-height: 200px;
             z-index: 10000;
-            background-image: url(../img/icon.png);
+            background-image: url(./img/icon.png);
             background-repeat: no-repeat;
             background-position: center center;
             background-color: #226BD1;
@@ -60,14 +61,14 @@
             font-size: 16px;
             position: absolute;
             width: 100%;
-            bottom: 50%;
+            bottom: 60%;
         }
 
     </style>
 </head>
 <body>
 <iframe id="appiframe" class="if1" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
-<div id="offlinePage">
+<div id="offlinePage" style="display: none">
     <h3>未监测到网络信号！</h3>
     <p>
         请确保网络连接正常，系统稍后自动重试。
@@ -79,6 +80,15 @@
         var iframe=window.frames[0];
         iframe.postMessage(info,'http://duduche.me');           //限制域名
     }
+    window.addEventListener("message",function(ev){
+
+        var info = ev.data;
+
+       if(info == 'appquit'){
+           alert('app quit');
+           navigator.app.exitApp();
+       }
+    });
 
 </script>
 
@@ -106,7 +116,7 @@ var app = {
         device.onPushID = app.onPushID;
         device.onMsgData = app.onMsgData;
 
-        this.onMyEVENT();
+        app.onMyEVENT();
         //app.receivedEvent('deviceready');
     }
     ,onMyEVENT:function(){

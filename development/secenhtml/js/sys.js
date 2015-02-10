@@ -320,8 +320,9 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
            //检查login页面是否存在
            var login = $('#login_pagecontaion');
            if(login.is(':visible')){
-               alert('应该退出应用');
-               navigator.app.exitApp();
+               //alert('应该退出应用');
+               //navigator.app.exitApp();
+               window.PushManager.setMsg('appquit');
               return;
            }
 

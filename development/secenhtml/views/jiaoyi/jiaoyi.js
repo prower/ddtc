@@ -12,6 +12,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,context:null
         ,dom:{
             row:'.template [name=row]'
+            ,nonerow:'.template [name=nonerow]'
             ,list:'[name=list]'
         }
         ,iscroll:null
@@ -41,9 +42,15 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,c_fill:function(datas){
             var me = this;
             this.dom.list.empty();
-            for(var i=0;i<datas.length;i++){
-                var data = datas[i];
-                var row = this.c_getrow(data);
+            if(datas){
+                for(var i=0;i<datas.length;i++){
+                    var data = datas[i];
+                    var row = this.c_getrow(data);
+                    this.dom.list.append(row);
+                }
+            }
+            if(!datas || datas.length==0){
+                var row = this.c_getnonerow();
                 this.dom.list.append(row);
             }
             setTimeout(function(){
@@ -64,6 +71,10 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
 
                 });
             return  row;
+        }
+        ,c_getnonerow:function(){
+            var row = this.dom.nonerow.clone();
+            return row;
         }
         ,m_getdata:function(fn){
             ajax.userget('index','getDeals',{lastweek:this.lastWeek}, function(result){

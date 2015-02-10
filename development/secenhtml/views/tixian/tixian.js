@@ -13,6 +13,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,dom:{
             list:'[name=list]'
             ,row:'.template [name=row]'
+            ,nonerow:'.template [name=nonerow]'
             ,bt_jiaoyi:'[name=bt_jiaoyi]'
             ,info:{
                 panel:'[name=infopanel]'
@@ -105,8 +106,14 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
 
             var datas = data.drawLists;
             this.dom.list.empty();
-            for(var i=0;i<datas.length;i++){
-                var row = this.c_getrow(datas[i]);
+            if(datas){
+                for(var i=0;i<datas.length;i++){
+                    var row = this.c_getrow(datas[i]);
+                    this.dom.list.append(row);
+                }
+            }
+            if(!datas || datas.length == 0){
+                var row = this.c_getnonerow();
                 this.dom.list.append(row);
             }
             setTimeout(function(){
@@ -131,7 +138,10 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             if(0 == data.state){
                 row.find('[name=state0]').show();
             }
-
+            return row;
+        }
+        ,c_getnonerow:function(){
+            var row = this.dom.nonerow.clone();
             return row;
         }
         ,m_getdata:function(fn){
