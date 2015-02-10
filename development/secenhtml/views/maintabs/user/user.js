@@ -38,6 +38,9 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,manager_out:'[name=manager_out]'
                 ,manager_at:'[name=manager_at]'
                 ,manager_deals:'[name=manager_deals]'
+                ,remainSum:'[name=remainSum]'
+                ,score:'[name=score]'
+                ,todaysum:'[name=todaysum]'
             }
             ,permissionDom:'[p]'
         }
@@ -89,7 +92,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             setTimeout(function(){
                 me.m_baseinfo(function(data){
                     /**
-                     * at: 4deals: 1in: 0out: 1parkstate: "0"
+                     * at: 5deals: 1in: 0name: "张三"out: 1parkstate: "1"remainsum: 50score: 400todaysum: 0
                      */
 
                     //alert(JSON.stringify(data));
@@ -101,6 +104,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     me.dom.info.manager_in.html(data.in);
                     me.dom.info.manager_out.html(data.out);
                     me.dom.info.manager_deals.html(data.deals);
+
+                    me.dom.info.remainSum.html(data.remainsum);
+                    me.dom.info.score.html(data.score);
+                    me.dom.info.todaysum.html(data.todaysum);
+
+                    me.dom.btquit.html('管理员:{0}<span style="display: inline-block;padding-left: 40px">退出</span>'.replace('{0}', data.name));
 
                     fn && fn(data);
 
@@ -118,25 +127,29 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_willSetkuncun:function(type){
             var info = {
-                '0':'设置：停车位已满?'
-                ,'1':'设置：有少量停车位?'
-                ,'2':'设置：有大量停车位?'
+                '0':'请确认停车位已满?<br><span>系统将不再接受停车订单</span>'
+                ,'1':'请确认有(1-10)个空车位?'
+                ,'2':'请确认有空车位大于10个'
             }
-            if(window.confirm(info[type])){
-                this.c_setKucun(type);
-            }
+            var me = this;
+
+            utils.sys.confirm(info[type], function(){
+                me.c_setKucun(type);
+            });
         }
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true,onScrollMove:function(m){
-                    console.log('iscroll move',m);
+                    //console.log('iscroll move',m);
                 }
                 }
             );
 
             this.dom.kucun.panel.find('>*').aclick(function(){
                 var that = $(this);
-                me.c_willSetkuncun(that.attr('type'));
+                if(!that.hasClass('mui-active')){
+                    me.c_willSetkuncun(that.attr('type'));
+                }
             });
 
             this.dom.jifen.btaction.click(function(){
@@ -312,12 +325,19 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
         }
         ,c_quit:function(){
-            if(window.confirm('确认退出当前账户?')){
-                var me = this;
+            var me = this;
+            utils.sys.confirm('确认退出当前账户?', function(){
                 utils.sys.quitlogin(function(){
                    me.c_login(true);
                 });
-            }
+            });
+
+//            if(window.confirm('确认退出当前账户?')){
+//
+//                utils.sys.quitlogin(function(){
+//                   me.c_login(true);
+//                });
+//            }
         }
         ,close:function(){
 

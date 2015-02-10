@@ -39,11 +39,40 @@
             width: 100%;
             height: 100%;
         }
+        #offlinePage{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            font-size: 25px;
+            text-align: center;
+            line-height: 300px;
+            z-index: 10000;
+            background-image: url(../img/icon.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-color: #226BD1;
+            color: #fff;
+        }
+        #offlinePage>p{
+            line-height: 25px;
+            font-size: 16px;
+            position: absolute;
+            width: 100%;
+            bottom: 50%;
+        }
 
     </style>
 </head>
 <body>
-<iframe class="if1" border='0' src="http://duduche.me/html/secenhtml/index.html?1"></iframe>
+<iframe id="appiframe" class="if1" border='0' src=""></iframe>
+<div id="offlinePage">
+    <h3>未监测到网络信号！</h3>
+    <p>
+        请确保网络连接正常，系统稍后自动重试。
+    <p>
+</div>
 <script>
 
     function sendInfoToAnotherDomain(info){
@@ -77,8 +106,59 @@ var app = {
         device.onPushID = app.onPushID;
         device.onMsgData = app.onMsgData;
 
+        this.onMyEVENT();
         //app.receivedEvent('deviceready');
-    },
+    }
+    ,onMyEVENT:function(){
+        document.addEventListener("backbutton", function(e){
+            setTimeout(function(){
+                sendInfoToAnotherDomain('{"quit":"1"}');
+            });
+            //navigator.app.exitApp();
+            //navigator.app.backHistory()
+        }, false);
+
+        //网络检测
+
+        document.addEventListener("offline", function(){
+            offlineProcess(false);
+        }, false);
+        document.addEventListener("online", function(){
+            offlineProcess(true);
+        }, false);
+        var stateisLine = null;     //当前在线状态
+
+        var offlineProcess = window.offlineProcess = function(isLine){    //在线处理  isLine 是否在线
+            if(isLine == stateisLine){
+                return;
+            }
+            var offlinePage = document.getElementById('offlinePage');
+            var appiframe = document.getElementById('appiframe');
+            if(isLine){
+                offlinePage.style.display = 'none';
+                var src = 'http://duduche.me/html/secenhtml/index.html?'+new Date;
+                appiframe.style.display = 'block';
+                appiframe.src = src ;
+            }else{
+                appiframe.style.display = 'none';
+                offlinePage.style.display = 'block';
+            }
+            stateisLine = isLine;
+        }
+
+        var mycheckConnection = window.mycheckConnection = function() {
+            if(navigator.connection.type == Connection.NONE){
+                offlineProcess(false);
+            }else{
+                offlineProcess(true);
+            }
+
+        }
+        setTimeout(function(){
+            mycheckConnection();
+        });
+    }
+    ,
     // Update DOM on a Received Event
     /**
     receivedEvent: function(id) {

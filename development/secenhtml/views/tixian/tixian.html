@@ -1,25 +1,42 @@
 ﻿<div class="page_content userpage" id="tixian_html" style="" >
+    <style>
+        .mui-table-view-cell label{
+            display: inline-block;
+            min-width: 100px;
+        }
+        #tixian_html .row .mui-btn{
+            position: absolute;
+            right: 10px;
+            top: 30px;
+        }
+    </style>
     <ul class="mui-table-view">
         <li class="mui-table-view-cell">
-            <div>可以提现金额:</div>
-            <div><span class="mui-badge mui-badge-success">391</span></div>
+            <div>可提现金额:<span class="mui-badge1" name='remainSum'></span>元</div>
             <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>提现</div>
         </li>
+        <li class="mui-table-view-cell">
+            <ul class="my mygrid">
+                <li>
+                    <div class="mui-media-body body1">今天收益</div>
+                    <p><span class="mui-badge1" name='nowmoney'>198</span>元</p>
+                </li>
+                <li>
+                    <div class="mui-media-body body1">总累计收益</div>
+                    <p><span class="mui-badge1" name='totalmoney'>20030</span>元</p>
+                </li>
+                <li>
+                    <div class="mui-media-body body1">总交易次数(次)</div>
+                    <p class="mui-badge1" name='totaltimes'>2133</p>
+                </li>
+                <li name='bt_jiaoyi'>
+                    <div class="mui-media-body body1">交易清单</div>
+                    <p class="mui-badge1">>></p>
+                </li>
+            </ul>
+        </li>
     </ul>
-    <ul class="mui-table-view mui-grid-view mui-grid-9">
-        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4">
-            <div>今天收益(元)</div><div class="mui-media-body body1">1200.00</div>
-        </li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4">
-            <div>总累计收益(元)</div><div class="mui-media-body body1">37800.00</div>
-        </li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4">
-            <div>总交易次数(次)</div><div class="mui-media-body body1">519</div>
-        </li>
-        <li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4 mynext" name='bt_jiaoyi'>
-            <div style="color:transparent">1</div><div class="mui-media-body body1">交易清单</div>
-        </li>
-    </ul>
+
 
     <ul class="mui-table-view">
         <li class="mui-table-view-divider">提现记录</li>
@@ -28,15 +45,15 @@
 
     </ul>
     <div class="template">
-        <li class="mui-table-view-cell" name='row'>
-            <span>1月5日 10:25</span>
-            <ul style="padding-left: 10%">
-                <li><span>账户名:</span><span>环球停车场</span></li>
-                <li><span>开户银行:</span><span>中国招商银行徐汇支行</span></li>
-                <li><span>账户号:</span><span>12345656666</span></li>
-                <li><span>操作人:</span><span>工号005(琴月)</span></li>
-                <li><span>提现金额:</span><span>2000.00</span></li>
-            </ul>
+        <li class="mui-table-view-cell row" name='row'>
+            <div name='opttime'>1月5日 10:25</div>
+            <p><label>账户名:</label><span name='accountname'>环球停车场</span></p>
+            <p><label>开户银行:</label><span name='bankname'>中国招商银行徐汇支行</span></p>
+            <p><label>账号:</label><span name='account'>12345656666</span></p>
+            <p><label>操作人:</label><span name='optname'>工号005(琴月)</span></p>
+            <p><label>提现金额:</label><span name='money' class="mui-badge1"></span>元</p>
+            <div name='state1' class="mui-btn mui-btn-green  mui-pull-right" name="btaction">已提现</div>
+            <div name='state0' class="mui-btn mui-btn-danger  mui-pull-right" name="btaction">申请中</div>
         </li>
     </div>
     <div style="position: absolute;width: 100%;height: 100%;left: 0;top: 0;display: none" name='infopanel'>

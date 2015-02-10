@@ -243,7 +243,7 @@ window.sysmanager = {
                 if(0 == result.code){
                     callback && callback(true);
                 }else{
-                    me.alert('检查登录失败\n'+JSON.stringify(result));
+                    //me.alert('检查登录失败\n'+JSON.stringify(result));
                     callback && callback(false);
                 }
             },null,true);

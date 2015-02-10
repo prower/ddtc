@@ -24,6 +24,7 @@
             font-size: 16px;
             line-height: 16px;
             background-color: #ccc;
+            font-family: 黑体;
         }
         .mui-btn-green, .mui-btn-positive, .mui-btn-success{
             background-color: #16a7de;
@@ -57,7 +58,7 @@
         }
 		
 	.mui-bar-top{
-		position: fixed;
+		position: absolute;
 		right: 0;
 		left: 0;
 		z-index: 10;
@@ -535,7 +536,7 @@
     }
 
 
-        #user_html .mygrid .mui-badge,.mui-badge1{
+        #user_html .mui-badge,.mui-badge1{
             background-color: transparent;
             font-size: 25px;
         }
@@ -582,17 +583,48 @@
             float: left;
             background-size: 136px 34px;
             background-image: url(../img/icon_4.png);
+            margin-top: 20px;
         }
 
         #user_html .secenicon.s_1{
 
         }
-        #user_html .secenicon.s_2{
+        #user_html .secenicon.s_3{
             background-position: -34px 0;
         }
-        #user_html .secenicon.s_3{
+        #user_html .secenicon.s_2{
             background-position: -68px 0;
         }
         #user_html .secenicon.s_4{
             background-position: -102px 0;
         }
+.mui-table-view-cell .title{
+    font-size: 22px;
+}
+.my.mygrid{
+    margin: 0;
+    overflow: hidden;
+    padding: 1%;
+}
+.my.mygrid>li{
+    float: left;
+    width: 48%;
+    border: solid 1px #ccc;
+    border-radius: 7px;
+    background-color: #fff;
+    padding: 10px;
+    margin: 1%;
+}
+.my.mygrid>li>div{
+    text-align: center;
+}
+.my.mygrid>li>p{
+    text-align: center;
+}
+.mui-popover .title{
+    font-size: 20px;
+}
+.mui-popover .msg{
+    font-size: 20px;
+    line-height: 30px;
+}

@@ -15,6 +15,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ,list:'[name=list]'
         }
         ,iscroll:null
+        ,lastWeek:1
         ,init:function(context){
             if (!this.isInit) {
                 this.isInit = true;
@@ -23,6 +24,9 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 this.r_init();
             }
             this.c_init();
+        }
+        ,setLastweek:function(val){
+            this.lastWeek = val;
         }
         ,c_init:function(){
             var me = this;
@@ -55,15 +59,14 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             row.find('[name=pai]').html(data.carid).end().find('[name=start]').html(data.startime)
                 .end().find('[name=end]').html(data.endtime)
                 .end().find('[name=admin]').html(data.admin)
-                .end().find('[name=money]').html(data.money)
+                .end().find('[name=money]').html('¥ '+data.money)
                 .find('[name=btaction]').aclick(function(){
 
                 });
-
             return  row;
         }
         ,m_getdata:function(fn){
-            ajax.userget('index','getDeals',null, function(result){
+            ajax.userget('index','getDeals',{lastweek:this.lastWeek}, function(result){
                 /**
                  * data:［{"oid":"1","carid":"11111","orderTime":"1970-01-01 08:00:00"}
                  */

@@ -71,9 +71,17 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             return row;
         }
         ,c_setIn:function(oid, row){
-            this.m_setIn(oid,function(){
-                row.remove();
+            var me = this;
+            utils.sys.confirm("确认车辆［{0}］入场？".replace('{0}',row.find('.title').html()), function(){
+                me.m_setIn(oid,function(){
+                    row.remove();
+                });
             })
+//            if(window.confirm("确认车辆［{0}］入场？".replace('{0}',row.find('.title').html()))){
+//                me.m_setIn(oid,function(){
+//                    row.remove();
+//                });
+//            }
         }
         ,m_getdata:function(fn){
             ajax.userget('index','getEntries',null, function(result){

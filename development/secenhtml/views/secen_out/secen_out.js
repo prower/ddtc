@@ -104,12 +104,23 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             return row;
         }
         ,c_setOut:function(oid, row){
-            this.m_setout(oid, function(){
-                row.addClass('bounceOutLeft');
-                row.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-                    row.remove()
+            var me = this;
+            utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title').html()), function(){
+                me.m_setout(oid, function(){
+                    row.addClass('bounceOutLeft');
+                    row.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                        row.remove()
+                    });
                 });
             });
+//            if(window.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title').html()))){
+//                this.m_setout(oid, function(){
+//                    row.addClass('bounceOutLeft');
+//                    row.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+//                        row.remove()
+//                    });
+//                });
+//            }
         }
         ,m_getdata:function(fn){
             ajax.userget('index','getLeavings',null, function(result){

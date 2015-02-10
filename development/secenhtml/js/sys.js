@@ -207,7 +207,7 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
                    };
                })();
            }
-           window.onerror= function(msg,url,l){
+           window.onerror1= function(msg,url,l){
                txt="There was an error on this page.\n\n"
                txt+="Error: " + msg + "\n"
                txt+="URL: " + url + "\n"
@@ -215,6 +215,10 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
                txt+="Click OK to continue.\n\n"
                alert(txt)
                return true
+           }
+
+           window.MyAppQuit = function(){
+               me.appQuit();
            }
 
            return this;
@@ -299,6 +303,55 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
                fn && fn(view);
           });
        }
+       ,appQuit:function(){
+           //检查弹出框
+           var alertpanel = $('#alert_pagecontainer');
+           if(alertpanel.is(':visible')){
+               alertpanel.hide();
+               return;
+           }
+
+           //检查对话弹出框
+           var confirm = $('#confirm_pagecontainer');
+           if(confirm.is(':visible')){
+               confirm.hide();
+              return;
+           }
+           //检查login页面是否存在
+           var login = $('#login_pagecontaion');
+           if(login.is(':visible')){
+               alert('应该退出应用');
+               navigator.app.exitApp();
+              return;
+           }
+
+           //检查单独窗口
+           var pagelist = [
+               '#sence_out_pagecontaion'
+               ,'#sence_in_pagecontaion'
+               ,'#tixianop_pagecontaion'
+               ,'#pop_pagecontaion'
+           ]
+           for(var i=0;i<pagelist.length;i++){
+               var toppage = $(pagelist[i]);
+               if(toppage.is(':visible')){
+                   toppage.find('header>a').aclick();
+                 return;
+              }
+           }
+
+           //检查无菜单弹出窗口
+           var page = $('.bodypage>.toppagecontainer:visible');
+           if(page.length>0){
+               var p = $(page[0]);
+               $('#topheardpagecontainer header>a').click();
+               return;
+           }
+           //检查退出登录
+           if(window.UserManager){
+               window.UserManager.c_quit();
+           }
+       }
        ,alert:(function(){
            var alertpanel = $('#alert_pagecontainer');
            var titledom = alertpanel.find('[name=title]');
@@ -313,6 +366,31 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
                alertpanel.show();
            }
            return obj;
+       })()
+       ,confirm:(function(){
+           var confirm = $('#confirm_pagecontainer');
+           var okbutton = confirm.find('[name=btok]').click(function(){
+               confirm.hide();
+               okfn && okfn();
+               okfn = null;
+           });
+           var cancelbutton = confirm.find('[name=btcancel]').click(function(){
+               confirm.hide();
+               cancelfn && cancelfn();
+               cancelfn = null;
+           });
+           var msg = confirm.find('[name=msg]');
+
+
+           var okfn = null;
+           var cancelfn = null;
+
+           return function(_msg, _okfn, _cancelfn){
+               msg.html(_msg);
+               okfn = _okfn;
+               cancelfn = _cancelfn;
+               confirm.show();
+           }
        })()
        ,imgpath:function(imgname){
            return cfg.imgpath + imgname;

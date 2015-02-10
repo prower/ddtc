@@ -2,13 +2,17 @@
 <html>
 <head>
     <title>嘟嘟停车现场</title>
+
     <meta charset="UTF-8">
     <script src="../golba_rs/js/sys.js"></script>
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link rel="stylesheet" href="../golba_rs/css/mui.min.css">
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/main.css?1">
     <link rel="stylesheet" href="../golba_rs/css/animate.css">
 
 </head>
@@ -101,6 +105,14 @@
         <div class="page" style="background-color:#fff">
         </div>
     </div>
+    <div id="tixianop_pagecontaion" class="pagecontainer" style="display: none;z-index: 200">
+        <header class="mui-bar mui-bar-top">
+            <a name='btclose_tixianop' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+            <h1 class="mui-title">提现申请</h1>
+        </header>
+        <div class="page" style="background-color:#fff;padding-top: 44px;">
+        </div>
+    </div>
     <div id="sence_in_pagecontaion" class="pagecontainer" style="display: none;z-index: 199">
         <header class="mui-bar mui-bar-top">
             <a name='btclose_sence_in' class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
@@ -134,8 +146,25 @@
     <div id="alert_pagecontainer" class="pagecontainer" style=" display: none;z-index: 500">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view">
-                <li class="mui-table-view-cell" name='title'>错误信息:</li>
-                <li class="mui-table-view-cell" name='msg'>错误内容</li>
+                <li class="mui-table-view-cell title" name='title'>错误信息:</li>
+                <li class="mui-table-view-cell msg" name='msg'>错误内容</li>
+            </ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+    <div id="confirm_pagecontainer" class="pagecontainer" style=" display: none;z-index: 500">
+        <div class="mui-popover mui-active" style="display: block;">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell title" name='title'>操作确认:</li>
+                <li class="mui-table-view-cell msg" name='msg'>内容</li>
+                <li class="mui-table-view-cell">
+                    <table style="width: 80%">
+                        <tr>
+                            <td><div class="mui-btn mui-btn-red  mui-pull-right" name="btcancel">取 消</div></td>
+                            <td><div class="mui-btn mui-btn-success  mui-pull-right" name="btok">确 认</div></td>
+                        </tr>
+                    </table>
+                </li>
             </ul>
         </div>
         <div name='make' class="mui-backdrop mui-active"></div>
@@ -473,12 +502,12 @@
                     ,pushmsg:[]
                     ,PUSH_ID:function(pushid){
                         this.pushid = pushid;
-                        alert('pushid\n' + pushid);
+//                        alert('pushid\n' + pushid);
                         this.fire('pushid');
                     }
                     ,PUSH_MSG:function(msg){
                         this.pushmsg.push(msg);
-                        alert('pushmsg\n' + msg);
+//                        alert('pushmsg\n' + msg);
                         this.fire('pushmsg');
                     }
                     ,getPushid:function(){
@@ -501,8 +530,6 @@
             //它受到事件时，会先判断是否来自指定的Domain(不是所有Domain丢过来的事件它都处理的）
             window.addEventListener("message",function(ev){
                 console.log("the receiver callback func has been invoked");
-
-
                 //现在可以处理数据了
                 /**
                  *
@@ -514,8 +541,6 @@
                  *
                  *
                  */
-
-
                 //控制台打印出接收到的json数据，因为我们把json字符串发送了过来
                 console.log('getmessage',ev.data);
 
@@ -526,6 +551,8 @@
                     window.PushManager.PUSH_ID(personInfoJSON.pushid);
                 }else if(personInfoJSON.t){         //当前是一个消息推送
                     window.PushManager.PUSH_MSG(ev.data);
+                }else if(personInfoJSON.quit){
+                    window.MyAppQuit && window.MyAppQuit();
                 }
             });
         })();
