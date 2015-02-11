@@ -10,6 +10,7 @@ define((function(){
     var cfg = {
         start:null
         ,ajaxroot:'http://115.29.160.95/park.php/Home/'
+        ,giftimgroot:"http://115.29.160.95/html/secenhtml/giftimg/" //礼品根目录
     }
     /**
     var href = window.location.href;

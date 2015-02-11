@@ -213,7 +213,7 @@ function ui_map(){
                      if('get_brand_wcpay_request:ok' == res.err_msg){
                          me.c_startPayok();
                      }else{
-                         alert(res.err_msg);
+//                         alert(res.err_msg);
                          me.c_startPayfalid();
                      }
                  });
@@ -231,8 +231,8 @@ function ui_map(){
 
         }
         ,c_startPayfalid:function(){        //预付款失败
-            alert('预付款失败');
-            this.c_startPayok();
+            //alert('预付款失败');
+            //this.c_startPayok();
         }
         ,c_fill:function(datas){
             var me = this;

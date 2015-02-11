@@ -36,7 +36,9 @@
               -->
               <file name="golba_rs/js/jquery-1.9.1.min.js"/>
               <file name="golba_rs/js/iscroll.js"/>
+              <file name="${userdir}/js/cfg.js"/>
               <file name="${userdir}/js/utils.js"/>
+              <file name="${userdir}/js/ajax.js"/>
               <file name="${userdir}/js/manager.js"/>
               <file name="${userdir}/js/view.js"/>
               <file name="${userdir}/js/map_plugin.js"/>
@@ -114,20 +116,18 @@
         <copy todir='${pubdir}/${secendir}/img'>
             <fileset dir='${basedir}/secenhtml/img'></fileset>
         </copy>
+        <!--copy giftimg-->
+        <copy todir='${pubdir}/${secendir}/giftimg'>
+            <fileset dir='${basedir}/secenhtml/giftimg'></fileset>
+        </copy>
         <!--copy view-->
         <copy todir='${pubdir}/${secendir}/views'>
             <fileset dir='${basedir}/secenhtml/views'></fileset>
         </copy>
-
         <!--replace-->
         <replaceregexp byline="true" encoding='utf-8'>
             <regexp pattern="\.\./\.\./golba_rs/js/jquery-1\.9\.1\.min"/>
             <substitution expression="jquery-1\.9\.1\.min"/>
-            <fileset file="${pubdir}/${secendir}/js/require_main.js"/>
-        </replaceregexp>
-        <replaceregexp byline="true" encoding='utf-8'>
-            <regexp pattern=",view:'view'"/>
-            <substitution expression=",view:'viewloc'"/>
             <fileset file="${pubdir}/${secendir}/js/require_main.js"/>
         </replaceregexp>
 
@@ -174,6 +174,7 @@
         <mkdir dir="${pubdir}/${secendir}/css"/>
         <mkdir dir="${pubdir}/${secendir}/fonts"/>
         <mkdir dir="${pubdir}/${secendir}/img"/>
+        <mkdir dir="${pubdir}/${secendir}/giftimg"/>
         <mkdir dir="${pubdir}/${secendir}/views"/>
 
     </target>

@@ -13,6 +13,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,dom:{
             row:'.template [name=row]'
             ,row_none:'.template [name=row_none]'
+            ,score:'.template [name=score]'
             ,list:'[name=list]'
             ,btrefresh:'[name=btrefresh]'
         }
@@ -44,6 +45,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_fill:function(datas){
             var me = this;
+            this.dom.score.html(datas.score);
             this.dom.list.empty();
             for(var i=0;i<datas.length;i++){
                 var data = datas[i];

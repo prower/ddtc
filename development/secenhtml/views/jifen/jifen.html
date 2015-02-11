@@ -1,18 +1,43 @@
 ﻿<div class="page_content userpage" id="jifen_html" style="" >
-    <ul class="mui-table-view">
-        <li class="mui-table-view-cell">当前可用积分:<span class="mui-badge mui-badge-success">391</span></li>
-    </ul>
-    <ul class="mui-table-view mui-grid-view mui-grid-9" name='list'>
+    <style>
+        #jifen_html{
 
+        }
+        #jifen_html .list{
+            padding: 2%;
+        }
+        #jifen_html .list>li{
+            width: 45%;
+            display: block;
+            border: solid 1px #ccc;
+            border-radius: 5px;
+            float: left;
+            margin: 2%;
+        }
+        #jifen_html .list>li{
+            text-align: center;
+        }
+
+    </style>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">当前可用积分:<span class="mui-badge1" name='score'>391</span></li>
+        <li class="mui-table-view-cell">
+            <ul class="list" name='list'>
+
+            </ul>
+        </li>
+        <li class="mui-table-view-cell">
+            <p>点击使用积分兑换指定的礼品</p>
+        </li>
     </ul>
+
 
     <div class="template">
         <ul>
-            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" name='row'>
-                <a href="#">
-                    <span class="mui-icon mui-icon-home"></span>
-                    <div class="mui-media-body">Home</div>
-                </a>
+            <li class="" name='row'>
+                <img>
+                <div name='name'>名称</div>
+                <p>积分:<span name='s'></span></p>
             </li>
         </ul>
     </div>

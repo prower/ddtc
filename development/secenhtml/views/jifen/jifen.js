@@ -26,20 +26,20 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_init:function(){
             var me = this;
-            this.m_getdata(function(datas){
-                me.c_fill(datas);
+            this.m_getdata(function(data){
+                me.c_fill(data);
             });
         }
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
         }
-        ,c_fill:function(datas){
+        ,c_fill:function(data){
             var me = this;
             this.dom.list.empty();
+            var datas = data.giftList;
             for(var i=0;i<datas.length;i++){
-                var data = datas[i];
-                var row = this.c_getrow(data);
+                var row = this.c_getrow(datas[i]);
                 this.dom.list.append(row);
             }
             setTimeout(function(){
@@ -48,10 +48,23 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,c_getrow:function(data){
             var row = this.dom.row.clone();
-            row.find('.mui-media-body').html('积分:<span>{0}</span>'.replace('{0}',data.jifen));
+            row.find('[name=name]').html(data.name).end().find('[name=s]').html(data.score);
+            row.click(function(){
+                console.log(data);
+            });
             return  row;
         }
         ,m_getdata:function(fn){
+            ajax.userget('index','getGiftBase',null, function(result){
+                /**
+                 * score:400,
+                 	  giftList: [gid:1，name:‘10元电话卡’，score：10,image：dh.jpg]
+                 */
+                var data = result.data;
+                fn && fn(data);
+            });
+        }
+        ,m_getdata1:function(fn){
             fn && fn([
                 {name:'手机话费',jifen:100}
                 ,{name:'手机话费',jifen:100}
