@@ -104,7 +104,7 @@ function ui_myorderdetail(){
             var rendtime  = Math.abs(new Date -  new Date(data.startTime));
             this.dom.stoptime.html(utils.tools.t2s(rendtime));
             this.dom.totalFee.html(data.totalFee);
-            this.dom.preFee.html(data.totalFee - data.remainFee);
+            this.dom.preFee.html((data.totalFee*100 - data.remainFee*100)/100);
             this.dom.remainFee.html(data.remainFee);
 
             this.handler = setInterval(function(){
