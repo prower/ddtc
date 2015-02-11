@@ -521,15 +521,7 @@
             transform: translateY(-50%);
             -webkit-font-smoothing: antialiased;
         }
-        .map_control_home{
-            position: absolute;
-            right:16px;
-            top: 10px;
-            border: solid 2px;
-            border-radius: 50%;
-            padding: 5px;
-            color: #000;
-        }
+
         .amap-container .amap-logo{
             border: solid 1px red;
             display: none;
@@ -591,6 +583,18 @@
         background-repeat: no-repeat;
         background-position: left center;
         padding-left: 15px;
+    }
+    .mapPluginInit_mk1{
+        width: 30px;
+        height: 30px;
+        background-image: url(./img/maintools.png);
+        background-size: 140px 32px;
+        background-origin: padding-box;
+        background-position: -24px -1px;
+        cursor: pointer;
+        position: absolute;
+        right:19px;
+        top: 10px;
     }
 
 </style>
@@ -703,7 +707,7 @@
 
 </div>
 <div class="template">
-    <div class="map_control_home" name="map_control_home"><span class="mui-icon mui-icon-home"></span></div>
+    <div class="mapPluginInit_mk1" name="map_control_home"></div>
 </div>
 </body>
 
