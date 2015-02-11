@@ -523,7 +523,7 @@
         }
         .map_control_home{
             position: absolute;
-            left: 10px;
+            right:16px;
             top: 10px;
             border: solid 2px;
             border-radius: 50%;
@@ -532,6 +532,17 @@
         }
         .amap-container .amap-logo{
             border: solid 1px red;
+            display: none;
+        }
+        .amap-scale-text{
+            color: #000;
+            text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
+        }
+        .amap-scale-line>*{
+            border-color: #000;
+        }
+        .amap-scalecontrol{
+            margin-bottom: -20px;
         }
             .iconrow{
                 background-image: url(./img/icon.png);
@@ -548,18 +559,39 @@
             }
 
             .mk1{
-                background-image: url(./img/mk1.png);
+                background-image: url(./img/maks.png);
                 width: 32px;
                 height: 32px;
                 background-size: 100% 100%;
-                line-height: 32px;
-                color: rgb(42, 28, 134);
+                line-height: 30px;
+                color: #fff;
                 text-align: center;
+                background-size: 192px 32px;
+                font-size: 12px;
+            }
+            .mk1.state0{
+                background-position-x: -160px;
+            }
+            .mk1.state1{
+
+            }
+            .mk1.state2{
+                background-position-x: -32px;
             }
             .payinfo{
                 font-size: 30px;
                 color: #16a7de;
             }
+    #map_html .mui-table-view-cell{
+        padding: 3px 15px;
+    }
+    #map_html .distance{
+        background-image: url(./img/start.gif);
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-position: left center;
+        padding-left: 15px;
+    }
 
 </style>
 </head>

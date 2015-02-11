@@ -79,8 +79,6 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             this.dom.bt_jiaoyi.aclick(function(){
                 utils.sys.loadpage('views/', 'jiaoyi', null, '交易清单',function(v){
                     v.obj.setLastweek(0);
-
-
                 });
             });
         }

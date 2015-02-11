@@ -67,7 +67,7 @@
             overflow: hidden;
         }
         .map_contaion .list .innerlist .active{
-            background-color: rgba(0,0,0,.1);
+            background-color: #eeeeff;
         }
         .map_contaion .list .info .mybar{
             height: 44px;
@@ -110,7 +110,11 @@
         <div class="mui-card list">
             <div class="innerlist">
                 <ul class="mui-table-view">
-
+                    <li class="mui-table-view-cell tccrow">
+                        <div style="height: 500px;">
+                            <p style="padding-top: 150px;overflow: visible;"><b>嘟嘟停车</b>正在为您查询周围停车场...</p>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="info" name='infopanel'>
@@ -125,12 +129,17 @@
                 </header>
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell">
-                        <table style="width: 100%;table-layout: fixed">
+                        <table  style="width: 100%;table-layout: fixed">
                             <tr>
-                                <td style="width: 50px"><label>空车位:</label></td><td><p><span name='numberstatus'></span>/<span name='numbermax'></span></p></td>
+                                <td style="width: 50px"><label>空位:</label></td>
+                                <td style="width: 120px"><p><span name='numberstatus'></span></p></td>
+                                <td><label>总车位:</label></td>
+                                <td><p><span name='numbermax'></span></p></td>
                             </tr>
-                            <tr><td><label>价格:</label></td><td><p><span name='rules'></span></p></td></tr>
-                            <tr><td><label>备注:</label></td><td><p><span name='note'>晚上关门</span></p></td></tr>
+                        </table>
+                        <table style="width: 100%;table-layout: fixed">
+                            <tr><td style="width: 50px"><label>价格:</label></td><td><p><span name='rules'></span></p></td></tr>
+                            <tr name='noteline'><td><label>备注:</label></td><td><p><span name='note'>晚上关门</span></p></td></tr>
                             <tr><td><label>地址:</label></td><td><p><span name='address'>西康路10号</span></p></td></tr>
                         </table>
                         <!--<p><label>空车位:</label><span name='numberstatus'></span><span name='numbermax'></span></p>-->
@@ -168,13 +177,43 @@
         <ul>
             <li class="mui-table-view-cell tccrow" name='row'>
                 <h4 name='title'>停车场名称</h4>
-                <p name='address'>上海静安寺豫园路168号</p>
-                <p><span name='distance'>距离:<span></span>米</span>,<span name='rules'></span></p>
+                <p><span class="distance" name='distance'><span></span>米</span><span style="display: inline-block;padding-left: 10px"  name='address'>上海静安寺豫园路168号</span></p>
+                <p><span name='rules'></span></p>
                 <div class="mui-btn mui-btn-primary">抢订</div>
+            </li>
+            <li class="mui-table-view-cell tccrow" name='nonerow'>
+                <div style="height: 500px;">
+                    <p style="padding-top: 150px;overflow: visible;">附近尚无合作车位，我们正在洽谈中，敬请期待。</p>
+                </div>
             </li>
         </ul>
         <div name='mk1'>
-            <div  class="mk1">{0}</div>
+            <div  class="mk1 state{1}">{0}</div>
         </div>
     </div>
 </div>
+        <!--
+        //高德图标去掉
+        //长度图标换颜色
+        //小数点换整数
+        home icon 参考高德地图
+
+        //距离 2个字 换成一个箭头icon
+
+        //距离 内容 和旁边空开一个字
+
+        //内容模版
+        //名称
+        //距离  地址
+        //价格
+
+
+
+        //点了订购按钮
+        //出现的内容
+        //没有备注  则备注行不显示
+
+          //      空位：少于10量     总车位：xxx
+
+            //    预付后直接跳转到 位的缴费页面
+            -->

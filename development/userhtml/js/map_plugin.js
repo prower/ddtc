@@ -34,7 +34,7 @@ window.mapPluginInit = function(){
                 }else{
                     this.marker = new AMap.Marker({
                         map:map
-                        ,content:"<div style='width: 50px;height: 50px;border-radius: 25px;background-color: rgba(0,0,0,.2)'><div style='position: absolute;left: 50%;top:50%;width: 6px;height: 6px;border-radius: 3px;margin-left: -3px;margin-top: -3px;background-color:red'></div></div>"
+                        ,content:"<div style='width: 50px;height: 50px;border-radius: 25px;background-color: rgba(192, 232, 246, 0.8)'><div style='position: absolute;left: 50%;top:50%;width: 6px;height: 6px;border-radius: 3px;margin-left: -3px;margin-top: -3px;background-color:#16a7de'></div></div>"
                         ,position:position
                          ,offset:new AMap.Pixel(-25,-25)
                     });

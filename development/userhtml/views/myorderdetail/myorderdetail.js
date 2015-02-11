@@ -99,7 +99,7 @@ function ui_myorderdetail(){
              * address: "金沙江路102号"carid: "沪A888888"id: "53"lat: "31.231529"lng: "121.471352"remainFee: 15remaintime: -17044startTime: "2015-01-23 14:00:00"state: "1"totalFee: 20
              */
             var stoptime = utils.tools.t2s(new Date - new Date(data.startTime));
-            this.dom.title.html(data.address);
+            this.dom.title.html(data.name);
             this.dom.starttime.html(data.startTime);
             var rendtime  = Math.abs(new Date -  new Date(data.startTime));
             this.dom.stoptime.html(utils.tools.t2s(rendtime));

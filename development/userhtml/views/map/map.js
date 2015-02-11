@@ -12,6 +12,7 @@ function ui_map(){
         ,dom:{
             list:'.innerlist>ul'
             ,row:'.template [name=row]'
+            ,nonerow:'.template [name=nonerow]'
             ,listcontaion:'.list'
 
             ,bttitle:'[name=title]'
@@ -30,6 +31,7 @@ function ui_map(){
                 ,title:'[name=infopanel] [name=title]'
                 ,address:'[name=infopanel] [name=address]'
                 ,note:'[name=infopanel] [name=note]'
+                ,noteline:'[name=infopanel] [name=noteline]'
                 ,rules:'[name=infopanel] [name=rules]'
                 ,numberstatus:'[name=infopanel] [name=numberstatus]'
                 ,numbermax:'[name=infopanel] [name=numbermax]'
@@ -86,7 +88,9 @@ function ui_map(){
              lang:"zh_cn"//设置地图语言类型，默认：中文简体
             });//创建地图实例
 
-                var homecontrol = new AMap.myHomeControl();
+                var homecontrol = new AMap.myHomeControl({
+                    offset:new AMap.Pixel(10,100)
+                });
             var maptool = null;
 
                 mapObj.plugin(["AMap.ToolBar","AMap.Scale","AMap.myHomeControl"],function(){
@@ -99,7 +103,7 @@ function ui_map(){
 //                       ,locationMarker1:new AMap.Marker({
 //                           map:mapObj
 //                           ,content:"<div style='width: 50px;height: 50px;border-radius: 25px;background-color: rgba(0,0,0,.2)'><div style='position: absolute;left: 50%;top:50%;width: 6px;height: 6px;border-radius: 3px;margin-left: -3px;margin-top: -3px;background-color:red'></div></div>"
-//                            ,offset:new AMap.Pixel(-25,-25)
+                            ,offset:new AMap.Pixel(10,80)
 //                       })
                      });
                      mapObj.addControl(maptool);
@@ -238,8 +242,14 @@ function ui_map(){
             var me = this;
             this.datas = datas;
             this.dom.list.empty();
-            for(var i=0;i<datas.length;i++){
-                var row = this.c_getrow(datas[i]);
+            if(datas){
+                for(var i=0;i<datas.length;i++){
+                    var row = this.c_getrow(datas[i]);
+                    this.dom.list.append(row);
+                }
+            }
+            if(!datas || datas.length == 0){
+                var row = this.c_getnonerow();
                 this.dom.list.append(row);
             }
             setTimeout(function(){
@@ -257,7 +267,7 @@ function ui_map(){
         ,c_getpoint:function(map,data, index){
             var me = this;
             var content = this.dom.mk1.html();
-            content = content.replace('{0}', '$'+data.prepay);
+            content = content.replace('{0}', '¥'+data.prepay).replace('{1}',data.parkstate);
             var marker = new AMap.Marker({                 
               map:map,                 
               position:data.point,
@@ -278,9 +288,15 @@ function ui_map(){
             this.dom.infopanel.title.html(data.name);
             this.dom.infopanel.address.html(data.address);
             this.dom.infopanel.rules.html(data.rules);
-            this.dom.infopanel.note.html(data.note || '--');
+
             this.dom.infopanel.numbermax.html(data.spacesum);
-            this.dom.infopanel.numberstatus.html((['满了','少量','很多'][data.parkstate])||'未知');
+            this.dom.infopanel.numberstatus.html(window.cfg.parkstatestring[data.parkstate]);
+            if(data.note){
+                this.dom.infopanel.note.html(data.note);
+                this.dom.infopanel.noteline.show();
+            }else{
+                this.dom.infopanel.noteline.hide();
+            }
         }
         ,c_back:function(){
             this.dom.listcontaion.removeClass('next');
@@ -358,6 +374,7 @@ function ui_map(){
             row.addClass('active');
             this.mapObj.setCenter(data.marker.getPosition());
             data.marker.setAnimation('AMAP_ANIMATION_DROP');
+            data.marker.setTop(true);
             if(!!elemmove){
                 this.iscroll.scrollToElement(row[0]);
             }
@@ -380,6 +397,8 @@ function ui_map(){
              * prepay: "5"
              * rules: "5元/半小时，9元/小时，封顶72元，购物满200元可免费停车2小时"spacesum: "2200"
              * @type {*}
+             *
+             * parkstate 0-已满，1-较少，2-较多
              */
             var me = this;
             var row = this.dom.row.clone();
@@ -387,9 +406,7 @@ function ui_map(){
             row.find('[name=distance]>span').html(data.distance);
             row.find('[name=rules]').html(data.rules);
             row.find('[name=address]').html(data.address);
-            row.find('.mui-btn').click(function(){
-               me.c_showinfo(data);
-            });
+
             row.bind('touchstart', function(){
                 //data.marker.setAnimation('AMAP_ANIMATION_DROP');
                 //me.mapObj.panTo(data.point);
@@ -398,7 +415,29 @@ function ui_map(){
             row.bind('touchend', function(){
 //               me.mapObj.gotoHome();
             });
+            var parkstatestring = window.cfg.parkstatestring[parseInt(data.parkstate)];
+
+            switch(data.parkstate+''){
+                case '0':
+                    row.find('.mui-btn').css({
+                        border: 'none'
+                        ,color: '#999'
+                        ,'background-color':'#eee'
+                    }).html(parkstatestring);
+                    break;
+                case '1':
+                case '2':
+                    row.find('.mui-btn').click(function(){
+                       me.c_showinfo(data);
+                    });
+                    break;
+            }
+
             return row;
+        }
+        ,c_getnonerow:function(){
+            var nonerow = this.dom.nonerow.clone();
+            return nonerow;
         }
         ,m_getdata:function(center, fn){
             var clng = center.lng;
@@ -409,6 +448,7 @@ function ui_map(){
                     var d = data[i];
                     d.point = new AMap.LngLat(d.lng, d.lat);
                     d.distance = Math.abs(parseInt(d.point.distance(center)));
+                    d.prepay = parseInt(d.prepay);
                 }
                 fn && fn(result.data);
             }, null, false);

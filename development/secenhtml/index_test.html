@@ -73,6 +73,11 @@
         <p>请确保网络连接正常，系统稍后自动重试。<p>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
-    <script src="http://duduche.me/html/secenhtml/js/index.js"></script>
+    <script>
+        	var nowtime = (new Date()).getTime();
+    			document.write('<script type="text/javascript" src="http://duduche.me/html/secenhtml/js/index.js?t='+nowtime+'"></sc'+'ript>');
+        </script>
+
+    <!--<script src="http://duduche.me/html/secenhtml/js/index.js"></script>-->
 </body>
 </html>
