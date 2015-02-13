@@ -16,9 +16,12 @@ function ui_searchmap(){
             ,input:'[name=searchinpit]'
             ,list:'.innerlist'
             ,row:'.template [name=row]'
+            ,testnumber:'[name=testnumber]'
         }
         ,iscroll:null
         ,mapObj:null
+        ,searchNumber:0
+        ,searchResultNumber:0
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -36,8 +39,10 @@ function ui_searchmap(){
             var me = this;
             var keywords = this.dom.input.val();
             var auto;
+            this.searchNumber++;
             //加载输入提示插件
             AMap.service(["AMap.Autocomplete"], function() {
+                var nowsearchNumber = this.searchNumber;
                 var autoOptions = {
                     city: "" //城市，默认全国
                 };
@@ -45,7 +50,12 @@ function ui_searchmap(){
                 //查询成功时返回查询结果
                 if ( keywords.length > 0) {
                     AMap.event.addListener(auto,"complete",function(data){
-                        me.c_search_callback(data);
+                        if(nowsearchNumber>me.searchResultNumber){
+                           me.searchResultNumber = nowsearchNumber;
+                            console.log(nowsearchNumber);
+                            me.c_search_callback(data);
+                        }
+
                     });
                     auto.search(keywords);
                 }
@@ -76,6 +86,7 @@ function ui_searchmap(){
             var keywords = this.dom.input.val();
             if(keywords.length>0){
                 var MSearch;
+                var nowsearchNumber = this.searchNumber++;
                 AMap.service(["AMap.PlaceSearch"], function() {
                     MSearch = new AMap.PlaceSearch({ //构造地点查询类
                         pageSize:10,
@@ -85,6 +96,8 @@ function ui_searchmap(){
                     //关键字查询
                     MSearch.search(keywords, function(status, result){
                         if(status === 'complete' && result.info === 'OK'){
+                            //console.log('nowsearchNumber',nowsearchNumber);
+                            //me.dom.testnumber.html(me.dom.testnumber.html()+','+nowsearchNumber);
                             me.c_search_PlaceSearch_callback(result);
                         }
                     });
@@ -118,7 +131,7 @@ function ui_searchmap(){
             });
         }
         ,c_search_callback:function(data){
-            console.log('search',data);
+            //console.log('search',data);
             var me = this;
             this.dom.list.empty();
             if(!data.tips || data.tips.length<=0){
@@ -197,7 +210,9 @@ function ui_searchmap(){
                 sysmanager.pagecontainerManager.hide(c);
 
             });
-            this.r_init_input();
+            sysmanager.loadMapscript.load(function(){
+                me.r_init_input();
+            });
         }
         ,c_select:function(position){
             var me = this;

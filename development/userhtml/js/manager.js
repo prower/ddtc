@@ -315,7 +315,7 @@ window.sysmanager = {
            var obj = {
                load:function(_callback){
                    if(isloading){
-                       callback && callback();
+                       _callback && _callback();
                    }else{
                        callback = _callback;
                        var script = document.createElement("script");

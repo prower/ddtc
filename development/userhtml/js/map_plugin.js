@@ -21,7 +21,9 @@ window.mapPluginInit = function(){
 
          // 设置控件响应点击onclick事件
          controlUI.click(function(){
+             //alert(map.getZoom());
             map.panTo(me.position);
+
          });
          return controlUI[0];
        }
