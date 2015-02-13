@@ -281,6 +281,14 @@
                 background-color: #fff;
     			min-height:100%;
             }
+                .mytabs>div .copyright{
+                    min-height: inherit;
+                    position: absolute;
+                    bottom: 0px;
+                    right: 10px;
+                    font-weight: normal;
+                    font-size: 12px;
+                }
             .page_body{
                 width: 100%;
                 height: 100%;
@@ -698,7 +706,7 @@
                 font-size: 12px;
             }
             .mk1.state0{
-                background-position-x: -128px;
+                background-position-x: -160px;
             }
             .mk1.state1{
 
@@ -742,16 +750,16 @@
     	<div class="mui-inner-wrap">
     		<div class="mui-content mytabs">
                 <div id="tabbar-with-user" class="mui-control-content"   name='login'>
-                        <h3>@@登录</h3>
+                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div id="tabbar-with-collection" class="mui-control-content"   name='map'>
-                		<h3>@@地图</h3>
+                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div id="tabbar-with-in" class="mui-control-content"  name='myorder'>
-                    <h3>@@我的订单</h3>
+                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div id="tabbar-with-out" class="mui-control-content"   name='myorderdetail'>
-                    <h3>@@结算</h3>
+                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
     		</div>
     		<!-- off-canvas backdrop -->
@@ -873,6 +881,7 @@
     $(function(){
         window.sysmanager.init();
 
+
         //tab
         var tabcontrols = $('[name=tabscontrol]');
         var tabcards =  $('.mytabs>div');
@@ -880,6 +889,7 @@
         var nowview = null;
 
         tabs.activeHandle[5] = tabs.activeHandle[4] = tabs.activeHandle[3] =tabs.activeHandle[2] = tabs.activeHandle[1] = function(context){
+
             viewManager.viewroot('views/');
             var viewname = context.attr('name');
             var view = viewManager.loadview(viewname,function(v){
