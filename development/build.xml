@@ -34,7 +34,7 @@
                 <script src="./views/daohang/daohang.js"></script>
                 <script src="./views/searchmap/searchmap.js"></script>
               -->
-              <file name="golba_rs/js/jquery-1.9.1.min.js"/>
+              <!--<file name="golba_rs/js/jquery-1.9.1.min.js"/>-->
               <file name="golba_rs/js/iscroll.js"/>
               <file name="${userdir}/js/cfg.js"/>
               <file name="${userdir}/js/utils.js"/>
@@ -45,6 +45,10 @@
               <file name="${userdir}/views/map/map.js"/>
               <file name="${userdir}/views/daohang/daohang.js"/>
               <file name="${userdir}/views/searchmap/searchmap.js"/>
+              <file name="${userdir}/views/myorder/myorder.js"/>
+              <file name="${userdir}/views/myorderdetail/myorderdetail.js"/>
+              <file name="${userdir}/views/orderpay/orderpay.js"/>
+              <file name="${userdir}/views/reg/reg.js"/>
           </sources>
         </jscomp>
 
@@ -52,12 +56,13 @@
         <copy file='${basedir}/${userdir}/index.html' tofile='${pubdir}/${userdir}/index.html' ></copy>
         <!--copy golba file-->
         <copy file="${basedir}/golba_rs/js/sys.js" tofile='${pubdir}/${userdir}/js/sys.js'></copy>
+        <copy file="${basedir}/golba_rs/js/jquery-1.9.1.min.js" tofile='${pubdir}/${userdir}/js/jquery-1.9.1.min.js'></copy>
         <!--copy css-->
         <copy todir='${pubdir}/${userdir}/fonts'>
             <fileset dir='${basedir}/golba_rs/fonts'></fileset>
         </copy>
         <copy file='${basedir}/golba_rs/css/mui.min.css' tofile='${pubdir}/${userdir}/css/mui.min.css' ></copy>
-        <copy file='${basedir}/${userdir}/css/main.css' tofile='${pubdir}/${userdir}/css/main.css' ></copy>
+        <!--<copy file='${basedir}/${userdir}/css/main.css' tofile='${pubdir}/${userdir}/css/main.css' ></copy>-->
         <!--copy view-->
         <copy todir="${pubdir}/${userdir}/views">
             <fileset dir="${basedir}/${userdir}/views"/>
@@ -77,6 +82,11 @@
             <substitution expression="\./css/mui\.min\.css"/>
             <fileset file="${pubdir}/${userdir}/index.html"/>
         </replaceregexp>
+        <replaceregexp byline="true" encoding='utf-8'>
+            <regexp pattern="\.\./golba_rs/js/jquery-1\.9\.1\.min.js"/>
+            <substitution expression="\./js/jquery-1\.9\.1\.min.js"/>
+            <fileset file="${pubdir}/${userdir}/index.html"/>
+        </replaceregexp>
         <replaceregexp byline="true"  encoding='utf-8'>
             <regexp pattern=".*__del__.*"/>
             <substitution expression=""/>
@@ -87,7 +97,12 @@
             <substitution expression="src=\./js/all\.js"/>
             <fileset file="${pubdir}/${userdir}/index.html"/>
         </replaceregexp>
-
+        <!--测试文本替换-->
+        <replaceregexp byline="true"  encoding='utf-8'>
+            <regexp pattern="Copyright@@2015"/>
+            <substitution expression="嘟嘟停车 Copyright@2015"/>
+            <fileset file="${pubdir}/${userdir}/index.html"/>
+        </replaceregexp>
     </target>
 
     <target name='compilesecen'>

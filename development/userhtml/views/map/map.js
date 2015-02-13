@@ -82,7 +82,7 @@ function ui_map(){
               var mapObj = this.mapObj = window.mapobj = new AMap.Map("map_html_mapid",{
               view: new AMap.View2D({//创建地图二维视口
               //center:position,//创建中心点坐标
-              zoom:15, //设置地图缩放级别
+              zoom:17, //设置地图缩放级别
               rotation:0 //设置地图旋转角度
              }),
              lang:"zh_cn"//设置地图语言类型，默认：中文简体
@@ -117,6 +117,7 @@ function ui_map(){
             AMap.event.addListener(mapObj,'complete', function(){
                 var center = this.getCenter();
                 console.log(center);
+                mapObj.setZoom(17);
                 /**
                  * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
                  */
@@ -289,7 +290,7 @@ function ui_map(){
             this.dom.infopanel.address.html(data.address);
             this.dom.infopanel.rules.html(data.rules);
 
-            this.dom.infopanel.numbermax.html(data.spacesum);
+            this.dom.infopanel.numbermax.html(data.spacesum>0?(data.spacesum+'个'):'未知');
             this.dom.infopanel.numberstatus.html(window.cfg.parkstatestring[data.parkstate]);
             if(data.note){
                 this.dom.infopanel.note.html(data.note);

@@ -74,6 +74,7 @@ function ui_myorder(){
             var row = this.dom.row2.clone();
             row.find('[name=title]').html(data.parkname);
             row.find('[name=time]').html(data.startTime);
+            row.find('[name=address]').html(data.address);
             var ms = new Date() - data.startTimeStamp*1000;
             var timestring = utils.tools.t2s(ms);
             row.find('[name=info]').html(timestring);
