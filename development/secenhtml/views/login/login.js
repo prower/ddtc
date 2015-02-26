@@ -116,7 +116,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,r_init:function(){
             var me = this;
-            this.dom.loginpanel.btlogin.aclick(function(){
+            this.dom.loginpanel.btlogin.click(function(){
                 me.loginpanel.login();
             });
             this.dom.logininfopanel.btquit.aclick(function(){
