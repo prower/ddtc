@@ -27,7 +27,16 @@ function ui_reg(){
         ,c_init:function(){
             var me = this;
             //this.c_checkLogin();
-
+            var type = utils.tools.getUrlParam('type') || '1';
+            if(2 != type){
+                var openid = utils.tools.getUrlParam('openid');
+                if(openid){
+                    var me = this;
+                    sysmanager.login('','',function(){
+                        me.c_quit();
+                    });
+                }
+            }
         }
         ,c_checkLogin:function(){
             sysmanager.checkLogin(function(islogin){
