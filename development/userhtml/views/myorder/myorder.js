@@ -14,6 +14,8 @@ function ui_myorder(){
             ,row2:'.template [name=row2]'
             ,list:'[name=list]'
             ,scrollpanel:'[name=scrollpanel]'
+            ,test:'.test'
+            ,btclearlogin:'[name=btclearlogin]'
         }
         ,iscroll:null
         ,init:function(context){
@@ -27,9 +29,12 @@ function ui_myorder(){
         }
         ,c_init:function(){
             var me = this;
+
             this.m_getorder(function(data){
                 me.c_fill(data);
             });
+
+            this.dom.test.html(JSON.stringify(myajax.userinfo()));
         }
         ,c_fill:function(data){
             var me = this;
@@ -65,9 +70,18 @@ function ui_myorder(){
 //            alert([new Date()-0, new Date(data.startTime)-0,ms]);
             var timestring = utils.tools.t2s(ms);
             row.find('[name=info]').html(timestring);
-            row.find('[name=btpay]').aclick(function(){
-                me.c_paydetail(data.oid);
-            });
+
+            if('2' == data.state+''){
+                row.find('[name=btpay]').hide();
+                row.find('[name=btleave]').aclick(function(){
+                    me.c_setleave(row, data.oid);
+                });
+            }else{
+                row.find('[name=btpay]').aclick(function(){
+                    me.c_paydetail(data.oid);
+                });
+                row.find('[name=btleave]').hide();
+            }
             return row;
         }
         ,c_getrow2:function(data){          //已经结算的行
@@ -75,7 +89,7 @@ function ui_myorder(){
             row.find('[name=title]').html(data.parkname);
             row.find('[name=time]').html(data.startTime);
             row.find('[name=address]').html(data.address);
-            var ms = new Date() - data.startTimeStamp*1000;
+            var ms = (data.leaveTimeStamp - data.startTimeStamp)*1000;
             var timestring = utils.tools.t2s(ms);
             row.find('[name=info]').html(timestring);
             row.find('[name=btpay]').aclick(function(){
@@ -83,14 +97,28 @@ function ui_myorder(){
             });
             return row;
         }
+        ,c_setleave:function(row, oid){
+            var me = this;
+            sysmanager.confirm(window.cfg.leaveinfo,function(){
+                me.m_leave(oid, function(){
+                    location.reload();
+                });
+            });
+        }
         ,c_paydetail:function(oid){
             sysmanager.loadpage('views/', 'myorderdetail', null, '订单结算',function(v){
                 v.obj.initoid(oid);
             });
         }
+        ,c_cleatlogin:function(){
+            myajax.clearInfo();
+        }
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.dom.scrollpanel[0], {desktopCompatibility:true});
+            this.dom.btclearlogin.aclick(function(){
+                me.c_cleatlogin();
+            });
         }
         ,m_getorder:function(fn){         //获取没有结算的订单
 
@@ -105,6 +133,11 @@ function ui_myorder(){
         }
         ,m_startJs:function(oid, fn){          //发出结算请求
             window.myajax.userget('index','genorder',{pid:pid}, function(result){
+                fn && fn(result.data);
+            }, null, false);
+        }
+        ,m_leave:function(oid, fn){          //发出结算请求
+            window.myajax.userget('index','setLeave',{oid:oid}, function(result){
                 fn && fn(result.data);
             }, null, false);
         }

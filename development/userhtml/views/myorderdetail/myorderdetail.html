@@ -2,7 +2,7 @@
     <style>
         #myorderdetail_html{
             width: 100%;
-            height: 100%;
+            min-height: 100%;
         }
         #myorderdetail_html .row .time{
 
@@ -13,14 +13,71 @@
 
         .myorderdetail_html_contaion{
             width: 100%;
-            height: 100%;
-            position: absolute;
+            min-height: 100%;
+            /*position: absolute;*/
             background-color: #f0f0f0;
         }
-        .order_pay, .order_wait, .no_pay{
+        #myorderdetail_html .order_pay, .order_wait, .no_pay{
             width: 100%;
-            height: 100%;
+            min-height: 100%;
+            position: relative;
         }
+        #myorderdetail_html .order_pay li{
+            padding: 10px 15px;
+        }
+        #myorderdetail_html .order_pay li.payinfo{
+            padding: 15px;
+        }
+        #myorderdetail_html  .lianxipanel{
+
+        }
+        #myorderdetail_html  .lianxipanel>li{
+            padding: 10px 15px;
+        }
+        #myorderdetail_html  .lianxipanel .other{
+            display: none;
+        }
+        #myorderdetail_html  .lianxipanel.all .other{
+            display: block;
+        }
+        #myorderdetail_html  .lianxipanel.all .btmore_none{
+            display: block;
+        }
+        #myorderdetail_html  .lianxipanel.all .btmore{
+            display: none;
+        }
+        #myorderdetail_html  .lianxipanel .btmore_none{
+            display: none;
+        }
+        #myorderdetail_html  .lianxipanel .btmore{
+            display: block;
+        }
+        #myorderdetail_html  .lianxipanel>li{
+            position: relative;
+        }
+        #myorderdetail_html  .lianxipanel>li>a{
+            position: absolute;
+            top: 0px;
+        }
+        #myorderdetail_html  .lianxipanel>li.other>a.btmore{
+            display: none;
+        }
+        #myorderdetail_html  .lianxipanel>li.other>a.btmore_none{
+            display: none;
+        }
+        #myorderdetail_html  .lianxipanel>li>a.btlianxi{
+            right: 70px;
+        }
+        #myorderdetail_html  .lianxipanel>li>a.btmore{
+            right: 0px;
+        }
+        #myorderdetail_html  .lianxipanel>li>a.btmore_none{
+            right: 0px;
+        }
+        #myorderdetail_html li a .mui-icon{
+            font-size: 20px;
+        }
+
 
     </style>
     <div class="myorderdetail_html_contaion">
@@ -36,10 +93,14 @@
                 <li class="mui-table-view-cell"><label>停放时间：</label><span name='stoptime'></span></li>
                 <li class="mui-table-view-cell"><label>总计金额：</label><span name='totalFee'></span></li>
                 <li class="mui-table-view-cell"><label>已付金额：</label><span name='preFee'></span></li>
-                <li class="mui-table-view-divider"></li>
                 <li class="mui-table-view-cell payinfo"><label>需付金额：</label><span name='remainFee'></span></li>
+                <li class="mui-table-view-cell">
+                    <p>以下管理员为您服务</p>
+                    <ul  name='lianxipanel' class="lianxipanel"></ul>
+                </li>
             </ul>
             <p style="padding: 20px">请在支付结清后的15分钟内驶离至出口,否则可能需加付费用.</p>
+            <div style="height: 50px;"></div>
             <button style="position: absolute;bottom: 0;left: 0;right: 0" name="btpay"  class="mui-btn mui-btn-success mui-btn-block">结算付款>></button>
         </div>
         <div class="order_wait" name='order_wait'>
@@ -48,14 +109,25 @@
                 <li class="mui-table-view-cell"><p>请不要关闭本界面,出口管理人员可能会需要本界面信息</p></li>
                 <li class="mui-table-view-cell">离场剩余时间：<span name='rtime'></span></li>
                 <li class="mui-table-view-cell">所在停车场：<span name='partname'></span></li>
+                <li class="mui-table-view-cell">
+                    <p>以下管理员为您服务</p>
+                    <ul  name='lianxipanel' class="lianxipanel"></ul>
+                </li>
+                <li class="mui-table-view-divider">
+                    如果你已经离开，但是管理员并未设置当前离场，你可以设置[离场]
+                </li>
+            </ul>
+            <button class="mui-btn mui-btn-primary mui-btn-block" name='btleave'>离场</button>
+        </div>
+        <div class="template">
+            <ul>
+                <li  name='lianxipanel_row'>
+                    <label name='name'>管理员</label>
+                    <a class="mui-btn mui-btn-success btlianxi" name="btlianxi"><span class="mui-icon mui-icon-phone"></span></a>
+                    <a class="mui-btn mui-btn-warning btmore" name="btmore"><span class="mui-icon mui-icon-arrowdown"></span></a>
+                    <a class="mui-btn mui-btn-warning btmore_none" name="btmore_none"><span class="mui-icon mui-icon-arrowup"></span></a>
+                </li>
             </ul>
         </div>
     </div>
 </div>
-
-        <!--
-        ／／费用已经结清
-
-        ／／title 设置名称
-
-        -->

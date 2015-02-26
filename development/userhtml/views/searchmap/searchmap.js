@@ -20,7 +20,8 @@ function ui_searchmap(){
         }
         ,iscroll:null
         ,mapObj:null
-        ,searchNumber:0
+        ,searchNumber:0                         //当前最后一次查询的次数
+        ,showSearchnumber:0                     //当前最后一次显示的次数
         ,searchResultNumber:0
         ,init:function(context){
             if (!this.isInit){
@@ -97,8 +98,14 @@ function ui_searchmap(){
                     MSearch.search(keywords, function(status, result){
                         if(status === 'complete' && result.info === 'OK'){
                             //console.log('nowsearchNumber',nowsearchNumber);
-                            //me.dom.testnumber.html(me.dom.testnumber.html()+','+nowsearchNumber);
-                            me.c_search_PlaceSearch_callback(result);
+
+                            if(nowsearchNumber>=me.showSearchnumber){
+                                me.showSearchnumber = nowsearchNumber;
+                                me.dom.testnumber.html(me.dom.testnumber.html()+','+nowsearchNumber);
+                                me.c_search_PlaceSearch_callback(result);
+                            }else{
+                                me.dom.testnumber.html(me.dom.testnumber.html()+','+ "<span style='color: red'>"+nowsearchNumber+'-'+me.showSearchnumber+"</span>" );
+                            }
                         }
                     });
                 });

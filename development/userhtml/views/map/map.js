@@ -232,13 +232,16 @@ function ui_map(){
         }
         ,c_startPayok:function(){           //预付款成功
             var me = this;
-            sysmanager.loadpage('views/', 'orderpay', null, '当前停车订单',function(view){
-                view.obj.c_initinfo(me.nowdata, me.nowoid);
-                view.obj.onclose = function(){
+//            sysmanager.loadpage('views/', 'orderpay', null, '当前停车订单',function(view){
+//                view.obj.c_initinfo(me.nowdata, me.nowoid);
+//                view.obj.onclose = function(){
+//
+//                }
+//            });
 
-                }
+            sysmanager.loadpage('views/', 'myorderdetail', null, '订单结算',function(v){
+                //v.obj.initoid(me.oid);
             });
-
 
         }
         ,c_startPayfalid:function(){        //预付款失败
