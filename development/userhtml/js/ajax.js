@@ -81,6 +81,7 @@
             userinfo = null;
             window[key] = null;
             window[uid] = null;
+            utils.cache.removeItem(userinfokey);
         }
     }
     window.myajax =  myajax;
