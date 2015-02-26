@@ -298,6 +298,31 @@ window.sysmanager = {
            }
            return obj;
        })()
+        ,confirm:(function(){
+               var confirm = $('#confirm_pagecontainer');
+               var okbutton = confirm.find('[name=btok]').click(function(){
+                   confirm.hide();
+                   okfn && okfn();
+                   okfn = null;
+               });
+               var cancelbutton = confirm.find('[name=btcancel]').click(function(){
+                   confirm.hide();
+                   cancelfn && cancelfn();
+                   cancelfn = null;
+               });
+               var msg = confirm.find('[name=msg]');
+
+
+               var okfn = null;
+               var cancelfn = null;
+
+               return function(_msg, _okfn, _cancelfn){
+                   msg.html(_msg);
+                   okfn = _okfn;
+                   cancelfn = _cancelfn;
+                   confirm.show();
+               }
+           })()
        ,imgpath:function(imgname){
            return cfg.imgpath + imgname;
        }
