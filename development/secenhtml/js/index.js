@@ -73,7 +73,7 @@ var app = {
     bindEvents: function() {
         var me = this;
         document.addEventListener('deviceready', function(){
-            me.onDeviceReady
+            me.onDeviceReady();
         }, false);
     },
     // deviceready Event Handler
