@@ -57,4 +57,12 @@ app.initialize();
         tabs.removeClass(activeclassnamwe);
         tab.addClass(activeclassnamwe);
     });
+
+    init();
+
+    function init(){
+        alert( 'Device Version: '  + device.version );
+    }
 })(jQuery);
+
+
