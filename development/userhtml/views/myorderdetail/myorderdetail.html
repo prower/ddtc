@@ -77,6 +77,9 @@
         #myorderdetail_html li a .mui-icon{
             font-size: 20px;
         }
+        #myorderdetail_html .myorderdetail_html_contaion>*{
+            display: none;
+        }
 
 
     </style>
@@ -113,11 +116,11 @@
                     <p>以下管理员为您服务</p>
                     <ul  name='lianxipanel' class="lianxipanel"></ul>
                 </li>
-                <li class="mui-table-view-divider">
+                <li class="mui-table-view-divider" style="display: none">
                     如果你已经离开，但是管理员并未设置当前离场，你可以设置[离场]
                 </li>
             </ul>
-            <button class="mui-btn mui-btn-primary mui-btn-block" name='btleave'>离场</button>
+            <button style="display: none" class="mui-btn mui-btn-primary mui-btn-block" name='btleave'>离场</button>
         </div>
         <div class="template">
             <ul>

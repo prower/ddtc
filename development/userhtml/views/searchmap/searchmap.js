@@ -212,6 +212,7 @@ function ui_searchmap(){
             var me = this;
             //this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             this.dom.btetst.aclick(function(){
+                me.dom.input.blur();
                 var c = me.context.parent().parent();
                 me.close(null);
                 sysmanager.pagecontainerManager.hide(c);
@@ -239,7 +240,9 @@ function ui_searchmap(){
 
             });
             this.dom.form1.bind('submit', function(){
-                console.log('不提交');
+                setTimeout(function(){
+                    me.c_search_PlaceSearch();
+                });
                return false;
             });
         }

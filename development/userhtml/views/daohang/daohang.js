@@ -226,7 +226,7 @@ function ui_daohang(){
                 //加载工具条
                 var maptool = window.maptool = new AMap.ToolBar({
                     direction:false, //隐藏方向导航
-                    ruler:false, //隐藏视野级别控制尺
+                    ruler:true, //隐藏视野级别控制尺
                     autoPosition:false//自动定位
                     , offset:new AMap.Pixel(10, me.context.height() - 50)
                 });
@@ -247,7 +247,7 @@ function ui_daohang(){
             var me = this;
             this.iscroll = new iScroll(this.dom.list[0], {desktopCompatibility:true});
         }, close:function () {
-
+            this.mapObj && this.mapObj.destroy();
         }
     };
     return  ui;

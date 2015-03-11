@@ -21,7 +21,6 @@ function ui_map(){
             ,daohang_gaode:'[name=daohang_gaode]'
             ,daohang_my:'[name=daohang_my]'
             ,btclosemenu:'[name=btclosemenu]'
-            ,btclosemenu:'[name=btclosemenu]'
             ,mk1:'.template [name=mk1]'
             ,infopanel:{
                 panel:'[name=infopanel]'
@@ -116,9 +115,18 @@ function ui_map(){
                        //加载回原点
                      mapObj.addControl(homecontrol);
                });
+            //window.mapobj1 = mapObj;
+            if(mapObj.loaded){
+                onmapload(mapobj);
+            }else{
+                AMap.event.addListener(mapObj,'complete',function(){
+                        onmapload(mapobj);
+                });
+            }
 
-            AMap.event.addListener(mapObj,'complete', function(){
-                var center = this.getCenter();
+
+            function onmapload(mapobj){
+                var center = mapobj.getCenter();
                 console.log(center);                /**
                  * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
                  */
@@ -128,7 +136,6 @@ function ui_map(){
                         homecontrol.setPosition(placedata,mapObj, true);
                         fn && fn(placedata);
                     });
-
                 }else{
                     /**
                     AMap.event.addListener(maptool,'location',function callback(e){
@@ -177,7 +184,7 @@ function ui_map(){
                 mapObj.gotoHome = function(){
                     this.panTo(homecontrol.position);
                 }
-            });
+            }
 
         }
         ,r_init:function(){
@@ -188,8 +195,11 @@ function ui_map(){
                 me.c_back();
             });
             this.dom.infopanel.btdaohang.aclick(function(){
-                //me.c_daohang();
-                me.c_daohang_my();
+                if(sysmanager.isapp){
+                    me.c_daohang();
+                }else{
+                    me.c_daohang_my();
+                }
             });
             this.dom.daohang_gaode.aclick(function(){
                 me.c_daohang_gaode($(this));
@@ -369,6 +379,8 @@ function ui_map(){
             setTimeout(function(){
                 me.dom.daohangmenu.hide();
             },1e3);
+            window.open(href, '_system');
+
         }
         ,c_daohang_my:function(){
             var me = this;

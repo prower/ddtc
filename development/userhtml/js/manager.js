@@ -326,6 +326,10 @@ window.sysmanager = {
        ,imgpath:function(imgname){
            return cfg.imgpath + imgname;
        }
+        ,isapp:(function(){     //当前是否在app中
+            var isapp = !!(utils.tools.getUrlParam('isapp'));
+            return isapp;
+        })()
         ,loadMapscript:(function(){     //地图异步加载
            var callback = null;
             var isloading = false;

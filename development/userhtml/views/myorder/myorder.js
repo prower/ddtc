@@ -44,6 +44,7 @@ function ui_myorder(){
                 var row = null;
                 if(3 == d.state){
                     row = this.c_getrow2(d);
+//                    row = this.c_getrow(d);
                 }else{
                     row = this.c_getrow(d);
                 }
@@ -71,7 +72,7 @@ function ui_myorder(){
             var timestring = utils.tools.t2s(ms);
             row.find('[name=info]').html(timestring);
 
-            if('2' == data.state+''){
+            if(false &&  '2' == data.state+''){
                 row.find('[name=btpay]').hide();
                 row.find('[name=btleave]').aclick(function(){
                     me.c_setleave(row, data.oid);
