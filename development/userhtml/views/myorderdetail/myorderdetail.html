@@ -95,8 +95,14 @@
             height: 26px;
             -webkit-appearance: none;
             background-color: transparent;
-            border: 0;
-            border: solid 1px #ccc;
+            border: solid 1px #16a7de;
+            border-radius: 50%;
+        }
+        .couponlist .mui-active{
+            background-color: #fff;
+        }
+        #myorderdetail_html [name=dqpanel]  .mui-active>.selectrow>span{
+            background-color: #16a7de;
         }
 
 
@@ -118,7 +124,7 @@
                     <a class="mui-navigate-right">
                     <label><span class="dquicon"></span>抵扣券：</label><span name='couponinfo'>抵扣信息</span>
                     </a>
-                    <ul class="mui-table-view" name='list'>
+                    <ul class="mui-table-view couponlist" name='list'>
                         <li class="mui-table-view-cell mui-collapse">
                             <div class="mui-input-row mui-radio mui-left">
                                 <label>Radio</label>

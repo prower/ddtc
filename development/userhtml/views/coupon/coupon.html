@@ -3,8 +3,24 @@
         #coupon_html{
 
         }
-        #userinfo_html .pailist{
+        #coupon_html .pailist{
 
+        }
+        #coupon_html .pailist .row{
+            position: relative;
+        }
+        #coupon_html .pailist .row>b{
+            float: right;
+            font-weight: normal;
+            color: #16a7de;
+            font-size: 14px;
+            position: absolute;
+            right: 10px;
+            top: 24%;
+        }
+        #coupon_html .pailist .row>b>span{
+            display: inline-block;
+            padding-left: 5px;
         }
 
     </style>
@@ -19,11 +35,13 @@
     </ul>
     <div class="template">
         <ul>
-            <li name='quanrow-1' class="mui-table-view-cell">
-                <span>1元券</span><p>使用后，订单只需要支付1元</p>
+            <li name='quanrow-1' class="mui-table-view-cell row">
+                <span>1元券</span><p style="padding-top: 5px;padding-bottom: 5px">使用后，订单只需要支付1元</p>
+                <b>截止:<span></span></b>
             </li>
-            <li name='quanrow0' class="mui-table-view-cell">
-                <span>抵扣券(<span name='money'></span>元)</span><p>抵扣你的订单消费<span name='money'></span>元</p>
+            <li name='quanrow0' class="mui-table-view-cell row">
+                <span>抵扣券(<span name='money'></span>元)</span><p style="padding-top: 5px;padding-bottom: 5px">抵扣你的订单消费<span name='money'></span>元</p>
+                <b>截止:<span></span></b>
             </li>
             <li name='quanrownone' class="mui-table-view-cell">
                 <p>当前没有任何抵扣券</p>

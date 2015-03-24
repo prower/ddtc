@@ -232,10 +232,10 @@ window.sysmanager = {
             });
         }
     }
-    ,couponUI:function(code, callback){           //弹出卡券窗口 如果没有callback则使用全屏窗口
+    ,couponUI:function(code, fromid, callback){           //弹出卡券窗口 如果没有callback则使用全屏窗口
         if(!callback){
             sysmanager.loadpage('views/', 'couponget', $('#coupon_pagecontaion'),null, function(view){
-                view.obj.setCode(code);
+                view.obj.setCode(code,fromid);
             });
         }else{
             sysmanager.loadpage('views/', 'couponget', null,'领取红包', function(view){

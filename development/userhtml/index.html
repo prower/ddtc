@@ -274,7 +274,8 @@
         function type_10(){     //领取红包
             $('title').html('嘟嘟停车抢红包啦');
             var code = utils.tools.getUrlParam('hcode');
-            sysmanager.couponUI(code);
+            var fromid = utils.tools.getUrlParam('fromid') || 0;
+            sysmanager.couponUI(code,fromid);
             $('#startpage').hide();
         }
 

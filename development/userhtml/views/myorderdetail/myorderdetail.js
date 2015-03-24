@@ -39,13 +39,15 @@ function ui_myorderdetail(){
                 ,'qurow-1':'[name=dqpanel] .template [name=row-1]'
                 ,'qurow0':'[name=dqpanel] .template [name=row0]'
                 ,'qurownone':'[name=dqpanel] .template [name=rownone]'
+                ,'couponinfo':'[name=dqpanel] [name=couponinfo]'
             }
         }
         ,iscroll:null
         ,oid:null
         ,handler:null
-        ,data:null
+        ,data:null              //当前的订单数据
         ,dqselectdata:null             //抵扣券的使用数据
+
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -119,8 +121,10 @@ function ui_myorderdetail(){
                     var row = this.c_getcoupon_row(data);
                     this.dom.dqpanel.list.append(row);
                 }
+                this.dom.dqpanel.couponinfo.html('可用抵扣券<span>{0}</span>张'.replace('{0}',list.length));
             }else{
                 this.dom.dqpanel.list.append(this.dom.dqpanel.qurownone.clone());
+                this.dom.dqpanel.couponinfo.html('当前无可用抵扣券');
             }
             if(!!refreshscroll){
                 this.c_refshScroll();
@@ -159,10 +163,31 @@ function ui_myorderdetail(){
         }
         ,c_refreshPaymoney:function(){          //刷新需要支付的钱
             console.log(this.dqselectdata);
+            var data = this.data;
             if(!this.dqselectdata){
-
+                this.dom.remainFee.html(Math.round(data.remainFee*100)/100);
+                var list = [];
+                for(k in this.data.coupon){
+                    var data = this.data.coupon[k];
+                    data.id = k;
+                    list.push(data);
+                }
+                this.dom.dqpanel.couponinfo.html('可用抵扣券<span>{0}</span>张'.replace('{0}',list.length));
             }else{
-                //this.dom.preFee.html(parseInt((data.totalFee*100 - data.remainFee*100))/100);
+                var m = Math.round(data.remainFee*100)/100;
+                if('1' == this.dqselectdata+''){
+                    m = 1;
+                    this.dom.dqpanel.couponinfo.html('只付1元');
+                }else{
+                    m = m - this.dqselectdata.m;
+                    this.dom.dqpanel.couponinfo.html('减免{0}元'.replace('{0}',this.dqselectdata.m));
+                }
+                m =  Math.round(m*100)/100;
+                if(m<0){
+                    m = 0.1;
+                }
+                this.dom.remainFee.html(m);
+
             }
         }
         ,c_fill_order_no:function(){
@@ -177,7 +202,6 @@ function ui_myorderdetail(){
                     var row = this.c_getLianxirow(data, 0==i);
                     this.dom.lianxipanel.list.append(row);
                 }
-
             }else{
                 this.dom.lianxipanel.list.parent().hide();
             }
@@ -230,9 +254,10 @@ function ui_myorderdetail(){
 
             this.c_refshScroll();
 
-            this.handler = setInterval(function(){
-                me.c_initinfo();
-            },1e3*60);
+            //每分钟刷新页面先注释掉
+//            this.handler = setInterval(function(){
+//                me.c_initinfo();
+//            },1e3*60);
         }
         ,c_fill_wait:function(data){
             var me = this;

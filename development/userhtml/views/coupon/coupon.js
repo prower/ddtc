@@ -62,10 +62,12 @@ function ui_coupon(){
             switch(data.t+''){
                 case '-1':  //1元券
                     row = this.dom.quanpanel['quanrow-1'].clone();
+                    row.find('b>span').html(data.e);
                     break;
                 case '0':   //抵扣券
                     row = this.dom.quanpanel['quanrow0'].clone();
                     row.find('[name=money]').html(data.m);
+                    row.find('b>span').html(data.e);
                     break;
             }
 
@@ -76,7 +78,7 @@ function ui_coupon(){
             var debug = false;
             if(debug){
                 var code = 'EBF79C09-B3D4-B9E6-0E41-6DD4FD7ECB6C';
-                sysmanager.couponUI(code, function(){
+                sysmanager.couponUI(code, '0', function(){
                     me.c_init();
                 });
             }else{

@@ -29,7 +29,8 @@ function ui_couponget(){
         ,iscroll:null
         ,info:null
         ,showquit:false
-        ,code:null
+        ,code:null      //红包编号
+        ,fromid:null        //推广员编号  默认0
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -43,13 +44,14 @@ function ui_couponget(){
             this.c_init();
 
         }
-        ,setCode:function(_code){
+        ,setCode:function(_code, fromid){
             this.code = _code;
+            this.fromid = fromid || '0';
         }
         ,c_init:function(){
             var me = this;
             this.dom.code_test.html(this.code);
-            this.m_checkcoupon(this.code, function(result){
+            this.m_checkcoupon(this.code,this.fromid, function(result){
                 me.c_fillcheckinfo(result);
             });
         }
@@ -91,7 +93,7 @@ function ui_couponget(){
         }
         ,c_get:function(){      //领取红包
             var me = this;
-            this.m_get(this.code, function(result){
+            this.m_get(this.code,this.fromid, function(result){
                 if(0 == result.code){
                     me.c_showResultpanel(result);
                 }else{
@@ -122,8 +124,8 @@ function ui_couponget(){
         ,close:function(){
             this.onclose && this.onclose(this.info);
         }
-        ,m_checkcoupon:function(code, fn){      //检查卡券
-            var data = {code:code};
+        ,m_checkcoupon:function(code,fromid, fn){      //检查卡券
+            var data = {code:code,fromid:fromid};
             var uid = myajax.uid();
             if(uid){
                 data.uid = uid;
@@ -132,8 +134,9 @@ function ui_couponget(){
                 fn && fn(result);
             }, null, true);
         }
-        ,m_get:function(code, fn){
-            window.myajax.userget('index','openGiftPack',{code:code}, function(result){
+        ,m_get:function(code,fromid, fn){           //领取卡券
+            var data = {code:code,fromid:fromid};
+            window.myajax.userget('index','openGiftPack',data, function(result){
                 fn && fn(result);
             }, null, true);
         }
