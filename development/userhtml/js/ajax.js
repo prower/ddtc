@@ -27,7 +27,7 @@
         }
     }
     var myajax = {
-        get:function(model,control,data, success, error, myprocess){
+        get:function(model,control,data, success, error, myprocess){        //myprocess true：表示自己处理状态
             var url = ajaxroot+model+'/'+control+'/';
             console.log(url);
             sysmanager.loading.show();

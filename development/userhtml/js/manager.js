@@ -196,7 +196,8 @@ window.sysmanager = {
         var type = utils.tools.getUrlParam('type') || '1';
 
         if(type == 1){      //非openid模式
-            window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
+            //window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
+            window.myajax.get('Public','login',{'phone':phone},function(result){
                 if(0 == result.code){
                     var userinfo = {
                         uid:result.data.uid
@@ -208,7 +209,8 @@ window.sysmanager = {
             });
         }else{
             var openid = utils.tools.getUrlParam('openid');
-            window.myajax.get('Public','wxlogin',{openid:openid,'phone':phone,'carid':carid},function(result){
+            //window.myajax.get('Public','wxlogin',{openid:openid,'phone':phone,'carid':carid},function(result){
+            window.myajax.get('Public','wxlogin',{openid:openid,'phone':phone},function(result){
                 if(0 == result.code){
                     var userinfo = {
                         uid:result.data.uid
@@ -224,6 +226,20 @@ window.sysmanager = {
         var contaion = $('#reg_pagecontaion');
         if(!contaion.is(':visible')){
             sysmanager.loadpage('views/', 'reg', contaion,null, function(view){
+                view.obj.onclose = function(){
+                    callback && callback();
+                }
+            });
+        }
+    }
+    ,couponUI:function(code, callback){           //弹出卡券窗口 如果没有callback则使用全屏窗口
+        if(!callback){
+            sysmanager.loadpage('views/', 'couponget', $('#coupon_pagecontaion'),null, function(view){
+                view.obj.setCode(code);
+            });
+        }else{
+            sysmanager.loadpage('views/', 'couponget', null,'领取红包', function(view){
+                view.obj.setCode(code);
                 view.obj.onclose = function(){
                     callback && callback();
                 }
@@ -327,8 +343,10 @@ window.sysmanager = {
            return cfg.imgpath + imgname;
        }
         ,isapp:(function(){     //当前是否在app中
-            var isapp = !!(utils.tools.getUrlParam('isapp'));
-            return isapp;
+//            var isapp = !!(utils.tools.getUrlParam('isapp'));
+//            return isapp;
+        return !!window.cordova;
+
         })()
         ,loadMapscript:(function(){     //地图异步加载
            var callback = null;

@@ -5,7 +5,7 @@
  * Time: 上午11:55
  * To change this template use File | Settings | File Templates.
  */
-function ui_map(){
+function ui_mapfull(){
     var ui = {
         isInit: false
         ,context:null
@@ -22,6 +22,7 @@ function ui_map(){
             ,daohang_my:'[name=daohang_my]'
             ,btclosemenu:'[name=btclosemenu]'
             ,mk1:'.template [name=mk1]'
+            ,searchtxt:'[name=searchtxt]'
             ,infopanel:{
                 panel:'[name=infopanel]'
                 ,btback:'[name=infopanel] [name=btback]'
@@ -37,12 +38,35 @@ function ui_map(){
                 ,carid:'[name=infopanel] [name=carid]'
                 ,btmodifycarid:'[name=infopanel] [name=btmodifycarid]'
             }
+            ,searchpanel:{
+                searchpanel:'[name=searchpanel]'
+                ,searchform:'[name=searchform]'
+                ,searchtxt:'[name=searchtxt]'
+                ,list:'[name=searchpanel] [name=list]'
+                ,listpanel:'[name=searchpanel] [name=listpanel]'
+                ,searchrow:'.template [name=searchrow]'
+            }
+            ,loadinfopanel:{
+                panel:'[name=loadinfopanel]'
+                ,info:'[name=info]'
+            }
+            ,detailinfo_local:{
+                panel:'[name=detailinfo_local_panel]'
+            }
+            ,detailinfo_search:{
+                panel:'[name=detailinfo_search_panel]'
+            }
+            ,infowindow:'[name=infowindow]'
         }
         ,iscroll:null
         ,mapObj:null
         ,datas:null
         ,nowdata:null
         ,nowoid:null
+        ,homecontrol:null
+        ,geolocation:null
+        ,showSearchnumber:0
+        ,searchNumber:0
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -54,33 +78,36 @@ function ui_map(){
         }
         ,c_init:function(){
             var me = this;
-
-            me.c_searchPosition(function(placedata){
-                sysmanager.loadMapscript.load(function(){
-                    me.c_initMap(function(center){
-                        me.m_getdata(center,function(datas){
-                            me.c_addpoint(me.mapObj,datas);
-                            me.c_fill(datas);
-                        });
-                    }, placedata);
-
+            this.c_showLoadinfo('地图初始化中...')
+            sysmanager.loadMapscript.load(function(){
+                me.c_initMap(function(){
+//                    me.m_getdata(center,function(datas){
+//                        me.c_addpoint(me.mapObj,datas);
+//                        me.c_fill(datas);
+//                    });
+                    me.dom.searchpanel.searchpanel.show();
+                    me.c_loaction_findpoint();
                 });
+
             });
         }
-        ,c_searchPosition:function(fn){     //搜索地图
-
-            var model = utils.tools.getUrlParam('m');
-            if('mapsearch' == model){
-                sysmanager.loadpage('views/', 'searchmap', $('#pop_pagecontaion'),'搜索地图', function(view){
-                    view.obj.onclose = function(placedata){
-                        fn && fn(placedata);
-                    }
-                });
-            }else{
-                fn && fn(null);
-            }
+        ,c_showLoadinfo:function(txt){      //显示加载信息
+            this.dom.loadinfopanel.panel.show();
+            this.dom.loadinfopanel.info.html(txt);
+            this.dom.detailinfo_local.panel.hide();
+            this.dom.detailinfo_search.panel.hide();
         }
-        ,c_initMap:function(fn, placedata){//fn 加载后的回调， placedata 预定义的地图搜索位置
+        ,c_showLocal_detail:function(position, datas){
+            this.dom.loadinfopanel.panel.hide();
+            this.dom.detailinfo_search.panel.hide();
+            this.dom.detailinfo_local.panel.show();
+        }
+        ,c_showSearch_detail:function(){
+            this.dom.loadinfopanel.panel.hide();
+            this.dom.detailinfo_local.panel.hide();
+            this.dom.detailinfo_search.panel.show();
+        }
+        ,c_initMap:function(fn){//fn 加载后的回调， placedata 预定义的地图搜索位置
 
               var mapObj = this.mapObj = window.mapobj = new AMap.Map("map_html_mapid",{
               view: new AMap.View2D({
@@ -92,11 +119,10 @@ function ui_map(){
              lang:"zh_cn"//设置地图语言类型，默认：中文简体
             });//创建地图实例
 
-                var homecontrol = new AMap.myHomeControl({
+                var homecontrol = this.homecontrol = new AMap.myHomeControl({
                     offset:new AMap.Pixel(10,100)
                 });
             var maptool = null;
-
                 mapObj.plugin(["AMap.ToolBar","AMap.Scale","AMap.myHomeControl"],function(){
 
                      //加载工具条
@@ -107,7 +133,7 @@ function ui_map(){
 //                       ,locationMarker1:new AMap.Marker({
 //                           map:mapObj
 //                           ,content:"<div style='width: 50px;height: 50px;border-radius: 25px;background-color: rgba(0,0,0,.2)'><div style='position: absolute;left: 50%;top:50%;width: 6px;height: 6px;border-radius: 3px;margin-left: -3px;margin-top: -3px;background-color:red'></div></div>"
-                            ,offset:new AMap.Pixel(10,80)
+                            ,offset:new AMap.Pixel(10,180)
 //                       })
                      });
                      mapObj.addControl(maptool);
@@ -128,6 +154,10 @@ function ui_map(){
 
 
             function onmapload(mapobj){
+                fn && fn();
+
+            }
+            function onmapload1(mapobj){
                 var center = mapobj.getCenter();
                 console.log(center);                /**
                  * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
@@ -187,7 +217,116 @@ function ui_map(){
                     this.panTo(homecontrol.position);
                 }
             }
+        }
+        ,c_loaction_findpoint:function(){       //通过当前坐标查询停车位
+            var me = this;
+            this.c_showLoadinfo('获取当前位置...');
+            this.c_location(function(center){
+                me.m_getdata(center,function(datas){
+                    me.c_addpoint(me.mapObj,datas);
+                    me.c_fill(datas);
+                    me.c_showLocal_detail(center, datas);
+                });
+            });
+        }
+        ,c_location:function(fn){          //本地搜索停车位
+            var mapObj = this.mapObj;
+            var geolocation = this.geolocation;
+            var homecontrol = this.homecontrol;
 
+            if(!geolocation){
+                mapObj.plugin('AMap.Geolocation', function () {
+                    var geolocation = this.geolocation = new AMap.Geolocation({
+                        enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                        timeout: 5000,          //超过10秒后停止定位，默认：无穷大
+                        maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+                        convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+                        showButton: false,        //显示定位按钮，默认：true
+                        buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+                        buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                        showMarker: false,        //定位成功后在定位到的位置显示点标记，默认：true
+                        showCircle: false,        //定位成功后用圆圈表示定位精度范围，默认：true
+                        panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+                        zoomToAccuracy:false      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                    });
+                    mapObj.addControl(geolocation);
+                    AMap.event.addListener(geolocation, 'complete', function(arg){
+                        console.log('定位成功', arg);
+                        homecontrol.setPosition(arg.position,mapObj, true);
+                        fn && fn(arg.position);
+                    });//返回定位信息
+                    AMap.event.addListener(geolocation, 'error', function(){
+                        //返回定位出错信息
+                        alert('当前环境不支持获取定位,请在设置中允许使用[位置定位服务]');
+                    });
+                      geolocation.getCurrentPosition();
+
+               });
+            }
+        }
+        ,c_search_PlaceSearch:function(){
+            var me = this;
+            var keywords = this.dom.searchtxt.val();
+            if(keywords.length>0){
+                var MSearch;
+                var nowsearchNumber = this.searchNumber++;
+                AMap.service(["AMap.PlaceSearch"], function() {
+                    MSearch = new AMap.PlaceSearch({ //构造地点查询类
+                        pageSize:10,
+                        pageIndex:1,
+                        city:"021" //城市
+                    });
+                    //关键字查询
+                    MSearch.search(keywords, function(status, result){
+                        if(status === 'complete' && result.info === 'OK'){
+                            //console.log('nowsearchNumber',nowsearchNumber);
+
+                            if(nowsearchNumber>=me.showSearchnumber){
+                                me.showSearchnumber = nowsearchNumber;
+                                //me.dom.testnumber.html(me.dom.testnumber.html()+','+nowsearchNumber);
+                                me.c_search_PlaceSearch_callback(result);
+                            }else{
+                                //me.dom.testnumber.html(me.dom.testnumber.html()+','+ "<span style='color: red'>"+nowsearchNumber+'-'+me.showSearchnumber+"</span>" );
+                            }
+                        }
+                    });
+                });
+            }
+        }
+        ,c_search_PlaceSearch_callback:function(data){
+            console.log('c_search_PlaceSearch_callback',data);
+            var me = this;
+            this.dom.searchpanel.list.empty();
+            if(!data.poiList.pois || data.poiList.pois.length<=0){
+                var row = this.dom.searchpanel.searchrow.clone();
+                row.html('<span style="color: red">没有查询到相关位置信息</span>');
+                this.dom.searchpanel.list.append(row);
+            }else{
+                for(var i=0;i<data.poiList.pois.length;i++){
+                    var row = this.c_getrow_PlaceSearch(data.poiList.pois[i]);
+                    this.dom.searchpanel.list.append(row);
+                }
+            }
+        }
+        ,c_getrow_PlaceSearch:function(data){
+            var me = this;
+            var row = this.dom.searchpanel.searchrow.clone();
+            row.html(data.name);
+            row.click(function(){
+                me.c_search_PlaceSearch_row_select(data);
+            });
+            return row;
+        }
+        ,c_search_PlaceSearch_row_select:function(data){//选择了一个搜索结果
+            var me = this;
+            this.dom.searchpanel.listpanel.hide();
+            this.dom.searchpanel.searchtxt.val(data.name).blur();
+            this.m_getdata(data.location,function(datas){
+                me.c_addpoint(me.mapObj,datas);
+                me.c_fill(datas);
+                me.homecontrol.setPosition(data.location,me.mapObj, true);
+                me.mapObj.panTo(data.location);
+            });
         }
         ,r_init:function(){
             var me = this;
@@ -219,6 +358,21 @@ function ui_map(){
 
             this.dom.infopanel.btmodifycarid.click(function(){
                 me.c_modifycarid();
+            });
+            this.dom.searchpanel.searchtxt.bind('keyup', function(){
+               me.c_search_PlaceSearch();
+            });
+            this.dom.searchpanel.searchtxt.bind('focus', function(){
+                me.dom.searchpanel.listpanel.show();
+            });
+            this.dom.searchpanel.searchtxt.bind('blur', function(){
+                //me.dom.searchpanel.listpanel.show();
+            });
+            this.dom.searchpanel.searchform.bind('submit', function(){
+                setTimeout(function(){
+                    me.c_search_PlaceSearch();
+                });
+               return false;
             });
         }
         ,c_modifycarid:function(fn){
@@ -339,9 +493,10 @@ function ui_map(){
             });
         }
         ,c_showinfo:function(data){
-            this.nowdata = data;
-            this.dom.listcontaion.addClass('next');
+//            this.nowdata = data;
+//            this.dom.listcontaion.addClass('next');
             //fill
+            this.dom.infopanel.panel.show();
             this.dom.infopanel.btpay.html('确认,预付{0}元'.replace('{0}',data.prepay));
             this.dom.infopanel.title.html(data.name);
             this.dom.infopanel.address.html(data.address);
@@ -428,12 +583,9 @@ function ui_map(){
             setTimeout(function(){
                 me.dom.daohangmenu.hide();
             },1e3);
-            sysmanager.loadpage('views/', 'gaodedaohang', null, '导 航',function(v){
+            sysmanager.loadpage('views/', 'daohang', null, '导 航',function(v){
                 v.obj.settarget(me.nowdata);
             });
-//            sysmanager.loadpage('views/', 'daohang', null, '导 航',function(v){
-//                v.obj.settarget(me.nowdata);
-//            });
         }
         ,c_setActiveRow:function(row, data, elemmove){
             this.dom.list.find('>*').removeClass('active');
@@ -449,6 +601,7 @@ function ui_map(){
             var row = this.dom.list.find('>*').eq(index);
             var data = this.datas[index];
             this.c_setActiveRow(row,data, true);
+            this.c_showInfowindow(data);
         }
         ,c_getrow:function(data, index){
             /**
@@ -490,7 +643,7 @@ function ui_map(){
                         ,color: '#999'
                         ,'background-color':'#eee'
                     }).html(parkstatestring);
-//                    break;
+                    break;
                 case '1':
                 case '2':
                     row.find('.mui-btn').click(function(){
@@ -504,6 +657,57 @@ function ui_map(){
         ,c_getnonerow:function(){
             var nonerow = this.dom.nonerow.clone();
             return nonerow;
+        }
+        ,
+        /**
+         * 显示一个指定地图标记的信息窗口
+         * @param market
+         * @param data
+         */
+        c_showInfowindow:function(data){
+            var me = this;
+            var row = this.dom.infowindow.clone();
+
+            var me = this;
+
+            row.find('[name=title]').html(data.name);
+            row.find('[name=distance]>span').html(data.distance);
+            row.find('[name=rules]').html(data.rules);
+            row.find('[name=address]').html(data.address);
+            row.find('[name=prepay]').html(data.prepay);
+            var parkstatestring = window.cfg.parkstatestring[parseInt(data.parkstate)];
+
+            switch(data.parkstate+''){
+                case '0':
+                    row.find('.mui-btn').css({
+                        border: 'none'
+                        ,color: '#999'
+                        ,'background-color':'#eee'
+                    }).html(parkstatestring);
+                    break;
+                case '1':
+                case '2':
+                    row.find('.mui-btn').click(function(){
+                       me.c_showinfo(data);
+                    });
+                    break;
+            }
+            var funcclickname = 'mapfull_btn_calick';
+            window[funcclickname] = function(){
+                console.log(data);
+                me.c_showinfo(data);
+            }
+
+            row.find('.mui-btn').attr('onclick','window["{0}"]()'.replace('{0}',funcclickname));
+
+            var inforWindow = new AMap.InfoWindow({
+              offset:new AMap.Pixel(0,-5),
+              content:row.html(),
+                isCustom:true      //显示自己定义的窗体
+            });
+            setTimeout(function(){
+                inforWindow.open(me.mapObj,data.marker.getPosition());
+            },500);
         }
         ,m_getdata:function(center, fn){
             var clng = center.lng;

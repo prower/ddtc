@@ -32,11 +32,20 @@ function ui_myorderdetail(){
                 ,lianxipanel_row:'.template [name=lianxipanel_row]'
             }
             ,scrolldom:'.myorderdetail_html_contaion'
+            ,dqpanel:{
+                panel:'[name=dqpanel]'
+                ,active:'[name=dqpanel]>a'
+                ,list:'[name=dqpanel] [name=list]'
+                ,'qurow-1':'[name=dqpanel] .template [name=row-1]'
+                ,'qurow0':'[name=dqpanel] .template [name=row0]'
+                ,'qurownone':'[name=dqpanel] .template [name=rownone]'
+            }
         }
         ,iscroll:null
         ,oid:null
         ,handler:null
         ,data:null
+        ,dqselectdata:null             //抵扣券的使用数据
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -89,6 +98,71 @@ function ui_myorderdetail(){
                 }else{
                     this.c_fill_pay(data);
                 }
+            }
+        }
+        ,c_fill_coupon:function(coupon, refreshscroll){            //填充卡券列表
+            console.log(coupon);
+            this.dqselectdata = null;
+            this.dom.dqpanel.list.empty();
+            if(coupon || coupon.length){
+                var list = [];
+                for(k in coupon){
+                    var data = coupon[k];
+                    data.id = k;
+                    list.push(data);
+                }
+                list.sort(function(a,b){
+                    return a.t - b.t;
+                });
+                for(var i=0;i<list.length;i++){
+                    var data = list[i];
+                    var row = this.c_getcoupon_row(data);
+                    this.dom.dqpanel.list.append(row);
+                }
+            }else{
+                this.dom.dqpanel.list.append(this.dom.dqpanel.qurownone.clone());
+            }
+            if(!!refreshscroll){
+                this.c_refshScroll();
+            }
+
+        }
+        ,c_getcoupon_row:function(data){
+            var me = this;
+            var row = null;
+            switch (data.t+''){
+                case '-1':              //1元券
+                    row = this.dom.dqpanel['qurow-1'].clone();
+                    break;
+                case '0':               //抵消券
+                    row = this.dom.dqpanel['qurow0'].clone();
+                    row.find('[name=money]').html(data.m);
+                    break;
+            }
+            row.click(function(){
+                me.c_couponrow_active(data, $(this));
+            });
+            return row;
+        }
+        ,c_couponrow_active:function(data,row){
+            var clsname = 'mui-active'
+            if(this.dqselectdata && this.dqselectdata.id == data.id){           //选择后在选择：取消选择
+                this.dqselectdata = null;
+                row.removeClass(clsname);
+
+            }else{      //选择
+                this.dom.dqpanel.list.find('>*').removeClass(clsname);
+                row.addClass(clsname);
+                this.dqselectdata = data;
+            }
+            this.c_refreshPaymoney();
+        }
+        ,c_refreshPaymoney:function(){          //刷新需要支付的钱
+            console.log(this.dqselectdata);
+            if(!this.dqselectdata){
+
+            }else{
+                //this.dom.preFee.html(parseInt((data.totalFee*100 - data.remainFee*100))/100);
             }
         }
         ,c_fill_order_no:function(){
@@ -152,6 +226,8 @@ function ui_myorderdetail(){
 
             this.c_fill_lianxi(data.admin);
 
+            this.c_fill_coupon(data.coupon);
+
             this.c_refshScroll();
 
             this.handler = setInterval(function(){
@@ -200,7 +276,13 @@ function ui_myorderdetail(){
         }
         ,m_checkout_start:function(oid, fn){         //获取没有结算的订单
             //duduche.me/driver.php/home/index/checkOut /oid/1/
-            window.myajax.userget('index','checkOut',{oid:oid}, function(result){
+            var data = {oid:oid};
+            if(this.dqselectdata){
+                data.cid = this.dqselectdata.id;
+            }else{
+
+            }
+            window.myajax.userget('index','checkOut', data, function(result){
                 fn && fn(result.data);
             }, null, false);
         }
@@ -217,6 +299,10 @@ function ui_myorderdetail(){
             });
             this.dom.waitpanel.btleave.aclick(function(){
                 me.c_leave();
+            });
+            this.dom.dqpanel.active.click(function(){
+                me.dom.dqpanel.panel.toggleClass('mui-active');
+                me.c_refshScroll();
             });
         }
         ,c_checkout_start:function(){

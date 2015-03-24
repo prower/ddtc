@@ -1,0 +1,142 @@
+/**
+ * Created with JetBrains WebStorm.
+ * User: kk
+ * Date: 15-1-9
+ * Time: 上午11:55
+ * To change this template use File | Settings | File Templates.
+ */
+function ui_couponget(){
+    var ui = {
+        isInit: false
+        ,context:null
+        ,dom:{
+            code_test:'[name=code_test]'
+            ,bttest:'[name=bttest]'
+            ,infopanel:{
+                panel:'[name=panel_info]'
+                ,btget:'[name=panel_info] [name=btget]'
+
+            }
+            ,resultpanel:{
+                panel:'[name=panel_result]'
+                ,info:'[name=panel_result] span'
+            }
+            ,nonepanel:{
+                panel:'[name=panel_none]'
+                ,info:'[name=panel_none] [name=info]'
+            }
+        }
+        ,iscroll:null
+        ,info:null
+        ,showquit:false
+        ,code:null
+        ,init:function(context){
+            if (!this.isInit){
+                this.isInit = true;
+                this.context = context;
+                utils.jqmapping(this.dom, context);
+                this.r_init();
+            }
+            if(this.showquit){
+                this.dom.btquit.show();
+            }
+            this.c_init();
+
+        }
+        ,setCode:function(_code){
+            this.code = _code;
+        }
+        ,c_init:function(){
+            var me = this;
+            this.dom.code_test.html(this.code);
+            this.m_checkcoupon(this.code, function(result){
+                me.c_fillcheckinfo(result);
+            });
+        }
+
+        ,c_fillcheckinfo:function(result){        //显示检查信息
+            if(0 == result.code){
+                this.c_showInfopanel(result.data.gift);
+            }else{
+                this.c_showNonepanel(result);
+            }
+        }
+        ,c_showInfopanel:function(gift){            //显示领取卡券界面
+            this.dom.infopanel.panel.show();
+            this.dom.nonepanel.panel.hide();
+            this.dom.resultpanel.panel.hide();
+        }
+        ,c_showResultpanel:function(result){        //显示领取成功的卡券
+            this.dom.infopanel.panel.hide();
+            this.dom.nonepanel.panel.hide();
+            this.dom.resultpanel.panel.show();
+
+            //code: 0data: Objectcoupon: Objecte: "2015-03-23 00:59:04"id: "32"m: 3t: "0"
+            this.dom.resultpanel.info.html(result.data.coupon.m);
+        }
+        ,c_showNonepanel:function(result){          //显示领取卡券失败界面
+            this.dom.infopanel.panel.hide();
+            this.dom.nonepanel.panel.show();
+            this.dom.resultpanel.panel.hide();
+            this.dom.nonepanel.info.html(result.data);
+        }
+        ,c_showquit:function(isshow){
+            this.showquit = !!isshow;
+        }
+        ,c_quit:function(){
+            var me = this;
+            var c = me.context.parent().parent();
+            sysmanager.pagecontainerManager.hide(c);
+            me.close();
+        }
+        ,c_get:function(){      //领取红包
+            var me = this;
+            this.m_get(this.code, function(result){
+                if(0 == result.code){
+                    me.c_showResultpanel(result);
+                }else{
+                    me.c_showNonepanel(result);
+                }
+            });
+        }
+        ,r_init:function(){
+            var me = this;
+            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            this.dom.infopanel.btget.aclick(function(){
+                me.c_get();
+            });
+            this.dom.bttest.aclick(function(){
+                me.c_bttest();
+            });
+        }
+        ,c_bttest:function(){
+            var href = window.location.href.split('?')[0];
+            href+='?hcode={0}&type=10';
+            $.get('http://duduche.me/driver.php/home/public/testCreateGiftPack', function(data){
+                console.log(data);
+                var code = data;
+                href = href.replace('{0}', data);
+                window.location.href = href;
+            });
+        }
+        ,close:function(){
+            this.onclose && this.onclose(this.info);
+        }
+        ,m_checkcoupon:function(code, fn){      //检查卡券
+            var data = {code:code};
+            var uid = myajax.uid();
+            if(uid){
+                data.uid = uid;
+            }
+            window.myajax.get('public','checkGiftPack',data, function(result){
+                fn && fn(result);
+            }, null, true);
+        }
+        ,m_get:function(code, fn){
+            window.myajax.userget('index','openGiftPack',{code:code}, function(result){
+                fn && fn(result);
+            }, null, true);
+        }
+    };
+    return  ui;
+}

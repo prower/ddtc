@@ -15,6 +15,7 @@ function ui_reg(){
             ,btreg:'[name=btreg]'
         }
         ,iscroll:null
+        ,ishead:false       //是否带了一个导航栏
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -24,19 +25,22 @@ function ui_reg(){
             }
             this.c_init();
         }
+        ,isHead:function(_ishead){
+            this.ishead = !!_ishead;
+        }
         ,c_init:function(){
             var me = this;
-            //this.c_checkLogin();
-            var type = utils.tools.getUrlParam('type') || '1';
-            if(2 != type){
-                var openid = utils.tools.getUrlParam('openid');
-                if(openid){
-                    var me = this;
-                    sysmanager.login('','',function(){
-                        me.c_quit();
-                    });
-                }
-            }
+
+//            var type = utils.tools.getUrlParam('type') || '1';
+//            if(2 != type){
+//                var openid = utils.tools.getUrlParam('openid');
+//                if(openid){
+//                    var me = this;
+//                    sysmanager.login('','',function(){
+//                        me.c_quit();
+//                    });
+//                }
+//            }
         }
         ,c_checkLogin:function(){
             sysmanager.checkLogin(function(islogin){
@@ -54,7 +58,7 @@ function ui_reg(){
             this.dom.userpanel_phone.blur();
             this.dom.userpanel_chepai.blur();
             if('' == phone){
-                alert('手机号不能为空!');
+                sysmanager.alert('手机号不能为空!');
             }else{
                 sysmanager.login(phone,chepai,function(){
                     me.c_quit();
@@ -77,10 +81,14 @@ function ui_reg(){
             }
         }
         ,c_quit:function(){
-            var me = this;
-            var c = me.context.parent().parent();
-            sysmanager.pagecontainerManager.hide(c);
-            me.close();
+            if(!this.ishead){
+                var me = this;
+                var c = me.context.parent().parent();
+                sysmanager.pagecontainerManager.hide(c);
+                me.close();
+            }else{
+                $('#topheardpagecontainer [name=btupclose]').click();
+            }
         }
         ,c_showInfo:function(){
             this.dom.info.panel.show();

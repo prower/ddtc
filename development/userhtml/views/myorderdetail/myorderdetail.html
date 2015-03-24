@@ -80,6 +80,24 @@
         #myorderdetail_html .myorderdetail_html_contaion>*{
             display: none;
         }
+        #myorderdetail_html [name=dqpanel] .selectrow{
+
+        }
+        #myorderdetail_html [name=dqpanel] .mui-active>span{
+            background-color: #000;
+        }
+        #myorderdetail_html [name=dqpanel] .selectrow>span{
+            position: absolute;
+            top: 4px;
+            left: 20px;
+            display: inline-block;
+            width: 28px;
+            height: 26px;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: 0;
+            border: solid 1px #ccc;
+        }
 
 
     </style>
@@ -96,6 +114,45 @@
                 <li class="mui-table-view-cell"><label>停放时间：</label><span name='stoptime'></span></li>
                 <li class="mui-table-view-cell"><label>总计金额：</label><span name='totalFee'></span></li>
                 <li class="mui-table-view-cell"><label>已付金额：</label><span name='preFee'></span></li>
+                <li class="mui-table-view-cell mui-collapse" name='dqpanel'>
+                    <a class="mui-navigate-right">
+                    <label><span class="dquicon"></span>抵扣券：</label><span name='couponinfo'>抵扣信息</span>
+                    </a>
+                    <ul class="mui-table-view" name='list'>
+                        <li class="mui-table-view-cell mui-collapse">
+                            <div class="mui-input-row mui-radio mui-left">
+                                <label>Radio</label>
+                                <input name="radio1" type="radio">
+                            </div>
+                        </li>
+                        <li class="mui-table-view-cell mui-collapse">
+                            <div class="mui-input-row mui-radio mui-left">
+                                <label>Radio</label>
+                                <input name="radio1" type="radio">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="template">
+                        <ul>
+                            <li class="mui-table-view-cell" name='row-1'>
+                                <div class="mui-input-row mui-radio mui-left selectrow">
+
+                                    <label>使用该券，你只需要在支付一元</label>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li class="mui-table-view-cell" name='row0'>
+                                <div class="mui-input-row mui-radio mui-left selectrow">
+                                    <label>使用抵扣<span name='money'>{0}</span>元</label>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li class="mui-table-view-cell" name='rownone'>
+                                <p>你当前没有可以使用的抵扣券</p>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li class="mui-table-view-cell payinfo"><label>需付金额：</label><span name='remainFee'></span></li>
                 <li class="mui-table-view-cell">
                     <p>以下管理员为您服务</p>

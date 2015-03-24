@@ -1,0 +1,306 @@
+<div class="page_content userpage" style="" id="mapfull_html">
+    <style>
+        .map_contaion{
+            display: -moz-box;
+            display: -webkit-box;
+            display: -ms-box;
+            display: -o-box;
+            display: box;
+
+            -moz-box-orient:vertical;
+            -webkit-box-orient:vertical;
+            box-orient:vertical;
+
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .map_contaion>*{
+            width: 100%;
+            /*-moz-box-flex: auto;*/
+            /*-webkit-box-flex: auto;*/
+            /*-ms-box-flex: auto;*/
+             /*flex: auto;*/
+            /*height: auto;*/
+        }
+        .map_contaion .map{
+            width: 100%;
+            /*height: 100%;*/
+            /*height: 250px;*/
+            -moz-box-flex:1;
+            -webkit-box-flex:1;
+            box-flex:1;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+        }
+        .map_contaion .list{
+            /*-moz-box-flex:1;*/
+            /*-webkit-box-flex:1;*/
+            /*box-flex:1;*/
+            height: 100px;
+            position: relative;
+            left: 0;
+            top: 0;
+
+            transition: all .5s;
+            -moz-transition: all .5s;	/* Firefox 4 */
+            -webkit-transition: all .5s;	/* Safari 和 Chrome */
+            -o-transition: all .5s;
+
+            -webkit-box-shadow: 0px 0px 10px #ccc;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+        .map_contaion .list.next{
+            /*-webkit-transform:translate3d(-100%, 0px, 0px);*/
+            /*-moz-transform:translate3d(-100%, 0px, 0px);*/
+            /*-o-transform:translate3d(-100%, 0px, 0px);*/
+        }
+        .map_contaion .list .info{
+            display: none;
+        }
+        .map_contaion .list.next .info{
+            display: block;
+            background-color: #fff;
+        }
+        .map_contaion .list>*{
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .map_contaion .list .innerlist{
+            left: 0;
+            overflow: hidden;
+        }
+        .map_contaion .list .innerlist .active{
+            background-color: #eeeeff;
+        }
+        .map_contaion .list .info .mybar{
+            height: 44px;
+            padding-right: 10px;
+            padding-left: 10px;
+            background-color: rgba(247,247,247,.98);
+            border-bottom: 0;
+            -webkit-box-shadow: 0 0 1px rgba(0,0,0,.85);
+            box-shadow: 0 0 1px rgba(0,0,0,.85);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .map_contaion .list .info{
+            left: 0;
+        }
+        .map_contaion .list .info li p{
+            margin: 10px;
+        }
+        .map_contaion .list .info>.buttonc{
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+        }
+        .map_contaion .list .info>.buttonc>button{
+
+        }
+        .map_contaion .tccrow p{
+            width: 80%;
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+        }
+        .map_contaion .list .info p label{
+            color: #000;
+            text-align: right;
+        }
+        .map_contaion .list .info p span{
+        }
+        #mapfull_html .mapPluginInit_mk1{
+            bottom: 10px;
+            top: inherit;
+        }
+        #mapfull_html .searchpanel{
+            position: absolute;
+            left: 0;
+            right: 0;
+            width: 95%;
+            margin: 5px auto;
+            background-color: #fff;
+            background-color: rgba(255,255,255,.9);
+            z-index: 200;
+        }
+        #mapfull_html .searchrow>label{
+            width: 20%;
+        }
+        #mapfull_html .searchrow>input{
+            width: 80%;
+        }
+        .map_contaion .list>.loadinfo{
+            text-align: center;
+            line-height: 100px;
+        }
+        #mapfull_html .infowindow{
+            border: solid 1px #ccc;
+            background-color: #fff;
+            -webkit-box-shadow: 0px 0px 10px #ccc;
+            box-shadow: 0px 0px 10px #ccc;
+            -webkit-animation-name: bounceIn;
+            animation-name: bounceIn;
+            -webkit-animation-duration: .75s;
+            animation-duration: .75s;
+            width: 95%;
+            padding: 10px;
+            overflow: hidden;float: right;
+            border-radius: 5%;
+        }
+        #mapfull_html .infowindow h4{
+            text-align: center;
+        }
+        #mapfull_html .infowindow .mui-btn{
+            margin: 5px;
+            float: right;
+        }
+        #mapfull_html .infowindow ul{
+            background-color: inherit;
+            background-image: none;
+        }
+        #mapfull_html .infowindow ul>li p{
+             width: 100%;
+             white-space: normal;
+        }
+        #mapfull_html .infowindow ul>li{
+            padding: 5px;
+            padding-top: 0;
+        }
+        .map_contaion .info{
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 90%;
+            z-index: 1000;
+            top: 10px;
+            bottom: 10px;
+            background-color: rgba(255,255,255,.9);
+        }
+
+    </style>
+    <div class="map_contaion">
+        <div class="map" id="map_html_mapid"></div>
+        <div class="mui-card list">
+            <div class="loadinfo " name='loadinfopanel'>
+                <span class="mui-icon mui-icon-spinner-cycle mui-spin"></span>
+                <p style="display: inline" name='info'>地图加载中...</p>
+            </div>
+            <div class="detailinfo_local" name='detailinfo_local_panel'>
+                <p>本地详情</p>
+            </div>
+            <div class="detailinfo_search" name='detailinfo_search_panel'>
+                <p>目的地详情</p>
+            </div>
+            <div style="display: none" class="innerlist">
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell tccrow">
+                        <div style="height: 500px;">
+                            <p style="padding-top: 150px;overflow: visible;"><b>嘟嘟停车</b>正在为您查询周围停车场...</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div style="display: none" class="info" name='infopanel'>
+            <header class="mui-bar mui-bar-nav" style="position: static;">
+                <h1 class="mui-title" name='title'>停车场名称</h1>
+                <button class="mui-action-back mui-btn mui-btn-red mui-pull-left" name="btback" style="position: absolute;left: 10px">
+                    返回
+                </button>
+                <button class="mui-action-back mui-btn mui-btn-blue mui-pull-right" name="btdaohang" style="position: absolute;right: 10px">
+                    导航
+                </button>
+            </header>
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell">
+                    <table  style="width: 100%;table-layout: fixed">
+                        <tr>
+                            <td style="width: 50px"><label>空位:</label></td>
+                            <td style="width: 120px"><p><span name='numberstatus'></span></p></td>
+                            <td><label>总车位:</label></td>
+                            <td><p><span name='numbermax'></span></p></td>
+                        </tr>
+                    </table>
+                    <table style="width: 100%;table-layout: fixed">
+                        <tr><td style="width: 50px"><label>价格:</label></td><td><p><span name='rules'></span></p></td></tr>
+                        <tr name='noteline'><td><label>备注:</label></td><td><p><span name='note'>晚上关门</span></p></td></tr>
+                        <tr><td><label>地址:</label></td><td><p><span name='address'>西康路10号</span></p></td></tr>
+                    </table>
+                    <table style="width: 100%;table-layout: fixed">
+                        <tr><td style="width: 50px"><label>车牌:</label></td>
+                            <td><p><span name='carid' class="mui-badge mui-badge-danger" style="font-size: 14px;border-radius: 0;"></span></p></td>
+                            <td><div class="mui-action-back mui-btn mui-btn-success" name='btmodifycarid'>修改</div></td>
+                        </tr>
+                    </table>
+                    <!--<p><label>空车位:</label><span name='numberstatus'></span><span name='numbermax'></span></p>-->
+                    <!--<p><label>价格:</label><span name='rules'></span></p>-->
+                    <!--<p><label>备注:</label><span name='note'>晚上关门</span></p>-->
+                    <!--<p><label>地址:</label><span name='address'>西康路10号</span></p>-->
+                </li>
+            </ul>
+            <div class="buttonc">
+                <button class="mui-btn mui-btn-success mui-btn-block" style="" name="btpay">确认,预付5元>></button>
+            </div>
+
+        </div>
+    </div>
+    <div class="searchpanel" name='searchpanel' style="display: none">
+        <form class="mui-input-group" style="background-color: transparent" name='searchform'>
+            <div class="mui-input-row searchrow">
+                <label><span class="mui-icon mui-icon-search"></span></label>
+                <input type="text" class="mui-input-clear" placeholder="搜索目的地" name='searchtxt'>
+                <span class="mui-icon mui-icon-clear" style="color: red"></span>
+            </div>
+            <div name='listpanel'>
+                <ul class="mui-table-view" name='list'>
+                </ul>
+            </div>
+        </form>
+    </div>
+
+    <div class="template">
+        <ul>
+            <li class="mui-table-view-cell tccrow" name='row'>
+                <h4 name='title'>停车场名称</h4>
+                <p><span class="distance" name='distance'><span></span>米</span><span style="display: inline-block;padding-left: 10px"  name='address'>上海静安寺豫园路168号</span></p>
+                <p><span name='rules'></span></p>
+                <div class="mui-btn mui-btn-primary">抢订</div>
+            </li>
+            <li class="mui-table-view-cell tccrow" name='nonerow'>
+                <div style="height: 500px;">
+                    <p style="padding-top: 150px;overflow: visible;">附近尚无合作车位，我们正在洽谈中，敬请期待。</p>
+                </div>
+            </li>
+            <li name="searchrow" class="mui-table-view-cell">列表第1项</li>
+        </ul>
+        <div name='mk1'>
+            <div  class="mk1 state{1}">{0}</div>
+        </div>
+        <div name='infowindow'>
+            <div class="infowindow">
+                <h4 name='title'>停车场名称</h4><hr>
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell tccrow" name='row'>
+                        <p><span style="color:#000;display: inline-block;padding-bottom: 5px"  name='address'>上海静安寺豫园路168号</span></p>
+                        <p><span name='rules'></span></p>
+
+                    </li>
+                </ul>
+                <hr>
+                <table style="width: 100%">
+                    <tr>
+                        <td><span class="distance" name='distance'><span></span>米</span></td>
+                        <td>预付:<span name='prepay'></span></td>
+                        <td><div class="mui-btn mui-btn-primary">抢订</div></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

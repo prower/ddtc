@@ -8,738 +8,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link rel="stylesheet" href="../golba_rs/css/mui.min.css">
+    <link rel="stylesheet" href="../golba_rs/css/animate.min.css">
+    <link rel="stylesheet" href="./css/main.css">
     <style>
-    html{
-        width: 100%;
-        height: 100%;
-    }
-    body{
-        width: 100%;
-        height: 100%;
-    }
-    .template {
-        display: none;
-    }
-    .page{
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
 
-
-        display: box;
-        display: -webkit-box;
-        display: -moz-box;
-
-        -moz-box-orient:vertical;
-
-        -webkit-box-orient:vertical;
-
-        box-orient:vertical;
-
-    }
-    #usermap>*{
-        width: 100%;
-        -moz-box-flex: auto;
-        -webkit-flex: auto;
-        -ms-flex: auto;
-         flex: auto;
-        height: auto;
-    }
-    #usermap .search label{
-        width: 20%;
-        float: none;
-        line-height: 2;
-    }
-    #usermap .search input{
-        width: 80%;
-        text-align: left;
-        float: left;
-    }
-    #usermap .map{
-        width: 100%;
-        height: 250px;
-    }
-    #usermap .list{
-        -moz-box-flex:1;
-        -webkit-box-flex:1;
-        box-flex:1;
-        position: relative;
-
-        transition: all .8s;
-        -moz-transition: all .8s;	/* Firefox 4 */
-        -webkit-transition: all .8s;	/* Safari 和 Chrome */
-        -o-transition: all .8s;
-    }
-    #usermap .list.next{
-        -webkit-transform:translate3d(-100%, 0px, 0px);
-        -moz-transform:translate3d(-100%, 0px, 0px);
-        -o-transform:translate3d(-100%, 0px, 0px);
-    }
-    #usermap .list>*{
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 100%;
-    }
-    #usermap .list .innerlist{
-        left: 0;
-    }
-    #usermap .list .info .mybar{
-        height: 44px;
-        padding-right: 10px;
-        padding-left: 10px;
-        background-color: rgba(247,247,247,.98);
-        border-bottom: 0;
-        -webkit-box-shadow: 0 0 1px rgba(0,0,0,.85);
-        box-shadow: 0 0 1px rgba(0,0,0,.85);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-    }
-    #usermap .list .info{
-        left: 100%;
-    }
-
-    .mui-bar-tab .mui-tab-item .mui-icon {
-    			top: 2px;
-    			width: 40px !important;
-    			height: 40px !important;
-    			padding-top: 0;
-    			padding-bottom: 0;
-                border: solid 2px #ccc;
-                border-radius: 50%;
-                line-height: 35px;
-
-    		}
-            .mui-table-view-cell{
-                padding: 18px 15px;
-            }
-            .mui-table-view-cell label{
-                display: inline-block;
-                min-width: 80px;
-            }
-            .mui-bar-tab .mui-tab-item.mui-active .mui-icon{
-                border: solid 2px red;
-            }
-            .mui-table-view-divider{
-                background-color: #f0f0f0;
-                color: #000;
-            }
-            .mui-btn-green, .mui-btn-positive, .mui-btn-success, .mui-btn-primary{
-                background-color: #16a7de;
-                border: 1px solid #16a7de;
-            }
-
-            html{
-                height: 100%;
-            }
-            body{
-                height: 100%;
-                width:100%;
-                margin: 0;
-                padding: 0;
-                font-size: 16px;
-                line-height: 16px;
-                background-color: #ccc;
-            }
-            .template{
-                display: none;
-            }
-
-    	.mui-bar-top{
-    		position: fixed;
-    		right: 0;
-    		left: 0;
-    		z-index: 10;
-    		height: 44px;
-    		padding-right: 10px;
-    		padding-left: 10px;
-    		background-color: #16a7de;
-    		border-bottom: 0;
-    		-webkit-backface-visibility: hidden;
-    		backface-visibility: hidden;
-    		color:#fff !important;
-        }
-    		.mui-bar-top>a{
-    		opacity: 1;
-    		color:#fff !important;
-    		}
-    		.mui-bar-top>h1{
-    		    color:#fff !important;
-    		}
-            .anim_rightin{
-                -webkit-animation-name:anim_rightin;
-            }
-            .anim_rightin_child{
-                -webkit-animation-name:anim_rightin_child;
-            }
-            .anim_rightin_un_child{
-                -webkit-animation-name:anim_rightin_un_child;
-            }
-            .anim_rightin_un{
-                -webkit-animation-name:anim_rightin_un;
-            }
-            .anim_leftin{
-                -webkit-animation-name:anim_leftin;
-            }
-            .anim_leftin_child{
-                -webkit-animation-name:anim_leftin_child;
-            }
-            .anim_leftin_un_child{
-                -webkit-animation-name:anim_leftin_un_child;
-            }
-            .anim_leftin_un{
-                -webkit-animation-name:anim_leftin_un;
-            }
-            @-webkit-keyframes anim_rightin{
-                0%{-webkit-transform:translateX(100%);}
-                100%{-webkit-transform:translateX(0);}
-            }
-            @-webkit-keyframes anim_rightin_child{
-                0%{-webkit-transform:translateX(0);}
-                100%{-webkit-transform:translateX(-50%);}
-            }
-            @-webkit-keyframes anim_rightin_un_child{
-                0%{-webkit-transform:translateX(-50%);}
-                100%{-webkit-transform:translateX(0%);}
-            }
-            @-webkit-keyframes anim_rightin_un{
-                0%{
-                    -webkit-transform:translateX(0);
-                }
-                100%{-webkit-transform:translateX(100%);}
-            }
-            @-webkit-keyframes anim_leftin{
-                0%{-webkit-transform:translateX(-100%);}
-                100%{-webkit-transform:translateX(0);}
-            }
-            @-webkit-keyframes anim_leftin_child{
-                0%{-webkit-transform:translateX(0);}
-                100%{-webkit-transform:translateX(50%);}
-            }
-            @-webkit-keyframes anim_leftin_un_child{
-                0%{-webkit-transform:translateX(50%);}
-                100%{-webkit-transform:translateX(0%);}
-            }
-            @-webkit-keyframes anim_leftin_un{
-                0%{-webkit-transform:translateX(0);}
-                100%{-webkit-transform:translateX(-100%);}
-            }
-            ul{
-                margin: 0;
-                padding: 0;
-                list-style: none;
-            }
-            head{
-                /*opacity: .5;*/
-            }
-            nav{
-                /*opacity: .5;*/
-            }
-            .pagecontainer{/***page容器 该容器决定了page的 宽高*/
-                position: relative;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-                z-index: 100;
-                -webkit-transform:translateX(0);
-                -webkit-animation-duration:.4s;
-                -webkit-animation-iteration-count:1;
-                -webkit-animation-timing-function:ease
-            }
-            .page{          /**每个页面的最外层样式 必须放在 pagecontaion中**/
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-            .mytabs{
-                width: 100%;
-                position: absolute;
-                left: 0;
-                top: 0;
-                bottom: 0;
-                padding: 0;
-            }
-            .mytabs>div{
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-    		.mui-bar{
-                -webkit-box-shadow: 0 0 1px rgba(0,0,0,.3) !important;
-                box-shadow: 0 0 1px rgba(0,0,0,.3) !important;
-    		}
-            .mytabs>div>*{
-                background-color: #fff;
-    			min-height:100%;
-            }
-                .mytabs>div .copyright{
-                    min-height: inherit;
-                    position: absolute;
-                    bottom: 0px;
-                    right: 10px;
-                    font-weight: normal;
-                    font-size: 12px;
-                }
-            .page_body{
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-                position: relative;
-                left: 0;
-                padding: 0;
-                margin: 0;
-                background-color: #fff;
-            }
-            .page_content{
-    			background-color: #fff;
-    			min-height:100%;
-            }
-    		.page_content:before{
-    			height: 100%;
-    			position: absolute;
-    			top: -100%;
-    			/*background-color: #fe3c4d;*/
-    			width: 100%;
-    			content: ' ';
-    			background-repeat: no-repeat;
-    			background-position: center bottom;
-    			background-size: 100% auto;
-    		}
-            .nva_row{
-                overflow: hidden;
-                margin-top: 5px;
-            }
-            .nva_row>ul{
-                width: 560px;
-                overflow: hidden;
-            }
-            .nva_row>ul>li{
-                float: left;
-                width: 70px;
-            }
-            .nva_row>ul>li>img{
-                width: 50px;
-                height: 50px;
-                display: block;
-                margin: 0 auto;
-    			border-radius: 5px;
-            }
-            .nva_row>ul>li>span{
-                display: block;
-                height: 25px;
-                line-height: 25px;
-                text-align: center;
-                font-size: 16px;
-            }
-            .typerow{
-
-            }
-            .typerow>ul{
-
-            }
-            .typerow>ul>li{
-                float: left;
-                width: 80px;
-            }
-            .typerow>ul>li>img{
-                width: 60px;
-                height: 60px;
-                display: block;
-                margin: 0 auto;
-                border-radius: 5px;
-            }
-            .typerow>ul>li>span{
-                display: block;
-                height: 30px;
-                line-height: 30px;
-                text-align: center;
-            }
-            h5{
-                border-top: solid 1px #ccc;
-                border-bottom: solid 1px #ccc;
-                padding: 10px;
-    			margin-top: 0px;
-    			font-size: 16px;
-            }
-             #alert_pagecontainer, #pop_pagecontaion ,.pagecontainer{
-                position: absolute !important;
-                left: 0;
-                top: 0;
-            }
-            #pop_pagecontaion .page{
-                position: absolute;
-                width: 100%;
-                /*top: 44px;*/
-                top:0;
-                bottom: 0;
-                left: 0;
-                height: auto;
-            }
-            .toppagecontainer{
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-            .toppagecontainer .page{
-                position: absolute;
-                width: 100%;
-                top: 44px;
-                bottom: 0;
-                left: 0;
-                height: auto;
-    			background-color: #fff;
-            }
-            #topheardpagecontainer{
-                height: 50px;
-            }
-
-            .list-row{
-
-            }
-            .list-row>img{
-                width: 60px !important;
-                height: 86px!important;
-                max-width: 111px !important;
-            }
-            .list-row .title{
-                font-size:16px;
-            }
-            .list-row .title2{
-                float:right;
-                font-size:12px;
-                color:#565e69;
-                line-height: 26px;
-            }
-            .list-star-1{
-    		width:80px;
-    		height:16px;
-    		float:left;
-    		margin: 5px 0px 5px 0;
-
-    		background-size:contain;
-    		}
-            .list-star-1>div{width:100%; height:100%;background-size:contain;}
-            #offCanvas{
-                background-color: #fff !important;
-            }
-            .mui-search .mui-placeholder{
-                pointer-events: none;
-            }
-        .mui-slider-item{
-            /*height: 213px !important;*/
-        }
-        .loading{
-            width: 100%;
-            height: 100%;
-            border: 0;
-            position: absolute;
-            left: 0;
-            top: 0;
-            z-index: 1000;
-        }
-        .loading div{
-            position: relative;
-            width: 120px;
-            height: 120px;
-            background-image: url(./img/loading2_2.png);
-            background-repeat: no-repeat;
-            background-position: center bottom;
-            margin: 0 auto;
-            animation: loading_show 1s;
-            -moz-animation: loading_show 1s;	/* Firefox */
-            -webkit-animation: loading_show 1s;	/* Safari 和 Chrome */
-            -o-animation: loading_show 1s;	/* Opera */
-            border-radius: 50%;
-            /*background-color: rgba(0,0,0,.1);*/
-        }
-        @-webkit-keyframes loading_show{
-            0% {opacity: 0}
-            99% {opacity: 0}
-            100% {opacity: 1}
-        }
-        .loading div>div{
-            background-image: url(./img/loading1_1.png);
-            width: 80px;
-            height: 97px;
-            position: absolute;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-            top: 10px;
-            animation: loading_run .8s infinite;
-            -moz-animation: loading_run .8s infinite;	/* Firefox */
-            -webkit-animation: loading_run .8s infinite;	/* Safari 和 Chrome */
-            -o-animation: loading_run .8s infinite;	/* Opera */
-            border: none;
-            background-color: transparent;
-        }
-            @-webkit-keyframes loading_run
-            {
-                0% {top:-15px}
-                50% {top:10px}
-                100% {top:-15px}
-            }
-
-            @-moz-keyframes loading_run /* Firefox */
-            {
-                0% {top:-25px}
-                50% {top:-10px}
-                100% {top:-25px}
-            }
-    	.touxiang {
-    		background-color: #fff;
-    		border-radius: 60px;
-    		width: 90px;
-    		height: 90px;
-    		padding:5px;
-    		float: left;
-    		margin-right:10px;
-    	}
-    	.touxiang>img {
-    		width: 80px;
-    		height: 80px;
-    		border-radius: 60px;
-    	}
-    	.touxiang-rank {
-    		width: 90px;
-    		height: 127px;
-    		background-color: #CCCCCC;
-    		float: left;
-    		border-radius: 5px;
-    	}
-    	.touxiang-cafe-list {
-    		width: 65px;
-    		height: 65px;
-    		background-color: #CCCCCC;
-    		float: left;
-    		border-radius: 5px;
-    	}
-    	.touxiang1-my-menu{height:90px;line-height:90px;color:#FFFFFF;white-space: normal!important;}
-    	.touxiang1{padding-left: 10px;overflow: hidden;}
-    	.touxiang1 li{ line-height:22px;}
-
-
-    	.useinfo-line{
-    		background-color:rgba(250,250,250,0.8);
-    	}
-        .startpage{
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-            font-size: 48px;
-            text-align: center;
-            line-height: 300px;
-            z-index: 10000;
-            background-image: url(./img/icon.png);
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-color: #226BD1;
-            color: #fff;
-        }
-    	.userinfo-menu{
-    	width:80%;
-    	height:36px;
-    	line-height:36px;
-    	margin-left:10px;
-    	float:left;
-    	}
-    	.mui-icon-userinfo{
-    	width:36px;
-    	height:36px;
-    	float:left;
-    	border-radius: 5px;
-    	}
-    	.mui-icon-bookmain{
-    	width:18px;
-    	height:18px;
-    	float:left;
-    	border-radius: 5px;
-    	margin-right: 10px;
-    	}
-    	.main-icon-lit{
-    	margin-top:6px !important;
-    	margin-right:5px !important;
-    	}
-
-    	.rank-pic{
-    	width:90px !important;
-    	height:90px !important;
-    	max-width: 90px !important;
-    	margin:0px 6px 6px 0px;
-    	}
-    .rank-pic-big{
-    	width:100% !important;
-    	height:100% !important;
-    	max-width: 100% !important;
-    	margin:0px 6px 6px 0px;
-    	}
-    .rank-content{
-    	padding:10px;
-    	background-color:#fff;
-    	border-bottom: 1px solid #ccc;
-    	border-top:1px solid #ccc;
-    	margin-top: -1px;
-    	}
-    .rank-face{
-    	margin-bottom:10px;
-    	}
-    .rank-face1{
-    	height:60px;
-    	margin-bottom:10px;
-    	}
-    .rank-img-3{
-    	margin-top: 10px;
-    	}
-    .mui-media-body{
-    	line-height:21px;
-    	color:#000000;
-    	}
-    .mui-ellipsis{
-    	line-height:21px;
-    	}
-    .mui-ellipsis-bt{
-    	font-size: 16px;
-    	margin-top: 10px;
-    	margin-bottom: 10px;
-    	color:#565e69;
-    	white-space: normal!important;
-    	}
-    .rank-text-line{
-    	overflow:hidden;
-    	white-space:normal !important;
-    }
-    .rank-ms{
-    	display: -webkit-box;
-    	overflow: hidden;
-    	text-overflow: ellipsis;
-    	white-space: normal!important;
-    	-webkit-line-clamp: 1;
-    	-webkit-box-orient: vertical;
-    }
-
-
-
-            .mytabs .mui-control-content{
-
-                background-repeat: no-repeat;
-                background-position: 10px 20px;
-                background-color: #fff;
-            }
-
-    		.mybooklist-row{ float:right;}
-        .bodypage{
-            position: relative;
-            width: 100%;
-            height: 100%;
-            margin: 0 auto;
-            max-width: 600px;
-            overflow: hidden;
-            background-color: #fff;
-        }
-        #mybar{
-            display: none;
-        }
-        .mynext:after{
-            position: absolute;
-            right: 15px;
-            content: '\e583';
-            top: 50%;
-            display: inline-block;
-            font-family: Muiicons;
-            font-size: inherit;
-            line-height: 1;
-            color: #bbb;
-            text-decoration: none;
-            -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .amap-container .amap-logo{
-            border: solid 1px red;
-            display: none;
-        }
-        .amap-scale-text{
-            color: #000;
-            text-shadow: 1px 0px 0px #fff, -1px 0px 0px #fff, 0px 1px 0px #fff, 0px -1px 0px #fff;
-        }
-        .amap-scale-line>*{
-            border-color: #000;
-        }
-        .amap-scalecontrol{
-            margin-bottom: -20px;
-        }
-            .iconrow{
-                background-image: url(./img/icon.png);
-                background-repeat: no-repeat;
-                background-position: left center;
-                background-size: auto 100%;
-            }
-            h1.iconrow {
-                padding-left: 50px;
-            }
-            .mui-btn-block{
-                margin: 10px auto;
-                width: 95%;
-            }
-
-            .mk1{
-                background-image: url(./img/maks.png);
-                width: 32px;
-                height: 32px;
-                background-size: 100% 100%;
-                line-height: 30px;
-                color: #fff;
-                text-align: center;
-                background-size: 192px 32px;
-                font-size: 12px;
-            }
-            .mk1.state0{
-                background-position-x: -160px;
-            }
-            .mk1.state1{
-
-            }
-            .mk1.state2{
-                background-position-x: -32px;
-            }
-            .payinfo{
-                font-size: 30px;
-                color: #16a7de;
-            }
-    #map_html .mui-table-view-cell{
-        padding: 7px 15px;
-    }
-    #map_html .distance{
-        background-image: url(./img/jiantou.png);
-        display: inline-block;
-        background-repeat: no-repeat;
-        background-position: left center;
-        padding-left: 18px;
-    }
-    .mapPluginInit_mk1{
-        width: 30px;
-        height: 30px;
-        background-image: url(./img/maintools.png);
-        background-size: 140px 32px;
-        background-origin: padding-box;
-        background-position: -24px -1px;
-        cursor: pointer;
-        position: absolute;
-        right:19px;
-        top: 10px;
-    }
 
 </style>
 </head>
@@ -759,6 +31,15 @@
                     <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div id="tabbar-with-out" class="mui-control-content"   name='myorderdetail'>
+                    <h3 class="copyright">Copyright@@2015</h3>
+                </div>
+                <div class="mui-control-content"   name='userinfo'>
+                    <h3 class="copyright">Copyright@@2015</h3>
+                </div>
+                <div class="mui-control-content"   name='mapfull'>
+                    <h3 class="copyright">Copyright@@2015</h3>
+                </div>
+                <div class="mui-control-content"   name='coupon'>
                     <h3 class="copyright">Copyright@@2015</h3>
                 </div>
     		</div>
@@ -812,6 +93,10 @@
         <div class="page" style="background-color:#fff">
         </div>
     </div>
+    <div id="coupon_pagecontaion" class="pagecontainer" style="display: none">
+        <div class="page" style="background-color:#fff">
+        </div>
+    </div>
     <div id="reg_pagecontaion" class="pagecontainer" style="display: none">
         <div class="page" style="background-color:#fff">
         </div>
@@ -862,7 +147,7 @@
 </table>
 <div id="startpage" class="startpage">
     嘟嘟停车
-    <p class="mui-bar-footer">xxx公司</p>
+    <p class="mui-bar-footer">duduche.me</p>
 </div>
 </div>
 <div class="template">
@@ -876,19 +161,24 @@
 <script src="../golba_rs/js/jquery-1.9.1.min.js"></script>
 <script src="../golba_rs/js/iscroll.js" __del__></script>
 <script src="./js/cfg.js" __del__></script>
-<script src="./js/utils.js" __del__></script>
+<script src="./js/utils.js?1" __del__></script>
 <script src="./js/manager.js" __del__></script>
 <script src="./js/ajax.js" __del__></script>
 <script src="./js/view.js" __del__></script>
 <script src="./js/map_plugin.js" __del__></script>
 
 <script src="./views/map/map.js" __del__></script>
+<script src="./views/mapfull/mapfull.js" __del__></script>
 <script src="./views/daohang/daohang.js" __del__></script>
 <script src="./views/searchmap/searchmap.js" __del__></script>
 <script src="./views/myorder/myorder.js" __del__></script>
 <script src="./views/myorderdetail/myorderdetail.js?123" __del__></script>
 <script src="./views/reg/reg.js" __del__></script>
 <script src="./views/orderpay/orderpay.js" __del__></script>
+<script src="./views/userinfo/userinfo.js" __del__></script>
+<script src="./views/coupon/coupon.js" __del__></script>
+<script src="./views/couponget/couponget.js" __del__></script>
+<script src="./views/gaodedaohang/gaodedaohang.js" __del__></script>
 
 <script __alljs__></script>
 <script>
@@ -905,7 +195,7 @@
         var tabs = window.testtabs = utils.jq.initTab(tabcontrols,tabcards,'  mui-active');
         var nowview = null;
 
-        tabs.activeHandle[5] = tabs.activeHandle[4] = tabs.activeHandle[3] =tabs.activeHandle[2] = tabs.activeHandle[1] = function(context){
+        tabs.activeHandle[6] = tabs.activeHandle[5] = tabs.activeHandle[4] = tabs.activeHandle[3] =tabs.activeHandle[2] = tabs.activeHandle[1] = function(context){
 
             viewManager.viewroot('views/');
             var viewname = context.attr('name');
@@ -927,6 +217,15 @@
                     break;
                 case 'myjiesuan':
                     tabs.activeTab(3);
+                    break;
+                case 'userinfo':
+                    tabs.activeTab(4);
+                    break;
+                case 'mapfull':
+                    tabs.activeTab(5);
+                    break;
+                case 'coupon':
+                    tabs.activeTab(6);
                     break;
                 case "map":
                 case "mapsearch":
@@ -961,7 +260,6 @@
             });
             $('#startpage').hide();
         }
-
         function type_3(){      //已经注册
             var userinfo = {
                 uid:utils.tools.getUrlParam('uid')
@@ -973,7 +271,12 @@
             });
             $('#startpage').hide();
         }
-
+        function type_10(){     //领取红包
+            $('title').html('嘟嘟停车抢红包啦');
+            var code = utils.tools.getUrlParam('hcode');
+            sysmanager.couponUI(code);
+            $('#startpage').hide();
+        }
 
         var type = utils.tools.getUrlParam('type') || '1';
         var openid = utils.tools.getUrlParam('openid');
@@ -987,6 +290,9 @@
                 break;
             case '3':       //openid注册
                     type_3();
+                break;
+            case '10':      //领取红包
+                type_10();
                 break;
         }
     });

@@ -34,7 +34,7 @@ function ui_myorder(){
                 me.c_fill(data);
             });
 
-            this.dom.test.html(JSON.stringify(myajax.userinfo()));
+            //this.dom.test.html(JSON.stringify(myajax.userinfo()));
         }
         ,c_fill:function(data){
             var me = this;

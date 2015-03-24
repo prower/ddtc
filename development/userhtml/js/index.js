@@ -47,6 +47,9 @@ var app = {
 app.initialize();
 
 (function($){
+
+    initmenu();
+
     var iframebody = $('.body');
     var iframe = $('iframe');
     var iframetop = 0;
@@ -57,16 +60,10 @@ app.initialize();
     tabs.bind(MOUSE_CLICK,function(){
         var tab = $(this);
         var href = tab.attr('href');
-//        if(iframe){
-//            iframe.remove();
-//        }
-//        iframe = createiframe();
-//        iframe.appendTo(iframebody);
-        iframe.attr('src','http://duduche.me/html/userhtml/index.html?isapp=1&m={0}&time={1}'.replace('{0}',href).replace('{1}',new Date-0));
+        iframe.attr('src','http://duduche.me/html/userhtml/index.html?m={0}&time={1}'.replace('{0}',href).replace('{1}',new Date-0));
         tabs.removeClass(activeclassnamwe);
         tab.addClass(activeclassnamwe);
     });
-
     init();
 
 
@@ -88,15 +85,33 @@ app.initialize();
                 });
             }
         }
-        $(tabs[0]).trigger(MOUSE_CLICK);
+        //$(tabs[0]).trigger(MOUSE_CLICK);
     }
-    function createiframe(){
-        var iframe = $('<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no" style="visibility: hidden"></iframe>');
-        iframe.css({
-           top:iframetop + 'px'
-            ,height:iframeheight+'px'
-        });
-        return iframe;
+    function initmenu(){
+        var tabcontaion = $('.mui-bar-tab');
+        tabcontaion.html(
+                '<div class="mui-tab-item" href="mapfull">'
+                +'<span class="mui-icon mui-icon-map"></span>'
+                +'<span class="mui-tab-label">搜索</span>'
+                +'</div>'
+                +'<div class="mui-tab-item" href="myjiesuan">'
+                +'<span class="mui-icon mui-icon-bars"></span>'
+                +'<span class="mui-tab-label">缴费</span>'
+                +'</div>'
+                +'<div class="mui-tab-item" href="myorder">'
+                +'<span class="mui-icon mui-icon-list"></span>'
+                +'<span class="mui-tab-label">订单</span>'
+                +'</div>'
+                +'<div class="mui-tab-item" href="userinfo">'
+                +'<span class="mui-icon mui-icon-contact"></span>'
+                +'<span class="mui-tab-label">我</span>'
+                +'</div>'
+                +'<div class="mui-tab-item" href="coupon">'
+                +'<span class="mui-icon mui-icon-more"></span>'
+                +'<span class="mui-tab-label">卡券</span>'
+                +'</div>'
+        )
+
     }
     function iOSversion() {
       if (/iP(hone|od|ad)/.test(navigator.platform)) {
@@ -107,6 +122,7 @@ app.initialize();
         return false;
       }
     }
+
 })(jQuery);
 
 
