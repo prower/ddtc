@@ -40,7 +40,7 @@ var offlineProcess = window.offlineProcess = function(isLine){    //在线处理
     var appiframe = document.getElementById('appiframe');
     if(isLine){
         offlinePage.style.display = 'none';
-        var src = 'http://duduche.me/html/secenhtml/index.html?'+new Date;
+        var src = 'http://static.duduche.me/redirect/secen/indexhtml.php?'+new Date;
         appiframe.style.display = 'block';
         appiframe.src = src ;
     }else{
