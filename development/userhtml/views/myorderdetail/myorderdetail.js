@@ -187,7 +187,6 @@ function ui_myorderdetail(){
                     m = 0.1;
                 }
                 this.dom.remainFee.html(m);
-
             }
         }
         ,c_fill_order_no:function(){

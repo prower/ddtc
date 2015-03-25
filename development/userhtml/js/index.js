@@ -48,7 +48,7 @@ app.initialize();
 
 (function($){
 
-    initmenu();
+//    initmenu();
 
     var iframebody = $('.body');
     var iframe = $('iframe');
@@ -60,7 +60,7 @@ app.initialize();
     tabs.bind(MOUSE_CLICK,function(){
         var tab = $(this);
         var href = tab.attr('href');
-        iframe.attr('src','http://duduche.me/html/userhtml/index.html?m={0}&time={1}'.replace('{0}',href).replace('{1}',new Date-0));
+        iframe.attr('src','http://static.duduche.me/redirect/user/indexhtml.php?m={0}&time={1}'.replace('{0}',href).replace('{1}',new Date-0));
         tabs.removeClass(activeclassnamwe);
         tab.addClass(activeclassnamwe);
     });
@@ -85,7 +85,7 @@ app.initialize();
                 });
             }
         }
-        //$(tabs[0]).trigger(MOUSE_CLICK);
+        $(tabs[0]).trigger(MOUSE_CLICK);
     }
     function initmenu(){
         var tabcontaion = $('.mui-bar-tab');

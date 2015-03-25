@@ -9,6 +9,7 @@ define((function(){
 
     var cfg = {
         start:null
+        ,version:.9
         ,ajaxroot:'http://115.29.160.95/park.php/Home/'
         ,giftimgroot:"http://duduche.me/Uploads/images/" //礼品根目录
     }
