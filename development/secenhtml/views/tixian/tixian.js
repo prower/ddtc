@@ -24,6 +24,8 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ,totalmoney:'[name=totalmoney]'
             ,totaltimes:'[name=totaltimes]'
             ,remainSum:'[name=remainSum]'
+            ,upfront:'[name=upfront]'
+            ,spanUpfront:'[name=spanUpfront]'
         }
         ,iscroll:null
         ,init:function(context){
@@ -100,6 +102,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             this.dom.totalmoney.html(data.sum);
             this.dom.totaltimes.html(data.dealNum);
             this.dom.remainSum.html(data.remainSum);
+            if(data.upfront > 0)
+            {
+                this.dom.upfront.html(data.upfront);
+                this.dom.spanUpfront.show();
+            }
+       
 
 
             var datas = data.drawLists;
