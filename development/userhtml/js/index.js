@@ -79,16 +79,7 @@
       }
     }
 
-    (function(){
-        if(window.cordova_onDeviceReady){
-            alert('window.cordova_onDeviceReady');
-            init();
-        }else{
-            setTimeout(function(){
-                arguments.callee();
-            },10);
-        }
-    })();
+    init();
 
 })(jQuery);
 

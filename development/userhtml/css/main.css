@@ -782,13 +782,23 @@ html{
    }
    #couponget_html .quan span{
        color: #fff;
-       font-size: 30px;
+       font-size: 60px;
        font-weight: bold;
        position: absolute;
-       right: 30%;
-       top: 58%;
-       width: 30px;
+       top: 55%;
+       width: 80px;
        text-align: center;
+       background-image: url(../img/hongbao/yuan.png);
+       background-size: 40px 40px;
+       background-repeat: no-repeat;
+       background-position: right center;
+       left: 0;
+       right: 0;
+       margin: 0 auto;
+       display: block;
+       padding-right: 40px;
+       height: 40px;
+       line-height: 30px;
    }
    #couponget_html .quan0{
        background-image: url(../img/hongbao/quan_6.jpg);

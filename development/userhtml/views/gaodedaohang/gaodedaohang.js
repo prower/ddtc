@@ -26,6 +26,8 @@ function ui_gaodedaohang(){
             this.c_init();
         }, c_init:function () {
             var me = this;
+
+            $(document.body).attr('ontouchmove','return true');
             console.log(this.targetdata);
             /**
              *
@@ -58,7 +60,7 @@ function ui_gaodedaohang(){
 
 
         }, close:function () {
-
+            $(document.body).attr('ontouchmove','return false');
         }
     };
     return  ui;

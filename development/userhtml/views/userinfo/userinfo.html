@@ -32,8 +32,19 @@
             display: block;
         }
 
+        #userinfo_html .pailist>li>span{
+            position: relative;
+            top: 6px;
+            display: inline-block;
+            width: 28px;
+            height: 26px;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: solid 1px #16a7de;
+            border-radius: 50%;
+        }
         #userinfo_html .pailist>li.mui-active>span{
-            color: red;
+            background-color: #16a7de;
         }
         #userinfo_html .inputblur{
 
@@ -44,12 +55,12 @@
     </style>
     <ul class="mui-table-view" style="background-image: none">
         <li class="mui-table-view-cell">
-            <span class="mui-icon mui-icon-phone"></span><label name='telphone'></label>
+            <span class="mui-icon mui-icon-contact" style="font-size: 80px;color: #ccc;"></span><label style="position: relative;top: -15px;" name='telphone'></label>
             <button name="btreg" class="mui-btn mui-btn-warning">切换账号</button>
         </li>
     </ul>
     <ul class="mui-table-view" style="background-image: none">
-        <li class="mui-table-view-divider"><span style="color: #000;font-size: 20px">我的车牌</span><p style="float: right">点击切换默认车牌号</p></li>
+        <li class="mui-table-view-divider"><span style="color: #000;font-size: 20px">我的车牌</span><p style="float: right;margin-right: 10px">点击切换默认车牌号</p></li>
     </ul>
     <ul class="mui-table-view pailist" name='pailist'>
 
@@ -64,9 +75,9 @@
     <div class="template">
         <ul>
             <li name='row' class="mui-table-view-cell" style="width: 100%">
-                <a><span class="mui-icon mui-icon-compose"></span></a><span class="mui-icon mui-icon-paperplane"></span><b></b>
+                <a><span class="mui-icon mui-icon-compose"></span></a><span class1="mui-icon mui-icon-paperplane"></span><b></b>
                 <div class="table">
-                    <input maxlength="20" type="text" style="width: 50%;margin-bottom:0;">
+                    <input maxlength="20" type="text" style="width: 50%;margin-bottom:0;position: relative;top: -3px;">
                     <div name='btcancel' class="mui-btn mui-btn-red" style="margin-right: 10px">取消</div>
                     <div name='btsave' class="mui-btn mui-btn-success">修改</div>
                 </div>
