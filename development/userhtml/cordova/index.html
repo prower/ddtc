@@ -126,6 +126,56 @@
     <script src="./js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script>
+        window.cordova_onDeviceReady = false;       //是否执行了cordova准备事件
+        var app = {
+            // Application Constructor
+            initialize: function() {
+                this.bindEvents();
+            },
+            // Bind Event Listeners
+            //
+            // Bind any events that are required on startup. Common events are:
+            // 'load', 'deviceready', 'offline', and 'online'.
+            bindEvents: function() {
+                var me = this;
+                document.addEventListener('deviceready', function(){
+                    me.onDeviceReady();
+                }, false);
+            },
+            // deviceready Event Handler
+            //
+            // The scope of 'this' is the event. In order to call the 'receivedEvent'
+            // function, we must explicitly call 'app.receivedEvent(...);'
+            onDeviceReady: function() {
+                //初始化device
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                this.onMyEVENT();
+
+                //app.receivedEvent('deviceready');
+            }
+            ,onMyEVENT:function(){
+                window.cordova_onDeviceReady = true;        //准备完毕
+            }
+            // Update DOM on a Received Event
+            /**
+            ,receivedEvent: function(id) {
+                var parentElement = document.getElementById(id);
+                var listeningElement = parentElement.querySelector('.listening');
+                var receivedElement = parentElement.querySelector('.received');
+
+                listeningElement.setAttribute('style', 'display:none;');
+                receivedElement.setAttribute('style', 'display:block;');
+
+                receivedElement.innerHTML = 'Received Event: ' + id;
+
+                console.log('Received Event: ' + id);
+            },*/
+
+        };
+
+        app.initialize();
+    </script>
+    <script>
         document.write('<script type="text/javascript" src="http://static.duduche.me/redirect/user/indexjs.php?'+(new Date)+'"><'+'/script>');
     </script>
 </html>

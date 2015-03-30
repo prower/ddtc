@@ -71,6 +71,10 @@
             width: 100%;
             height: 100%;
         }
+        .map_contaion .list .innerlist>*{
+            width: 100%;
+            position: static;
+        }
         .map_contaion .list .innerlist{
             left: 0;
             overflow: hidden;
@@ -170,7 +174,29 @@
             padding: 5px;
             padding-top: 0;
         }
-        .map_contaion .info{
+        #mapfull_html .info .innerpanel{
+            display: -moz-box;
+            display: -webkit-box;
+            display: -ms-box;
+            display: -o-box;
+            display: box;
+
+            -moz-box-orient:vertical;
+            -webkit-box-orient:vertical;
+            box-orient:vertical;
+
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        #mapfull_html .info .innerpanel>.innerpanellist{
+            width: 100%;
+            -moz-box-flex:1;
+            -webkit-box-flex:1;
+            box-flex:1;
+            overflow: hidden;
+        }
+        #mapfull_html .info{
             position: absolute;
             left: 0;
             right: 0;
@@ -180,6 +206,36 @@
             top: 10px;
             bottom: 10px;
             background-color: rgba(255,255,255,.9);
+            box-shadow: 0px 0px 10px #ccc;
+            border: solid 1px rgba(0,0,0,.4);
+        }
+        #mapfull_html .info .mui-table-view>li{
+            padding: 12px 15px;
+        }
+        #mapfull_html .info .mui-table-view>li>label{
+            float: left;
+        }
+
+        #mapfull_html [name=dqpanel] .mui-active>span{
+            background-color: #000;
+        }
+        #mapfull_html [name=dqpanel] .selectrow>span{
+            position: absolute;
+            top: 4px;
+            left: 20px;
+            display: inline-block;
+            width: 28px;
+            height: 26px;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: solid 1px #16a7de;
+            border-radius: 50%;
+        }
+        .couponlist .mui-active{
+            background-color: #fff;
+        }
+        #mapfull_html [name=dqpanel]  .mui-active>.selectrow>span{
+            background-color: #16a7de;
         }
 
     </style>
@@ -207,47 +263,115 @@
             </div>
 
         </div>
-        <div style="display: none" class="info" name='infopanel'>
-            <header class="mui-bar mui-bar-nav" style="position: static;">
+        <div style="display: none" class="info animated zoomIn" name='infopanel'>
+            <div class="innerpanel">
+                <header class="mui-bar mui-bar-nav" style="position: static;">
                 <h1 class="mui-title" name='title'>停车场名称</h1>
-                <button class="mui-action-back mui-btn mui-btn-red mui-pull-left" name="btback" style="position: absolute;left: 10px">
-                    返回
-                </button>
-                <button class="mui-action-back mui-btn mui-btn-blue mui-pull-right" name="btdaohang" style="position: absolute;right: 10px">
-                    导航
-                </button>
-            </header>
-            <ul class="mui-table-view">
-                <li class="mui-table-view-cell">
-                    <table  style="width: 100%;table-layout: fixed">
-                        <tr>
-                            <td style="width: 50px"><label>空位:</label></td>
-                            <td style="width: 120px"><p><span name='numberstatus'></span></p></td>
-                            <td><label>总车位:</label></td>
-                            <td><p><span name='numbermax'></span></p></td>
-                        </tr>
-                    </table>
-                    <table style="width: 100%;table-layout: fixed">
-                        <tr><td style="width: 50px"><label>价格:</label></td><td><p><span name='rules'></span></p></td></tr>
-                        <tr name='noteline'><td><label>备注:</label></td><td><p><span name='note'>晚上关门</span></p></td></tr>
-                        <tr><td><label>地址:</label></td><td><p><span name='address'>西康路10号</span></p></td></tr>
-                    </table>
-                    <table style="width: 100%;table-layout: fixed">
-                        <tr><td style="width: 50px"><label>车牌:</label></td>
-                            <td><p><span name='carid' class="mui-badge mui-badge-danger" style="font-size: 14px;border-radius: 0;"></span></p></td>
-                            <td><div class="mui-action-back mui-btn mui-btn-success" name='btmodifycarid'>修改</div></td>
-                        </tr>
-                    </table>
-                    <!--<p><label>空车位:</label><span name='numberstatus'></span><span name='numbermax'></span></p>-->
-                    <!--<p><label>价格:</label><span name='rules'></span></p>-->
-                    <!--<p><label>备注:</label><span name='note'>晚上关门</span></p>-->
-                    <!--<p><label>地址:</label><span name='address'>西康路10号</span></p>-->
-                </li>
-            </ul>
-            <div class="buttonc">
-                <button class="mui-btn mui-btn-success mui-btn-block" style="" name="btpay">确认,预付5元>></button>
-            </div>
+                <a name="btback" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 
+            </header>
+                <div class="innerpanellist">
+                    <ul name='inner' class="mui-table-view">
+                                <li class="mui-table-view-cell">
+                                    <label>总车位:</label><p><span name='numbermax'></span></p>
+
+                                </li>
+                                <li class="mui-table-view-cell"><label>空位:</label><p><span name='numberstatus'></span></p></li>
+                                <li class="mui-table-view-cell"><label>价格:</label><p><span name='rules'></span></p></li>
+                                <li class="mui-table-view-cell"><label>备注:</label><p><span name='note'></span></p></li>
+                                <li class="mui-table-view-cell">
+                                    <table style="width: 100%;table-layout: fixed">
+                                        <tr><td><label>车牌:</label></td>
+                                            <td><p><span name='carid' class="mui-badge mui-badge-danger" style="font-size: 14px;border-radius: 0;"></span></p></td>
+                                            <td><div style="float: right" class="mui-action-back mui-btn mui-btn-success" name='btmodifycarid'>修改</div></td>
+                                        </tr>
+                                    </table>
+                                </li>
+                                <li class="mui-table-view-cell mui-collapse" name='dqpanel'>
+                                    <a class="mui-navigate-right">
+                                    <label style="float: left"><span class="dquicon"></span>抵用券：</label>
+                                        <span name='couponinfo'>可用抵用券<span></span>张</span>
+                                        <p name='couponinfo_none'>当前没有可用抵用券</p>
+                                        <p name='couponinfo_load'>
+                                            抵用券信息加载中...
+                                            <span class="mui-spinner" style="float: right">
+                                                <span class="mui-spinner-indicator mui-spinner-indicator1"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator2"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator3"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator4"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator5"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator6"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator7"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator8"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator9"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator10"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator11"></span>
+                                                <span class="mui-spinner-indicator mui-spinner-indicator12"></span>
+                                            </span>
+                                        </p>
+                                    </a>
+                                    <ul class="mui-table-view couponlist" name='list'>
+                                    </ul>
+                                    <div class="template">
+                                        <ul>
+                                            <li class="mui-table-view-cell" name='row-1'>
+                                                <div class="mui-input-row mui-radio mui-left selectrow">
+                                                    <label>使用该券，你只需要在支付一元</label>
+                                                    <span></span>
+                                                </div>
+                                            </li>
+                                            <li class="mui-table-view-cell" name='row-0'>
+                                                <div class="mui-input-row mui-radio mui-left selectrow">
+                                                    <label>使用抵扣<span name='money'>{0}</span>元</label>
+                                                    <span></span>
+                                                </div>
+                                            </li>
+                                            <li class="mui-table-view-cell" name='rownone'>
+                                                <p>你当前没有可以使用的抵用券</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="mui-table-view-cell payinfo" name='payinfo'><label>预付金额：</label><span>-5</span></li>
+                            </ul>
+
+                    <ul style="display: none" class="mui-table-view">
+                                        <li class="mui-table-view-cell">
+                                            <table  style="width: 100%;table-layout: fixed">
+                                                <tr>
+                                                    <td style="width: 50px"><label>空位:</label></td>
+                                                    <td style="width: 120px"><p><span name='numberstatus'></span></p></td>
+                                                    <td><label>总车位:</label></td>
+                                                    <td><p><span name='numbermax'></span></p></td>
+                                                </tr>
+                                            </table>
+                                            <table style="width: 100%;table-layout: fixed">
+                                                <tr><td style="width: 50px"><label>价格:</label></td><td><p><span name='rules'></span></p></td></tr>
+                                                <tr name='noteline'><td><label>备注:</label></td><td><p><span name='note'>晚上关门</span></p></td></tr>
+                                                <tr><td><label>地址:</label></td><td><p><span name='address'>西康路10号</span></p></td></tr>
+                                            </table>
+                                            <table style="width: 100%;table-layout: fixed">
+                                                <tr><td style="width: 50px"><label>车牌:</label></td>
+                                                    <td><p><span name='carid' class="mui-badge mui-badge-danger" style="font-size: 14px;border-radius: 0;"></span></p></td>
+                                                    <td><div class="mui-action-back mui-btn mui-btn-success" name='btmodifycarid'>修改</div></td>
+                                                </tr>
+                                            </table>
+                                            <!--<p><label>空车位:</label><span name='numberstatus'></span><span name='numbermax'></span></p>-->
+                                            <!--<p><label>价格:</label><span name='rules'></span></p>-->
+                                            <!--<p><label>备注:</label><span name='note'>晚上关门</span></p>-->
+                                            <!--<p><label>地址:</label><span name='address'>西康路10号</span></p>-->
+                                        </li>
+                                    </ul>
+                </div>
+                <div class="buttonc">
+                    <table style="width: 100%;text-align: center">
+                        <tr>
+                            <td><button class="mui-btn mui-btn-success mui-btn-block" style="width: 80%;" name="btpay">确认预付</button></td>
+                            <td><button class="mui-btn-block mui-btn mui-btn-blue mui-pull-right" style="margin: 10px;" name="btdaohang">导航</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div class="searchpanel" name='searchpanel' style="display: none">

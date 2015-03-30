@@ -121,10 +121,10 @@ function ui_myorderdetail(){
                     var row = this.c_getcoupon_row(data);
                     this.dom.dqpanel.list.append(row);
                 }
-                this.dom.dqpanel.couponinfo.html('可用抵扣券<span>{0}</span>张'.replace('{0}',list.length));
+                this.dom.dqpanel.couponinfo.html('可用抵用券<span>{0}</span>张'.replace('{0}',list.length));
             }else{
                 this.dom.dqpanel.list.append(this.dom.dqpanel.qurownone.clone());
-                this.dom.dqpanel.couponinfo.html('当前无可用抵扣券');
+                this.dom.dqpanel.couponinfo.html('当前无可用抵用券');
             }
             if(!!refreshscroll){
                 this.c_refshScroll();
@@ -172,10 +172,10 @@ function ui_myorderdetail(){
                     data.id = k;
                     list.push(data);
                 }
-                this.dom.dqpanel.couponinfo.html('可用抵扣券<span>{0}</span>张'.replace('{0}',list.length));
+                this.dom.dqpanel.couponinfo.html('可用抵用券<span>{0}</span>张'.replace('{0}',list.length));
             }else{
                 var m = Math.round(data.remainFee*100)/100;
-                if('1' == this.dqselectdata+''){
+                if('1' == this.dqselectdata.t+''){
                     m = 1;
                     this.dom.dqpanel.couponinfo.html('只付1元');
                 }else{

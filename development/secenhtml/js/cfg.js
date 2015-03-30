@@ -11,7 +11,7 @@ define((function(){
         start:null
         ,version:.9
         ,ajaxroot:'http://115.29.160.95/park.php/Home/'
-        ,giftimgroot:"http://duduche.me/Uploads/images/" //礼品根目录
+        ,giftimgroot:"http://uploads.duduche.me/images/" //礼品根目录
     }
     /**
     var href = window.location.href;

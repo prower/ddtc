@@ -37,6 +37,10 @@ function ui_mapfull(){
                 ,numbermax:'[name=infopanel] [name=numbermax]'
                 ,carid:'[name=infopanel] [name=carid]'
                 ,btmodifycarid:'[name=infopanel] [name=btmodifycarid]'
+                ,innerlist:'[name=infopanel] .innerpanellist>ul'
+                ,dqpanel:'[name=infopanel] [name=dqpanel]'
+                ,payinfo:'[name=infopanel] [name=payinfo] span'
+
             }
             ,searchpanel:{
                 searchpanel:'[name=searchpanel]'
@@ -59,6 +63,7 @@ function ui_mapfull(){
             ,infowindow:'[name=infowindow]'
         }
         ,iscroll:null
+        ,infoiscroll:null
         ,mapObj:null
         ,datas:null
         ,nowdata:null
@@ -67,6 +72,7 @@ function ui_mapfull(){
         ,geolocation:null
         ,showSearchnumber:0
         ,searchNumber:0
+        ,couponlist:null
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -260,7 +266,6 @@ function ui_mapfull(){
                         alert('当前环境不支持获取定位,请在设置中允许使用[位置定位服务]');
                     });
                       geolocation.getCurrentPosition();
-
                });
             }
         }
@@ -331,6 +336,7 @@ function ui_mapfull(){
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.dom.list[0], {desktopCompatibility:true});
+            this.infoiscroll = new iScroll(this.dom.infopanel.innerlist[0], {desktopCompatibility:true});
 
             this.dom.infopanel.btback.aclick(function(){
                 me.c_back();
@@ -352,6 +358,9 @@ function ui_mapfull(){
                 me.c_daohang_my();
             });
             //this.dom.bttitle.aclick(function(){alert('title');});
+            this.dom.infopanel.btback.aclick(function(){
+                me.dom.infopanel.panel.hide();
+            });
             this.dom.infopanel.btpay.aclick(function(){
                me.c_startPay()
             });
@@ -373,6 +382,14 @@ function ui_mapfull(){
                     me.c_search_PlaceSearch();
                 });
                return false;
+            });
+            this.dom.infopanel.dqpanel.find('>a').click(function(){
+                if(me.couponlist){
+                    me.dom.infopanel.dqpanel.toggleClass('mui-active');
+                    setTimeout(function(){
+                       me.infoiscroll.refresh();
+                    });
+                }
             });
         }
         ,c_modifycarid:function(fn){
@@ -493,11 +510,12 @@ function ui_mapfull(){
             });
         }
         ,c_showinfo:function(data){
-//            this.nowdata = data;
+            this.nowdata = data;
 //            this.dom.listcontaion.addClass('next');
             //fill
+            var me = this;
             this.dom.infopanel.panel.show();
-            this.dom.infopanel.btpay.html('确认,预付{0}元'.replace('{0}',data.prepay));
+//            this.dom.infopanel.btpay.html('确认,预付{0}元'.replace('{0}',data.prepay));
             this.dom.infopanel.title.html(data.name);
             this.dom.infopanel.address.html(data.address);
             this.dom.infopanel.rules.html(data.rules);
@@ -507,11 +525,135 @@ function ui_mapfull(){
 
             this.dom.infopanel.carid.html(data.carid || '没有设置车牌');
 
+            this.dom.infopanel.payinfo.html(data.prepay);
+
             if(data.note){
                 this.dom.infopanel.note.html(data.note);
                 this.dom.infopanel.noteline.show();
             }else{
                 this.dom.infopanel.noteline.hide();
+            }
+            this.c_showinfo_initcoupon(function(dqselectdata){
+
+                if(!dqselectdata){
+                    me.dom.infopanel.payinfo.html(data.prepay);
+//                    var list = [];
+//                    for(k in this.data.coupon){
+//                        var data = this.data.coupon[k];
+//                        data.id = k;
+//                        list.push(data);
+//                    }
+//                    this.dom.dqpanel.couponinfo.html('可用抵扣券<span>{0}</span>张'.replace('{0}',list.length));
+                }else{
+                    var m = Math.round(data.prepay)/100;
+                    if('1' == dqselectdata.t+''){
+                        m = 1;
+//                        me.dom.dqpanel.couponinfo.html('只付1元');
+                    }else{
+                        m = m - dqselectdata.m;
+//                        me.dom.dqpanel.couponinfo.html('减免{0}元'.replace('{0}',me.dqselectdata.m));
+                    }
+                    m =  Math.round(m*100)/100;
+                    if(m<0){
+                        m = 0.1;
+                    }
+                    me.dom.infopanel.payinfo.html(m);
+                }
+            });
+
+            setTimeout(function(){
+               me.infoiscroll.refresh();
+            });
+        }
+        ,c_showinfo_initcoupon:function(onselect){          //初始化抵扣券信息
+            var me = this;
+            if(this.couponlist){
+                fillcouponinfo(this.couponlist);
+            }else{
+                loadcouponinfo();
+                this.m_getcoupon(function(data){
+                   console.log(data);
+                    var list = [];
+                    if(data.coupon){
+                        for(var k in data.coupon){
+                            var d = data.coupon[k];
+                            d.id = k;
+                            list.push(d);
+                        }
+                    }
+                    list.sort(function(a,b){
+                        return a.t - b.t;
+                    });
+                    setTimeout(function(){
+                        if(0 == list.length){
+                            nonecouponinfo();
+                        }else{
+                            me.couponlist = list;
+                            fillcouponinfo(me.couponlist);
+                        }
+                    },1000);
+                });
+            }
+            function loadcouponinfo(){
+                me.dom.infopanel.dqpanel.find('[name=couponinfo]').hide();
+                me.dom.infopanel.dqpanel.find('[name=couponinfo_none]').hide();
+                me.dom.infopanel.dqpanel.find('[name=couponinfo_load]').show();
+                me.dom.infopanel.dqpanel.find('>a').removeClass('mui-navigate-right');
+            }
+            function nonecouponinfo(){
+                me.dom.infopanel.dqpanel.find('[name=couponinfo]').hide();
+                me.dom.infopanel.dqpanel.find('[name=couponinfo_none]').show();
+                me.dom.infopanel.dqpanel.find('[name=couponinfo_load]').hide();
+                me.dom.infopanel.dqpanel.find('>a').removeClass('mui-navigate-right');
+            }
+            function fillcouponinfo(coupon){
+                me.dom.infopanel.dqpanel.find('[name=couponinfo]').show().find('span').html(coupon.length);
+                me.dom.infopanel.dqpanel.find('[name=couponinfo_none]').hide();
+                me.dom.infopanel.dqpanel.find('[name=couponinfo_load]').hide();
+                me.dom.infopanel.dqpanel.find('>a').addClass('mui-navigate-right');
+
+                var listui = me.dom.infopanel.dqpanel.find('[name=list]').empty();
+                var qurow_1= me.dom.infopanel.dqpanel.find('.template [name=row-1]');
+                var qurow_0= me.dom.infopanel.dqpanel.find('.template [name=row-0]');
+                var dqselectdata = null;
+
+                var list = coupon;
+                for(var i=0;i<list.length;i++){
+                    var data = list[i];
+                    var row = getcouponrow(data);
+                    listui.append(row);
+                }
+
+                function getcouponrow(data){
+                    var row = null;
+                    switch (data.t+''){
+                        case '-1':              //1元券
+                            row = qurow_1.clone();
+                            break;
+                        case '0':               //抵消券
+                            row = qurow_0.clone();
+                            row.find('[name=money]').html(data.m);
+                            break;
+                    }
+                    row.click(function(){
+                        couponrow_active(data, $(this));
+                    });
+                    return row;
+                }
+
+                function couponrow_active(data,row){
+                    var clsname = 'mui-active'
+                    if(dqselectdata && dqselectdata.id == data.id){           //选择后在选择：取消选择
+                        dqselectdata = null;
+                        row.removeClass(clsname);
+
+                    }else{      //选择
+                        listui.find('>*').removeClass(clsname);
+                        row.addClass(clsname);
+                        dqselectdata = data;
+                    }
+                    onselect && onselect(dqselectdata);
+                }
             }
         }
         ,c_back:function(){
@@ -753,6 +895,11 @@ function ui_mapfull(){
         }
         ,m_startPay:function(pid, fn){
             window.myajax.userget('index','genorder',{pid:pid}, function(result){
+                fn && fn(result.data);
+            }, null, false);
+        }
+        ,m_getcoupon:function(fn){      //获取抵扣我的券列表
+            window.myajax.userget('index','listMyCoupons',{all:1}, function(result){
                 fn && fn(result.data);
             }, null, false);
         }

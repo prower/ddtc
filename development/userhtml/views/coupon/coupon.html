@@ -24,15 +24,14 @@
         }
 
     </style>
-    <ul class="mui-table-view">
-        <li class="mui-table-view-cell">
-            <span style="color: #000;font-size: 20px">我的抵扣券</span>
-            <button name="btget_test" class="mui-btn mui-btn-warning">领红包（测试）</button>
-        </li>
+
+    <ul class="mui-table-view" style="background-image: none">
+        <li class="mui-table-view-divider">我的抵用券</li>
     </ul>
     <ul class="mui-table-view pailist" name='quanlist'>
 
     </ul>
+    <button style="position: absolute;right: 0;top:0" name="btget_test" class="mui-btn mui-btn-warning">领红包（测试）</button>
     <div class="template">
         <ul>
             <li name='quanrow-1' class="mui-table-view-cell row">
@@ -40,11 +39,11 @@
                 <b>截止:<span></span></b>
             </li>
             <li name='quanrow0' class="mui-table-view-cell row">
-                <span>抵扣券(<span name='money'></span>元)</span><p style="padding-top: 5px;padding-bottom: 5px">抵扣你的订单消费<span name='money'></span>元</p>
+                <span>抵用券(<span name='money'></span>元)</span><p style="padding-top: 5px;padding-bottom: 5px">抵扣你的订单消费<span name='money'></span>元</p>
                 <b>截止:<span></span></b>
             </li>
             <li name='quanrownone' class="mui-table-view-cell">
-                <p>当前没有任何抵扣券</p>
+                <p>当前没有任何可用抵用券</p>
             </li>
         </ul>
     </div>

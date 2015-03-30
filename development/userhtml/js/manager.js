@@ -252,7 +252,7 @@ window.sysmanager = {
         var uid = userinfo.uid || '';
         var uuid = userinfo.uuid || '';
         if('' == uid || '' == uuid){
-            //this.alert('当前没有缓存的登录凭据［测试］');
+            this.alert('当前没有缓存的登录凭据［测试］');
             callback && callback(false);
         }else{
             window.myajax.get('Public','checkLogin',{'uid':uid,'uuid':uuid},function(result){
