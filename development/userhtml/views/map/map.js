@@ -13,6 +13,7 @@ function ui_map(){
             list:'.innerlist>ul'
             ,row:'.template [name=row]'
             ,nonerow:'.template [name=nonerow]'
+            ,tujianrow:'.template [name=tujianrow]'
             ,listcontaion:'.list'
 
             ,bttitle:'[name=title]'
@@ -78,9 +79,9 @@ function ui_map(){
             me.c_searchPosition(function(placedata){
                 sysmanager.loadMapscript.load(function(){
                     me.c_initMap(function(center){
-                        me.m_getdata(center,function(datas){
+                        me.m_getdata(center,function(datas,area){
                             me.c_addpoint(me.mapObj,datas);
-                            me.c_fill(datas);
+                            me.c_fill(datas,area);
                         });
                     }, placedata);
                 });
@@ -90,9 +91,9 @@ function ui_map(){
             var me = this;
             sysmanager.loadMapscript.load(function(){
                 me.c_initMap(function(center){
-                    me.m_getdata(center,function(datas){
+                    me.m_getdata(center,function(datas,area){
                         me.c_addpoint(me.mapObj,datas);
-                        me.c_fill(datas);
+                        me.c_fill(datas,area);
                     });
                 }, placedata);
             });
@@ -252,11 +253,8 @@ function ui_map(){
                 me.c_modifycarid();
             });
             this.dom.infopanel.btback.aclick(function(){
-                            me.dom.infopanel.panel.hide();
-                        });
-                        this.dom.infopanel.btpay.aclick(function(){
-                           me.c_startPay()
-                        });
+                me.dom.infopanel.panel.hide();
+            });
 
             this.dom.infopanel.dqpanel.find('>a').click(function(){
                 if(me.couponlist){
@@ -343,7 +341,7 @@ function ui_map(){
             //alert('预付款失败');
             //this.c_startPayok();
         }
-        ,c_fill:function(datas){
+        ,c_fill:function(datas,area){
             var me = this;
             this.datas = datas;
             this.dom.list.empty();
@@ -354,7 +352,7 @@ function ui_map(){
                 }
             }
             if(!datas || datas.length == 0){
-                var row = this.c_getnonerow();
+                var row = this.c_getnonerow(area);
                 this.dom.list.append(row);
             }
             setTimeout(function(){
@@ -548,7 +546,7 @@ function ui_map(){
 
             return row;
         }
-        ,c_getnonerow:function(){
+        ,c_getnonerow:function(area){
             var me = this;
             var nonerow = this.dom.nonerow.clone();
             var pointcfg = {
@@ -559,13 +557,30 @@ function ui_map(){
                     ,t: 121.41321700000003
                 }
             }
-            nonerow.find('[name=pointlist]>li').aclick(function(){
-                            var p = $(this).find('span');
-                            var pid = p.attr('pid');
-                            var d = pointcfg[pid];
-                            var lnglat = new  AMap.LngLat(d.lng, d.lat);
-                            me.c_init_search(lnglat);
-                        })
+            /**
+             * area: Array[4]0: Array[3]
+             * 0: "月星环球港"1: 31.2316332: 121.411393length: 3__proto__: Array[0]
+             * 1: Array[3]
+             * 2: Array[3]
+             * 3: Array[3]
+             */
+            area = area || [];
+            for(var i=0;i<area.length;i++){
+                var data = area[i];
+                var tuijianrow = this.dom.tujianrow.clone();
+                tuijianrow.find('span').attr('pid',i).html(data[0]);
+                nonerow.find('[name=pointlist]').append(tuijianrow);
+            }
+            setTimeout(function(){
+                nonerow.find('[name=pointlist]>li').aclick(function(){
+                    var p = $(this).find('span');
+                    var pid = p.attr('pid');
+                    var d = area[pid];
+                    var lnglat = new  AMap.LngLat(d[2], d[1]);
+                    me.c_init_search(lnglat);
+                });
+            },10);
+
             return nonerow;
         }
         ,c_showinfo:function(data){
@@ -734,7 +749,7 @@ function ui_map(){
                     d.distance = Math.abs(parseInt(d.point.distance(center)));
                     d.prepay = parseInt(d.prepay);
                 }
-                fn && fn(result.data);
+                fn && fn(result.data,result.area);
             }, null, false);
         }
         ,m_getdata1:function(center, fn){
