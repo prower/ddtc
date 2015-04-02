@@ -261,6 +261,7 @@ function ui_map(){
                     me.dom.infopanel.dqpanel.toggleClass('mui-active');
                     setTimeout(function(){
                        me.infoiscroll.refresh();
+                        me.infoiscroll.scrollToElement(me.dom.infopanel.dqpanel[0]);
                     });
                 }
             });
@@ -488,6 +489,7 @@ function ui_map(){
             data.marker.setTop(true);
             if(!!elemmove){
                 this.iscroll.scrollToElement(row[0]);
+                this.iscroll.scrollToElement(row[0]);
             }
         }
         ,c_activeRow:function(index){
@@ -613,14 +615,12 @@ function ui_map(){
                 if(!dqselectdata){
                     me.dom.infopanel.payinfo.html(data.prepay);
                 }else{
-                    var m = Math.round(data.prepay)/100;
+                    var m = Math.round(data.prepay*100)/100;
                     if('1' == dqselectdata.t+''){
                         m = 1;
                     }else{
                         m = m - dqselectdata.m;
-
                     }
-                    m =  Math.round(m*100)/100;
                     if(m<0){
                         m = 0.1;
                     }
@@ -638,19 +638,7 @@ function ui_map(){
                 fillcouponinfo(this.couponlist);
             }else{
                 loadcouponinfo();
-                this.m_getcoupon(function(data){
-                   console.log(data);
-                    var list = [];
-                    if(data.coupon){
-                        for(var k in data.coupon){
-                            var d = data.coupon[k];
-                            d.id = k;
-                            list.push(d);
-                        }
-                    }
-                    list.sort(function(a,b){
-                        return a.t - b.t;
-                    });
+                this.m_getcoupon(function(list){
                     setTimeout(function(){
                         if(0 == list.length){
                             nonecouponinfo();
@@ -691,26 +679,35 @@ function ui_map(){
                 var dqselectdata = null;
 
                 var list = coupon;
+                var firstrow = null;
                 for(var i=0;i<list.length;i++){
                     var data = list[i];
                     var row = getcouponrow(data);
+                    if(!firstrow){
+                        firstrow = row;
+                    }
                     listui.append(row);
                 }
+                setTimeout(function(){
+                    firstrow && firstrow.click();
+                });
 
                 function getcouponrow(data){
                     var row = null;
                     switch (data.t+''){
-                        case '-1':              //1元券
+                        case '1':              //1元券
                             row = qurow_1.clone();
                             break;
                         case '0':               //抵消券
                             row = qurow_0.clone();
                             row.find('[name=money]').html(data.m);
+                            row.find('[name=etime]').html((data.e+'').split(' ')[0]);
                             break;
                     }
                     row.click(function(){
                         couponrow_active(data, $(this));
                     });
+
                     return row;
                 }
 
@@ -781,7 +778,10 @@ function ui_map(){
             fn && fn(datas);
         }
         ,m_startPay:function(pid,cid, fn){
+            var me = this;
+            alert('cid:'+cid);
             window.myajax.userget('index','genorder',{pid:pid,cid:cid?cid:0}, function(result){
+                me.couponlist = null;
                 fn && fn(result.data);
             }, null, false);
         }
@@ -789,9 +789,35 @@ function ui_map(){
 
         }
         ,m_getcoupon:function(fn){      //获取抵扣我的券列表
-            window.myajax.userget('index','listMyCoupons',{all:1}, function(result){
-                fn && fn(result.data);
-            }, null, false);
+            if(this.couponlist){
+                fn && fn(this.couponlist);
+            }else{
+                window.myajax.userget('index','listMyCoupons',{all:0}, function(result){
+
+                    console.log(result.data);
+//                    var data = result.data;
+//                    var list = [];
+//                    if(data.coupon){
+//                        for(var k in data.coupon){
+//                            var d = data.coupon[k];
+//                            d.id = k;
+//                            list.push(d);
+//                        }
+//                    }
+//                    list.sort(function(a,b){
+//                        if(a.t != b.t){
+//                            return a.t - b.t;
+//                        }else{
+//                            if(a.m != b.m){
+//                                return b.m- a.m
+//                            }else{
+//                                return a.e - b.e
+//                            }
+//                        }
+//                    });
+                    fn && fn(result.data.coupon);
+                }, null, false);
+            }
         }
     };
     return  ui;

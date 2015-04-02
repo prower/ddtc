@@ -195,7 +195,7 @@ window.sysmanager = {
     ,login:function(phone, carid, callback){
         var type = utils.tools.getUrlParam('type') || '1';
 
-        if(type == 1){      //非openid模式
+        if('1' == type || '10' == type){      //非openid模式
             //window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
             window.myajax.get('Public','login',{'phone':phone},function(result){
                 if(0 == result.code){

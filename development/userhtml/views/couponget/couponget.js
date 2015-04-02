@@ -12,6 +12,7 @@ function ui_couponget(){
         ,dom:{
             code_test:'[name=code_test]'
             ,bttest:'[name=bttest]'
+            ,zhiwenimg:'[name=zhiwenimg]'
             ,infopanel:{
                 panel:'[name=panel_info]'
                 ,btget:'[name=panel_info] [name=btget]'
@@ -19,7 +20,9 @@ function ui_couponget(){
             }
             ,resultpanel:{
                 panel:'[name=panel_result]'
-                ,info:'[name=panel_result] span'
+                ,info:'[name=panel_result] [name=money]'
+                ,row0:'[name=panel_result] [name=row0]'
+                ,row1:'[name=panel_result] [name=row1]'
             }
             ,nonepanel:{
                 panel:'[name=panel_none]'
@@ -72,15 +75,24 @@ function ui_couponget(){
             this.dom.infopanel.panel.hide();
             this.dom.nonepanel.panel.hide();
             this.dom.resultpanel.panel.show();
+            this.dom.zhiwenimg.attr('src','./img/zhiwen.png');
 
             //code: 0data: Objectcoupon: Objecte: "2015-03-23 00:59:04"id: "32"m: 3t: "0"
-            this.dom.resultpanel.info.html(result.data.coupon.m);
+            if('1' == result.data.coupon.t){
+                this.dom.resultpanel.row1.show();
+                this.dom.resultpanel.row0.hide()
+            }else{
+                this.dom.resultpanel.row1.hide();
+                this.dom.resultpanel.row0.show()
+                this.dom.resultpanel.info.html(result.data.coupon.m);
+            }
         }
         ,c_showNonepanel:function(result){          //显示领取卡券失败界面
             this.dom.infopanel.panel.hide();
             this.dom.nonepanel.panel.show();
             this.dom.resultpanel.panel.hide();
             this.dom.nonepanel.info.html(result.data);
+            this.dom.zhiwenimg.attr('src','./img/zhiwen.png');
         }
         ,c_showquit:function(isshow){
             this.showquit = !!isshow;
@@ -103,7 +115,7 @@ function ui_couponget(){
         }
         ,r_init:function(){
             var me = this;
-            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+//            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             this.dom.infopanel.btget.aclick(function(){
                 me.c_get();
             });
@@ -135,9 +147,16 @@ function ui_couponget(){
             }, null, true);
         }
         ,m_get:function(code,fromid, fn){           //领取卡券
+            var me = this;
             var data = {code:code,fromid:fromid};
             window.myajax.userget('index','openGiftPack',data, function(result){
-                fn && fn(result);
+                if('100' == result.code+''){        //没有登录
+                        sysmanager.loginUI(function(){
+                            me.m_get(code,fromid,fn);
+                        });
+                }else{
+                    fn && fn(result);
+                }
             }, null, true);
         }
     };

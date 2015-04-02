@@ -35,39 +35,49 @@ function ui_coupon(){
         }
         ,c_init:function(){
             var me = this;
-            this.m_getcoupon(function(data){
-                var list = [];
-                for(var k in data.coupon){
-                    var d = data.coupon[k];
-                    d['id'] = k;
-                    list.push(d);
-                }
+            this.m_getcoupon(function(list){
+
                 me.c_fill(list);
             });
         }
         ,c_fill:function(datas){
+            var me = this;
             this.dom.quanpanel.list.empty();
             if(datas && datas.length){
+                var now = new Date();
+                var addemptyrow = false;
                 for(var i=0;i<datas.length;i++){
                     var data = datas[i];
                     var row = this.c_getrow(data);
+                    if(new Date(data.e)<now){
+                        row.addClass('overtime');
+                        if(!addemptyrow){
+                            addemptyrow = true;
+                            this.dom.quanpanel.list.append($('<li style="padding: 5px" class="mui-table-view-divider">'));
+                        }
+                    }
                     this.dom.quanpanel.list.append(row);
+
                 }
             }else{
                 this.dom.quanpanel.list.append(this.dom.quanpanel.quanrownone.clone());
             }
+            setTimeout(function(){
+                me.iscroll.refresh();
+            });
+
         }
         ,c_getrow:function(data){
             var row = null;
             switch(data.t+''){
-                case '-1':  //1元券
+                case '1':  //1元券
                     row = this.dom.quanpanel['quanrow-1'].clone();
-                    row.find('b>span').html(data.e);
+                    row.find('[name=endtime]>span').html((data.e+'').split(' ')[0]);
                     break;
                 case '0':   //抵扣券
                     row = this.dom.quanpanel['quanrow0'].clone();
                     row.find('[name=money]').html(data.m);
-                    row.find('b>span').html(data.e);
+                    row.find('[name=endtime]>span').html((data.e+'').split(' ')[0]);
                     break;
             }
 
@@ -113,7 +123,28 @@ function ui_coupon(){
         }
         ,m_getcoupon:function(fn){      //获取抵扣我的券列表
             window.myajax.userget('index','listMyCoupons',{all:1}, function(result){
-                fn && fn(result.data);
+                var data = result.data;
+                console.log(data);
+//                var list = [];
+//                if(data.coupon){
+//                    for(var k in data.coupon){
+//                        var d = data.coupon[k];
+//                        d.id = k;
+//                        list.push(d);
+//                    }
+//                }
+//                list.sort(function(a,b){
+//                    if(a.t != b.t){
+//                        return b.t - a.t;
+//                    }else{
+//                        if(a.m != b.m){
+//                            return b.m- a.m
+//                        }else{
+//                            return a.e - b.e
+//                        }
+//                    }
+//                });
+                fn && fn(result.data.coupon);
             }, null, false);
         }
     };

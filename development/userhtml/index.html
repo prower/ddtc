@@ -10,12 +10,8 @@
 
     <link rel="stylesheet" href="../golba_rs/css/mui.min.css">
     <link rel="stylesheet" href="../golba_rs/css/animate.css">
-    <link rel="stylesheet" href="./css/main.css">
-
-    <style>
-
-
-</style>
+    <link rel="stylesheet" href="./css/main.css?0.9">
+    <style></style>
 </head>
 <body>
 <div class="bodypage">
@@ -189,7 +185,7 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
     document.ontouchmove = function(e){     //文档禁止 touchmove事件
-//        return false;
+        return false;
     };
     $(function(){
         window.sysmanager.init();
@@ -495,9 +491,11 @@
 
              );
         }else{
-            var imgUrl = urlPath+'/img/hongbao/quan_6.jpg';
-             var lineLink = 'http://duduche.me/html/userhtml/index.html?type=10';
-             var descContent = "嘟嘟停车请你停车";
+            var hcode = utils.tools.getUrlParam('hcode') || '1';
+            var fromid = utils.tools.getUrlParam('fromid') || null;
+            var imgUrl = urlPath+'/img/hongbao/fenxiang.jpg';
+             var lineLink = 'http://static.duduche.me/redirect/user/indexhtml.php?type=10&hcode='+hcode+'&fromid='+fromid;
+             var descContent = "开车的小伙伴们,快来领嘟嘟停车红包吧!";
              var shareTitle = '嘟嘟停车发红包啦';
              Myweixinobj.init(shareTitle, descContent, lineLink, imgUrl, function(){
 

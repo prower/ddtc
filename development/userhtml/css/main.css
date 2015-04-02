@@ -107,7 +107,7 @@ html{
            }
            .mui-table-view-cell label{
                display: inline-block;
-               min-width: 80px;
+               min-width: 60px;
            }
            .mui-bar-tab .mui-tab-item.mui-active .mui-icon{
                border: solid 2px red;
@@ -747,16 +747,47 @@ html{
 
    }
    #couponget_html .bg{
-       background-image: url(../img/hongbao/quan_3.jpg);
        width: 100%;
        height: 100%;
        position: absolute;
        left: 0;
        top: 0;
+
+   }
+    #couponget_html .bg>div{
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       left: 0;
+       top: 0;
+       background-image: url(../img/hongbao/quan_3.jpg);
        background-repeat: no-repeat;
        background-position: left bottom;
        background-size: 100% auto;
-   }
+    }
+    #couponget_html .bg>div.panel_result, #couponget_html .bg>div.panel_none{
+        background-image: none;
+    }
+    #couponget_html .bg>div.panel_result .zhiwen_hide, #couponget_html .bg>div.panel_none .zhiwen_hide{
+        position: absolute;
+        top: 10%;
+        right: 0;
+        opacity: 1;
+    }
+    #couponget_html .bg>div.panel_result .zhiwen, #couponget_html .bg>div.panel_none .zhiwen{
+        width: 320px;
+        height: 196px;
+        position: absolute;
+        bottom: 5%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        text-align: center;
+    }
+    #couponget_html .bg>div.panel_result .zhiwen img, #couponget_html .bg>div.panel_none .zhiwen img{
+        width: 100%;
+        /*background-color: #ccc;*/
+    }
    #couponget_html .btget{
        background-image: url(../img/hongbao/quan_4.png);
        width: 102px;
@@ -779,6 +810,23 @@ html{
        margin: 0 auto;
        top: 20%;
        background-size: 100% 100%;
+   }
+   #couponget_html .quan p{
+       position: absolute;
+       color: #fff;
+       bottom: 2%;
+       width: 100%;
+       text-align: center;
+   }
+   #couponget_html .quan b{
+       position: absolute;
+       left: 0;
+       right: 0;
+       width: 100%;
+       text-align: center;
+       top: 55%;
+       color: #9F0906;
+       font-size: 32px;
    }
    #couponget_html .quan span{
        color: #fff;

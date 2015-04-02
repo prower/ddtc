@@ -9,18 +9,43 @@
         #coupon_html .pailist .row{
             position: relative;
         }
-        #coupon_html .pailist .row>b{
-            float: right;
-            font-weight: normal;
-            color: #16a7de;
-            font-size: 14px;
-            position: absolute;
-            right: 10px;
-            top: 24%;
+        #coupon_html .pailist .quanrow0>.money>b{
+            position: relative;
+            top: -10px;
+            font-size: 20px;
         }
-        #coupon_html .pailist .row>b>span{
+        #coupon_html .pailist .quanrow0>.money{
+            display: block;float: left;width: 100px;margin-top: 10px;
+        }
+        #coupon_html .pailist .quanrow0>.money>span{
+            color: #16a7de;
             display: inline-block;
-            padding-left: 5px;
+            width: 70px;
+            text-align: left;
+            font-size: 60px;
+        }
+        #coupon_html .pailist .quanrow0>p{
+            color: #000;
+            padding-bottom: 5px;
+        }
+        #coupon_html .pailist .quanrow1{
+
+        }
+        #coupon_html .pailist .quanrow1>span{
+            display: inline-block;
+            float: left;
+            width: 100px;
+            height: 40px;
+            font-size: 25px;
+            line-height: 46px;
+            text-align: center;
+            color: #16a7de;
+        }
+        #coupon_html .pailist .quanrow1>p{
+            color: #000;
+        }
+        #coupon_html .pailist .quanrow1.overtime>*,#coupon_html .pailist .quanrow0.overtime>*,#coupon_html .pailist .quanrow0.overtime>.money>span{
+            color: #ccc;
         }
 
     </style>
@@ -34,13 +59,22 @@
     <button style="position: absolute;right: 0;top:0" name="btget_test" class="mui-btn mui-btn-warning">领红包（测试）</button>
     <div class="template">
         <ul>
-            <li name='quanrow-1' class="mui-table-view-cell row">
-                <span>1元券</span><p style="padding-top: 5px;padding-bottom: 5px">使用后，订单只需要支付1元</p>
-                <b>截止:<span></span></b>
+            <li name='quanrow-1' class="mui-table-view-cell row quanrow1">
+                <span>壹元券</span>
+                <p style="padding-top: 5px;padding-bottom: 5px">只需支付1元</p>
+                <p name="endtime">有效期至 <span></span></p>
             </li>
-            <li name='quanrow0' class="mui-table-view-cell row">
+            <li name='quanrow01' class="mui-table-view-cell row">
                 <span>抵用券(<span name='money'></span>元)</span><p style="padding-top: 5px;padding-bottom: 5px">抵扣你的订单消费<span name='money'></span>元</p>
                 <b>截止:<span></span></b>
+            </li>
+            <li name='quanrow0' class="mui-table-view-cell row quanrow0">
+                <div class="money" style="">
+                    <b>￥</b>
+                    <span name='money'></span></div>
+                <p>抵用券（限时可用）</p>
+                <p name="endtime">有效期至 <span></span></p>
+                <p style="display: none">抵扣你的订单消费<span name='money'></span>元</p>
             </li>
             <li name='quanrownone' class="mui-table-view-cell">
                 <p>当前没有任何可用抵用券</p>
