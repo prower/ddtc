@@ -95,6 +95,10 @@
         <div class="page" style="background-color:#fff">
         </div>
     </div>
+    <div id="jiesuan_pagecontaion" class="pagecontainer" style="display: none">
+        <div class="page" style="background-color:#fff">
+        </div>
+    </div>
     <div id="reg_pagecontaion" class="pagecontainer" style="display: none">
         <div class="page" style="background-color:#fff">
         </div>
@@ -107,6 +111,22 @@
                 <li class="mui-table-view-cell" name='title'>菜单1:</li>
             </ul>
             <ul class="template"><li class="mui-table-view-cell" name='title'>菜单1:</li></ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+    <div id="reg_dialog_pagecontainer" class="pagecontainer" style=" display: none;z-index: 500">
+        <div name="loginpanel" class="mui-slider-item mui-control-content mui-active loginpanel  animated zoomIn">
+            <div class="mui-input-row reg-user">
+                <h1 class="iconrow">嘟嘟停车</h1>
+                <span name='btclose' class="mui-icon mui-icon-close"></span>
+                <hr>
+                <p name='msg'>首次使用嘟嘟停车需要注册你的手机号和车牌号</p>
+
+                <input name="userpanel_phone" type="text" class="mui-input-clear" placeholder="请输入您的手机号" >
+                <br/>
+                <input style="display: none" name="userpanel_chepai" type="text" class="mui-input-clear" placeholder="请输入您的车牌" >
+                <button name="btreg" class="mui-btn mui-btn-warning mui-btn-block">确认</button>
+            </div>
         </div>
         <div name='make' class="mui-backdrop mui-active"></div>
     </div>
@@ -136,6 +156,7 @@
         </div>
         <div name='make' class="mui-backdrop mui-active"></div>
     </div>
+
 
 <table id="loading" class="loading" style="display: none">
     <tr align='middel'>
@@ -429,7 +450,11 @@
            }
            ,setDesc:function(_desc){
                desc = _desc;
-               this.initBind();
+               return this;
+           }
+           ,setTitle:function(_title){
+               title = _title;
+               return this;
            }
        }
         return obj;
@@ -465,7 +490,7 @@
         var type = utils.tools.getUrlParam('type') || '1';
         if('10' != type){
             var imgUrl = urlPath+'/img/icon.png';
-             var lineLink = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7402a94935807c76&redirect_uri=http%3a%2f%2fdriver.duduche.me%2fdriver.php%2fhome%2fweixin%2fmenuCallBack%2f&response_type=code&scope=snsapi_base&state=near#wechat_redirect';
+             var lineLink = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd417c2e70f817f89&redirect_uri=http%3a%2f%2fdriver.duduche.me%2fdriver.php%2fhome%2fweixin%2fmenuCallBack%2f&response_type=code&scope=snsapi_base&state=near#wechat_redirect';
              var descContent = "我在用嘟嘟停车,停车好方便.";
              var shareTitle = '嘟嘟停车';
              Myweixinobj.init(shareTitle, descContent, lineLink, imgUrl, function(){
@@ -492,9 +517,13 @@
              );
         }else{
             var hcode = utils.tools.getUrlParam('hcode') || '1';
-            var fromid = utils.tools.getUrlParam('fromid') || null;
+            var fromid = utils.tools.getUrlParam('fromid') || '0';
             var imgUrl = urlPath+'/img/hongbao/fenxiang.jpg';
-             var lineLink = 'http://static.duduche.me/redirect/user/indexhtml.php?type=10&hcode='+hcode+'&fromid='+fromid;
+            var lineLink = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd417c2e70f817f89&redirect_uri={myurl}&response_type=code&scope=snsapi_base#wechat_redirect';
+            var myurl = 'http://driver.duduche.me/driver.php/home/weixin/giftCallBack/type/10/hcode/{hcode}/fromid/{fromid}/';
+            myurl = myurl.replace('{hcode}', hcode).replace('{fromid}', fromid);
+            myurl = encodeURIComponent(myurl);
+            lineLink = lineLink.replace('{myurl}', myurl);
              var descContent = "开车的小伙伴们,快来领嘟嘟停车红包吧!";
              var shareTitle = '嘟嘟停车发红包啦';
              Myweixinobj.init(shareTitle, descContent, lineLink, imgUrl, function(){

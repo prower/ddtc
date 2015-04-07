@@ -183,12 +183,15 @@ function ui_userinfo(){
                 me.c_addCarid();
             });
             this.dom.btreg.click(function(){
-                sysmanager.loadpage('views/', 'reg', null,'账户登录', function(view){
-                    view.obj.isHead(true);
-                    view.obj.onclose = function(){
-                        me.c_init();
-                    }
-                });
+//                sysmanager.loadpage('views/', 'reg', null,'账户登录', function(view){
+//                    view.obj.isHead(true);
+//                    view.obj.onclose = function(){
+//                        me.c_init();
+//                    }
+//                });
+                sysmanager.loginUI(function(){
+                    me.c_init();
+                },'请输入要切换的手机号',true);
             });
             this.dom.btquit.click(function(){
                 $('#topheardpagecontainer [name=btupclose]').click();

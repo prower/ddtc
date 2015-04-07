@@ -195,7 +195,7 @@ window.sysmanager = {
     ,login:function(phone, carid, callback){
         var type = utils.tools.getUrlParam('type') || '1';
 
-        if('1' == type || '10' == type){      //非openid模式
+        if('1' == type){      //非openid模式
             //window.myajax.get('Public','login',{'phone':phone,'carid':carid},function(result){
             window.myajax.get('Public','login',{'phone':phone},function(result){
                 if(0 == result.code){
@@ -222,7 +222,7 @@ window.sysmanager = {
             });
         }
     }
-    ,loginUI:function(callback){                    //弹出登录的窗口 提供登录后的回调
+    ,loginUI_olg:function(callback){                    //弹出登录的窗口 提供登录后的回调
         var contaion = $('#reg_pagecontaion');
         if(!contaion.is(':visible')){
             sysmanager.loadpage('views/', 'reg', contaion,null, function(view){
@@ -232,6 +232,118 @@ window.sysmanager = {
             });
         }
     }
+    ,loginUI:(function(){
+        var ui = {
+                isInit: false
+                ,context:null
+                ,dom:{
+                    userpanel_phone:'[name=userpanel_phone]'
+                    ,userpanel_chepai:'[name=userpanel_chepai]'
+                    ,btreg:'[name=btreg]'
+                    ,msg:'[name=msg]'
+                    ,btclose:'[name=btclose]'
+                }
+                ,iscroll:null
+                ,ishead:false       //是否带了一个导航栏
+                ,callback:null      //关闭的回调
+                ,init:function(context){
+                    if (!this.isInit){
+                        this.isInit = true;
+                        this.context = context;
+                        utils.jqmapping(this.dom, context);
+                        this.r_init();
+                    }
+                    this.c_init();
+                }
+                ,isHead:function(_ishead){
+                    this.ishead = !!_ishead;
+                }
+                ,c_init:function(){
+                    var me = this;
+                }
+                ,c_show:function(callback, msg,canclose){
+                    this.dom.msg.html(msg || "首次使用嘟嘟停车需要注册你的手机号和车牌号");
+                    if(!!canclose){
+                        this.dom.btclose.show();
+                    }else{
+                        this.dom.btclose.hide();
+                    }
+                    this.callback = callback;
+                    this.context.show();
+                }
+                ,c_checkLogin:function(){
+                    sysmanager.checkLogin(function(islogin){
+                        if(islogin){
+                            sysmanager.alert('已经登陆');
+                        }else{
+                            sysmanager.alert('没有登陆');
+                        }
+                    });
+                }
+                ,c_reg:function(){
+                    var me = this;
+                    var phone = this.dom.userpanel_phone.val();
+                    var chepai = this.dom.userpanel_chepai.val();
+                    this.dom.userpanel_phone.blur();
+                    this.dom.userpanel_chepai.blur();
+                    if('' == phone){
+                        sysmanager.alert('手机号不能为空!');
+                    }else{
+                        sysmanager.login(phone,chepai,function(){
+                            me.c_quit();
+                        });
+                    }
+                }
+                ,c_reg_openid:function(){
+                    var me = this;
+                    var phone = this.dom.userpanel_phone.val();
+                    var chepai = this.dom.userpanel_chepai.val();
+                    var openid =  utils.tools.getUrlParam('openid');
+                    this.dom.userpanel_phone.blur();
+                    this.dom.userpanel_chepai.blur();
+                    if('' == phone){
+                        alert('手机号不能为空!');
+                    }else{
+                        sysmanager.login(phone,chepai,function(){
+                            me.c_quit();
+                        });
+                    }
+                }
+                ,c_quit:function(isclickquit){      //isclockquit:是否点击了退出按钮的退出
+//                    if(!this.ishead){
+//                        var me = this;
+//                        var c = me.context.parent().parent();
+//                        sysmanager.pagecontainerManager.hide(c);
+//                        me.close();
+//                    }else{
+//                        $('#topheardpagecontainer [name=btupclose]').click();
+//                    }
+                    this.context.hide();
+                    this.callback && this.callback(isclickquit);
+                }
+                ,r_init:function(){
+                    var me = this;
+                    var type = utils.tools.getUrlParam('type') || 1;
+                    this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+
+
+                    me.dom.btreg.aclick(function(){
+                        me.c_reg();
+                    });
+                    this.dom.btclose.aclick(function(){
+                        me.c_quit(false);
+                    });
+                }
+                ,close:function(){
+                    this.onclose && this.onclose();
+                }
+            };
+        ui.init($('#reg_dialog_pagecontainer'));
+
+        return function(callback, msg,canclose){    //callback:登录成功的回调，msg 定制提示信息，否则使用默认，canclose是否允许关闭
+            ui.c_show(callback, msg,canclose);
+        }
+    })()
     ,couponUI:function(code, fromid, callback){           //弹出卡券窗口 如果没有callback则使用全屏窗口
         if(!callback){
             sysmanager.loadpage('views/', 'couponget', $('#coupon_pagecontaion'),null, function(view){

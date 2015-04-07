@@ -892,3 +892,30 @@ html{
        border: solid 1px #ccc;
        padding: 10px;
    }
+   #reg_dialog_pagecontainer{
+
+   }
+   #reg_dialog_pagecontainer .loginpanel{
+       background-color: #fff;
+       width: 95%;
+       border: solid 1px #000;
+       border-radius: 5px;
+       position: absolute;
+       z-index: 20;
+       left: 0;
+       right: 0;
+       margin: 0 auto;
+       top: 50%;
+       margin-top: -150px;
+       padding: 10px;
+
+       -webkit-animation-duration: .3s;
+       animation-duration: .3s;
+       -webkit-animation-fill-mode: both;
+       animation-fill-mode: both;
+   }
+    #reg_dialog_pagecontainer .mui-icon-close{
+        position: absolute;
+        top: 0;
+        right: 0;
+    }

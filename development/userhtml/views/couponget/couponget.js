@@ -78,12 +78,14 @@ function ui_couponget(){
             this.dom.zhiwenimg.attr('src','./img/zhiwen.png');
 
             //code: 0data: Objectcoupon: Objecte: "2015-03-23 00:59:04"id: "32"m: 3t: "0"
-            if('1' == result.data.coupon.t){
+            if('-1' == result.data.coupon.t){
                 this.dom.resultpanel.row1.show();
-                this.dom.resultpanel.row0.hide()
+                this.dom.resultpanel.row0.hide();
+                //设置分享
+                window.Myweixinobj.setDesc('你停车，我买单，停车只要1元！').setTitle('嘟嘟停车，请你停车').initBind();
             }else{
                 this.dom.resultpanel.row1.hide();
-                this.dom.resultpanel.row0.show()
+                this.dom.resultpanel.row0.show();
                 this.dom.resultpanel.info.html(result.data.coupon.m);
             }
         }
@@ -153,7 +155,7 @@ function ui_couponget(){
                 if('100' == result.code+''){        //没有登录
                         sysmanager.loginUI(function(){
                             me.m_get(code,fromid,fn);
-                        });
+                        },'请输入你在<b>嘟嘟停车</b>的注册手机号');
                 }else{
                     fn && fn(result);
                 }

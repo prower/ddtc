@@ -70,7 +70,7 @@ function ui_coupon(){
         ,c_getrow:function(data){
             var row = null;
             switch(data.t+''){
-                case '1':  //1元券
+                case '-1':  //1元券
                     row = this.dom.quanpanel['quanrow-1'].clone();
                     row.find('[name=endtime]>span').html((data.e+'').split(' ')[0]);
                     break;

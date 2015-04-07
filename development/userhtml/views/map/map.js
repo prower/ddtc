@@ -332,9 +332,13 @@ function ui_map(){
 //
 //                }
 //            });
-
+            this.dom.infopanel.panel.hide();
             sysmanager.loadpage('views/', 'myorderdetail', null, '订单结算',function(v){
+//            sysmanager.loadpage('views/', 'myorderdetail', $('#jiesuan_pagecontaion'), null,function(v){
                 //v.obj.initoid(me.oid);
+                v.obj.onclose = function(){
+
+                }
             });
 
         }
@@ -551,14 +555,14 @@ function ui_map(){
         ,c_getnonerow:function(area){
             var me = this;
             var nonerow = this.dom.nonerow.clone();
-            var pointcfg = {
-                '1':{
-                    A: 31.232135
-                    ,lat: 31.232135
-                    ,lng: 121.413217
-                    ,t: 121.41321700000003
-                }
-            }
+//            var pointcfg = {
+//                '1':{
+//                    A: 31.232135
+//                    ,lat: 31.232135
+//                    ,lng: 121.413217
+//                    ,t: 121.41321700000003
+//                }
+//            }
             /**
              * area: Array[4]0: Array[3]
              * 0: "月星环球港"1: 31.2316332: 121.411393length: 3__proto__: Array[0]
@@ -616,9 +620,9 @@ function ui_map(){
                     me.dom.infopanel.payinfo.html(data.prepay);
                 }else{
                     var m = Math.round(data.prepay*100)/100;
-                    if('1' == dqselectdata.t+''){
+                    if('-1' == dqselectdata.t+''){  //壹元券
                         m = 1;
-                    }else{
+                    }else{                          //抵用券
                         m = m - dqselectdata.m;
                     }
                     if(m<0){
@@ -695,7 +699,7 @@ function ui_map(){
                 function getcouponrow(data){
                     var row = null;
                     switch (data.t+''){
-                        case '1':              //1元券
+                        case '-1':              //1元券
                             row = qurow_1.clone();
                             break;
                         case '0':               //抵消券
@@ -724,7 +728,7 @@ function ui_map(){
                         row.addClass(clsname);
                         me.dom.infopanel.dqpanel.find('[name=couponinfo]').hide();
                         me.dom.infopanel.dqpanel.find('[name=couponinfo_select]').show();
-                        if('1' == data.t+''){       //支付一元
+                        if('-1' == data.t+''){       //支付一元
                             me.dom.infopanel.dqpanel.find('[name=couponinfo_select]').html('只需支付1元');
                         }else{
                             me.dom.infopanel.dqpanel.find('[name=couponinfo_select]').html('抵扣{0}元'.replace('{0}',data.m));
@@ -779,7 +783,7 @@ function ui_map(){
         }
         ,m_startPay:function(pid,cid, fn){
             var me = this;
-            alert('cid:'+cid);
+
             window.myajax.userget('index','genorder',{pid:pid,cid:cid?cid:0}, function(result){
                 me.couponlist = null;
                 fn && fn(result.data);
