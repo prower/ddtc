@@ -11,7 +11,7 @@ require.config({
         ,view:'view'
     }
     ,waitSeconds:30
-    ,urlArgs : "version="           + new Date()
+    //,urlArgs : "version=0.9"               //+ new Date()
 });
 requirejs([],function(jQuery){
     //requirejs(['rs/bootstrap/js/bootstrap.min.js']);

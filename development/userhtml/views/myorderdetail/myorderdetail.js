@@ -91,14 +91,18 @@ function ui_myorderdetail(){
             this.dom.panel.order_wait.hide();
 
             if(!data){
-                this.c_fill_order_no();
+                this.c_fill_order_no(); //没有最后的缴费清单
             }else{
                 this.data = data;
                 this.oid = data.oid;
                 if(data.remaintime>0){
-                    this.c_fill_wait(data);
+                    this.c_fill_wait(data);         //等待
+                    //*     不需要再缴费的状态：E1
+                    window.TongjiObj.E('E1');
                 }else{
                     this.c_fill_pay(data);
+                    //需要缴费结清的状态：E2
+                    window.TongjiObj.E('E2');
                 }
             }
         }
@@ -215,17 +219,22 @@ function ui_myorderdetail(){
             var me = this;
             var row = this.dom.lianxipanel.lianxipanel_row.clone();
             row.find('[name=name]').html(data.name);
-            row.find('[name=btlianxi]').attr('href','tel:'+data.phone);
+            row.find('[name=btlianxi]').attr('href','tel:'+data.phone).aclick(function(){
+                //拨打管理员电话：E3
+                window.TongjiObj.E('E3');
+            });
             if(!isfirst){
                 row.addClass('other');
             }else{
                 row.find('[name=btmore]').aclick(function(){
                     me.dom.lianxipanel.list.addClass('all');
                     me.c_refshScroll();
+                    return false;
                 });
                 row.find('[name=btmore_none]').aclick(function(){
                     me.dom.lianxipanel.list.removeClass('all');
                     me.c_refshScroll();
+                    return false;
                 });
             }
             return row;

@@ -234,6 +234,8 @@ function ui_map(){
                 }else{
                     me.c_daohang_my();
                 }
+                //点击导航按钮：D4
+                window.TongjiObj.D('D4');
             });
             this.dom.daohang_gaode.aclick(function(){
                 me.c_daohang_gaode($(this));
@@ -246,11 +248,15 @@ function ui_map(){
             });
             //this.dom.bttitle.aclick(function(){alert('title');});
             this.dom.infopanel.btpay.aclick(function(){
-               me.c_startPay()
+               me.c_startPay();
+                //确认预付按钮点击：D5
+                window.TongjiObj.D('D5');
             });
 
             this.dom.infopanel.btmodifycarid.click(function(){
                 me.c_modifycarid();
+                //修改车牌号的情况：D3
+                window.TongjiObj.D('D3');
             });
             this.dom.infopanel.btback.aclick(function(){
                 me.dom.infopanel.panel.hide();
@@ -300,6 +306,7 @@ function ui_map(){
                         innerpay();
                     }
                 });
+                window.TongjiObj.D('D1');
             }else{
                 innerpay();
             }
@@ -314,6 +321,7 @@ function ui_map(){
                         //alert(res.err_code+'\n'+res.err_desc+'\n'+res.err_msg);
                          if('get_brand_wcpay_request:ok' == res.err_msg){
                              me.c_startPayok();
+
                          }else{
     //                         alert(res.err_msg);
                              me.c_startPayfalid();
@@ -340,7 +348,8 @@ function ui_map(){
 
                 }
             });
-
+            //支付成功：D6
+            window.TongjiObj.A('D6');
         }
         ,c_startPayfalid:function(){        //预付款失败
             //alert('预付款失败');
@@ -365,7 +374,6 @@ function ui_map(){
             });
         }
         ,c_addpoint:function(map,datas){
-
             for(var i=0;i<datas.length;i++){
                 var data = datas[i];
                 var maker = this.c_getpoint(map,data, i);
@@ -643,14 +651,14 @@ function ui_map(){
             }else{
                 loadcouponinfo();
                 this.m_getcoupon(function(list){
+                    me.couponlist = list;
                     setTimeout(function(){
                         if(0 == list.length){
                             nonecouponinfo();
                         }else{
-                            me.couponlist = list;
                             fillcouponinfo(me.couponlist);
                         }
-                    },1000);
+                    },200);
                 });
             }
             function loadcouponinfo(){
@@ -751,6 +759,46 @@ function ui_map(){
                     d.prepay = parseInt(d.prepay);
                 }
                 fn && fn(result.data,result.area);
+                setTimeout(function(){
+                    /**
+                     *     列表中停车场全是满的状态：C1
+                         列表中1000米范围内有可预定的停车场：C2
+                         列表中1000～2000米范围内有可预定的停车场：C3
+                         范围内无停车场的状态：C4
+                      */
+                    var datas = data;
+                    var obj = {
+                        C1:true
+                        ,C2:0
+                        ,C3:0
+                        ,C4:false
+                    }
+                    if(0 == datas.length){
+                        obj.C4 = true;
+                        obj.C1 = false;
+                    }else{
+                        //data.parkstate+''
+                        for(var i=0;i<datas.length;i++){
+                            var d = datas[i];
+                            if('0' == d.parkstate+''){
+
+                            }else{
+                               obj.C1 = false;  //没有全满
+                            }
+                            if(d.distance>1000 && d.distance<=2000){
+                                obj.C3++;
+                            }
+                            if(d.distance<=1000){
+                                obj.C2++;
+                            }
+                        }
+                    }
+                    for(var k in obj){
+                        if(obj[k]){
+                            window.TongjiObj.C(k);
+                        }
+                    }
+                });
             }, null, false);
         }
         ,m_getdata1:function(center, fn){
@@ -780,6 +828,7 @@ function ui_map(){
                     return(Min + Rand * Range);
             }
             fn && fn(datas);
+
         }
         ,m_startPay:function(pid,cid, fn){
             var me = this;
@@ -820,6 +869,13 @@ function ui_map(){
 //                        }
 //                    });
                     fn && fn(result.data.coupon);
+                    if(result.data.coupon && result.data.coupon.length>0){
+
+                    }else{
+                        //没有抵用劵的情况：D2
+                         window.TongjiObj.D('D2');
+                    }
+
                 }, null, false);
             }
         }

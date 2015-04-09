@@ -30,10 +30,9 @@ define(['jquery', 'utils'], function($, utils){
                 ,obj:null
             };
             var me = this;
-            var htmlurl = root + viewname +'/'+viewname+'.html?'+(iscache?'':new Date);
-            var jslurl = root + viewname +'/'+viewname+'.js?'+ (iscache?'':new Date);
+            var htmlurl = root + viewname +'/'+viewname+'.html'+(iscache?'':'?'+new Date);
+            var jslurl = root + viewname +'/'+viewname+'.js'+ (iscache?'':'?'+new Date);
             utils.sys.loading.show();
-
             $.get(htmlurl , function(html){
                 wininfo.dom = $(html);
                 require([jslurl], function(objfunc){
@@ -43,8 +42,6 @@ define(['jquery', 'utils'], function($, utils){
                     utils.sys.loading.hide();
                 });
             });
-
-
         }
     }
     return obj;

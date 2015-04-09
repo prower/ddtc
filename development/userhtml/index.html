@@ -14,6 +14,109 @@
     <style></style>
 </head>
 <body>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?aa83b44255e0841ab8bc2d46302e84cf";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<script>
+    /**
+     *     入口链接点击跟踪：
+             提示语中的链接：（分母：公共号的关注人数－A、活跃人数－A0）
+                 附近空车位：A1
+                 搜索地址：A2
+                 停车缴费：A3
+             菜单中的链接：（分母：公共号的关注人数、活跃人数）
+                 附近：B1
+                 搜索：B2
+                 缴费：B3
+                 我的订单：B4
+                 我的卡券：B5
+                 我的信息：B6
+         主体下单流程：
+             选择停车场：（分母：附近停车场列表页面－C、目的地停车场列表页面－C0）
+                 列表中停车场全是满的状态：C1
+                 列表中1000米范围内有可预定的停车场：C2
+                 列表中1000～2000米范围内有可预定的停车场：C3
+                 范围内无停车场的状态：C4
+             预付下单：（分母：预付下单界面－D）
+                 还没车牌的状态：D1
+                 没有抵用劵的情况：D2
+                 修改车牌号的情况：D3
+                 点击导航按钮：D4
+                 确认预付按钮点击：D5
+                 支付成功：D6
+             缴费结清界面：（分母：缴费结清页面－E）
+                 不需要再缴费的状态：E1
+                 需要缴费结清的状态：E2
+                 拨打管理员电话：E3
+     * @type {*}
+     */
+    window.TongjiObj = (function(){
+        var obj = {
+            /**
+             *  category：要监控的目标的类型名称，通常是同一组目标的名字，比如"视频"、"音乐"、"软件"、"游戏"等等。该项必选。
+                action：用户跟目标交互的行为，如"播放"、"暂停"、"下载"等等。该项必选。
+                opt_label：事件的一些额外信息，通常可以是歌曲的名称、软件的名称、链接的名称等等。该项可选。
+                opt_value：事件的一些数值信息，比如权重、时长、价格等等，在报表中可以看到其平均值等数据。该项可选。
+             */
+            push:function(category, action, opt_label, opt_value){
+                setTimeout(function(){
+                    _hmt.push(['_trackEvent', category, action, opt_label || 0, opt_value] || 0);
+                    console.log('_hmt.push','_trackEvent', category, action, opt_label, opt_value);
+                });
+            }
+            ,clickLink:function(action){          //模块链接
+                this.push('B','B_'+action);
+            }
+            ,A:function(action){        //附近空车位：A1搜索地址：A2停车缴费：A3,
+                this.push('A', action);
+            }
+            ,
+            /**
+             * 列表中停车场全是满的状态：C1
+             * 列表中1000米范围内有可预定的停车场：C2
+             * 列表中1000～2000米范围内有可预定的停车场：C3
+             * 范围内无停车场的状态：C4
+             * 范围内无停车场的状态：C4
+             * @param active
+             * @constructor
+             */
+            C:function(action){        //
+                this.push('C', action);
+            }
+            ,
+            /**
+             *     还没车牌的状态：D1
+                 没有抵用劵的情况：D2
+                 修改车牌号的情况：D3
+                 点击导航按钮：D4
+                 确认预付按钮点击：D5
+                 支付成功：D6
+             * @param action
+             * @constructor
+             */
+            D:function(action){
+                this.push('D', action);
+            }
+            ,
+            /**
+            *   不需要再缴费的状态：E1
+                 需要缴费结清的状态：E2
+                 拨打管理员电话：E3
+             * @constructor
+             */
+            E:function(action){
+                this.push('E', action);
+            }
+        }
+        return obj;
+    })();
+</script>
 <div class="bodypage">
     <div id="main_contaion" class="pagecontainer">
         <div id="canvaswrap" class="mui-off-canvas-wrap page">

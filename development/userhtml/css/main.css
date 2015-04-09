@@ -778,7 +778,7 @@ html{
         width: 320px;
         height: 196px;
         position: absolute;
-        bottom: 5%;
+        top:49%;
         left: 0;
         right: 0;
         margin: 0 auto;
@@ -887,7 +887,7 @@ html{
        right: 0;
        margin: 0 auto;
        width: 80%;
-       top: 40%;
+       top: 30%;
        text-align: center;
        border: solid 1px #ccc;
        padding: 10px;

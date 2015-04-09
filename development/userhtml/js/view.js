@@ -48,8 +48,7 @@ var viewManager = (function(){
                     sysmanager.loading.hide();
                 });
             });
-
-
+            window.TongjiObj.clickLink(viewname);
         }
     }
     return obj;
