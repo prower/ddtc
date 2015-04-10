@@ -4,7 +4,8 @@
 */
 include_once("../config.php");
 
-$url = "http://static.duduche.me/".VER."/userhtml/js/index.js";
+$url = "http://app.duduche.me/userhtml/".VER."/js/index.js";
+//$url = "http://app.duduche.me/userhtml/js/index.js";
 
 if(is_array($_GET)&&count($_GET)>0){
 	$appendix = null;
