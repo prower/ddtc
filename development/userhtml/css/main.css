@@ -760,7 +760,7 @@ html{
        position: absolute;
        left: 0;
        top: 0;
-       background-image: url(../img/hongbao/quan_3.jpg);
+       /*background-image: url(../img/hongbao/quan_3.jpg);*/
        background-repeat: no-repeat;
        background-position: left bottom;
        background-size: 100% auto;

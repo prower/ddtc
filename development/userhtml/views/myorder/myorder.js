@@ -86,6 +86,7 @@ function ui_myorder(){
             return row;
         }
         ,c_getrow2:function(data){          //已经结算的行
+            var me = this;
             var row = this.dom.row2.clone();
             row.find('[name=title]').html(data.parkname);
             row.find('[name=time]').html(data.startTime);
@@ -107,8 +108,12 @@ function ui_myorder(){
             });
         }
         ,c_paydetail:function(oid){
+            var me = this;
             sysmanager.loadpage('views/', 'myorderdetail', null, '订单结算',function(v){
                 v.obj.initoid(oid);
+                v.obj.onclose = function(){
+                    me.c_init();
+                }
             });
         }
         ,c_cleatlogin:function(){

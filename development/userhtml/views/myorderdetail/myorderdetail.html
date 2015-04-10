@@ -108,12 +108,28 @@
 
     </style>
     <div class="myorderdetail_html_contaion">
-        <div class="order_no" name='order_no'>
+        <div name='waittime' style="display: block;height: 500px;line-height: 500px;text-align: center;background-color: #fff;">等待支付确认...
+            <div class="mui-spinner">
+            				<div class="mui-spinner-indicator mui-spinner-indicator1"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator2"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator3"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator4"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator5"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator6"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator7"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator8"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator9"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator10"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator11"></div>
+            				<div class="mui-spinner-indicator mui-spinner-indicator12"></div>
+            			</div>
+        </div>
+        <div class="order_no" style="display: none" name='order_no'>
             <ul class="mui-table-view">
                 <li class="mui-table-view-divider"><h3>当前没有需要缴费的清单!</h3></li>
             </ul>
         </div>
-        <div class="order_pay" name='order_pay'>
+        <div class="order_pay" style="display: none" name='order_pay'>
             <ul class="mui-table-view">
                 <li class="mui-table-view-divider"><h3 name='title'></h3></li>
                 <li class="mui-table-view-cell"><label>开始时间：</label><span name='starttime'></span></li>
@@ -170,7 +186,7 @@
             <div style="height: 50px;"></div>
             <button style="position: absolute;bottom: 0;left: 0;right: 0" name="btpay"  class="mui-btn mui-btn-success mui-btn-block">结算付款>></button>
         </div>
-        <div class="order_wait" name='order_wait'>
+        <div class="order_wait" style="display: none" name='order_wait'>
             <ul class="mui-table-view">
                 <li class="mui-table-view-divider"><h3>费用已结清！</h3></li>
                 <li class="mui-table-view-cell"><p>请不要关闭本界面,出口管理人员可能会需要本界面信息</p></li>
