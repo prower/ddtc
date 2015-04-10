@@ -41,12 +41,14 @@ function ui_myorderdetail(){
                 ,'qurownone':'[name=dqpanel] .template [name=rownone]'
                 ,'couponinfo':'[name=dqpanel] [name=couponinfo]'
             }
+            ,waittimedom:'[name=waittime]'
         }
         ,iscroll:null
         ,oid:null
         ,handler:null
         ,data:null              //当前的订单数据
         ,dqselectdata:null             //抵扣券的使用数据
+        ,waittimes:0
 
         ,init:function(context){
             if (!this.isInit){
@@ -66,6 +68,9 @@ function ui_myorderdetail(){
         ,initoid:function(oid){
             this.oid = oid;
         }
+         ,initWait:function(times){     //设置加载等待时间
+            this.waittimes = times || 0;
+        }
         ,c_initinfo:function(){
             var me = this;
             this.c_clearHandler();
@@ -78,14 +83,23 @@ function ui_myorderdetail(){
                     me.c_fill(data);
                 });
             }
-
         }
         ,c_init:function(){
             var me = this;
-
-            this.c_initinfo();
+            this.dom.panel.order_no.hide();
+            this.dom.panel.order_pay.hide();
+            this.dom.panel.order_wait.hide();
+            if(this.waittimes>0){
+                setTimeout(function(){
+                    me.c_initinfo();
+                },this.waittimes);
+            }else{
+                this.dom.waittimedom.hide();
+                me.c_initinfo();
+            }
         }
         ,c_fill:function(data){
+            this.dom.waittimedom.hide();
             this.dom.panel.order_no.hide();
             this.dom.panel.order_pay.hide();
             this.dom.panel.order_wait.hide();
@@ -355,11 +369,11 @@ function ui_myorderdetail(){
             });
         }
         ,c_startPayok:function(){
-            alert('支付成功');
+           // alert('支付成功');
             this.c_initinfo();
         }
         ,c_startPayfalid:function(){
-            alert('支付失败');
+            //alert('支付失败');
         }
         ,close:function(){
             this.c_clearHandler();

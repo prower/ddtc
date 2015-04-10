@@ -316,6 +316,7 @@ function ui_map(){
                     //alert(data.oid);
                     //return [alert('跳过支付直接成功![测试s]'), me.c_startPayok()];
 
+                    console.log(data);
                     WeixinJSBridge.invoke('getBrandWCPayRequest', data.paydata,function(res){
                         //WeixinJSBridge.log(res.err_msg);
                         //alert(res.err_code+'\n'+res.err_desc+'\n'+res.err_msg);
@@ -329,8 +330,6 @@ function ui_map(){
                      });
                 });
             }
-
-
         }
         ,c_startPayok:function(){           //预付款成功
             var me = this;
@@ -344,9 +343,8 @@ function ui_map(){
             sysmanager.loadpage('views/', 'myorderdetail', null, '订单结算',function(v){
 //            sysmanager.loadpage('views/', 'myorderdetail', $('#jiesuan_pagecontaion'), null,function(v){
                 //v.obj.initoid(me.oid);
-                v.obj.onclose = function(){
-
-                }
+                v.obj.initWait(5000);
+                v.obj.onclose = function(){};
             });
             //支付成功：D6
             window.TongjiObj.A('D6');
