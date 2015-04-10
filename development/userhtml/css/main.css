@@ -789,7 +789,8 @@ html{
         /*background-color: #ccc;*/
     }
    #couponget_html .btget{
-       background-image: url(../img/hongbao/quan_4.png);
+       /*background-image: url(../img/hongbao/quan_4.png);*/
+       background-image: url(http://yomant.qiniudn.com/duduchequan_4.png);
        width: 102px;
        height: 102px;
        position: absolute;
@@ -801,7 +802,8 @@ html{
        background-size: 100% 100%;
    }
    #couponget_html .quan{
-       background-image: url(../img/hongbao/quan_2.jpg);
+       /*background-image: url(../img/hongbao/quan_2.jpg);*/
+       background-image: url(http://yomant.qiniudn.com/duduchequan_2.jpg);
        width: 320px;
        height: 128px;
        position: absolute;
@@ -836,7 +838,8 @@ html{
        top: 55%;
        width: 80px;
        text-align: center;
-       background-image: url(../img/hongbao/yuan.png);
+       /*background-image: url(../img/hongbao/yuan.png);*/
+       background-image: url(http://yomant.qiniudn.com/duducheyuan.png);
        background-size: 40px 40px;
        background-repeat: no-repeat;
        background-position: right center;
@@ -849,7 +852,8 @@ html{
        line-height: 30px;
    }
    #couponget_html .quan0{
-       background-image: url(../img/hongbao/quan_6.jpg);
+       /*background-image: url(../img/hongbao/quan_6.jpg);*/
+       background-image: url(http://yomant.qiniudn.com/duduchequan_6.jpg);
        width: 320px;
        height: 128px;
        position: absolute;
@@ -860,7 +864,8 @@ html{
        background-size: 100% 100%;
    }
    #couponget_html .title{
-       background-image: url(../img/hongbao/quan_1.jpg);
+       /*background-image: url(../img/hongbao/quan_1.jpg);*/
+       background-image: url(http://yomant.qiniudn.com/duduchequan_1.jpg);
        width: 320px;
        height: 82px;
        position: absolute;
@@ -871,7 +876,8 @@ html{
        background-size: 100% 100%;
    }
    #couponget_html .title1{
-       background-image: url(../img/hongbao/quan_5.jpg);
+       /*background-image: url(../img/hongbao/quan_5.jpg);*/
+       background-image: url(http://yomant.qiniudn.com/duduchequan_5.jpg);
        width: 320px;
        height: 82px;
        position: absolute;
