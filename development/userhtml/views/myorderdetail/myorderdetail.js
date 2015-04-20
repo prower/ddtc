@@ -333,6 +333,18 @@ function ui_myorderdetail(){
                 fn && fn(result.data);
             }, null, false);
         }
+        ,m_checkout_start_app:function(oid, fn){         //获取没有结算的订单(app支付)
+            //duduche.me/driver.php/home/index/checkOut /oid/1/
+            var data = {oid:oid};
+            if(this.dqselectdata){
+                data.cid = this.dqselectdata.id;
+            }else{
+
+            }
+            window.myajax.userget('index','checkOutApp', data, function(result){
+                fn && fn(result.data);
+            }, null, false);
+        }
         ,m_leave:function(oid, fn){          //发出结算请求
             window.myajax.userget('index','setLeave',{oid:oid}, function(result){
                 fn && fn(result.data);
@@ -342,7 +354,12 @@ function ui_myorderdetail(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             this.dom.btpay.aclick(function(){
-                me.c_checkout_start();
+                if(sysmanager.isapp){
+                    me.c_checkout_start_app();
+                }else{
+                    me.c_checkout_start();
+                }
+
             });
             this.dom.waitpanel.btleave.aclick(function(){
                 me.c_leave();
@@ -367,6 +384,45 @@ function ui_myorderdetail(){
                      }
                  });
             });
+        }
+        ,c_checkout_start_app:function(){
+            var me = this;
+            this.m_checkout_start_app(this.oid, function(data){
+
+                //me.nowoid = data.oid;
+                console.log(data);
+                /**
+                 * oid:
+                 * paydata:* Object
+                 *  appid:
+                 *  noncestr:
+                 *  partnerid:
+                 *  prepayid:
+                 *  timestamp:
+                 *  Object
+                 */
+                var paydata = data;
+
+
+                //绑定窗口事件（只一次）
+                window.removeEventListener("message", me.innerpay_app_onmessage);
+                window.addEventListener("message", me.innerpay_app_onmessage, false );
+                //发送支付信息给父窗口
+                me.innerpay_app_postmessage(JSON.stringify(paydata));
+            });
+        }
+        ,innerpay_app_postmessage:function(data){   //发送支付信息
+            window.parent.postMessage(data,'*');
+        }
+        ,innerpay_app_onmessage:function(event){         //接受支付信息返回
+            var me = ui;
+            var success = JSON.parse(event.data);
+            if(0 == success.code){
+                  me.c_startPayok();
+              }else{
+                  sysmanager.alert({'-1':'支付失败','-2':'支付参数错误'}[success.code+'']);
+                  me.c_startPayfalid();
+              }
         }
         ,c_startPayok:function(){
            // alert('支付成功');

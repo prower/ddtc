@@ -43,6 +43,13 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,todaysum:'[name=todaysum]'
             }
             ,permissionDom:'[p]'
+            ,rewardinfo:{
+                rewardline:'[name=rewardline]'
+                ,rewardline_deatil:'[name=rewardline]>div'
+                ,rewardinfopanel:'[name=rewardinfopanel]'
+                ,rewardinfopanel_close:'[name=rewardinfopanel] .mui-icon-close'
+
+            }
         }
         ,iscroll:null
         ,init:function(context){
@@ -108,6 +115,31 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     me.dom.info.remainSum.html(data.remainsum);
                     me.dom.info.score.html(data.score);
                     me.dom.info.todaysum.html(data.todaysum);
+
+                    //设置公告
+                    //acendtime: "2015-05-15"acscore: "500"actype: "1"
+                    var rewardinfo = {
+                        '1':'每单补贴5元！截止{end}'
+                    }
+                    var info = rewardinfo[data.actype];
+                    if(info){
+                        me.dom.rewardinfo.rewardline.find('span').html(info.replace('{end}',data.acendtime));
+                        if(new Date(data.acendtime) - new Date() > 0){
+                            me.dom.rewardinfo.rewardline.removeClass('hide');
+
+                            me.dom.rewardinfo.rewardline_deatil.unbind().aclick(function(){
+                                utils.sys.loadpage('views/', 'gonggao', null, '活动公告',function(v){
+                                    v.obj.setarg(data.actype,data.acscore,data.acendtime);
+                                });
+                            });
+
+
+                        }else{
+                            me.dom.rewardinfo.rewardline.addClass('hide');
+                        }
+                    }else{
+                        me.dom.rewardinfo.rewardline.addClass('hide');
+                    }
 
                     me.dom.btquit.html('管理员:{0}<span style="display: inline-block;padding-left: 40px">退出</span>'.replace('{0}', data.name));
 
@@ -205,6 +237,10 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     me.View.secen_out = null;
                     v.obj.close();
                 }
+            });
+
+            this.dom.rewardinfo.rewardinfopanel_close.aclick(function(){
+               me.dom.rewardinfo.rewardinfopanel.hide();
             });
         }
         ,View:{

@@ -8,8 +8,9 @@
     <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask" classpath="../tools/jar/compiler-1.6.jar"/>
 
 
-    <!--<target name="compile" depends='init,compileuser,compilesecen' >-->
+
     <target name="compile" depends='init,compileuser,compilesecen' >
+    <!--<target name="compile" depends='init,compileuser' >-->
 
 
     </target>

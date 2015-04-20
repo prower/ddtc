@@ -13,8 +13,6 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,dom:{
             row:'.template [name=row]'
             ,list:'[name=list]'
-            ,score:'[name=score]'
-            ,btlist:'[name=btlist]'
         }
         ,iscroll:null
         ,init:function(context){
@@ -35,11 +33,6 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
-            this.dom.btlist.aclick(function(){
-                utils.sys.loadpage('views/', 'jifenduihuanlist', null, '积分兑换历史清单',function(v){
-
-               });
-            });
         }
         ,c_fill:function(data){
             var me = this;
@@ -66,43 +59,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
             return  row;
         }
-        ,c_active:function(data){
-            if(parseInt(this.data.score)<parseInt(data.score)){
-                utils.sys.alert('当前剩余积分不足');
-                return;
-            }
-            var me = this;
-            utils.sys.loadpage('views/', 'jifenop', null, '积分兑换礼品',function(v){
-                v.obj.setGift(data);
-                v.obj.onclose = function(){
-                    me.c_init();
-                }
-           });
-        }
         ,m_getdata:function(fn){
-            ajax.userget('index','getGiftBase',null, function(result){
-                /**
-                 * score:400,
-                 	  giftList: [gid:1，name:‘10元电话卡’，score：10,image：dh.jpg]
-                 */
+            ajax.userget('index','getExList',null, function(result){
                 var data = result.data;
                 fn && fn(data);
             });
-        }
-        ,m_getdata1:function(fn){
-            fn && fn([
-                {name:'手机话费',jifen:100}
-                ,{name:'手机话费',jifen:100}
-                ,{name:'手机话费',jifen:100}
-                ,{name:'手机话费',jifen:100}
-                ,{name:'手机话费',jifen:100}
-                ,{name:'手机话费',jifen:100}
-                ,{name:'手机话费',jifen:100}
-                ,{name:'手机话费',jifen:100}
-                ,{name:'手机话费',jifen:100}
-            ]);
-        }
-        ,close:function(){
+        },close:function(){
 
         }
     };

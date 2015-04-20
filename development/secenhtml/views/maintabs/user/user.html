@@ -12,11 +12,40 @@
             font-size: 20px;
 
         }
+        #user_html .gonggao{
+
+        }
+        #user_html .gonggao.hide{
+            display: none !important;
+        }
+        #user_html .rewardinfopanel{
+            position: absolute;
+            z-index: 1000;
+            left: 0;
+            top: 20%;
+            right: 0;
+            margin: 0 auto;
+            width: 90%;
+            border: solid 1px #ccc;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #dd524d;
+            color: #fff;
+        }
+        #user_html .rewardinfopanel .mui-icon-close{
+            position: absolute;
+            right: 1%;
+            top: 1%;
+        }
     </style>
     <!--<h1 class="animated infinite bounce">Example</h1>-->
 
     <ul class="mui-table-view">
         <li class="mui-table-view-divider" style="color: #000;background-color: transparent;border-bottom: solid 1px #aaa;"><h3 name='fullname'>停车场名称</h3></li>
+        <li class="mui-table-view-divider gonggao" p='2' name='rewardline' style="color: #FFF;text-align: center;padding: 10px 0;overflow: hidden;background-color: #dd524d;line-height: 35PX;">
+            <span></span>
+            <div style="display: inline-block;padding: 5px;margin-right: 10px;background-color: #dd524d;border: 0;" class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>详情</div>
+        </li>
         <li class="mui-table-view-cell">
             <div style="margin: 10px"><label>空车位状态：</label><span style="display: none" class="mui-badge">5分钟前更新</span></div>
             <ul  class="kucunlist" name='kucunpanel' p='1'> <!--库存更新-->
@@ -47,7 +76,7 @@
                 </li>
             </ul>
         </li>
-        <li class="mui-table-view-cell" name='jifenpanel' p='1,2'>                  <!--积分-->
+        <li class="mui-table-view-cell" name='jifenpanel' p_old='1,2' p='32'>                  <!--积分-->
             <div><label>可用积分：</label><span class="mui-badge" name='score'>391</span></div>
             <p>100积分兑换，手机话费100元</p>
             <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>兑换</div>
@@ -57,26 +86,21 @@
             <div><label>可以提现：</label><span class="mui-badge" name='remainSum'>100.00</span>元</div>
             <div class="mui-btn mui-btn-success  mui-pull-right" name='btaction'>提现</div>
         </li>
-
-        <!--<li class="mui-table-view-divider" style="padding: 0">-->
-            <!--<ul class="mui-table-view mui-grid-view mui-grid-9">-->
-                <!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenin'>-->
-                    <!--<div>入场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-danger" name='manager_in'>1</span>辆车准备入场</div>-->
-                <!--</li>-->
-                <!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenout'>-->
-                    <!--<div>离场管理</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-warning" name='manager_out'>2</span>辆车准备离开</div>-->
-                <!--</li>-->
-                <!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4" name='bt_secenat'>-->
-                    <!--<div>在场车辆</div><div class="mui-media-body body1">有<span class="mui-badge mui-badge-success"  name='manager_at'>5</span>辆车在场内</div>-->
-                <!--</li>-->
-                <!--<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-4 mynext" name='bt_jiaoyi'>-->
-                    <!--<div>交易清单</div><div class="mui-media-body body1">本周交易<span class="mui-badge mui-badge-purple"  name='manager_deals'>1</span>次</div>-->
-                <!--</li>-->
-            <!--</ul>-->
-        <!--</li>-->
     </ul>
     <div name='btquit' class="mui-btn mui-btn-danger mui-btn-block" style="background-color: #de5752">退出</div>
     <div style="height: 50px"></div>
     <!--<div name='bttestrefresh' class="mui-btn mui-btn-danger mui-btn-block">刷新当前页面[测试]</div>-->
     <!--<div name='bttestpushid' class="mui-btn mui-btn-danger mui-btn-block">提交pushid［测试］</div>-->
+    <div name="rewardinfopanel" class="rewardinfopanel mui-slider-item mui-control-content mui-active loginpanel  animated zoomIn" style="display: none">
+        <div class="mui-input-row reg-user">
+            <h1 class="iconrow">活动公告</h1>
+            <span name='btclose' class="mui-icon mui-icon-close"></span>
+            <hr>
+            <ul>
+                <li>活动期间点击“离场确认”，将获得奖励积分500。</li>
+                <li>礼品兑换中，增加这三种礼品：现金5元、20元、100元。</li>
+                <li>截止时间：</li>
+            </ul>
+        </div>
+    </div>
 </div>

@@ -303,13 +303,23 @@ function ui_map(){
             if(!this.nowdata.carid){
                 this.c_modifycarid(function(carid){
                     if(carid){
-                        innerpay();
+                        if(sysmanager.isapp){
+                            innerpay_app();
+                        }else{
+                            innerpay();
+                        }
                     }
                 });
-                window.TongjiObj.D('D1');
             }else{
-                innerpay();
+                if(sysmanager.isapp){
+
+                    innerpay_app();
+                }else{
+                    innerpay();
+                }
+
             }
+            window.TongjiObj.D('D1');
             function innerpay(){
                 me.m_startPay(me.nowdata.pid,(me.dqselectdata?me.dqselectdata.id:0), function(data){
                     me.nowoid = data.oid;
@@ -330,6 +340,50 @@ function ui_map(){
                      });
                 });
             }
+            function innerpay_app(){
+                me.m_startPay_app(me.nowdata.pid,(me.dqselectdata?me.dqselectdata.id:0), function(data){
+                    me.nowoid = data.oid;
+                    //alert(data.oid);
+                    //return [alert('跳过支付直接成功![测试s]'), me.c_startPayok()];
+
+                    console.log(data);
+                    /**
+                     * oid:
+                     * paydata:* Object
+                     *  appid:
+                     *  noncestr:
+                     *  partnerid:
+                     *  prepayid:
+                     *  timestamp:
+                     *  Object
+                     */
+                    var paydata = data.paydata;
+
+
+                    //绑定窗口事件（只一次）
+                    window.removeEventListener("message", me.innerpay_app_onmessage);
+                    window.addEventListener("message", me.innerpay_app_onmessage, false );
+                    //发送支付信息给父窗口
+                    me.innerpay_app_postmessage(JSON.stringify(paydata));
+                });
+            }
+            //发送信息到父窗口
+
+
+        }
+        ,innerpay_app_postmessage:function(data){   //发送支付信息
+            window.parent.postMessage(data,'*');
+        }
+        ,innerpay_app_onmessage:function(event){         //接受支付信息返回
+            var me = ui;
+            var success = JSON.parse(event.data);
+
+            if(0 == success.code){
+                  me.c_startPayok();
+              }else{
+                  sysmanager.alert({'-1':'支付失败','-2':'支付参数错误'}[success.code+'']);
+                  me.c_startPayfalid();
+              }
         }
         ,c_startPayok:function(){           //预付款成功
             var me = this;
@@ -832,6 +886,14 @@ function ui_map(){
             var me = this;
 
             window.myajax.userget('index','genorder',{pid:pid,cid:cid?cid:0}, function(result){
+                me.couponlist = null;
+                fn && fn(result.data);
+            }, null, false);
+        }
+        ,m_startPay_app:function(pid,cid, fn){      //app支付接口
+            var me = this;
+            //genOrderAPP($pid, $cid)
+            window.myajax.userget('index','genOrderAPP',{pid:pid,cid:cid?cid:0}, function(result){
                 me.couponlist = null;
                 fn && fn(result.data);
             }, null, false);

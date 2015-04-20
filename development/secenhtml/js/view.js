@@ -11,7 +11,7 @@ define(['jquery', 'utils'], function($, utils){
         this.dom = wininfo.dom;
         this.obj = wininfo.obj;
     }
-    var iscache = false;
+    var iscache = true;
     view.prototype.renderer = function(contaion, arg){
         this.dom.appendTo(contaion);
         var me = this;

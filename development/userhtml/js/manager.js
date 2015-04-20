@@ -455,9 +455,9 @@ window.sysmanager = {
            return cfg.imgpath + imgname;
        }
         ,isapp:(function(){     //当前是否在app中
-//            var isapp = !!(utils.tools.getUrlParam('isapp'));
-//            return isapp;
-        return !!window.cordova;
+            var isapp = !!(utils.tools.getUrlParam('isapp'));
+            return isapp;
+//        return !!window.cordova;
 
         })()
         ,loadMapscript:(function(){     //地图异步加载
