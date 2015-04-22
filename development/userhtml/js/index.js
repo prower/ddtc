@@ -113,7 +113,8 @@
     function weixinapppay(paydata){
         alert('父窗口 准备支付');
         alert(JSON.stringify(paydata));
-        Pgwxpay.wxpay2({"appid":paydata.appid, "noncestr":paydata.noncestr, "partnerid":paydata.partnerid, "prepayid":paydata.prepayid, "timestamp":paydata.timestamp},
+//        Pgwxpay.wxpay2({"appid":paydata.appid, "noncestr":paydata.noncestr, "partnerid":paydata.partnerid, "prepayid":paydata.prepayid, "timestamp":paydata.timestamp},
+        Pgwxpay.wxpay2(paydata,
               function(success) {
                   alert('parent: 支付成功');
                   sendToIframe(JSON.stringify(success));

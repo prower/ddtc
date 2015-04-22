@@ -36,6 +36,11 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     }else{
                         me.c_refresh();
                     }
+                    td = $(this).find('[name=endtime]');
+                    var etime = td.attr('etime');
+                    sp = parseInt(etime)+1000;
+                    td.attr('etime',sp);
+                    td.html(utils.tools.t2s(sp));
                 });
             },1e3);
         }
@@ -91,8 +96,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var row = this.dom.row.clone();
             var me = this;
             var rtime = new Date((new Date-0) + data.remaintime*1000) - 0;
-            row.find('[name=pai]').html(data.carid).end().find('[name=endtime]').html(data.endtime)
+            var etime = (new Date-0) - data.stoptime*1000;
+            row.find('[name=pai]').html(data.carid)
+//                .end().find('[name=endtime]').html(data.endtime)
+                .end().find('[name=money]').html(data.money)
                 .end().find('[name=rtime]').attr('rtime',rtime)
+                .end().find('[name=endtime]').attr('etime',etime)
                 .end().find('[name=btaction]').aclick(function(){
                    me.c_setOut(data.oid, row);
                 });
