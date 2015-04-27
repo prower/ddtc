@@ -350,7 +350,8 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
            }
            //检查退出登录
            if(window.UserManager){
-               window.UserManager.c_quit();
+//               window.UserManager.c_quit();
+               window.PushManager.setMsg('appquit');
            }
        }
        ,alert:(function(){

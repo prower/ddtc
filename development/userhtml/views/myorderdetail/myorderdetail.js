@@ -232,11 +232,15 @@ function ui_myorderdetail(){
         ,c_getLianxirow:function(data, isfirst){
             var me = this;
             var row = this.dom.lianxipanel.lianxipanel_row.clone();
-            row.find('[name=name]').html(data.name);
-            row.find('[name=btlianxi]').attr('href','tel:'+data.phone).aclick(function(){
-                //拨打管理员电话：E3
-                window.TongjiObj.E('E3');
-            });
+            row.find('[name=name]').html(data.nickname);
+            if(data.phone){
+                row.find('[name=btlianxi]').attr('href','tel:'+data.phone).aclick(function(){
+                    //拨打管理员电话：E3
+                    window.TongjiObj.E('E3');
+                });
+            }else{
+                row.find('[name=btlianxi]').hide();
+            }
             if(!isfirst){
                 row.addClass('other');
             }else{

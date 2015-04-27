@@ -1,0 +1,142 @@
+﻿<div class="page_content userpage" id="jifenop2_html" style="" >
+<style>
+    #jifenop2_html{
+
+    }
+    #jifenop2_html .mycard{
+        position: relative;
+    }
+    #jifenop2_html .mycard>ul{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        -webkit-transform: translate3d(0%, 0, 0);
+              transform: translate3d(0%, 0, 0);
+        transition:all .3s;
+        -moz-transition:all .3s; /* Firefox 4 */
+        -webkit-transition:all .3s; /* Safari and Chrome */
+        -o-transition:all .3s; /* Opera */
+    }
+    #jifenop2_html .mycard>ul.none{
+        -webkit-transform: translate3d(100%, 0, 0);
+              transform: translate3d(100%, 0, 0);
+    }
+    #jifenop2_html .mycard>ul.list1{
+        position: static;
+    }
+    #jifenop2_html .mycard>ul.list1>li,#jifenop2_html .mycard>ul>li.mui-table-view-divider{
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    #jifenop2_html .mycard>ul>li input{
+        margin-bottom: 5px !important;
+    }
+    #jifenop2_html .animated {
+      -webkit-animation-duration: .3s;
+              animation-duration: .3s;
+      -webkit-animation-fill-mode: both;
+              animation-fill-mode: both;
+    }
+    @keyframes anim_none {
+      0% {
+          -webkit-transform: translate3d(0%, 0, 0);
+                  transform: translate3d(0%, 0, 0);
+      }
+      15% {
+        -webkit-transform: translate3d(100%, 0, 0);
+                transform: translate3d(100%, 0, 0);
+      }
+    }
+
+</style>
+    <ul class="mui-table-view" name='list'>
+        <!--<li class="mui-table-view-divider">兑换物品：</li>-->
+        <li class="mui-table-view-cell">
+            <table>
+                <tr>
+                    <td rowspan="2"><img style="width: 100px;margin-right: 20px" src=""></td>
+                    <td><div name='name'>礼品名称</div></td>
+                </tr>
+                <tr><td><p>积分：<span name='score'>100</span></p></td></tr>
+            </table>
+        </li>
+   </ul>
+    <div class="mycard" name='mycard'>
+        <ul class="mui-table-view list1" name='mycardlist1'>
+            <li class="mui-table-view-divider">选择转送方式</li>
+            <li class="mui-table-view-cell" name='t0'>
+                <a class="mui-navigate-right">销售送上门</a>
+            </li>
+            <li class="mui-table-view-cell" name='t1_1'>
+                <a class="mui-navigate-right">银行卡转账</a>
+            </li>
+            <li class="mui-table-view-cell" name='t1_2'>
+                <a class="mui-navigate-right">快递寄送上门</a>
+            </li>
+        </ul>
+        <ul class="mui-table-view none" name='mycardlist2_1'>
+            <li class="mui-table-view-divider">销售送上门</li>
+            <li class="mui-table-view-cell">
+                <p style="padding-top: 50px;padding-bottom: 50px;">收到申请后，我们将在1至2个工作日内排工作人员送到你的岗位上</p>
+            </li>
+            <li class="mui-table-view-cell">
+                <table style="width: 100%">
+                    <tr>
+                        <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btback">返回上一步</div></td>
+                        <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btaction">申请兑换</div></td>
+                    </tr>
+                </table>
+            </li>
+       </ul>
+        <ul class="mui-table-view none" name='mycardlist2_2'>
+            <li class="mui-table-view-divider">银行卡转账</li>
+           <li class="mui-table-view-cell">
+               <p>转账银行:</p>
+               <input name="bankname" type="text" class="mui-input-clear login-input" placeholder="转账银行" value="" data-input-clear="">
+           </li>
+            <li class="mui-table-view-cell">
+               <p>银行账户:</p>
+               <input name="accout" type="text" class="mui-input-clear login-input" placeholder="银行账户" value="" data-input-clear="">
+           </li>
+            <li class="mui-table-view-cell">
+               <p>银行账户姓名:</p>
+               <input name="name" type="text" maxlength="20" class="mui-input-clear login-input" placeholder="银行账户姓名" value="" data-input-clear="">
+           </li>
+            <li class="mui-table-view-cell">
+                <p>收到申请后，我们将在1至2个工作日内排转账</p>
+                <table style="width: 100%">
+                    <tr>
+                        <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btback">返回上一步</div></td>
+                        <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btaction">申请兑换</div></td>
+                    </tr>
+                </table>
+            </li>
+       </ul>
+        <ul class="mui-table-view none" name='mycardlist2_3'>
+            <li class="mui-table-view-divider">快递寄送上门</li>
+           <li class="mui-table-view-cell">
+               <p>收货人姓名:</p>
+               <input name="name" type="text" maxlength="20" class="mui-input-clear login-input" placeholder="收货人姓名" value="" data-input-clear="">
+           </li>
+            <li class="mui-table-view-cell">
+               <p>收货人地址:</p>
+               <input name="address" type="text" class="mui-input-clear login-input" placeholder="收货人地址" value="" data-input-clear="">
+           </li>
+            <li class="mui-table-view-cell">
+               <p>联系电话:</p>
+               <input name="telephone" type="text" maxlength="11" class="mui-input-clear login-input" placeholder="联系电话" value="" data-input-clear="">
+           </li>
+            <li class="mui-table-view-cell">
+                <p>收到申请后，我们将在1至2个工作日内排快递寄送</p>
+                <table style="width: 100%">
+                    <tr>
+                        <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btback">返回上一步</div></td>
+                        <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btaction">申请兑换</div></td>
+                    </tr>
+                </table>
+            </li>
+       </ul>
+    </div>
+   <div style="height: 300px"></div>
+</div>

@@ -72,7 +72,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 return;
             }
             var me = this;
-            utils.sys.loadpage('views/', 'jifenop', null, '积分兑换礼品',function(v){
+            utils.sys.loadpage('views/', 'jifenop2', null, '积分兑换礼品',function(v){
                 v.obj.setGift(data);
                 v.obj.onclose = function(){
                     me.c_init();

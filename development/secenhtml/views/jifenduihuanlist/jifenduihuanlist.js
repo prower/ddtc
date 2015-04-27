@@ -11,7 +11,10 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         isInit: false
         ,context:null
         ,dom:{
-            row:'.template [name=row]'
+            row1:'.template [name=row1]'
+            ,row2:'.template [name=row2]'
+            ,row3:'.template [name=row3]'
+            ,rownone:'.template [name=rownone]'
             ,list:'[name=list]'
         }
         ,iscroll:null
@@ -37,27 +40,66 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,c_fill:function(data){
             var me = this;
             this.data = data;
-            this.dom.score.html(data.score);
             this.dom.list.empty();
-            var datas = data.giftList;
-            for(var i=0;i<datas.length;i++){
-                var row = this.c_getrow(datas[i]);
+            if(data && data.length>0){
+                var datas = data;
+                for(var i=0;i<datas.length;i++){
+                    var d = datas[i];
+                    switch(d.visitype+''){
+                        case '1':
+                            var row = this.c_getrow1(datas[i]);
+                            break;
+                        case '2':
+                            var row = this.c_getrow2(datas[i]);
+                            break;
+                        case '3':
+                            var row = this.c_getrow3(datas[i]);
+                            break;
+                    }
+                    this.dom.list.append(row);
+
+                }
+            }else{
+                var row = this.c_getrownone();
                 this.dom.list.append(row);
             }
             setTimeout(function(){
                 me.iscroll && me.iscroll.refresh();
             });
         }
-        ,c_getrow:function(data){
+        ,c_getrow1:function(data){
             var me = this;
-            var row = this.dom.row.clone();
-            row.find('[name=name]').html(data.name).end().find('[name=s]').html(data.score);
-            row.find('img').attr('src', requirejs('cfg').giftimgroot+data.image);
-            row.click(function(){
-                me.c_active(data);
-
-            });
+            var row = this.dom.row1.clone();
+            row.find('[name=giftname]').html(data.giftname).end().find('[name=score]').html(data.score)
+                .end().find('[name=createtime]').html(data.createtime).end().find('[name=state]').html({'0':'申请中','1':'已兑换'}[data.state]);
+            if('0' == data.state+''){
+                row.find('[name=state]').addClass('mui-badge-warning')
+            }
             return  row;
+        }
+        ,c_getrow2:function(data){
+            var me = this;
+            var row = this.dom.row2.clone();
+            row.find('[name=giftname]').html(data.giftname).end().find('[name=score]').html(data.score)
+                    .end().find('[name=createtime]').html(data.createtime).end().find('[name=state]').html({'0':'申请中','1':'已兑换'}[data.state]);
+            if('0' == data.state+''){
+                row.find('[name=state]').addClass('mui-badge-warning')
+            }
+            return  row;
+        }
+        ,c_getrow3:function(data){
+            var me = this;
+            var row = this.dom.row3.clone();
+            row.find('[name=giftname]').html(data.giftname).end().find('[name=score]').html(data.score)
+                .end().find('[name=createtime]').html(data.createtime).end().find('[name=state]').html({'0':'申请中','1':'已兑换'}[data.state]);
+            if('0' == data.state+''){
+                row.find('[name=state]').addClass('mui-badge-warning')
+            }
+            return  row;
+        }
+        ,c_getrownone:function(){
+            var row = this.dom.rownone.clone();
+            return row;
         }
         ,m_getdata:function(fn){
             ajax.userget('index','getExList',null, function(result){

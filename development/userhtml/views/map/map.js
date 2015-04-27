@@ -583,6 +583,7 @@ function ui_map(){
             row.find('[name=distance]>span').html(data.distance);
             row.find('[name=rules]').html(data.rules);
             row.find('[name=address]').html(data.address);
+            row.find('[name=numberstatus]').html(window.cfg.parkstatestring[data.parkstate]);
 
             row.bind('touchstart', function(){
                 //data.marker.setAnimation('AMAP_ANIMATION_DROP');
@@ -601,7 +602,7 @@ function ui_map(){
                         ,color: '#999'
                         ,'background-color':'#eee'
                     }).html(parkstatestring);
-//                    break;
+                    break;
                 case '1':
                 case '2':
                     row.find('.mui-btn').click(function(){
@@ -643,7 +644,9 @@ function ui_map(){
                     var pid = p.attr('pid');
                     var d = area[pid];
                     var lnglat = new  AMap.LngLat(d[2], d[1]);
+                    $(this).parent().addClass('active');
                     me.c_init_search(lnglat);
+
                 });
             },10);
 

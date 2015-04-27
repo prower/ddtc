@@ -111,7 +111,6 @@
             overflow: hidden;
         }
         .pointlist>li{
-            float: left;
             margin: 10px;
         }
         .pointlist>li>.mk1{
@@ -286,7 +285,7 @@
                                 </ul>
                     </div>
                     <div class="buttonc" style="padding-bottom: 10px">
-                        <ul 1class="mui-table-view">
+                        <ul class="mui-table-view">
                             <li class="mui-table-view-cell payinfo" name='payinfo'><label>预付金额：</label><b style="font-size: initial;">￥</b><span>-5</span><b style="font-size: initial;"> 元</b></li>
                         </ul>
                         <button class="mui-btn mui-btn-success mui-btn-block" style="width: 80%;" name="btpay">确认预付</button>
@@ -315,9 +314,10 @@
         <ul>
             <li class="mui-table-view-cell tccrow" name='row'>
                 <h4 name='title'>停车场名称</h4>
+                <p><label>空位:</label><span name='numberstatus'>空位</span></p>
                 <p><span class="distance" name='distance'><span></span>米</span><span style="display: inline-block;padding-left: 10px"  name='address'>上海静安寺豫园路168号</span></p>
                 <p><span name='rules'></span></p>
-                <div class="mui-btn mui-btn-primary">抢订</div>
+                <div class="mui-btn mui-btn-primary" style="top: 70%">抢订</div>
             </li>
             <li class="mui-table-view-cell tccrow" name='nonerow'>
                 <p style="margin-top: 20px;margin-bottom: 20px;overflow: visible;">附近尚无合作车位，我们正在洽谈中，敬请期待。</p>

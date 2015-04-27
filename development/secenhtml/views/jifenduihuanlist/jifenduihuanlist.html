@@ -3,16 +3,89 @@
         #jifenduihuanlist_html{
 
         }
+        #jifenduihuanlist_html .list{
+            color: #707070;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        #jifenduihuanlist_html .list label{
+            color: #000;
+            line-height: 1.5;
+            font-size: 14px !important;
+        }
+        #jifenduihuanlist_html .list span.mui-badge{
+            position: static;
+            -webkit-transform:none;
+                    transform:none;
+        }
+        #jifenduihuanlist_html .list span{
+            min-width: 60px;
+            display: inline-block;
+        }
+        #jifenduihuanlist_html .list p{
+
+        }
+
     </style>
-    <ul class="mui-table-view" name='list'>
+    <ul class="mui-table-view list" name='list'>
 
     </ul>
     <div class="template">
         <ul>
-            <li class="" name='row'>
-                <img>
-                <div name='name'>名称</div>
-                <p>积分:<span name='s'></span></p>
+            <li class="mui-table-view-cell" name='rownone'>
+                <p>当前没有兑换记录</p>
+            </li>
+            <li class="mui-table-view-cell" name='row1'>
+                <!--
+                visitype :1(送上门)
+                createtime: "2015-02-11 14:49:58"
+                giftname: "电话卡10元"
+                score: "11"
+                state: "1" （0-申请中，1-已兑换）
+                或者
+                -->
+                <label>兑换礼品:</label><span name='giftname'></span>
+                <label>使用积分:</label><span name='score'></span><br>
+                <label>申请时间:</label><span name='createtime'></span><br>
+                <label>兑换状态:</label><span class="mui-badge" name='state'></span>
+                <br>
+                <p>直接送上门</p>
+            </li>
+            <li class="mui-table-view-cell" name='row2'>
+                <!--
+                visitype: 2（礼品）
+                address: "朱门"
+                createtime: "2015-02-11 14:50:36"
+                giftname: "电话卡10元"
+                name: "堵彬"
+                score: "10"
+                state: "1"
+                telephone: "18221160373"
+                -->
+                <label>兑换礼品:</label><span name='giftname'></span>
+                <label>使用积分:</label><span name='score'></span><br>
+                <label>申请时间:</label><span name='createtime'></span><br>
+                <label>兑换状态:</label><span class="mui-badge" name='state'></span>
+                <br>
+                <p>快递发送</p>
+            </li>
+            <li class="mui-table-view-cell" name='row3'>
+                <!--
+                visitype: 3（现金）
+                account: "6666888899990000"
+                bankname: "招商银行"
+                createtime: "2015-04-27 11:01:59"
+                giftname: "现金5元"
+                name: "堵彬"
+                score: "500"
+                state: "0"
+                -->
+                <label>兑换礼品:</label><span name='giftname'></span>
+                <label>使用积分:</label><span name='score'></span><br>
+                <label>申请时间:</label><span name='createtime'></span><br>
+                <label>兑换状态:</label><span class="mui-badge" name='state'></span>
+                <br>
+                <p>银行转账</p>
             </li>
         </ul>
     </div>

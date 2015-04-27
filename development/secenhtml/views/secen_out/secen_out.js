@@ -96,7 +96,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var row = this.dom.row.clone();
             var me = this;
             var rtime = new Date((new Date-0) + data.remaintime*1000) - 0;
-            var etime = (new Date-0) - data.stoptime*1000;
+            var etime = data.stoptime*1000;
             row.find('[name=pai]').html(data.carid)
 //                .end().find('[name=endtime]').html(data.endtime)
                 .end().find('[name=money]').html(data.money)
@@ -117,6 +117,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             utils.sys.confirm("确认车辆［{0}］离场？".replace('{0}',row.find('.title').html()), function(){
                 me.m_setout(oid, function(){
                     row.addClass('bounceOutLeft');
+                    row.remove();
                     row.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
                         row.remove()
                     });
