@@ -1,0 +1,53 @@
+<div class="page_content userpage" style="" id="parkinfo_html">
+<style>
+        .daohang_contaion{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            /*display: box;*/
+            /*display: -webkit-box;*/
+            /*display: -moz-box;*/
+
+            /*-moz-box-orient:vertical;*/
+            /*-webkit-box-orient:vertical;*/
+            /*box-orient:vertical;*/
+            /*position: absolute;*/
+        }
+        .daohang_contaion>*{
+            width: 100%;
+            -moz-box-flex: auto;
+            -webkit-flex: auto;
+            -ms-flex: auto;
+             flex: auto;
+            height: auto;
+        }
+        .daohang_contaion .daohanginfo{
+            width: 100%;
+            overflow: hidden;
+            background-color: #fff;
+            -moz-box-flex:1;
+            -webkit-box-flex:1;
+            box-flex:1;
+        }
+        .daohang_contaion .daohanginfo .active{
+            background-color: rgba(0,0,0,.1);
+        }
+    </style>
+    <div class="daohang_contaion">
+        <img src="http://7xispd.com1.z0.glb.clouddn.com/images/park_sample.jpg" width="100%"/>
+        <div class="daohanginfo">
+            <ul class="mui-table-view" name='list'>
+            		<li class="mui-table-view-divider" name='title'>金沙江路停车场（测试）</li>
+                <li class="mui-table-view-cell" name='address'>
+                <span>金沙江路1100号</span>
+                <button style="background-color:transparent" name="btdaohang" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">导航</button>
+                </li>
+                <li class="mui-table-view-cell" name='address2'>
+                	<p>从宁夏路翟家廊路口斜坡驶上走道，停放在沿街门店外停车位。</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
