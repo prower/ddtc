@@ -115,11 +115,11 @@ function ui_myorderdetail(){
                 if(data.remaintime>0){
                     this.c_fill_wait(data);         //等待
                     //*     不需要再缴费的状态：E1
-                    window.TongjiObj.E('E1');
+                    var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.E('E1');}
                 }else{
                     this.c_fill_pay(data);
                     //需要缴费结清的状态：E2
-                    window.TongjiObj.E('E2');
+                    var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.E('E2');}
                 }
             }
         }
@@ -239,7 +239,7 @@ function ui_myorderdetail(){
             if(data.phone){
                 row.find('[name=btlianxi]').attr('href','tel:'+data.phone).aclick(function(){
                     //拨打管理员电话：E3
-                    window.TongjiObj.E('E3');
+                    var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.E('E3');}
                 });
             }else{
                 row.find('[name=btlianxi]').hide();

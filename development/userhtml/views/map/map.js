@@ -235,7 +235,7 @@ function ui_map(){
                     me.c_daohang_my();
                 }
                 //点击导航按钮：D4
-                window.TongjiObj.D('D4');
+                var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D4');}
             });
             this.dom.daohang_gaode.aclick(function(){
                 me.c_daohang_gaode($(this));
@@ -250,13 +250,13 @@ function ui_map(){
             this.dom.infopanel.btpay.aclick(function(){
                me.c_startPay();
                 //确认预付按钮点击：D5
-                window.TongjiObj.D('D5');
+                var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D5');}
             });
 
             this.dom.infopanel.btmodifycarid.click(function(){
                 me.c_modifycarid();
                 //修改车牌号的情况：D3
-                window.TongjiObj.D('D3');
+                var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D3');}
             });
             this.dom.infopanel.btback.aclick(function(){
                 me.dom.infopanel.panel.hide();
@@ -319,7 +319,7 @@ function ui_map(){
                 }
 
             }
-            window.TongjiObj.D('D1');
+            var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D1');}
             function innerpay(){
                 me.m_startPay(me.nowdata.pid,(me.dqselectdata?me.dqselectdata.id:0), function(data){
                     me.nowoid = data.oid;
@@ -401,7 +401,7 @@ function ui_map(){
                 v.obj.onclose = function(){};
             });
             //支付成功：D6
-            window.TongjiObj.A('D6');
+            var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.A('D6');}
         }
         ,c_startPayfalid:function(){        //预付款失败
             //alert('预付款失败');
@@ -848,11 +848,11 @@ function ui_map(){
                             }
                         }
                     }
-                    for(var k in obj){
+                    var uid = myajax.uid();if(uid && uid > 41){for(var k in obj){
                         if(obj[k]){
                             window.TongjiObj.C(k);
                         }
-                    }
+                    }}
                 });
             }, null, false);
         }
@@ -936,7 +936,7 @@ function ui_map(){
 
                     }else{
                         //没有抵用劵的情况：D2
-                         window.TongjiObj.D('D2');
+                        var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D2');}
                     }
 
                 }, null, false);

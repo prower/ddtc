@@ -48,7 +48,7 @@ var viewManager = (function(){
                     sysmanager.loading.hide();
                 });
             });
-            window.TongjiObj.clickLink(viewname);
+            var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.clickLink(viewname);}
         }
     }
     return obj;
