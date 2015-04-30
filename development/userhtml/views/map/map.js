@@ -583,7 +583,12 @@ function ui_map(){
             row.find('[name=distance]>span').html(data.distance);
             row.find('[name=rules]').html(data.rules);
             row.find('[name=address]').html(data.address);
-            row.find('[name=numberstatus]').html(window.cfg.parkstatestring[data.parkstate]);
+
+            if('0' == data.parkstate+''){
+                row.find('[name=numberstatus]').hide();
+            }else{
+                row.find('[name=numberstatus]').html(window.cfg.parkstatestring[data.parkstate]);
+            }
 
             row.bind('touchstart', function(){
                 //data.marker.setAnimation('AMAP_ANIMATION_DROP');

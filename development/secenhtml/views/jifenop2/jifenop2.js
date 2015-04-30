@@ -181,36 +181,38 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,account:account
             }
             console.log(data);
-            if('0' == this.data.type+''){       //快递
-                var msg = [];
-                if(!name){
-                    msg.push('请填写"收货人姓名"');
+            if(1 != gid){
+                if('0' == this.data.type+''){       //快递
+                    var msg = [];
+                    if(!name){
+                        msg.push('请填写"收货人姓名"');
+                    }
+                    if(!address){
+                        msg.push('请填写"收货人地址"');
+                    }
+                    if(!telephone){
+                        msg.push('请填写"联系电话"');
+                    }
+                    if(msg.length){
+                        utils.sys.alert(msg.join('<br>'));
+                        return;
+                    }
                 }
-                if(!address){
-                    msg.push('请填写"收货人地址"');
-                }
-                if(!telephone){
-                    msg.push('请填写"联系电话"');
-                }
-                if(msg.length){
-                    utils.sys.alert(msg.join('<br>'));
-                    return;
-                }
-            }
-            if('1' == this.data.type+''){           //转账
-                var msg = [];
-                if(!name){
-                    msg.push('请填写"银行账户姓名"');
-                }
-                if(!bankname){
-                    msg.push('请填写"转账银行"');
-                }
-                if(!account){
-                    msg.push('请填写"银行账户"');
-                }
-                if(msg.length){
-                    utils.sys.alert(msg.join('<br>'));
-                    return;
+                if('1' == this.data.type+''){           //转账
+                    var msg = [];
+                    if(!name){
+                        msg.push('请填写"银行账户姓名"');
+                    }
+                    if(!bankname){
+                        msg.push('请填写"转账银行"');
+                    }
+                    if(!account){
+                        msg.push('请填写"银行账户"');
+                    }
+                    if(msg.length){
+                        utils.sys.alert(msg.join('<br>'));
+                        return;
+                    }
                 }
             }
             ajax.userget('index','exchangeGift',data, function(result){

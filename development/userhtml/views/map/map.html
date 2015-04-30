@@ -98,6 +98,11 @@
             width: 80%;
             white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
         }
+        .map_contaion .tccrow .numberstatus{
+            float: right;
+            width: auto;
+            margin-top: 8px;
+        }
         .map_contaion .list .info p label{
             color: #000;
             text-align: right;
@@ -313,8 +318,8 @@
     <div class="template">
         <ul>
             <li class="mui-table-view-cell tccrow" name='row'>
+                <p class="numberstatus"><span name='numberstatus'>空位</span></p>
                 <h4 name='title'>停车场名称</h4>
-                <p><label>空位:</label><span name='numberstatus'>空位</span></p>
                 <p><span class="distance" name='distance'><span></span>米</span><span style="display: inline-block;padding-left: 10px"  name='address'>上海静安寺豫园路168号</span></p>
                 <p><span name='rules'></span></p>
                 <div class="mui-btn mui-btn-primary" style="top: 70%">抢订</div>

@@ -80,6 +80,9 @@ function ui_coupon(){
                     row.find('[name=endtime]>span').html((data.e+'').split(' ')[0]);
                     break;
             }
+            if('1' == data.u+''){
+                row.addClass('use');
+            }
 
             return row;
         }

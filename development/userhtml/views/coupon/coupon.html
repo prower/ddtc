@@ -47,7 +47,21 @@
         #coupon_html .pailist .quanrow1.overtime>*,#coupon_html .pailist .quanrow0.overtime>*,#coupon_html .pailist .quanrow0.overtime>.money>span{
             color: #ccc;
         }
-
+        #coupon_html .pailist>li.use>p>span{
+            color: #ccc;
+        }
+        #coupon_html .pailist>li.use>p{
+            color: #ccc;
+        }
+        #coupon_html .pailist>li.use>span{
+            color: #ccc;
+        }
+        #coupon_html .pailist>li>b{
+            display: none;
+        }
+        #coupon_html .pailist>li.use>b{
+            display: block;
+        }
     </style>
 
     <ul class="mui-table-view" style="background-image: none">
@@ -62,10 +76,12 @@
                 <span>一元券</span>
                 <p style="padding-top: 5px;padding-bottom: 5px">只需支付1元</p>
                 <p name="endtime">有效期至 <span></span></p>
+                <b class="mui-badge mui-badge-danger">已用</b>
             </li>
             <li name='quanrow01' class="mui-table-view-cell row">
                 <span>抵用券(<span name='money'></span>元)</span><p style="padding-top: 5px;padding-bottom: 5px">抵扣你的订单消费<span name='money'></span>元</p>
                 <b>截止:<span></span></b>
+                <b>已用</b>
             </li>
             <li name='quanrow0' class="mui-table-view-cell row quanrow0">
                 <div class="money" style="">
@@ -74,6 +90,7 @@
                 <p>抵用券（限时可用）</p>
                 <p name="endtime">有效期至 <span></span></p>
                 <p style="display: none">抵扣你的订单消费<span name='money'></span>元</p>
+                <b class="mui-badge mui-badge-danger">已用</b>
             </li>
             <li name='quanrownone' class="mui-table-view-cell">
                 <p>当前没有任何可用抵用券</p>
