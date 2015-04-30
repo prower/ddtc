@@ -11,7 +11,7 @@ define(['jquery', 'utils'], function($, utils){
         this.dom = wininfo.dom;
         this.obj = wininfo.obj;
     }
-    var iscache = true;
+    var param = new Date;
     view.prototype.renderer = function(contaion, arg){
         this.dom.appendTo(contaion);
         var me = this;
@@ -30,8 +30,8 @@ define(['jquery', 'utils'], function($, utils){
                 ,obj:null
             };
             var me = this;
-            var htmlurl = root + viewname +'/'+viewname+'.html?'+(iscache?'':new Date);
-            var jslurl = root + viewname +'/'+viewname+'.js?'+ (iscache?'':new Date);
+            var htmlurl = root + viewname +'/'+viewname+'.html?'+param;
+            var jslurl = root + viewname +'/'+viewname+'.js?'+ param;
             utils.sys.loading.show();
 
             gethtml('#'+viewname+'_html', function(dom){

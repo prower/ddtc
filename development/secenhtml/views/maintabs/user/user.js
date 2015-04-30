@@ -90,13 +90,13 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                    me.c_initinfo();
                    var userinfo = ajax.userinfo();
                    me.dom.fullname.html(userinfo.fullname);
-                    me.c_setPermission();
+                   me.context.css('visibility','hide');
                }
             });
         }
         ,c_initinfo:function(fn){
             var me = this;
-            setTimeout(function(){
+            //setTimeout(function(){
                 me.m_baseinfo(function(data){
                     /**
                      * at: 5deals: 1in: 0name: "张三"out: 1parkstate: "1"remainsum: 50score: 400todaysum: 0
@@ -119,12 +119,14 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     //设置公告
                     //acendtime: "2015-05-15"acscore: "500"actype: "1"
                     var rewardinfo = {
-                        '1':'每单补贴5元！截止{end}'
+                        '1':{'txt':'每单补贴5元！截止{end}','p':"2"},
+                        '2':{'txt':'每单补贴5元！截止{end}','p':"1"}
                     }
                     var info = rewardinfo[data.actype];
                     if(info){
-                        me.dom.rewardinfo.rewardline.find('span').html(info.replace('{end}',data.acendtime));
+                        me.dom.rewardinfo.rewardline.find('span').html(info.txt.replace('{end}',data.acendtime));
                         if(new Date(data.acendtime) - new Date() > 0){
+                        		me.dom.rewardinfo.rewardline.attr("p",info.p);
                             me.dom.rewardinfo.rewardline.removeClass('hide');
 
                             me.dom.rewardinfo.rewardline_deatil.unbind().aclick(function(){
@@ -143,10 +145,12 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
 
                     me.dom.btquit.html('管理员:{0}<span style="display: inline-block;padding-left: 40px">退出</span>'.replace('{0}', data.name));
 
+										me.c_setPermission();
+										
                     fn && fn(data);
 
                 });
-            });
+            //});
 
         }
         ,c_setKucun:function(type, nofalse){     //设置库存
@@ -336,6 +340,8 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     }
                 }
             });
+            
+            this.context.css('visibility','visible');
 
         }
         ,c_refreshInfo:function(){
