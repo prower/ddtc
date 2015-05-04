@@ -560,6 +560,21 @@ define(['jquery'],function($){
                             	};
                 })();
     utils.jq = {};
+    utils.jq['switch'] = function(dom, activecls){
+        var defaultcls = 'mui-active';
+        var changefn = null;
+        var obj = {
+            onchange:function(fn){changefn = fn;return this;}
+            ,isSwitch:function(){
+                return dom.hasClass(activecls || defaultcls);
+            }
+        };
+        dom.click(function(){
+            dom.toggleClass(activecls || defaultcls);
+            changefn && changefn(obj.isSwitch());
+        });
+        return obj;
+    };
     utils.jq.initTab = function(tabs, contents, activecls) {      //onlyTab：表示不控制CONTENT面板
             var reg = /_user$/;
             var activeIndex = null;                //当前最后激活的tab null表示没有
@@ -592,7 +607,7 @@ define(['jquery'],function($){
                     }
                     , passiveHandle: new Array(tabs.length)           //所有取消激活的方法集合，没个方法对应对等索引的tab
                     , activeHandle: new Array(tabs.length)            ////所有激活的方法集合，没个方法对应对等索引的tab
-            }
+            };
             tabs.each(function(index) {
                 $(this).aclick(function() {
                     m.activeTab(index);
@@ -622,27 +637,12 @@ define(['jquery'],function($){
 
 
             return m;
-        }
-    utils.jq.switch = function(dom, activecls){
-        var defaultcls = 'mui-active';
-        var changefn = null;
-        var obj = {
-            onchange:function(fn){changefn = fn;return this;}
-            ,isSwitch:function(){
-                return dom.hasClass(activecls || defaultcls);
-            }
         };
-        dom.click(function(){
-            dom.toggleClass(activecls || defaultcls);
-            changefn && changefn(obj.isSwitch());
-        });
-        return obj;
-    }
-
+    
     utils.random = function(min,max){
         return Math.floor(min+Math.random()*(max-min));
 
-    }
+    };
 
     utils.browser = {
             versions: function () {
@@ -663,7 +663,7 @@ define(['jquery'],function($){
                 return o;
             } (),
             language: (navigator.browserLanguage || navigator.language).toLowerCase()
-        }
+        };
 
     utils.anim = {};
     utils.anim.entity = utils.Class.extend({
