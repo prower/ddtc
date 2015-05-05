@@ -108,7 +108,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     me.dom.kucun.panel.find('[type={0}]'.replace('{0}',data.parkstate)).addClass('mui-active');
 
                     me.dom.info.manager_at.html(data.at);
-                    me.dom.info.manager_in.html(data.in);
+                    me.dom.info.manager_in.html(data['in']);
                     me.dom.info.manager_out.html(data.out);
                     me.dom.info.manager_deals.html(data.deals);
 
