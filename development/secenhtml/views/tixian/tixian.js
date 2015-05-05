@@ -158,7 +158,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             //[accountname账户名，bankname开户行，account账号，optname操作人，opttime提现时间，money提现金额，state状态0-申请中1-已提现]
             var row = this.dom.row1.clone();
             row.find('[name=name]').html(data.name);
-            row.find('[name=optname]').html(data.optname);
+            row.find('[name=phone]').html(data.telephone);
             row.find('[name=opttime]').html(data.opttime);
             row.find('[name=money]').html(data.money);
 

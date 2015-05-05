@@ -36,13 +36,6 @@ function ui_searchmap(){
         }
         ,c_init:function(){
             var me = this;
-            //初始化默认列表
-            /**
-             * address: "天钥桥路133号07"distance: NaNid: "B00156F389"location: cname: "糖品(永新坊店)"tel: "021-33686879"type: "餐饮服务;甜品店;甜品店"
-             */
-
-
-
         }
         ,c_search:function(){
             var me = this;
@@ -149,6 +142,23 @@ function ui_searchmap(){
             }
             console.log(this.defaulPointtList);
         }
+        ,c_fill_defaulPointtList:function(){
+            if(!this.defaulPointtList){
+                this.defaulPointtList = [];
+                for(var i=0;i<window.cfg.defaultpoint.length;i++){
+                    var d = window.cfg.defaultpoint[i];
+                    this.defaulPointtList.push({
+                       name:d[0]
+                        ,location:new AMap.LngLat(d[2],d[1])
+                    });
+                }
+            }
+            for(var i=0;i<this.defaulPointtList.length;i++){
+                var d = this.defaulPointtList[i];
+                var row = this.c_getrow_defaultpoint(d);
+                this.dom.list.append(row);
+            }
+        }
         ,c_search_geocoder:function(){
             var me = this;
             var keywords = this.dom.input.val();
@@ -253,6 +263,7 @@ function ui_searchmap(){
             });
             sysmanager.loadMapscript.load(function(){
                 me.r_init_input();
+                me.c_fill_defaulPointtList();
             });
         }
         ,c_select:function(position){
