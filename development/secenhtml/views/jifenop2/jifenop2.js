@@ -116,7 +116,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             console.log('上门');
             var me=  this;
             //visitype,gid, name, address, telephone, bankname, account
-            this.m_submit(0,this.data.gid,null,null,null,null,null,function(){
+            this.m_submit(1,this.data.gid,null,null,null,null,null,function(){
                 utils.sys.alert('申请兑换成功.','系统提示');
                  me.c_quit();
             });
@@ -181,7 +181,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,account:account
             }
             console.log(data);
-            if(1 != gid){
+            if(1 != visitype){
                 if('0' == this.data.type+''){       //快递
                     var msg = [];
                     if(!name){

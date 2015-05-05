@@ -32,6 +32,7 @@ window.addEventListener("message",function(ev){
 });
 
 var stateisLine = null;     //当前在线状态
+var param = new Date;
 var offlineProcess = window.offlineProcess = function(isLine){    //在线处理  isLine 是否在线
     if(isLine == stateisLine){
         return;
@@ -40,7 +41,7 @@ var offlineProcess = window.offlineProcess = function(isLine){    //在线处理
     var appiframe = document.getElementById('appiframe');
     if(isLine){
         offlinePage.style.display = 'none';
-        var src = 'http://static.duduche.me/redirect/secen/indexhtml.php?'+new Date;
+        var src = 'http://static.duduche.me/redirect/secen/indexhtml.php?'+ param;
         appiframe.style.display = 'block';
         appiframe.src = src ;
     }else{

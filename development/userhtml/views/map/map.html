@@ -101,7 +101,7 @@
         .map_contaion .tccrow .numberstatus{
             float: right;
             width: auto;
-            margin-top: 8px;
+            margin-top: 5px;
         }
         .map_contaion .list .info p label{
             color: #000;
@@ -218,15 +218,14 @@
     <div style="display: none" class="info animated zoomIn" name='infopanel'>
                 <div class="innerpanel">
                     <header class="mui-bar mui-bar-nav" style="position: static;">
-                    <h1 class="mui-title" name='title'>停车场名称</h1>
+                    <h1 class="mui-title" name='title' style="right: 90px;">停车场名称</h1>
                     <a name="btback" class="mui-action-back mui-icon mui-icon-closeempty mui-pull-left"></a>
-                        <button style="background-color:transparent" name="btdaohang" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">导航</button>
+                        <button style="background-color:transparent" name="btdaohang" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">入口指示</button>
                 </header>
                     <div class="innerpanellist">
                         <ul name='inner' class="mui-table-view">
                                     <li class="mui-table-view-cell">
                                         <label>总数:</label><p><span name='numbermax'></span></p>
-
                                     </li>
                                     <li class="mui-table-view-cell"><label>空位:</label><p><span name='numberstatus'></span></p></li>
                                     <li class="mui-table-view-cell"><label>价格:</label><p><span name='rules'></span></p></li>

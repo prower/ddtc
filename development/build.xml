@@ -49,7 +49,7 @@
               -->
               <!--<file name="golba_rs/js/jquery-1.9.1.min.js"/>-->
               <file name="golba_rs/js/iscroll.js"/>
-              <file name="${userdir}/js/cfg.js"/>
+              <file name="${userdir}/js/cfg_loc.js"/>
               <file name="${userdir}/js/utils.js"/>
               <file name="${userdir}/js/ajax.js"/>
               <file name="${userdir}/js/manager.js"/>
@@ -68,6 +68,7 @@
               <file name="${userdir}/views/coupon/coupon.js"/>
               <file name="${userdir}/views/couponget/couponget.js"/>
               <file name="${userdir}/views/gaodedaohang/gaodedaohang.js"/>
+              <file name="${userdir}/views/parkinfo/parkinfo.js"/>
           </sources>
         </jscomp>
 
@@ -173,6 +174,12 @@
         </replaceregexp>
 
         <replaceregexp byline="true" encoding='utf-8'>
+            <regexp pattern=",cfg:'cfg'"/>
+            <substitution expression=",cfg:'cfg_loc'"/>
+            <fileset file="${pubdir}/${secendir}/js/require_main.js"/>
+        </replaceregexp>
+
+        <replaceregexp byline="true" encoding='utf-8'>
             <regexp pattern="\.\./golba_rs/js/sys\.js"/>
             <substitution expression="\./js/pagesys.js"/>
             <fileset file="${pubdir}/${secendir}/index.html"/>
@@ -208,8 +215,6 @@
         <mkdir dir="${pubdir}/${userdir}/js"/>
         <mkdir dir="${pubdir}/${userdir}/css"/>
         <mkdir dir="${pubdir}/${userdir}/img"/>
-
-
         <mkdir dir="${pubdir}/${secendir}/"/>
         <mkdir dir="${pubdir}/${secendir}/js"/>
         <mkdir dir="${pubdir}/${secendir}/css"/>

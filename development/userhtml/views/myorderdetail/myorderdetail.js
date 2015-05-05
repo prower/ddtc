@@ -372,8 +372,9 @@ function ui_myorderdetail(){
             });
             this.dom.waitpanel.btdaohang.aclick(function(){
             	/*test*/
-            	sysmanager.loadpage('views/', 'parkinfo', null, '导 航',function(v){
-            	});
+                sysmanager.loadpage('views/', 'parkinfo', null, me.nowdata.name,function(v){
+                    v.obj.setdata(me.nowdata);
+                });
             	
             	/*
                 if(sysmanager.isapp){
@@ -460,8 +461,8 @@ function ui_myorderdetail(){
 //            sysmanager.loadpage('views/', 'gaodedaohang', null, '导 航',function(v){
 //                v.obj.settarget(me.nowdata);
 //            });
-            sysmanager.loadpage('views/', 'daohang', null, '导 航',function(v){
-                v.obj.settarget(me.nowdata);
+            sysmanager.loadpage('views/', 'parkinfo', null, me.nowdata.name,function(v){
+                v.obj.setdata(me.nowdata);
             });
         }
         ,c_checkout_start:function(){

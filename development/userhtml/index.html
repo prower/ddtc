@@ -17,10 +17,10 @@
 <script>
 var _hmt = _hmt || [];
 (function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?aa83b44255e0841ab8bc2d46302e84cf";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
+//  var hm = document.createElement("script");
+//  hm.src = "//hm.baidu.com/hm.js?aa83b44255e0841ab8bc2d46302e84cf";
+//  var s = document.getElementsByTagName("script")[0];
+//  s.parentNode.insertBefore(hm, s);
 })();
 </script>
 <script>
@@ -446,6 +446,7 @@ var _hmt = _hmt || [];
                imgUrl = _imgUrl;
                fenxiangcallback = _fenxiangcallback;
            }
+           ,isready:false
            ,initFenxiang:function(){
                var me = this;
                wx.ready(function () {
@@ -457,14 +458,15 @@ var _hmt = _hmt || [];
                         'onMenuShareTimeline',
                         'onMenuShareAppMessage',
                         'onMenuShareQQ',
-                        'onMenuShareWeibo'
+                        'onMenuShareWeibo',
+                        'openLocation'
                       ],
                       success: function (res) {
                         //alert(JSON.stringify(res));
+                          me.isready = true;
                       }
                     });
                     me.initBind();
-
                 });
 
                 wx.error(function (res) {
@@ -614,7 +616,8 @@ var _hmt = _hmt || [];
                             'onMenuShareTimeline',
                             'onMenuShareAppMessage',
                             'onMenuShareQQ',
-                            'onMenuShareWeibo'
+                            'onMenuShareWeibo',
+                            'openLocation'
                         ] // 必填，需要使用的JS接口列表
                     }
 
@@ -645,7 +648,8 @@ var _hmt = _hmt || [];
                             'onMenuShareTimeline',
                             'onMenuShareAppMessage',
                             'onMenuShareQQ',
-                            'onMenuShareWeibo'
+                            'onMenuShareWeibo',
+                            'openLocation'
                         ] // 必填，需要使用的JS接口列表
                     }
 

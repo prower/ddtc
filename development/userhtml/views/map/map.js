@@ -325,7 +325,6 @@ function ui_map(){
                     me.nowoid = data.oid;
                     //alert(data.oid);
                     //return [alert('跳过支付直接成功![测试s]'), me.c_startPayok()];
-
                     console.log(data);
                     WeixinJSBridge.invoke('getBrandWCPayRequest', data.paydata,function(res){
                         //WeixinJSBridge.log(res.err_msg);
@@ -334,7 +333,7 @@ function ui_map(){
                              me.c_startPayok();
 
                          }else{
-    //                         alert(res.err_msg);
+//                             alert(res.err_msg);
                              me.c_startPayfalid();
                          }
                      });
@@ -541,9 +540,13 @@ function ui_map(){
 //            sysmanager.loadpage('views/', 'gaodedaohang', null, '导 航',function(v){
 //                v.obj.settarget(me.nowdata);
 //            });
-            sysmanager.loadpage('views/', 'daohang', null, '导 航',function(v){
-                v.obj.settarget(me.nowdata);
+
+
+            sysmanager.loadpage('views/', 'parkinfo', null, me.nowdata.name,function(v){
+                v.obj.setdata(me.nowdata);
             });
+
+
         }
         ,c_setActiveRow:function(row, data, elemmove){
             this.dom.list.find('>*').removeClass('active');
@@ -649,7 +652,7 @@ function ui_map(){
                     var pid = p.attr('pid');
                     var d = area[pid];
                     var lnglat = new  AMap.LngLat(d[2], d[1]);
-                    $(this).parent().addClass('active');
+                    $(this).addClass('active');
                     me.c_init_search(lnglat);
 
                 });

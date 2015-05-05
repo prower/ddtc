@@ -9,6 +9,7 @@ require.config({
     paths: {
         jquery:'../../golba_rs/js/jquery-1.9.1.min'
         ,view:'view'
+        ,cfg:'cfg'
     }
     ,waitSeconds:30
     //,urlArgs : "version=0.9"               //+ new Date()
@@ -22,7 +23,6 @@ requirejs([],function(jQuery){
         utils.cfg = cfg;
 
         utils.sys = sys.init();
-
 
         var init = window.myinit;
 
