@@ -189,10 +189,18 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
 
             this.dom.jifen.btaction.click(function(){
-                utils.sys.loadpage('views/', 'jifen', null, '积分兑换',function(v){});
+                utils.sys.loadpage('views/', 'jifen', null, '积分兑换',function(v){
+                    v.obj.onclose = function(){
+                        me.c_refreshInfo();
+                    }
+                });
             });
             this.dom.tixian.btaction.click(function(){
-                utils.sys.loadpage('views/', 'tixian', null, '资金统计',function(v){});
+                utils.sys.loadpage('views/', 'tixian', null, '资金统计',function(v){
+                    v.obj.onclose = function(){
+                        me.c_refreshInfo();
+                    }
+                });
             });
 
             this.dom.buttons.bt_secenin.click(function(){

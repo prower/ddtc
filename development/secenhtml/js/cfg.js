@@ -10,11 +10,7 @@ define((function(){
     var cfg = {
         start:null
         ,version:.9
-<<<<<<< HEAD
         ,ajaxroot:'http://t.duduche.me/park.php/Home/'
-=======
-        ,ajaxroot:'http://driver.duduche.me/park.php/Home/'
->>>>>>> 39b18d13a166ef89be0fbb6c805eb70081c19e2a
         ,giftimgroot:"http://uploads.duduche.me/images/" //礼品根目录
     }
     /**

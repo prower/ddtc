@@ -11,15 +11,36 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         isInit: false
         ,context:null
         ,dom:{
-            accountname:'[name=accountname]'
-            ,bankname:'[name=bankname]'
-            ,account:'[name=account]'
-            ,money:'[name=money]'
-            ,maxmoney:'[name=maxmoney]'
-            ,name:'[name=name]'
-            ,phone:'[name=phone]'
-            ,btsubmit:'[name=btsubmit]'
+            maxmoney:'[name=maxmoney]'
+            ,scrollspace:'[name=scrollspace]'
+            ,mycard:{
+                mycardlist1:{
+                    panel:'[name=mycard] [name=mycardlist1]'
+                    ,t0:'[name=mycard] [name=mycardlist1] [name=t0]'
+                    ,t1_1:'[name=mycard] [name=mycardlist1] [name=t1_1]'
+                }
+                ,mycardlist2_1:{
+                    panel:'[name=mycard] [name=mycardlist2_1]'
+                    ,btback:'[name=mycard] [name=mycardlist2_1] [name=btback]'
+                    ,btaction:'[name=mycard] [name=mycardlist2_1] [name=btaction]'
+                    ,money:'[name=mycard] [name=mycardlist2_1] [name=money]'
+                    ,name:'[name=mycard] [name=mycardlist2_1] [name=name]'
+                    ,phone:'[name=mycard] [name=mycardlist2_1] [name=phone]'
 
+                }
+                ,mycardlist2_2:{
+                    panel:'[name=mycard] [name=mycardlist2_2]'
+                    ,btback:'[name=mycard] [name=mycardlist2_2] [name=btback]'
+                    ,btaction:'[name=mycard] [name=mycardlist2_2] [name=btaction]'
+                    ,accountname:'[name=mycard] [name=mycardlist2_2] [name=accountname]'
+                    ,bankname:'[name=mycard] [name=mycardlist2_2] [name=bankname]'
+                    ,account:'[name=mycard] [name=mycardlist2_2] [name=account]'
+                    ,money:'[name=mycard] [name=mycardlist2_2] [name=money]'
+                    ,name:'[name=mycard] [name=mycardlist2_2] [name=name]'
+                    ,phone:'[name=mycard] [name=mycardlist2_2] [name=phone]'
+                }
+
+            }
         }
         ,iscroll:null
         ,maxMoney:0         //当前最大可以提取金额
@@ -44,14 +65,46 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             this.maxMoney = maxmoney;
 //            alert('maxmoney:'+this.maxMoney);
         }
+        ,c_showcard:function(card){
+            card.removeClass('none');
+            var me= this;
+            this.dom.scrollspace.show();
+            setTimeout(function(){
+                me.iscroll.refresh();
+            });
+
+        }
+        ,c_hidecard:function(card){
+            card.addClass('none');
+            this.dom.scrollspace.hide();
+            var me= this;
+            setTimeout(function(){
+                me.iscroll.refresh();
+            });
+        }
         ,r_init:function(){
             var me = this;
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
-            this.dom.btsubmit.aclick(function(){
-                me.c_submit();
+            this.dom.mycard.mycardlist1.t0.click(function(){
+                me.c_showcard(me.dom.mycard.mycardlist2_1.panel);
+            });
+            this.dom.mycard.mycardlist1.t1_1.click(function(){
+                me.c_showcard(me.dom.mycard.mycardlist2_2.panel);
+            });
+            this.dom.mycard.mycardlist2_1.btback.click(function(){
+               me.c_hidecard(me.dom.mycard.mycardlist2_1.panel);
+            });
+            this.dom.mycard.mycardlist2_2.btback.click(function(){
+               me.c_hidecard(me.dom.mycard.mycardlist2_2.panel);
+            });
+            this.dom.mycard.mycardlist2_1.btaction.click(function(){
+               me.c_submit_1();
+            });
+            this.dom.mycard.mycardlist2_2.btaction.click(function(){
+               me.c_submit_2();
             });
         }
-        ,c_submit:function(){
+        ,c_submit_1:function(){
             /**
              * 账户名	accountname
               开户行	bankname
@@ -60,26 +113,51 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
               姓名	name
               联系方式	telephone
              */
-            var accountname = this.dom.accountname.val();
-            var bankname = this.dom.bankname.val();
-            var account = this.dom.account.val();
-            var money = parseInt(this.dom.money.val());
-            var name = this.dom.name.val();
-            var telephone = this.dom.phone.val();
+            var accountname = '';
+            var bankname = '';
+            var account = '';
+            var money = parseInt(this.dom.mycard.mycardlist2_1.money.val());
+            var name = this.dom.mycard.mycardlist2_1.name.val();
+            var telephone = this.dom.mycard.mycardlist2_1.phone.val();
 
-            //检查输入内容是否空
-            if("" == accountname || "" == bankname || "" == account || "" == name || "" == telephone){
-                utils.sys.alert('请输入所有相关内容<br>不能为空');
-                return;
-            }
+
             //检查金额
             if(isNaN(money) || money<0 || money>this.maxMoney){
                 utils.sys.alert('请输入正确的提现金额！<br>(不能小于0)<br>(不能超过最大提金额)')
                 return;
             }
             var me = this;
-            this.m_submit(accountname,bankname,account,money,name,telephone, function(){
+            this.m_submit(1,accountname,bankname,account,money,name,telephone, function(){
 
+                utils.sys.alert('提现清单提交成功','系统：');
+                var c = me.context.parent().parent();
+                utils.sys.pagecontainerManager.hide(c);
+                me.close();
+            });
+        }
+        ,c_submit_2:function(){
+            /**
+             * 账户名	accountname
+              开户行	bankname
+              账号	account
+              金额	money
+              姓名	name
+              联系方式	telephone
+             */
+            var accountname = this.dom.mycard.mycardlist2_2.accountname.val();
+            var bankname = this.dom.mycard.mycardlist2_2.bankname.val();
+            var account = this.dom.mycard.mycardlist2_2.account.val();
+            var money = parseInt(this.dom.mycard.mycardlist2_2.money.val());
+            var name = this.dom.mycard.mycardlist2_2.name.val();
+            var telephone = this.dom.mycard.mycardlist2_2.phone.val();
+
+            //检查金额
+            if(isNaN(money) || money<0 || money>this.maxMoney){
+                utils.sys.alert('请输入正确的提现金额！<br>(不能小于0)<br>(不能超过最大提金额)')
+                return;
+            }
+            var me = this;
+            this.m_submit(0,accountname,bankname,account,money,name,telephone, function(){
                 utils.sys.alert('提现清单提交成功','系统：');
                 var c = me.context.parent().parent();
                 utils.sys.pagecontainerManager.hide(c);
@@ -95,17 +173,17 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 fn && fn(data);
             });
         }
-        ,m_submit:function(accountname,bankname,account,money,name,telephone, fn){           //提交提现请求的数据
+        ,m_submit:function(visitype,accountname,bankname,account,money,name,telephone, fn){           //提交提现请求的数据
             /**
              * 请求提现接口
-             提交duduche.me/park.php/home/index/ drawMoney/
-             POST：
-             账户名	accountname
-             开户行	bankname
-             账号	account
-             金额	money
-             姓名	name
-             联系方式	telephone
+             *
+             * park.duduche.me/park.php/Home/index/drawMoney/
+             参数
+             visitype（必须），money（必须）， name（必须），telephone（必须），bankname可选），accountname可选），account可选），
+
+             线下送上门：visitype = 1的时候，visitype（必须），money（必须）， name（必须），telephone（必须）
+             线上转账：  visitype = 0的时候，visitype（必须），money（必须）， name（必须），telephone（必须），bankname可选），accountname可选），account可选）
+
              */
             var data = {
                 accountname:accountname
@@ -114,6 +192,20 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,money:money
                 ,name:name
                 ,telephone:telephone
+                ,visitype:visitype
+            }
+            console.log(data);
+            //检查输入内容是否空
+            if(visitype == 1){
+                if("" == name || "" == telephone){
+                    utils.sys.alert('请输入所有相关内容');
+                    return;
+                }
+            }else{
+                if("" == accountname || "" == bankname || "" == account || "" == name || "" == telephone){
+                    utils.sys.alert('请输入所有相关内容');
+                    return;
+                }
             }
             ajax.userget('index','drawMoney',data, function(result){
                 var data = result.data;
@@ -123,7 +215,6 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,close:function(){
             this.onclose && this.onclose();
-
         }
     };
 

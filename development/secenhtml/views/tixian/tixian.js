@@ -13,6 +13,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         ,dom:{
             list:'[name=list]'
             ,row:'.template [name=row]'
+            ,row1:'.template [name=row1]'
             ,nonerow:'.template [name=nonerow]'
             ,bt_jiaoyi:'[name=bt_jiaoyi]'
             ,info:{
@@ -63,6 +64,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 page.empty();
                 v.renderer(page);
                 context.show();
+                v.obj.setMaxmoney(me.dom.remainSum.html());
                 v.obj.onclose = function(){
                     me.c_init();
                 }
@@ -114,7 +116,13 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             this.dom.list.empty();
             if(datas){
                 for(var i=0;i<datas.length;i++){
-                    var row = this.c_getrow(datas[i]);
+                    var row = null;
+                    var data = datas[i];
+                    if('1' == data.visitype+''){
+                        row = this.c_getrow1(data);
+                    }else{
+                        row = this.c_getrow(data);
+                    }
                     this.dom.list.append(row);
                 }
             }
@@ -146,6 +154,24 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             }
             return row;
         }
+        ,c_getrow1:function(data){
+            //[accountname账户名，bankname开户行，account账号，optname操作人，opttime提现时间，money提现金额，state状态0-申请中1-已提现]
+            var row = this.dom.row1.clone();
+            row.find('[name=name]').html(data.name);
+            row.find('[name=optname]').html(data.optname);
+            row.find('[name=opttime]').html(data.opttime);
+            row.find('[name=money]').html(data.money);
+
+            row.find('[name=state1]').hide();
+            row.find('[name=state0]').hide();
+            if(1 == data.state){
+                row.find('[name=state1]').show();
+            }
+            if(0 == data.state){
+                row.find('[name=state0]').show();
+            }
+            return row;
+        }
         ,c_getnonerow:function(){
             var row = this.dom.nonerow.clone();
             return row;
@@ -160,7 +186,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             fn && fn([]);
         }
         ,close:function(){
-
+            this.onclose && this.onclose();
         }
     };
 

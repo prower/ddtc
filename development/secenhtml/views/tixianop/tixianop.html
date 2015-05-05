@@ -4,36 +4,109 @@
             margin: 0;
             width: 70%;
         }
+        #tixianop_html .mycard{
+            position: relative;
+        }
+        #tixianop_html .mycard>ul{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            -webkit-transform: translate3d(0%, 0, 0);
+                  transform: translate3d(0%, 0, 0);
+            transition:all .3s;
+            -moz-transition:all .3s; /* Firefox 4 */
+            -webkit-transition:all .3s; /* Safari and Chrome */
+            -o-transition:all .3s; /* Opera */
+        }
+        #tixianop_html .mycard>ul.none{
+            -webkit-transform: translate3d(100%, 0, 0);
+                  transform: translate3d(100%, 0, 0);
+        }
+        #tixianop_html .mycard>ul.list1{
+            position: static;
+        }
+        #tixianop_html .mycard>ul.list1>li,#jifenop2_html .mycard>ul>li.mui-table-view-divider{
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
     </style>
-    <ul class="mui-table-view" name='list'>
-        <li class="mui-table-view-divider">开户银行：</li>
-        <li class="mui-table-view-cell">
-            <input name="bankname" type="text" class="mui-input-clear login-input" placeholder="请输入银行及营业部" value="" data-input-clear="">
+    <div class="mycard" name='mycard'>
+
+    <ul class="mui-table-view list1" name='mycardlist1'>
+        <li class="mui-table-view-divider">选择提现方式</li>
+        <li class="mui-table-view-cell" name='t0'>
+            <a class="mui-navigate-right">业务员送上门</a>
         </li>
-        <li class="mui-table-view-divider">银行账户号码：</li>
-        <li class="mui-table-view-cell">
-            <input name="account" type="text" class="mui-input-clear login-input" placeholder="请输入账户号码" value="" data-input-clear="">
+        <li class="mui-table-view-cell" name='t1_1'>
+            <a class="mui-navigate-right">银行卡转账</a>
         </li>
-        <li class="mui-table-view-divider">账户名：</li>
+    </ul>
+    <ul class="mui-table-view none" name='mycardlist2_1'>
+        <!--money（必须）， name（必须），telephone（必须）-->
         <li class="mui-table-view-cell">
-            <input name="accountname" type="text" class="mui-input-clear login-input" placeholder="请输入单位名或姓名" value="" data-input-clear="">
-        </li>
-        <li class="mui-table-view-divider">提取金额：(最多提取<span class="mui-badge1" name='maxmoney'></span>元)</li>
-        <li class="mui-table-view-cell">
-            <input name="money" type="text" class="mui-input-clear login-input" placeholder="请输入要提取的金额" value="" data-input-clear="">
-        </li>
-        <li class="mui-table-view-divider">申请人：</li>
-        <li class="mui-table-view-cell">
+            <p>申请人：</p>
             <input name="name" type="text" class="mui-input-clear login-input" placeholder="请输入您的姓名" value="" data-input-clear="">
         </li>
-        <li class="mui-table-view-divider">联系电话：</li>
         <li class="mui-table-view-cell">
+            <p>联系电话：</p>
+            <input name="phone" type="text" class="mui-input-clear login-input" placeholder="请输入您的联系电话" value="" data-input-clear="">
+        </li>
+        <li class="mui-table-view-cell">
+            <p>提取金额：(最多提取<span class="mui-badge1" name='maxmoney'></span>元)</p>
+            <input name="money" type="number" class="mui-input-clear login-input" placeholder="请输入要提取的金额" value="" data-input-clear="">
+        </li>
+        <li class="mui-table-view-cell">
+            <p>收到申请后，我们将在近几日内派业务员送款上门</p>
+        </li>
+        <li class="mui-table-view-cell">
+            <table style="width: 100%">
+                <tr>
+                    <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btback">返回上一步</div></td>
+                    <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btaction">申请提现</div></td>
+                </tr>
+            </table>
+        </li>
+    </ul>
+
+    <ul class="mui-table-view none" name='mycardlist2_2'>
+        <li class="mui-table-view-cell">
+            <p>开户银行：</p>
+            <input name="bankname" type="text" class="mui-input-clear login-input" placeholder="请输入银行及营业部" value="" data-input-clear="">
+        </li>
+        <li class="mui-table-view-cell">
+            <p>银行账户号码：</p>
+            <input name="account" type="text" class="mui-input-clear login-input" placeholder="请输入账户号码" value="" data-input-clear="">
+        </li>
+        <li class="mui-table-view-cell">
+            <p>账户名：</p>
+            <input name="accountname" type="text" class="mui-input-clear login-input" placeholder="请输入单位名或姓名" value="" data-input-clear="">
+        </li>
+        <li class="mui-table-view-cell">
+            <p>提取金额：(最多提取<span class="mui-badge1" name='maxmoney'></span>元)</p>
+            <input name="money" type="number" class="mui-input-clear login-input" placeholder="请输入要提取的金额" value="" data-input-clear="">
+        </li>
+        <li class="mui-table-view-cell">
+            <p>申请人：</p>
+            <input name="name" type="text" class="mui-input-clear login-input" placeholder="请输入您的姓名" value="" data-input-clear="">
+        </li>
+        <li class="mui-table-view-cell">
+            <p>联系电话：</p>
             <input name="phone" type="text" class="mui-input-clear login-input" placeholder="请输入您的联系电话" value="" data-input-clear="">
         </li>
         <li class="mui-table-view-cell">
             <p>收到申请后，我们将在1至2个工作日内转账给您</p>
         </li>
+        <li class="mui-table-view-cell">
+            <table style="width: 100%">
+                <tr>
+                    <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btback">返回上一步</div></td>
+                    <td style="text-align: center"><div style="margin: 0 auto" class="mui-btn mui-btn-success" name="btaction">申请提现</div></td>
+                </tr>
+            </table>
+        </li>
     </ul>
-    <div name="btsubmit" class="mui-btn mui-btn-danger mui-btn-block" style="background-color: #de5752">确认提交</span></div>
-    <div style="height: 80px"></div>
+
+    </div>
+    <div name='scrollspace' style="height: 580px"></div>
 </div>
