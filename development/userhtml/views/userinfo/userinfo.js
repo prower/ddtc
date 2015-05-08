@@ -31,9 +31,11 @@ function ui_userinfo(){
                 utils.jqmapping(this.dom, context);
                 this.r_init();
             }
+            /*
             if(this.showquit){
                 this.dom.btquit.show();
             }
+            */
             this.c_init();
         }
         ,c_init:function(){
@@ -144,6 +146,11 @@ function ui_userinfo(){
                     me.info = data;
                     me.c_fill(me.info);
                     me.dom.addpanel.input_add.val('');
+                    
+                    if(me.info.carids.length == 1){
+                    	//第一次添加
+                    	me.dom.btquit.show();
+                    }
                 })
             }
         }
