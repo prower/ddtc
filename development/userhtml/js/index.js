@@ -86,7 +86,7 @@
 
 
 (function(){
-    window.onerror= function(msg,url,l){
+    window.onerror1= function(msg,url,l){
        txt="There was an error on this page.\n\n"
        txt+="Error: " + msg + "\n"
        txt+="URL: " + url + "\n"
@@ -104,23 +104,19 @@
         weixinapppay(paydata);
     }, false);
 
-
     // 通过 postMessage 向子窗口发送数据
     function sendToIframe(data){
         $('iframe')[0].contentWindow.postMessage(data,"*");
     }
 
     function weixinapppay(paydata){
-        alert('父窗口 准备支付');
-        alert(JSON.stringify(paydata));
 //        Pgwxpay.wxpay2({"appid":paydata.appid, "noncestr":paydata.noncestr, "partnerid":paydata.partnerid, "prepayid":paydata.prepayid, "timestamp":paydata.timestamp},
         Pgwxpay.wxpay2(paydata,
               function(success) {
-                  alert('parent: 支付成功');
                   sendToIframe(JSON.stringify(success));
 
             }, function(fail) {
-                alert('parent: 支付调用失败');
+                alert('支付调用失败:'+fail);
            });
     }
 

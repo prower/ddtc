@@ -230,7 +230,8 @@ function ui_map(){
             });
             this.dom.infopanel.btdaohang.aclick(function(){
                 if(sysmanager.isapp){
-                    me.c_daohang();
+//                    me.c_daohang();
+                    me.c_daohang_my();
                 }else{
                     me.c_daohang_my();
                 }
