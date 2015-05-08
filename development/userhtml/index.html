@@ -14,15 +14,18 @@
     <style></style>
 </head>
 <body>
-<script>
-var _hmt = _hmt || [];
-(function() {
-//  var hm = document.createElement("script");
-//  hm.src = "//hm.baidu.com/hm.js?aa83b44255e0841ab8bc2d46302e84cf";
-//  var s = document.getElementsByTagName("script")[0];
-//  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+<!--<script>-->
+<!--var _hmt = _hmt || [];-->
+<!--(function() {-->
+<!--//  var hm = document.createElement("script");-->
+<!--//  hm.src = "//hm.baidu.com/hm.js?aa83b44255e0841ab8bc2d46302e84cf";-->
+<!--//  var s = document.getElementsByTagName("script")[0];-->
+<!--//  s.parentNode.insertBefore(hm, s);-->
+<!--})();-->
+<!--</script>-->
+<div style="display: none;position: absolute">
+<script src="http://s11.cnzz.com/z_stat.php?id=1254946209&web_id=1254946209"></script>
+</div>
 <script>
     /**
      *     入口链接点击跟踪：
@@ -59,15 +62,17 @@ var _hmt = _hmt || [];
     window.TongjiObj = (function(){
         var obj = {
             /**
-             *  category：要监控的目标的类型名称，通常是同一组目标的名字，比如"视频"、"音乐"、"软件"、"游戏"等等。该项必选。
-                action：用户跟目标交互的行为，如"播放"、"暂停"、"下载"等等。该项必选。
-                opt_label：事件的一些额外信息，通常可以是歌曲的名称、软件的名称、链接的名称等等。该项可选。
-                opt_value：事件的一些数值信息，比如权重、时长、价格等等，在报表中可以看到其平均值等数据。该项可选。
+             *  category：事件类别，必填项，表示事件发生在谁身上，如“视频”、“小说”、“轮显层”等等。
+                 action：事件操作，必填项，表示访客跟元素交互的行为动作，如"播放"、"收藏"、"翻层"等等。
+                 label：事件标签，选填项，用于更详细的描述事件，从各个方面都可以，比如具体是哪个视频，哪部小说，翻到了第几层等等。
+                 value：事件值，选填项，整数型，用于填写打分型事件的分值，加载时间型事件的时长，订单型事件的价格等等。
+                 nodeid：div元素id，选填项，填写网页中的div元素id值，用于在“用户视点”功能上重绘元素的事件发生情况。
              */
-            push:function(category, action, opt_label, opt_value){
+            push:function(category, action, label, value){
                 setTimeout(function(){
-                    _hmt.push(['_trackEvent', category, action, opt_label || 0, opt_value] || 0);
-                    console.log('_hmt.push','_trackEvent', category, action, opt_label, opt_value);
+                    _czc.push(["_trackEvent", category, action, label || 0         ,value || 0 , null]);
+//                    _hmt.push(['_trackEvent', category, action, opt_label || 0, opt_value] || 0);
+                    console.log('_czc.push','_trackEvent', category, action, label, value);
                 });
             }
             ,clickLink:function(action){          //模块链接
