@@ -10,6 +10,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
     var ui = {
         isInit: false
         ,context:null
+        ,cachedata:null
         ,dom:{
             row:'.template [name=row]'
             ,list:'[name=list]'
@@ -30,6 +31,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var me = this;
             this.m_getdata(function(data){
                 me.c_fill(data);
+                me.cachedata = data.exCache;
             });
         }
         ,r_init:function(){
@@ -77,6 +79,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 v.obj.onclose = function(){
                     me.c_init();
                 }
+                setTimeout(function(){v.obj.setCacheData(me.cachedata);});
            });
         }
         ,m_getdata:function(fn){

@@ -50,6 +50,30 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
         ,iscroll:null
         ,data:null          //当前的礼品信息
+        ,setCacheData:function(cachedata){
+        	if(cachedata.length > 0){
+        		if(cachedata[0].name != null){
+        			this.dom.mycard.mycardlist2_3.name.val(cachedata[0].name);
+        		}
+        		if(cachedata[0].telephone != null){
+        			this.dom.mycard.mycardlist2_3.telephone.val(cachedata[0].telephone);
+        		}
+        		if(cachedata[0].address != null){
+        			this.dom.mycard.mycardlist2_3.address.val(cachedata[0].address);
+        		}
+        	}
+        	if(cachedata.length > 1){
+        		if(cachedata[1].bankname != null){
+        			this.dom.mycard.mycardlist2_2.bankname.val(cachedata[1].bankname);
+        		}
+        		if(cachedata[1].account != null){
+        			this.dom.mycard.mycardlist2_2.accout.val(cachedata[1].account);
+        		}
+        		if(cachedata[1].name != null){
+        			this.dom.mycard.mycardlist2_2.name.val(cachedata[1].name);
+        		}
+        	}
+        }
         ,init:function(context){
             if (!this.isInit) {
                 this.isInit = true;

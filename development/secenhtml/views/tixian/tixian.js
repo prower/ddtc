@@ -29,6 +29,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             ,spanUpfront:'[name=spanUpfront]'
         }
         ,iscroll:null
+        ,cachedata:null
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -42,6 +43,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             var me = this;
             this.m_getdata(function(data){
                me.c_fill(data);
+               me.cachedata = data.drawCache;
             });
         }
         ,c_showInfo:function(){
@@ -68,6 +70,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 v.obj.onclose = function(){
                     me.c_init();
                 }
+                setTimeout(function(){v.obj.setCacheData(me.cachedata);});
             });
         }
         ,r_init:function(){

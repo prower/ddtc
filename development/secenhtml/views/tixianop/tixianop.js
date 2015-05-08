@@ -65,6 +65,33 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             this.maxMoney = maxmoney;
 //            alert('maxmoney:'+this.maxMoney);
         }
+        ,setCacheData:function(cachedata){
+        	if(cachedata.length > 0){
+        		if(cachedata[0].bankname != null){
+        			this.dom.mycard.mycardlist2_2.bankname.val(cachedata[0].bankname);
+        		}
+        		if(cachedata[0].accountname != null){
+        			this.dom.mycard.mycardlist2_2.accountname.val(cachedata[0].accountname);
+        		}
+        		if(cachedata[0].account != null){
+        			this.dom.mycard.mycardlist2_2.account.val(cachedata[0].account);
+        		}
+        		if(cachedata[0].name != null){
+        			this.dom.mycard.mycardlist2_2.name.val(cachedata[0].name);
+        		}
+        		if(cachedata[0].telephone != null){
+        			this.dom.mycard.mycardlist2_2.phone.val(cachedata[0].telephone);
+        		}
+        	}
+        	if(cachedata.length > 1){
+        		if(cachedata[1].name != null){
+        			this.dom.mycard.mycardlist2_1.name.val(cachedata[1].name);
+        		}
+        		if(cachedata[1].telephone != null){
+        			this.dom.mycard.mycardlist2_1.phone.val(cachedata[1].telephone);
+        		}
+        	}
+        }
         ,c_showcard:function(card){
             card.removeClass('none');
             var me= this;
