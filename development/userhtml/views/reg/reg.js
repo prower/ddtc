@@ -75,7 +75,7 @@ function ui_reg(){
             this.dom.userpanel_phone.blur();
             this.dom.userpanel_chepai.blur();
             if('' == phone){
-                alert('手机号不能为空!');
+                sysmanager.alert('手机号不能为空!');
             }else{
                 sysmanager.login(phone,chepai,function(){
                     me.c_quit();

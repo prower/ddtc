@@ -16,7 +16,10 @@ function ui_couponget(){
             ,infopanel:{
                 panel:'[name=panel_info]'
                 ,btget:'[name=panel_info] [name=btget]'
-
+								,info:'[name=panel_info] [name=money]'
+                ,row0:'[name=panel_info] [name=row0]'
+                ,row1:'[name=panel_info] [name=row1]'
+                ,quan0:'[name=panel_info] [name=quan0]'
             }
             ,resultpanel:{
                 panel:'[name=panel_result]'
@@ -70,6 +73,29 @@ function ui_couponget(){
             this.dom.infopanel.panel.show();
             this.dom.nonepanel.panel.hide();
             this.dom.resultpanel.panel.hide();
+            if('-1' == gift.t){
+                this.dom.infopanel.row1.show();
+                this.dom.infopanel.row0.hide();
+                this.dom.infopanel.quan0.hide();
+                //设置分享
+                window.Myweixinobj.setDesc('你停车，我买单，停车只要1元！').setTitle('嘟嘟停车，请你停车').initBind();
+            }else{
+                this.dom.infopanel.row1.hide();
+                if(gift.m[0] == gift.m[1]){
+                	this.dom.infopanel.row0.show();
+                	this.dom.infopanel.quan0.hide();
+                	this.dom.infopanel.info.html(gift.m[0]);
+                	//根据文字修正位置
+                	if(gift.m[0] >= 10){
+                		this.dom.infopanel.info.css("width","120");
+                	}else{
+                		this.dom.infopanel.info.css("width","80");
+                	}
+                }else{
+                	this.dom.infopanel.row0.hide();
+                	this.dom.infopanel.quan0.show();
+                }
+            }
         }
         ,c_showResultpanel:function(result){        //显示领取成功的卡券
             this.dom.infopanel.panel.hide();
@@ -87,6 +113,12 @@ function ui_couponget(){
                 this.dom.resultpanel.row1.hide();
                 this.dom.resultpanel.row0.show();
                 this.dom.resultpanel.info.html(result.data.coupon.m);
+                //根据文字修正位置
+              	if(result.data.coupon.m >= 10){
+              		this.dom.resultpanel.info.css("width","120");
+              	}else{
+              		this.dom.resultpanel.info.css("width","80");
+              	}
             }
         }
         ,c_showNonepanel:function(result){          //显示领取卡券失败界面
@@ -155,7 +187,7 @@ function ui_couponget(){
                 if('100' == result.code+''){        //没有登录
                         sysmanager.loginUI(function(){
                             me.m_get(code,fromid,fn);
-                        },'请输入你在<b>嘟嘟停车</b>的注册手机号');
+                        },'手机号就是您在<b>嘟嘟停车</b>的账号',false,{"reg_text":"抵用劵放入账户","no_title":1});
                 }else{
                     fn && fn(result);
                 }

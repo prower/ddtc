@@ -791,7 +791,7 @@ html{
     }
    #couponget_html .btget{
        /*background-image: url(../img/hongbao/quan_4.png);*/
-       background-image: url(http://yomant.qiniudn.com/duduchequan_4.png);
+       background-image: url(http://7xispd.com1.z0.glb.clouddn.com/user/img/quan_4.png);
        width: 102px;
        height: 102px;
        position: absolute;
@@ -867,6 +867,18 @@ html{
    #couponget_html .title{
        /*background-image: url(../img/hongbao/quan_1.jpg);*/
        background-image: url(http://yomant.qiniudn.com/duduchequan_1.jpg);
+       width: 320px;
+       height: 82px;
+       position: absolute;
+       left: 0;
+       right: 0;
+       margin: 0 auto;
+       top: 0;
+       background-size: 100% 100%;
+   }
+   #couponget_html .title_n{
+       /*background-image: url(../img/hongbao/quan_1.jpg);*/
+       background-image: url(http://7xispd.com1.z0.glb.clouddn.com/user/img/quan_1_n.jpg);
        width: 320px;
        height: 82px;
        position: absolute;

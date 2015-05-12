@@ -242,6 +242,8 @@ window.sysmanager = {
                     ,btreg:'[name=btreg]'
                     ,msg:'[name=msg]'
                     ,btclose:'[name=btclose]'
+                    ,title1:'h1'
+                    ,title2:'hr'
                 }
                 ,iscroll:null
                 ,ishead:false       //是否带了一个导航栏
@@ -261,12 +263,21 @@ window.sysmanager = {
                 ,c_init:function(){
                     var me = this;
                 }
-                ,c_show:function(callback, msg,canclose){
-                    this.dom.msg.html(msg || "首次使用嘟嘟停车需要注册你的手机号和车牌号");
+                ,c_show:function(callback, msg,canclose,ext){
+                    this.dom.msg.html(msg || "首次使用嘟嘟停车需要注册你的手机号");
                     if(!!canclose){
                         this.dom.btclose.show();
                     }else{
                         this.dom.btclose.hide();
+                    }
+                    if(ext){
+                    	if("reg_text" in ext){
+                    		this.dom.btreg.html(ext["reg_text"]);
+                    	}
+                    	if("no_title" in ext){
+                    		this.dom.title1.hide();
+                    		this.dom.title2.hide();
+                    	}
                     }
                     this.callback = callback;
                     this.context.show();
@@ -288,8 +299,11 @@ window.sysmanager = {
                     this.dom.userpanel_chepai.blur();
                     if('' == phone){
                         sysmanager.alert('手机号不能为空!');
-                    }else{
+                    }else if(!(/^1[3|4|5|8][0-9]\d{8}$/.test(phone))){
+				            		sysmanager.alert('请输入正确的手机号!');
+				            }else{
                         sysmanager.login(phone,chepai,function(){
+                        	sysmanager.alert();
                             me.c_quit();
                         });
                     }
@@ -302,9 +316,12 @@ window.sysmanager = {
                     this.dom.userpanel_phone.blur();
                     this.dom.userpanel_chepai.blur();
                     if('' == phone){
-                        alert('手机号不能为空!');
-                    }else{
+                        sysmanager.alert('手机号不能为空!');
+                    }if(!(/^1[3|4|5|8][0-9]\d{8}$/.test(phone))){
+				            		sysmanager.alert('请输入正确的手机号!');
+				            }else{
                         sysmanager.login(phone,chepai,function(){
+                        	sysmanager.alert();
                             me.c_quit();
                         });
                     }
@@ -340,8 +357,8 @@ window.sysmanager = {
             };
         ui.init($('#reg_dialog_pagecontainer'));
 
-        return function(callback, msg,canclose){    //callback:登录成功的回调，msg 定制提示信息，否则使用默认，canclose是否允许关闭
-            ui.c_show(callback, msg,canclose);
+        return function(callback, msg,canclose,ext){    //callback:登录成功的回调，msg 定制提示信息，否则使用默认，canclose是否允许关闭
+            ui.c_show(callback, msg,canclose,ext);
         }
     })()
     ,couponUI:function(code, fromid, callback){           //弹出卡券窗口 如果没有callback则使用全屏窗口
@@ -419,10 +436,14 @@ window.sysmanager = {
                alertpanel.hide();
            });
            var obj = function(msg, title){
+           	if(msg){
                var t = title || '错误信息';
                titledom.html(t);
                msgdom.html(msg);
                alertpanel.show();
+             }else{
+             	alertpanel.hide();
+            }
            }
            return obj;
        })()
