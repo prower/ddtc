@@ -277,7 +277,7 @@ function ui_myorderdetail(){
             this.dom.orderpanel.address.html(data.address);
             this.dom.orderpanel.parkrule.html(data.rule);
             this.dom.orderpanel.starttime.html(data.startTime);
-            var cost = data.totalFee - data.remainFee;
+            var cost = parseInt((data.totalFee - data.remainFee)*100)/100;
             this.dom.orderpanel.cost.html(cost);
             if(data.cost_r < cost){
                 this.dom.orderpanel.cost_r.html(data.cost_r);
@@ -308,26 +308,44 @@ function ui_myorderdetail(){
                 fn && fn(result.data);
             }, null, false);
         }
-        ,m_checkout_start:function(oid, fn){         //获取没有结算的订单
+        ,m_checkout_start:function(oid, fee, fn){         //获取没有结算的订单
             //duduche.me/driver.php/home/index/checkOut /oid/1/
+            var fee_i = parseInt(100*fee);
+            if(fee_i <= 0){
+                sysmanager.alert("输入的金额不正确！");
+                return;
+            }
             var data = {oid:oid};
             if(this.dqselectdata){
                 data.cid = this.dqselectdata.id;
             }else{
 
             }
+            //var fee_s = parseInt(100*this.data.remainFee);
+            //if(fee_s != fee_i){
+                data.fee = fee_i/100;
+            //}
             window.myajax.userget('index','checkOut', data, function(result){
                 fn && fn(result.data);
             }, null, false);
         }
-        ,m_checkout_start_app:function(oid, fn){         //获取没有结算的订单(app支付)
+        ,m_checkout_start_app:function(oid, fee, fn){         //获取没有结算的订单(app支付)
             //duduche.me/driver.php/home/index/checkOut /oid/1/
+            var fee_i = parseInt(100*fee);
+            if(fee_i <= 0){
+                sysmanager.alert("输入的金额不正确！");
+                return;
+            }
             var data = {oid:oid};
             if(this.dqselectdata){
                 data.cid = this.dqselectdata.id;
             }else{
 
             }
+            //var fee_s = parseInt(100*this.data.remainFee);
+            //if(fee_s != fee_i){
+                data.fee = fee_i/100;
+            //}
             window.myajax.userget('index','checkOutApp', data, function(result){
                 fn && fn(result.data);
             }, null, false);
@@ -361,7 +379,7 @@ function ui_myorderdetail(){
         ,c_checkout_start:function(){
             var me = this;
             //alert(this.oid);
-            this.m_checkout_start(this.oid, function(data){
+            this.m_checkout_start(this.oid, this.dom.orderdetailpanel.remainFee.val(), function(data){
                 //return [alert('跳过支付直接成功［测试］'), me.c_startPayok()];
                 WeixinJSBridge.invoke('getBrandWCPayRequest', data,function(res){
                     //WeixinJSBridge.log(res.err_msg);
@@ -376,7 +394,7 @@ function ui_myorderdetail(){
         }
         ,c_checkout_start_app:function(){
             var me = this;
-            this.m_checkout_start_app(this.oid, function(data){
+            this.m_checkout_start_app(this.oid, this.dom.orderdetailpanel.remainFee.val(), function(data){
 
                 //me.nowoid = data.oid;
                 console.log(data);
