@@ -17,16 +17,10 @@
             /*position: absolute;*/
             background-color: #f0f0f0;
         }
-        #myorderdetail_html .order_pay, .order_wait, .no_pay{
+        #myorderdetail_html .order_pay, .no_pay{
             width: 100%;
             min-height: 100%;
             position: relative;
-        }
-        #myorderdetail_html .order_pay li{
-            padding: 10px 15px;
-        }
-        #myorderdetail_html .order_pay li.payinfo{
-            padding: 15px;
         }
         #myorderdetail_html  .lianxipanel{
 
@@ -104,9 +98,75 @@
         #myorderdetail_html [name=dqpanel]  .mui-active>.selectrow>span{
             background-color: #16a7de;
         }
-
+    
+    #myorderdetail_html  .mui-table-view-cell>p{
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
 
     </style>
+    
+    <div name="orderdetail_pagecontainer" class="pagecontainer" style="display: none;z-index: 500;-webkit-transform: none;">
+        <div class="mui-popover mui-active" style="display: block;position:relative;">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell">
+                    <h4 name='btclose'>按照车辆停放到现在来计算<span class="mui-icon mui-icon-close" style="position:absolute;right:5px;top:5px;"></span></h4><hr>
+                    
+                    <label>开始时间：</label><span name='starttime'></span><p></p>
+                    <label>停放时间：</label><span name='stoptime'></span><p></p>
+                    <label>总计金额：</label><span name='totalFee'></span><p></p>
+                    <label>已付金额：</label><span name='preFee'></span>
+                </li>
+                <li class="mui-table-view-cell mui-collapse" name='dqpanel' style="display: none">
+                    <a class="mui-navigate-right">
+                        <label>抵用券：</label>
+                        <span name='couponinfo'>抵用券信息</span>
+                    </a>
+                    <ul class="mui-table-view couponlist" name='list'>
+                        <li class="mui-table-view-cell mui-collapse">
+                            <div class="mui-input-row mui-radio mui-left">
+                                <label>Radio</label>
+                                <input name="radio1" type="radio">
+                                    </div>
+                        </li>
+                        <li class="mui-table-view-cell mui-collapse">
+                            <div class="mui-input-row mui-radio mui-left">
+                                <label>Radio</label>
+                                <input name="radio1" type="radio">
+                                    </div>
+                        </li>
+                    </ul>
+                    <div class="template">
+                        <ul>
+                            <li class="mui-table-view-cell" name='row-1'>
+                                <div class="mui-input-row mui-radio mui-left selectrow">
+                                    
+                                    <label>使用该券，你只需要在支付一元</label>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li class="mui-table-view-cell" name='row0'>
+                                <div class="mui-input-row mui-radio mui-left selectrow">
+                                    <label>使用抵扣<span name='money'>{0}</span>元</label>
+                                    <span></span>
+                                </div>
+                            </li>
+                            <li class="mui-table-view-cell" name='rownone'>
+                                <p>你当前没有可以使用的抵用券</p>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="mui-table-view-cell">
+                    <label>还需支付：</label>
+                    <input name="remainFee" type="text" style="width:70px;">
+                        <button name="btpay"  class="mui-btn mui-btn-success" style="top:42%;">我要付款</button>
+                        </li>
+            </ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+    
     <div class="myorderdetail_html_contaion">
         <div name='waittime' style="display: block;height: 500px;line-height: 500px;text-align: center;background-color: #fff;">等待服务器确认...
             <div class="mui-spinner">
@@ -126,85 +186,32 @@
         </div>
         <div class="order_no" style="display: none" name='order_no'>
             <ul class="mui-table-view">
-                <li class="mui-table-view-divider"><h3>当前没有需要缴费的清单!</h3></li>
+                <li class="mui-table-view-divider"><h4>没有订单信息</h4></li>
             </ul>
         </div>
         <div class="order_pay" style="display: none" name='order_pay'>
             <ul class="mui-table-view">
-                <li class="mui-table-view-divider"><h3 name='title'></h3></li>
-                <li class="mui-table-view-cell"><label>开始时间：</label><span name='starttime'></span></li>
-                <li class="mui-table-view-cell"><label>停放时间：</label><span name='stoptime'></span></li>
-                <li class="mui-table-view-cell"><label>总计金额：</label><span name='totalFee'></span></li>
-                <li class="mui-table-view-cell"><label>已付金额：</label><span name='preFee'></span></li>
-                <li class="mui-table-view-cell mui-collapse" name='dqpanel' style="display: none">
-                    <a class="mui-navigate-right">
-                    <label>抵用券：</label>
-                        <span name='couponinfo'>抵用券信息</span>
-                    </a>
-                    <ul class="mui-table-view couponlist" name='list'>
-                        <li class="mui-table-view-cell mui-collapse">
-                            <div class="mui-input-row mui-radio mui-left">
-                                <label>Radio</label>
-                                <input name="radio1" type="radio">
-                            </div>
-                        </li>
-                        <li class="mui-table-view-cell mui-collapse">
-                            <div class="mui-input-row mui-radio mui-left">
-                                <label>Radio</label>
-                                <input name="radio1" type="radio">
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="template">
-                        <ul>
-                            <li class="mui-table-view-cell" name='row-1'>
-                                <div class="mui-input-row mui-radio mui-left selectrow">
-
-                                    <label>使用该券，你只需要在支付一元</label>
-                                    <span></span>
-                                </div>
-                            </li>
-                            <li class="mui-table-view-cell" name='row0'>
-                                <div class="mui-input-row mui-radio mui-left selectrow">
-                                    <label>使用抵扣<span name='money'>{0}</span>元</label>
-                                    <span></span>
-                                </div>
-                            </li>
-                            <li class="mui-table-view-cell" name='rownone'>
-                                <p>你当前没有可以使用的抵用券</p>
-                            </li>
-                        </ul>
-                    </div>
+                <li class="mui-table-view-divider"><h4 name='title'></h4></li>
+                <li class="mui-table-view-cell">
+                    <img width="16px" src="img/mk1.png"><span name='address'></span>
+                    <button style="background-color:transparent" name="btdaohang" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">入口指示</button>
+                    <p name='parkrule' style="width:240px">计费规则</p>
                 </li>
-                <li class="mui-table-view-cell payinfo"><label>需付金额：</label><span name='remainFee'></span></li>
+                <li class="mui-table-view-cell">
+                    <label>已付金额：</label><b name='cost'></b>元
+                    <p name="costdetail">实付<b name="cost_r">0.01</b>元，抵用劵支付<b name="cost_c">9.99</b>元</p>
+                    <a class="mui-btn mui-btn-success" name="btdetail">费用结算</a>
+                    <p></p>
+                    <label>开始计费：</label><span name='starttime'></span>
+                    <p></p>
+                    <label>可停放至：</label><span name='endtime'></span>
+                </li>
                 <li class="mui-table-view-cell">
                     <p>以下管理员为您服务</p>
                     <ul  name='lianxipanel' class="lianxipanel"></ul>
+                    
                 </li>
             </ul>
-            <p style="padding: 20px">请在离场剩余时间内驶离至出口，否则可能需加付费用.</p>
-            <div style="height: 50px;"></div>
-            <button style="position: absolute;bottom: 0;left: 0;right: 0" name="btpay"  class="mui-btn mui-btn-success mui-btn-block">结算付款>></button>
-        </div>
-        <div class="order_wait" style="display: none" name='order_wait'>
-            <ul class="mui-table-view">
-                <li class="mui-table-view-divider"><h3>费用已结清！</h3></li>
-                <li class="mui-table-view-cell">
-                	<p>您可以从［缴费］菜单进入本页面</p>
-                </li>
-               	<li class="mui-table-view-cell">
-                	<span name='partname'></span><button style="background-color:transparent" name="btdaohang" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">入口指示</button>
-                </li>
-                <li class="mui-table-view-cell">离场剩余时间：<span name='rtime'></span></li>
-                <li class="mui-table-view-cell">
-                    <p>以下管理员为您服务</p>
-                    <ul  name='lianxipanel' class="lianxipanel"></ul>
-                </li>
-                <li class="mui-table-view-divider" style="display: none">
-                    如果你已经离开，但是管理员并未设置当前离场，你可以设置[离场]
-                </li>
-            </ul>
-            <button style="display: none" class="mui-btn mui-btn-primary mui-btn-block" name='btleave'>离场</button>
         </div>
         <div class="template">
             <ul>
@@ -219,22 +226,5 @@
                 </li>
             </ul>
         </div>
-    </div>
-    
-    <div class="pagecontainer" name="daohangmenu" style="display: none;z-index: 1000">
-        <div class="mui-popover mui-active" style="display: block;top:45%">
-            <ul class="mui-table-view">
-                <li class="mui-table-view-cell" style="padding: 20px">
-                     <a name="daohang_gaode" href="">高德地图导航</a>
-                </li>
-                <li class="mui-table-view-cell" style="padding: 20px">
-                    <a name="daohang_my"  href=":;">查看路线</a>
-                </li>
-                <li class="mui-table-view-cell">
-                    <button  class="mui-btn mui-btn-success mui-btn-block" style="-webkit-transform: translateY(0);transform: translateY(0);position: static;" name="btclosemenu">关闭</button>
-                </li>
-            </ul>
-        </div>
-        <div name="make" class="mui-backdrop mui-active"></div>
     </div>
 </div>

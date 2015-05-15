@@ -186,10 +186,11 @@ window.sysmanager = {
                $('#pagecontaion').hide();
                view.obj.close();
            });
-            */
+            
            setTimeout(function(){
-               //me.checklogin();
+               me.checklogin();
            });
+           */
            return this;
        }
     ,login:function(phone, carid, callback){

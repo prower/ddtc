@@ -59,7 +59,7 @@ function ui_orderpay(){
         }
         ,c_topay:function(){
             var me = this;
-            sysmanager.loadpage('views/', 'myorderdetail', null, '订单结算',function(v){
+            sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){
                 v.obj.initoid(me.oid);
             });
         }

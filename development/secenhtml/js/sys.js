@@ -447,12 +447,14 @@ define(['jquery', 'cfg', 'ajax', 'utils'], function($, cfg ,ajax, utils){
        }
        ,PushMsg:function(msg){
 //           alert('触发事件获得pushmsg\n'+msg);
-           var obj = JSON.parse(msg);
+           window.UserManager.c_viewjiaoyi();
+       
+           /*var obj = JSON.parse(msg);
            if('in' == obj.t){
                window.UserManager.c_secen_in_Manager();
            }else if('out' == obj.t){
                window.UserManager.c_secen_out_Manager();
-           }
+           }*/
        }
    }
    return obj;

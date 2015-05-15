@@ -15,13 +15,7 @@ function ui_map(){
             ,nonerow:'.template [name=nonerow]'
             ,tujianrow:'.template [name=tujianrow]'
             ,listcontaion:'.list'
-
-            ,bttitle:'[name=title]'
-
-            ,daohangmenu:'[name=daohangmenu]'
-            ,daohang_gaode:'[name=daohang_gaode]'
-            ,daohang_my:'[name=daohang_my]'
-            ,btclosemenu:'[name=btclosemenu]'
+	          ,bttitle:'[name=title]'
             ,mk1:'.template [name=mk1]'
             ,infopanel1:{
                 panel:'[name=infopanel]'
@@ -229,23 +223,9 @@ function ui_map(){
                 me.c_back();
             });
             this.dom.infopanel.btdaohang.aclick(function(){
-                if(sysmanager.isapp){
-//                    me.c_daohang();
-                    me.c_daohang_my();
-                }else{
-                    me.c_daohang_my();
-                }
+                me.c_daohang_my();
                 //点击导航按钮：D4
                 var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D4');}
-            });
-            this.dom.daohang_gaode.aclick(function(){
-                me.c_daohang_gaode($(this));
-            });
-            this.dom.btclosemenu.aclick(function(){
-               me.dom.daohangmenu.hide();
-            });
-            this.dom.daohang_my.aclick(function(){
-                me.c_daohang_my();
             });
             //this.dom.bttitle.aclick(function(){alert('title');});
             this.dom.infopanel.btpay.aclick(function(){
@@ -394,7 +374,7 @@ function ui_map(){
 //                }
 //            });
             this.dom.infopanel.panel.hide();
-            sysmanager.loadpage('views/', 'myorderdetail', null, '订单结算',function(v){
+            sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){
 //            sysmanager.loadpage('views/', 'myorderdetail', $('#jiesuan_pagecontaion'), null,function(v){
                 //v.obj.initoid(me.oid);
                 v.obj.initWait(5000);
@@ -472,77 +452,8 @@ function ui_map(){
         ,c_back:function(){
             this.dom.listcontaion.removeClass('next');
         }
-        ,c_daohang:function(){
-            var me = this;
-            this.dom.daohangmenu.show();
-
-        }
-        ,c_daohang_gaode:function(alink){
-            var me = this;
-
-            var iosinfo = {
-                root:'iosamap://navi?'
-                ,ioskey: {
-                    sourceApplication: 'dudutingche'            //应用名称
-                    , backScheme: ''                              //第三方调回使用的 scheme
-                    , poiname: ''                             //poi 名称
-                    , poiid: ''                             //sourceApplication的poi id
-                    , lat: this.nowdata.point.lat                           //经度
-                    , lon: this.nowdata.point.lng                             //纬度
-                    , dev: 1                             //是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密
-                    , style: 2                       //导航方式：(=0：速度最快，=1：费用最少，=2：距离最短，=3：不走高速，=4：躲避拥堵，=5：不走高速且避免收费，=6：不走高速且躲避拥堵，=7：躲避收费和拥堵，=8：不走高速躲避收费和拥堵)
-                }
-            };
-
-            var androidinfo = {
-                root:'androidamap://navi?'
-                ,ioskey: {
-                    sourceApplication: 'dudutingche'            //应用名称
-                    //, backScheme: ''                              //第三方调回使用的 scheme
-                    , poiname: ''                             //poi 名称
-                    //, poiid: ''                             //sourceApplication的poi id
-                    , lat: this.nowdata.point.lat                           //经度
-                    , lon: this.nowdata.point.lng                             //纬度
-                    , dev: 1                             //是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密
-                    , style: 2                       //导航方式：(=0：速度最快，=1：费用最少，=2：距离最短，=3：不走高速，=4：躲避拥堵，=5：不走高速且避免收费，=6：不走高速且躲避拥堵，=7：躲避收费和拥堵，=8：不走高速躲避收费和拥堵)
-                }
-            };
-            //$(this).attr('href','iosamap://navi?sourceApplication=applicationName&backScheme=applicationScheme&poiname=fangheng&poiid=BGVIS&lat=36.547901&lon=104.258354&dev=1&style=2');
-
-
-            var info = utils.browser.versions.ios?iosinfo:androidinfo;
-
-            var href = info.root;
-            var first = true;
-            for(var k in info.ioskey){
-                var v = info.ioskey[k];
-                if(!first){
-                    href+='&';
-                }else{
-                    first = false;
-                }
-                href+=k+'='+v;
-            }
-            //alert(href);
-            console.log(href);
-
-            alink.attr('href', href);
-            setTimeout(function(){
-                me.dom.daohangmenu.hide();
-            },1e3);
-            window.open(href, '_system');
-
-        }
         ,c_daohang_my:function(){
             var me = this;
-            setTimeout(function(){
-                me.dom.daohangmenu.hide();
-            },1e3);
-//            sysmanager.loadpage('views/', 'gaodedaohang', null, '导 航',function(v){
-//                v.obj.settarget(me.nowdata);
-//            });
-
-
             sysmanager.loadpage('views/', 'parkinfo', null, me.nowdata.name,function(v){
                 v.obj.setdata(me.nowdata);
             });
