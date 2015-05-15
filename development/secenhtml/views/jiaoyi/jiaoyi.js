@@ -61,7 +61,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
        var me = this;
             var row = this.dom.row.clone();
             row.find('[name=pai]').html(data.carid).end().find('[name=start]').html(data.startime)
-                .end().find('[name=tel]').attr("href",data.tel)
+                .end().find('[name=tel]').attr("href",'tel:'+data.tel)
                 .end().find('[name=admin]').html(data.admin)
                 .end().find('[name=money]').html(data.money);
        
