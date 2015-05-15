@@ -433,6 +433,7 @@ function ui_myorderdetail(){
         }
         ,c_startPayok:function(){
            // alert('支付成功');
+            this.dom.panel.order_detail.hide();
             this.c_initinfo();
         }
         ,c_startPayfalid:function(){
