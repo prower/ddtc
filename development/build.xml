@@ -9,7 +9,7 @@
 
 
 
-    <target name="compile" depends='init,compileuser,compilesecen' >
+    <target name="compile" depends='init,compileuser,compilesecen,compilehongbao' >
     <!--<target name="compile" depends='init,compileuser' >-->
 
 
@@ -372,6 +372,75 @@
             <fileset file="${pubdir}/${secendir}/index.html"/>
         </replaceregexp>
     </target>
+
+    <target name='compilehongbao'>
+            <!--${pubdir}/${userdir}/-->
+            <!--marge file-->
+            <jscomp compilationLevel="simple"
+                  warning="quiet"
+                  debug="false"
+                  output="${pubdir}/${userdir}/js/hongbaoall.js"
+                  languagein="ECMASCRIPT5">
+              <sources dir="${basedir}">
+                  <file name="${userdir}/js/cfg_loc.js"/>
+                  <file name="${userdir}/js/utils.js"/>
+                  <file name="${userdir}/js/ajax.js"/>
+                  <file name="${userdir}/js/manager.js"/>
+                  <file name="${userdir}/js/view.js"/>
+
+                  <file name="${userdir}/views/reg/reg.js"/>
+                  <file name="${userdir}/views/coupon/coupon.js"/>
+                <file name="${userdir}/views/couponget/couponget.js"/>
+              </sources>
+            </jscomp>
+
+            <!--copy htmlfile-->
+            <copy file='${basedir}/${userdir}/hongbao.html' tofile='${pubdir}/${userdir}/hongbao.html' ></copy>
+
+            <!--<replaceregexp byline="true" encoding='utf-8'>-->
+                <!--<regexp pattern="\.\./golba_rs/js/sys\.js"/>-->
+                <!--<substitution expression="\./js/sys\.js"/>-->
+                <!--<fileset file="${pubdir}/${userdir}/hongbao.html"/>-->
+            <!--</replaceregexp>-->
+            <replaceregexp byline="true" encoding='utf-8'>
+                <regexp pattern="\.\./golba_rs/css/mui\.min\.css"/>
+                <substitution expression="\./css/mui\.min\.css"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <!--<replaceregexp byline="true" encoding='utf-8'>-->
+                <!--<regexp pattern="\.\./golba_rs/css/animate.css"/>-->
+                <!--<substitution expression="\./css/animate.css"/>-->
+                <!--<fileset file="${pubdir}/${userdir}/hongbao.html"/>-->
+            <!--</replaceregexp>-->
+            <replaceregexp byline="true" encoding='utf-8'>
+                <regexp pattern="\.\./golba_rs/js/jquery-1\.9\.1\.min.js"/>
+                <substitution expression="\./js/jquery-1\.9\.1\.min.js"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <replaceregexp byline="true"  encoding='utf-8'>
+                <regexp pattern=".*__del__.*"/>
+                <substitution expression=""/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <replaceregexp byline="true"  encoding='utf-8'>
+                <regexp pattern="__scrolljs__"/>
+                <substitution expression="src=\./js/iscroll\.js"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <replaceregexp byline="true"  encoding='utf-8'>
+                <regexp pattern="__hongbaoall__"/>
+                <substitution expression="src=\./js/hongbaoall\.js"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+            <!--测试文本替换-->
+            <replaceregexp byline="true"  encoding='utf-8'>
+                <regexp pattern="Copyright@@2015"/>
+                <substitution expression="嘟嘟停车 Copyright@2015"/>
+                <fileset file="${pubdir}/${userdir}/hongbao.html"/>
+            </replaceregexp>
+        </target>
+
+
 
     <target name='init' depends="clear">
         <mkdir dir="${pubdir}"/>
