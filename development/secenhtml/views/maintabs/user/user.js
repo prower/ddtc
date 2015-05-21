@@ -37,6 +37,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                 ,remainSum:'[name=remainSum]'
                 ,score:'[name=score]'
                 ,todaysum:'[name=todaysum]'
+                ,manager_in:'[name=manager_in]'
             }
             ,permissionDom:'[p]'
             ,rewardinfo:{
@@ -109,6 +110,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
                     me.dom.info.remainSum.html(data.remainsum);
                     me.dom.info.score.html(data.score);
                     me.dom.info.todaysum.html(data.todaysum);
+                    me.dom.info.manager_in.html(data.in);
 
                     //设置公告
                     //acendtime: "2015-05-15"acscore: "500"actype: "1"
@@ -218,7 +220,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
         }
        ,c_viewjiaoyi:function(){
        var me=this;
-                    utils.sys.loadpage('views/', 'jiaoyi', null, '交易清单',function(v){
+                    utils.sys.loadpage('views/', 'jiaoyi', null, '业务清单（一周内）',function(v){
                         v.obj.onclose = function(){
                           me.c_refreshInfo();
                         }

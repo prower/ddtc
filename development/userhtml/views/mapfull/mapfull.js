@@ -40,6 +40,7 @@ function ui_mapfull(){
                 ,innerlist:'[name=infopanel] .innerpanellist>ul'
                 ,dqpanel:'[name=infopanel] [name=dqpanel]'
                 ,payinfo:'[name=infopanel] [name=payinfo] span'
+                ,paytype:'[name=infopanel] [name=payinfo] [name=paytype]'
 
             }
             ,searchpanel:{
@@ -568,6 +569,12 @@ function ui_mapfull(){
                     this.dom.infopanel.carid.html(data.carid || '没有设置车牌');
 
                     this.dom.infopanel.payinfo.html(data.prepay);
+            
+            if(data.pretype){
+                this.dom.infopanel.paytype.html(data.pretype);
+            }else{
+                this.dom.infopanel.paytype.html('元');
+            }
 
                     if(data.note){
                         this.dom.infopanel.note.html(data.note);
@@ -951,6 +958,7 @@ function ui_mapfull(){
             window.myajax.userget('index','listMyCoupons',{all:1}, function(result){
                 fn && fn(result.data);
             }, null, false);
+            setTimeout(function(){sysmanager.loading.hide();});
         }
         ,close:function(){
 

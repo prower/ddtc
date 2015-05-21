@@ -367,6 +367,7 @@ function ui_myorderdetail(){
                 sysmanager.loadpage('views/', 'parkinfo', null, me.data.name,function(v){
                     v.obj.setdata(me.data);
                 });
+                var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D4');}
             });
             this.dom.orderpanel.btdetail.aclick(function(){
                 me.dom.panel.order_detail.show();

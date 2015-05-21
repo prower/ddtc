@@ -49,6 +49,7 @@ function ui_map(){
                 ,innerlist:'[name=infopanel] .innerpanellist>ul'
                 ,dqpanel:'[name=infopanel] [name=dqpanel]'
                 ,payinfo:'[name=infopanel] [name=payinfo] span'
+                ,paytype:'[name=infopanel] [name=payinfo] [name=paytype]'
 
             }
         }
@@ -590,6 +591,12 @@ function ui_map(){
             this.dom.infopanel.carid.html(data.carid || '没有设置车牌');
 
             this.dom.infopanel.payinfo.html(data.prepay);
+            
+            if(data.pretype){
+                this.dom.infopanel.paytype.html(data.pretype);
+            }else{
+                this.dom.infopanel.paytype.html('元');
+            }
 
             if(data.note){
                 this.dom.infopanel.note.html(data.note);
@@ -860,6 +867,7 @@ function ui_map(){
                     }
 
                 }, null, false);
+                setTimeout(function(){sysmanager.loading.hide();});
             }
         }
     };

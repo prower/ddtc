@@ -110,7 +110,7 @@
         <div class="mui-popover mui-active" style="display: block;position:relative;">
             <ul class="mui-table-view">
                 <li class="mui-table-view-cell">
-                    <h4 name='btclose'>按照车辆停放到现在来计算<span class="mui-icon mui-icon-close" style="position:absolute;right:5px;top:5px;"></span></h4><hr>
+                    <h4 name='btclose'>如果停放到现在：<span class="mui-icon mui-icon-close" style="position:absolute;right:5px;top:5px;"></span></h4><hr>
                     
                     <label>开始时间：</label><span name='starttime'></span><p></p>
                     <label>停放时间：</label><span name='stoptime'></span><p></p>
@@ -159,7 +159,7 @@
                 </li>
                 <li class="mui-table-view-cell">
                     <label>还需支付：</label>
-                    <input name="remainFee" type="text" style="width:70px;">
+                    <input name="remainFee" type="number" style="width:70px;">
                         <button name="btpay"  class="mui-btn mui-btn-success" style="top:42%;">我要付款</button>
                         </li>
             </ul>
@@ -191,23 +191,22 @@
         </div>
         <div class="order_pay" style="display: none" name='order_pay'>
             <ul class="mui-table-view">
-                <li class="mui-table-view-divider"><h4 name='title'></h4></li>
                 <li class="mui-table-view-cell">
-                    <img width="16px" src="img/mk1.png"><span name='address'></span>
-                    <button style="background-color:transparent" name="btdaohang" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">入口指示</button>
-                    <p name='parkrule' style="width:240px">计费规则</p>
+                    <h4 name='title'></h4>
+                    <p style="width:224px"><img width="16px" src="img/mk1.png"><span name='address'></span></p>
+                        <p name='parkrule'>计费规则</p>
+                    <button style="background-color:transparent;top:33px" name="btdaohang" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">入口指示</button>
                 </li>
                 <li class="mui-table-view-cell">
                     <label>已付金额：</label><b name='cost'></b>元
-                    <p name="costdetail">实付<b name="cost_r">0.01</b>元，抵用劵支付<b name="cost_c">9.99</b>元</p>
-                    <a class="mui-btn mui-btn-success" name="btdetail">费用结算</a>
+                    <p><span name="costdetail">实付<b name="cost_r">0.01</b>元，抵用劵支付<b name="cost_c">9.99</b>元</span></p>
+                    <a class="mui-btn mui-btn-success" name="btdetail" style="top: 27px;">费用结算</a>
                     <p></p>
-                    <label>开始计费：</label><span name='starttime'></span>
-                    <p></p>
+                    <label>开始计费：</label><span name='starttime'></span><p></p>
                     <label>可停放至：</label><span name='endtime'></span>
                 </li>
                 <li class="mui-table-view-cell">
-                    <p>以下管理员为您服务</p>
+                    <p>以下管理员为您服务（请说“<b>来自嘟嘟停车</b>”）</p>
                     <ul  name='lianxipanel' class="lianxipanel"></ul>
                     
                 </li>

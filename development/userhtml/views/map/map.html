@@ -224,11 +224,10 @@
                 </header>
                     <div class="innerpanellist">
                         <ul name='inner' class="mui-table-view">
-                                    <li class="mui-table-view-cell">
-                                        <label>总数:</label><p><span name='numbermax'></span></p>
+                                    <li class="mui-table-view-cell" style="line-height: 20px;">
+                                        <label>信息:</label><p><span name='rules'></span></p>
+                                        <label>&nbsp;</label><p><b><span name='numberstatus'></span></b>（总数<span name='numbermax'></span>）</p>
                                     </li>
-                                    <li class="mui-table-view-cell"><label>空位:</label><p><span name='numberstatus'></span></p></li>
-                                    <li class="mui-table-view-cell"><label>价格:</label><p><span name='rules'></span></p></li>
                                     <li class="mui-table-view-cell" name='noteline'><label>备注:</label><p><span name='note'></span></p></li>
                                     <li class="mui-table-view-cell">
                                         <table style="width: 100%;table-layout: fixed">
@@ -290,10 +289,13 @@
                     </div>
                     <div class="buttonc" style="padding-bottom: 10px">
                         <ul class="mui-table-view">
-                            <li class="mui-table-view-cell payinfo" name='payinfo'><label>预付金额：</label><b style="font-size: initial;">￥</b><span>-5</span><b style="font-size: initial;"> 元</b></li>
+                            <li class="mui-table-view-cell payinfo" name='payinfo'><label>预付金额：</label><b style="font-size: initial;">￥</b><span></span><b style="font-size: initial;" name='paytype'>元</b></li>
                         </ul>
-                        <p style="text-align: center;margin-top: 10px">下单后就开始计时</p>
-                        <button class="mui-btn mui-btn-success mui-btn-block" style="width: 80%;" name="btpay">确认预付</button>
+                        <p style="text-align: center;margin-top: 10px">
+                        &bull;下单后最晚将于15分钟以后开始计时<br/>
+                        &bull;到达后请告知管理员：<b>来自嘟嘟停车</b>
+                        </p>
+                        <button class="mui-btn mui-btn-success mui-btn-block" style="width: 80%;" name="btpay">确认支付</button>
                     </div>
                 </div>
             </div>
