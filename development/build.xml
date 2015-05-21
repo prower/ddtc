@@ -183,20 +183,10 @@
         <jscomp compilationLevel="simple"
               warning="quiet"
               debug="false"
-              output="${pubdir}/${secendir}/js/cfg_loc.js"
-              languagein="ECMASCRIPT5">
-          <sources dir="${basedir}">
-              <file name="secenhtml/js/cfg_loc.js"/>
-          </sources>
-        </jscomp>
-        
-        <jscomp compilationLevel="simple"
-              warning="quiet"
-              debug="false"
               output="${pubdir}/${secendir}/js/cfg.js"
               languagein="ECMASCRIPT5">
           <sources dir="${basedir}">
-              <file name="secenhtml/js/cfg.js"/>
+              <file name="secenhtml/js/cfg_loc.js"/>
           </sources>
         </jscomp>
         
@@ -244,16 +234,6 @@
               warning="quiet"
               debug="false"
               output="${pubdir}/${secendir}/js/view.js"
-              languagein="ECMASCRIPT5">
-          <sources dir="${basedir}">
-              <file name="secenhtml/js/view.js"/>
-          </sources>
-        </jscomp>
-        
-        <jscomp compilationLevel="simple"
-              warning="quiet"
-              debug="false"
-              output="${pubdir}/${secendir}/js/viewloc.js"
               languagein="ECMASCRIPT5">
           <sources dir="${basedir}">
               <file name="secenhtml/js/viewloc.js"/>
@@ -304,6 +284,8 @@
         <copy file='${basedir}/golba_rs/js/iscroll.js' tofile='${pubdir}/${secendir}/js/iscroll.js' ></copy>
         <copy file="${basedir}/golba_rs/js/sys.js" tofile='${pubdir}/${secendir}/js/pagesys.js'></copy>-->
 
+        <copy file="${basedir}/secenhtml/v.php" tofile='${pubdir}/${secendir}/views/v.php'></copy>
+        <copy file="${basedir}/secenhtml/v.php" tofile='${pubdir}/${secendir}/views/maintabs/v.php'></copy>
 
         <!--copy img-->
         <copy todir='${pubdir}/${secendir}/img'>

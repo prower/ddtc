@@ -245,9 +245,10 @@ function ui_myorderdetail(){
             }else{
                 row.find('[name=btlianxi]').hide();
             }
-            if(!isfirst){
+            if(!isfirst && data.nickname.indexOf('客服')<0){
                 row.addClass('other');
             }else{
+                if(isfirst){
                 row.find('[name=btmore]').aclick(function(){
                     me.dom.lianxipanel.list.addClass('all');
                     me.c_refshScroll();
@@ -258,6 +259,10 @@ function ui_myorderdetail(){
                     me.c_refshScroll();
                     return false;
                 });
+                }else{
+                    row.find('[name=btmore]').remove();
+                    row.find('[name=btmore_none]').remove();
+                }
             }
             return row;
         }

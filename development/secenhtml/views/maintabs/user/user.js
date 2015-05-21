@@ -219,6 +219,7 @@ define(['jquery', 'utils', 'ajax'],function($, utils, ajax){
             });
         }
        ,c_viewjiaoyi:function(){
+       console.log('c_viewjiaoyi');
        var me=this;
                     utils.sys.loadpage('views/', 'jiaoyi', null, '业务清单（一周内）',function(v){
                         v.obj.onclose = function(){

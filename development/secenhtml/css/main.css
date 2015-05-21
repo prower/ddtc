@@ -156,10 +156,10 @@
             height: 100%;
             overflow: hidden;
             z-index: 100;
-            -webkit-transform:translateX(0);
+            /*-webkit-transform:translateX(0);
             -webkit-animation-duration:.4s;
             -webkit-animation-iteration-count:1;
-            -webkit-animation-timing-function:ease
+            -webkit-animation-timing-function:ease*/
         }
         .page{          /**每个页面的最外层样式 必须放在 pagecontaion中**/
             position: absolute;

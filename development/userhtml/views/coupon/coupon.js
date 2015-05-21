@@ -49,11 +49,11 @@ function ui_coupon(){
                 for(var i=0;i<datas.length;i++){
                     var data = datas[i];
                     var row = this.c_getrow(data);
-                    if(new Date(data.e)<now){
+                    if(new Date(data.e)<now && 0 == parseInt(data.u)){
                         row.addClass('overtime');
                         if(!addemptyrow){
                             addemptyrow = true;
-                            this.dom.quanpanel.list.append($('<li style="padding: 5px" class="mui-table-view-divider">'));
+                            this.dom.quanpanel.list.append($('<li class="mui-table-view-divider">已过期</li>'));
                         }
                     }
                     this.dom.quanpanel.list.append(row);
@@ -80,7 +80,7 @@ function ui_coupon(){
                     row.find('[name=endtime]>span').html((data.e+'').split(' ')[0]);
                     break;
             }
-            if('1' == data.u+''){
+            if(parseInt(data.u) > 0){
                 row.addClass('use');
             }
 

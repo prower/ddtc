@@ -58,7 +58,7 @@ function ui_myorder(){
             row.find('[name=address]').html(data.address);
             row.find('[name=cost]').html(data.cost);
             
-            row.find('[name=btdetail]').aclick(function(){
+            row.find('[name=btdetail]').click(function(){
                 me.c_paydetail(data.oid);
             });
             

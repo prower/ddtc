@@ -230,7 +230,7 @@
                     ,PUSH_ID:function(pushid){
                         this.pushid = pushid;
 //                        alert('pushid\n' + pushid);
-                        this.fire('pushid');
+                                                     this.fire('pushid');
                     }
                     ,PUSH_MSG:function(msg){
                         this.pushmsg.push(msg);
