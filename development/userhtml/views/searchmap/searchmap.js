@@ -9,15 +9,19 @@ function ui_searchmap(){
 
     var ui = {
         isInit: false
+        ,showclose:false
         ,context:null
         ,dom:{
             btetst:'[name=test]'
             ,form1:'[name=form1]'
             ,input:'[name=searchinpit]'
-            ,list:'.innerlist'
+            ,list:'[name=coop] .innerlist'
             ,row:'.template [name=row]'
             ,tujianrow:'.template [name=tujianrow]'
             ,testnumber:'[name=testnumber]'
+            ,historylist:'[name=history] .innerlist'
+            ,history:'[name=history]'
+            ,hintlist:'[name=hint]'
         }
         ,iscroll:null
         ,mapObj:null
@@ -34,6 +38,8 @@ function ui_searchmap(){
             }
             this.c_init();
         }
+        ,history_key:'_searchmap_history'
+        ,history_max:3
         ,c_init:function(){
             var me = this;
         }
@@ -114,33 +120,16 @@ function ui_searchmap(){
         ,c_search_PlaceSearch_callback:function(data){
             console.log('c_search_PlaceSearch_callback',data);
             var me = this;
-            this.dom.list.empty();
+            this.dom.hintlist.empty();
             if(!data.poiList.pois || data.poiList.pois.length<=0){
                 var row = this.c_getrow_nodata();
-                this.dom.list.append(row);
+                this.dom.hintlist.append(row);
             }else{
                 for(var i=0;i<data.poiList.pois.length;i++){
                     var row = this.c_getrow_PlaceSearch(data.poiList.pois[i]);
-                    this.dom.list.append(row);
+                    this.dom.hintlist.append(row);
                 }
             }
-            //获取数据
-            if(!this.defaulPointtList){
-                this.defaulPointtList = [];
-                for(var i=0;i<window.cfg.defaultpoint.length;i++){
-                    var d = window.cfg.defaultpoint[i];
-                    this.defaulPointtList.push({
-                       name:d[0]
-                        ,location:new AMap.LngLat(d[2],d[1])
-                    });
-                }
-            }
-            for(var i=0;i<this.defaulPointtList.length;i++){
-                var d = this.defaulPointtList[i];
-                var row = this.c_getrow_defaultpoint(d);
-                this.dom.list.append(row);
-            }
-            console.log(this.defaulPointtList);
         }
         ,c_fill_defaulPointtList:function(){
             if(!this.defaulPointtList){
@@ -158,6 +147,20 @@ function ui_searchmap(){
                 var row = this.c_getrow_defaultpoint(d);
                 this.dom.list.append(row);
             }
+            //搜索历史
+            var tmp = utils.cache.getItem(this.history_key);
+            historydata = tmp?JSON.parse(tmp):null;
+            if(historydata){
+                for(var i=0;i<historydata.length;i++){
+                    var d = historydata[i];
+                    if(!(d.location instanceof AMap.LngLat)){
+                        d.location = new AMap.LngLat(d.location.lng,d.location.lat);//修正对象
+                    }
+                    var row = this.c_getrow_defaultpoint(d);
+                    this.dom.historylist.append(row);
+                }
+                this.dom.history.show();
+            }
         }
         ,c_search_geocoder:function(){
             var me = this;
@@ -174,14 +177,14 @@ function ui_searchmap(){
         ,c_search_callback:function(data){
             //console.log('search',data);
             var me = this;
-            this.dom.list.empty();
+            this.dom.hintlist.empty();
             if(!data.tips || data.tips.length<=0){
                 var row = this.c_getrow_nodata();
-                this.dom.list.append(row);
+                this.dom.hintlist.append(row);
             }else{
                 for(var i=0;i<data.tips.length;i++){
                     var row = this.c_getrow(data.tips[i]);
-                    this.dom.list.append(row);
+                    this.dom.hintlist.append(row);
                 }
             }
         }
@@ -199,23 +202,38 @@ function ui_searchmap(){
              * type: "complete"
              */
             var me = this;
-            this.dom.list.empty();
+            this.dom.hintlist.empty();
             if(!data.geocodes || data.geocodes.length<=0){
                 var row = this.c_getrow_nodata();
-                this.dom.list.append(row);
+                this.dom.hintlist.append(row);
             }else{
                 for(var i=0;i<data.geocodes.length;i++){
                     var row = this.c_getrow_geocode(data.geocodes[i]);
-                    this.dom.list.append(row);
+                    this.dom.hintlist.append(row);
                 }
             }
+        }
+        ,c_save_history:function(data,name){
+            var tmp = utils.cache.getItem(this.history_key);
+            historydata = tmp?JSON.parse(tmp):null;
+            if(historydata){
+                var count = historydata.length>=this.history_max?this.history_max-1:historydata.length;
+                for(var i=count;i>0;i--){
+                    historydata[i] = historydata[i-1];
+                }
+            }else{
+                historydata = new Array();
+            }
+            historydata[0] = {'name':name,'location':data};
+            utils.cache.setItem(this.history_key,JSON.stringify(historydata));
         }
         ,c_getrow_PlaceSearch:function(data){
             var me = this;
             var row = this.dom.row.clone();
             row.html(data.name);
             row.click(function(){
-                me.c_select(data.location);
+                me.c_save_history(data.location,data.name);
+                me.c_select(data.location,data.name);
             });
             return row;
         }
@@ -224,7 +242,8 @@ function ui_searchmap(){
             var row = this.dom.tujianrow.clone();
             row.find('[name=name]').html(data.name);
             row.click(function(){
-                me.c_select(data.location);
+                //从地区列表选择时不存历史
+                me.c_select(data.location,data.name);
             });
             return row;
         }
@@ -233,7 +252,8 @@ function ui_searchmap(){
             var row = this.dom.row.clone();
             row.html(data.name);
             row.click(function(){
-                me.c_select(data);
+                me.c_save_history(data,data.name);
+                me.c_select(data,data.name);
             });
             return row;
         }
@@ -242,7 +262,8 @@ function ui_searchmap(){
             var row = this.dom.row.clone();
             row.html(data.formattedAddress);
             row.click(function(){
-                me.c_select(data.location);
+                me.c_save_history(data.location,data.formattedAddress);
+                me.c_select(data.location,data.formattedAddress);
             });
             return row;
         }
@@ -254,23 +275,26 @@ function ui_searchmap(){
         ,r_init:function(){
             var me = this;
             //this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
-            this.dom.btetst.aclick(function(){
+            this.dom.btetst.click(function(){
                 me.dom.input.blur();
                 var c = me.context.parent().parent();
-                me.close(null);
+                //me.close();
                 sysmanager.pagecontainerManager.hide(c);
 
+            });
+            this.dom.input.blur(function(){
+                setTimeout(function(){me.dom.hintlist.empty();},1000);
             });
             sysmanager.loadMapscript.load(function(){
                 me.r_init_input();
                 me.c_fill_defaulPointtList();
             });
         }
-        ,c_select:function(position){
+        ,c_select:function(position,name){
             var me = this;
             var c = me.context.parent().parent();
             sysmanager.pagecontainerManager.hide(c);
-            me.close(position);
+            me.close(position,name);
         }
         ,r_init_input:function(){
             var me = this;
@@ -289,9 +313,14 @@ function ui_searchmap(){
                 });
                return false;
             });
+            if(this.showclose){
+                this.dom.btetst.show();
+            }else{
+                this.dom.btetst.hide();
+            }
         }
-        ,close:function(data){
-            this.onclose && this.onclose(data);
+        ,close:function(data,name){
+            this.onclose && this.onclose(data,name);
         }
     };
     return  ui;

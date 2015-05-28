@@ -17,6 +17,11 @@ function ui_map(){
             ,listcontaion:'.list'
 	          ,bttitle:'[name=title]'
             ,mk1:'.template [name=mk1]'
+            ,destbar:{
+                panel:'[name=searchbar]',
+                txt:'[name=searchbar] b',
+                bt:'[name=searchbar] .mui-btn'
+            }
             ,infopanel1:{
                 panel:'[name=infopanel]'
                 ,btback:'[name=infopanel] [name=btback]'
@@ -53,6 +58,7 @@ function ui_map(){
 
             }
         }
+        ,homecontrol:null
         ,iscroll:null
         ,mapObj:null
         ,datas:null
@@ -74,6 +80,7 @@ function ui_map(){
             me.c_searchPosition(function(placedata){
                 sysmanager.loadMapscript.load(function(){
                     me.c_initMap(function(center){
+                        me.dom.destbar.panel.show();
                         me.m_getdata(center,function(datas,area){
                             me.c_addpoint(me.mapObj,datas);
                             me.c_fill(datas,area);
@@ -81,6 +88,22 @@ function ui_map(){
                     }, placedata);
                 });
             });
+        }
+        ,c_new_search:function(){
+            var me = this;
+            
+            me.c_doSearch(function(placedata){
+                me.mapObj.clearMap();me.homecontrol.marker = null;
+                me.mapObj.setCenter(placedata);
+                me.mapObj.setZoom(16);
+                setTimeout(function(){
+                    me.homecontrol.setPosition(placedata,me.mapObj, true);
+                    me.m_getdata(placedata,function(datas,area){
+                        me.c_addpoint(me.mapObj,datas);
+                        me.c_fill(datas,area);
+                    });
+                });
+            },true);
         }
         ,c_init_search:function(placedata){
             var me = this;
@@ -97,14 +120,24 @@ function ui_map(){
 
             var model = utils.tools.getUrlParam('m');
             if('mapsearch' == model){
-                sysmanager.loadpage('views/', 'searchmap', $('#pop_pagecontaion'),'搜索地图', function(view){
-                    view.obj.onclose = function(placedata){
-                        fn && fn(placedata);
-                    }
-                });
+                this.c_doSearch(fn);
             }else{
                 fn && fn(null);
             }
+        }
+        ,c_doSearch:function(fn,back){
+            var me = this;
+            sysmanager.loadpage('views/', 'searchmap', $('#pop_pagecontaion'),'搜索地图', function(view){
+                if(back){
+                    view.obj.showclose = true;
+                }else{
+                    view.obj.showclose = false;
+                }
+                view.obj.onclose = function(placedata,name){
+                    fn && fn(placedata);
+                    me.dom.destbar.txt.html(name);
+                }
+            });
         }
         ,c_initMap:function(fn, placedata){//fn 加载后的回调， placedata 预定义的地图搜索位置
 
@@ -118,7 +151,7 @@ function ui_map(){
              lang:"zh_cn"//设置地图语言类型，默认：中文简体
             });//创建地图实例
 
-                var homecontrol = new AMap.myHomeControl({
+                var homecontrol = this.homecontrol = new AMap.myHomeControl({
                     offset:new AMap.Pixel(10,100)
                 });
             var maptool = null;
@@ -220,6 +253,9 @@ function ui_map(){
             this.iscroll = new iScroll(this.dom.list[0], {desktopCompatibility:true});
             this.infoiscroll = new iScroll(this.dom.infopanel.innerlist[0], {desktopCompatibility:true});
 
+            this.dom.destbar.bt.click(function(){
+                me.c_new_search();
+            });
             this.dom.infopanel.btback.aclick(function(){
                 me.c_back();
             });
@@ -404,12 +440,13 @@ function ui_map(){
             }
             setTimeout(function(){
                 me.iscroll.refresh();
+                setTimeout(function(){me.iscroll.scrollTo(0,0);});
             });
         }
         ,c_addpoint:function(map,datas){
             for(var i=0;i<datas.length;i++){
                 var data = datas[i];
-                var maker = this.c_getpoint(map,data, i);
+                this.c_getpoint(map,data, i);
 
             }
         }
@@ -420,9 +457,9 @@ function ui_map(){
             var marker = new AMap.Marker({                 
               map:map,                 
               position:data.point,
-              icon:"http://webapi.amap.com/images/0.png",
+              icon:"http://7xispd.com1.z0.glb.clouddn.com/user/img/dest1.png",
              content:content,
-             offset:new AMap.Pixel(-10,-35)               
+             offset:new AMap.Pixel(-16,-64)
            });
             data.marker = marker;
             AMap.event.addListener(marker,'touchstart',function callback(e){
@@ -464,7 +501,24 @@ function ui_map(){
         ,c_setActiveRow:function(row, data, elemmove){
             this.dom.list.find('>*').removeClass('active');
             row.addClass('active');
-            this.mapObj.setCenter(data.marker.getPosition());
+            for(var i=0;i<this.datas.length;i++){
+                if(this.datas[i] == data){
+                    this.datas[i].marker.show();
+                }else{
+                    this.datas[i].marker.hide();
+                }
+            }
+            var vbounds = this.mapObj.getBounds();
+            if(!vbounds.contains(data.point)){
+                this.mapObj.zoomOut();
+                var me = this;
+                setTimeout(function(){
+                    var vbounds = me.mapObj.getBounds();
+                    if(!vbounds.contains(data.point)){//还未能显示点:跳到该点
+                        me.mapObj.setCenter(data.marker.getPosition());
+                    }
+                },1000);
+            }
             data.marker.setAnimation('AMAP_ANIMATION_DROP');
             data.marker.setTop(true);
             if(!!elemmove){

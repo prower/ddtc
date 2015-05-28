@@ -12,22 +12,35 @@
     <div class="searchmap_contaion">
         <form class="mui-input-group" name="form1" onsubmit="$('[name=searchinpit]').blur();return false;">
             <div name='testnumber1' style="min-height: 50px;display: none"></div>
+            <a name='test' class="mui-action-back mui-icon mui-icon-closeempty mui-pull-left" style="display: none"></a>
             <div class="mui-input-row">
                 <label style="line-height: 1.5">目的地:</label>
                 <input style="text-align: left" type="text" placeholder="输入停车目的地" name='searchinpit'>
             </div>
         </form>
+        <ul class="mui-table-view innerlist" name="hint">
+            
+        </ul>
+        
+        <div class="list" style="margin-top: 10px;display:none;" name="history">
+        <label style="margin-left:15px;">最近搜索：</label>
+        <ul class="mui-table-view innerlist">
+            
+        </ul>
+        </div>
 
-        <div class="list">
+        <div class="list" style="margin-top: 10px;" name="coop">
+            <label style="margin:15px;">合作区域：</label>
             <ul class="mui-table-view innerlist">
 
             </ul>
         </div>
-        <button style="display: none" class="mui-btn mui-btn-success mui-btn-block" name='test'>关闭</button>
         <div class="template">
             <ul class="mui-table-view">
                 <li name="row" class="mui-table-view-cell">列表第1项</li>
-                <li name="tujianrow" style="overflow: hidden;margin: 10px"><div style="float: left;" class="mk1 state1"></div><span style="line-height: 30px;" name=name></span></li>
+                <li name="tujianrow" style="overflow: hidden;margin: 10px">
+                    <img src="http://7xispd.com1.z0.glb.clouddn.com/user/img/dest1.png" width="16px" style="margin-top:4px;"/>
+                    <span style="line-height:24px;" name=name></span></li>
             </ul>
         </div>
     </div>
