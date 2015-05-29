@@ -18,10 +18,15 @@ function ui_searchmap(){
             ,list:'[name=coop] .innerlist'
             ,row:'.template [name=row]'
             ,tujianrow:'.template [name=tujianrow]'
+            ,historyrow:'.template [name=historyrow]'
+            ,areablock:'.template [name=areablock]'
             ,testnumber:'[name=testnumber]'
             ,historylist:'[name=history] .innerlist'
             ,history:'[name=history]'
             ,hintlist:'[name=hint]'
+            ,scrollarea:'[name=scrollarea]'
+            ,scrollparent:'[name=scrollparent]'
+            ,searchmap_contaion:'.searchmap_contaion'
         }
         ,iscroll:null
         ,mapObj:null
@@ -131,15 +136,31 @@ function ui_searchmap(){
                 }
             }
         }
+        ,c_check_defaultpoint:function(){
+            if(!window.cfg.defaultpoint){
+                var me = this;
+                window.myajax.get('public','getOpenArea',null, function(result){
+                    window.cfg.defaultpoint = result.data.area;
+                    me.c_fill_defaulPointtList();
+                }, null, true);
+                
+                return false;
+            }
+            return true;
+        }
         ,c_fill_defaulPointtList:function(){
             if(!this.defaulPointtList){
+                if(!this.c_check_defaultpoint()){
+                    return;
+                }
                 this.defaulPointtList = [];
                 for(var i=0;i<window.cfg.defaultpoint.length;i++){
                     var d = window.cfg.defaultpoint[i];
-                    this.defaulPointtList.push({
-                       name:d[0]
-                        ,location:new AMap.LngLat(d[2],d[1])
-                    });
+                    var p = {name:d[0],desc:d[1],sub:[]};
+                    for(var j=0;j<d[2].length;j++){
+                        p.sub[j] = {name:d[2][j][0],location:new AMap.LngLat(d[2][j][2],d[2][j][1])};
+                    }
+                    this.defaulPointtList.push(p);
                 }
             }
             for(var i=0;i<this.defaulPointtList.length;i++){
@@ -156,11 +177,13 @@ function ui_searchmap(){
                     if(!(d.location instanceof AMap.LngLat)){
                         d.location = new AMap.LngLat(d.location.lng,d.location.lat);//修正对象
                     }
-                    var row = this.c_getrow_defaultpoint(d);
+                    var row = this.c_getrow_historypoint(d);
                     this.dom.historylist.append(row);
                 }
                 this.dom.history.show();
             }
+            var me = this;
+            setTimeout(function(){me.iscroll.refresh();});
         }
         ,c_search_geocoder:function(){
             var me = this;
@@ -237,15 +260,48 @@ function ui_searchmap(){
             });
             return row;
         }
+        ,c_getrow_historypoint:function(data){
+            var me = this;
+            var row = this.dom.historyrow.clone();
+            row.find('[name=name]').html(data.name);
+            row.click(function(){
+                      //从地区列表选择时不存历史
+                      me.c_select(data.location,data.name);
+                      });
+            return row;
+        }
         ,c_getrow_defaultpoint:function(data){
             var me = this;
             var row = this.dom.tujianrow.clone();
             row.find('[name=name]').html(data.name);
+            row.find('[name=desc]').html(data.desc);
+            var expandbt = row.find('.mui-icon');
+            var blocklist = row.find('[name=areablocks]');
             row.click(function(){
-                //从地区列表选择时不存历史
-                me.c_select(data.location,data.name);
+                    if(expandbt.hasClass('mui-icon-arrowup')){
+                      expandbt.removeClass('mui-icon-arrowup');
+                      expandbt.addClass('mui-icon-arrowdown');
+                    }else{
+                      expandbt.removeClass('mui-icon-arrowdown');
+                      expandbt.addClass('mui-icon-arrowup');
+                    }
+                      blocklist.toggle();
+                      setTimeout(function(){me.iscroll.refresh();});
             });
+            for(var i=0;i<data.sub.length;i++){
+                var sub = data.sub[i];
+                this.c_get_defaultsub(blocklist,sub);
+            }
+            
+            
             return row;
+        }
+        ,c_get_defaultsub:function(blocklist,sub){
+            var me = this;
+            var block = this.dom.areablock.clone();
+            block.find('.mui-media-body').html(sub.name);
+            block.click(function(){me.c_select(sub.location,sub.name);});
+            blocklist.append(block);
         }
         ,c_getrow:function(data){
             var me = this;
@@ -289,6 +345,10 @@ function ui_searchmap(){
                 me.r_init_input();
                 me.c_fill_defaulPointtList();
             });
+            
+            var scrollheight = this.dom.searchmap_contaion.height() - this.dom.form1.height();
+            this.dom.scrollparent.css('height',scrollheight+'px');
+            me.iscroll = new iScroll(me.dom.scrollarea[0], {desktopCompatibility:true});
         }
         ,c_select:function(position,name){
             var me = this;

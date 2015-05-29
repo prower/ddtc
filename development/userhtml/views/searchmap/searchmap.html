@@ -7,6 +7,14 @@
             left: 0;
             top: 0;
         }
+    
+    .innerlist .search_desc{
+        margin-top: 5px;margin-left: 16px;color: grey;font-size: small;display: block;
+    }
+    
+    .innerlist .search_arrowup{
+        position:absolute;right: 12px;color: rgb(215, 215, 215);top: 20px;
+    }
 
     </style>
     <div class="searchmap_contaion">
@@ -18,30 +26,50 @@
                 <input style="text-align: left" type="text" placeholder="输入停车目的地" name='searchinpit'>
             </div>
         </form>
+        
+        <div name="scrollparent" style="overflow:hidden;">
+        <div class="list" name="scrollarea">
         <ul class="mui-table-view innerlist" name="hint">
             
         </ul>
         
-        <div class="list" style="margin-top: 10px;display:none;" name="history">
+        <div class="list" style="margin-top:10px;display:none;" name="history">
         <label style="margin-left:15px;">最近搜索：</label>
-        <ul class="mui-table-view innerlist">
+        <ul class="innerlist mui-table-view" style="margin-top:5px;">
             
         </ul>
         </div>
 
-        <div class="list" style="margin-top: 10px;" name="coop">
+        <div class="list" style="margin-top:10px;" name="coop">
             <label style="margin:15px;">合作区域：</label>
-            <ul class="mui-table-view innerlist">
+            <ul class="innerlist mui-table-view" style="margin-top:5px;">
 
             </ul>
         </div>
+        </div>
+        </div>
+        
+        
         <div class="template">
-            <ul class="mui-table-view">
-                <li name="row" class="mui-table-view-cell">列表第1项</li>
-                <li name="tujianrow" style="overflow: hidden;margin: 10px">
+            <ul>
+                <li name="row" class="mui-table-view-cell"></li>
+                <li name="historyrow" class="mui-table-view-cell row mui-navigate-right">
                     <img src="http://7xispd.com1.z0.glb.clouddn.com/user/img/dest1.png" width="16px" style="margin-top:4px;"/>
-                    <span style="line-height:24px;" name=name></span></li>
+                    <b style="font-size:18px;" name="name"></b>
+                </li>
+                <li name="tujianrow" class="mui-table-view-cell row">
+                    <img src="http://7xispd.com1.z0.glb.clouddn.com/user/img/dest1.png" width="16px" style="margin-top:4px;"/>
+                    <b style="font-size:18px;" name="name"></b>
+                    <span name="desc" class="search_desc"></span>
+                    <span class="mui-icon mui-icon-arrowdown search_arrowup"></span>
+                    <ul name="areablocks" style="display:none;margin-top:5px;" class="mui-table-view mui-grid-view mui-grid-9">
+                    </ul>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-4" name="areablock" style="background-color:white">
+                    <div class="mui-media-body" style="height:30px"></div>
+                </li>
             </ul>
         </div>
+        
     </div>
 </div>

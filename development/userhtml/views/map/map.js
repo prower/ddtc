@@ -14,6 +14,7 @@ function ui_map(){
             ,row:'.template [name=row]'
             ,nonerow:'.template [name=nonerow]'
             ,tujianrow:'.template [name=tujianrow]'
+            ,areablock:'.template [name=areablock]'
             ,listcontaion:'.list'
 	          ,bttitle:'[name=title]'
             ,mk1:'.template [name=mk1]'
@@ -21,6 +22,11 @@ function ui_map(){
                 panel:'[name=searchbar]',
                 txt:'[name=searchbar] b',
                 bt:'[name=searchbar] .mui-btn'
+            }
+            ,adpanel:{
+                panel:'[name=adpanel]',
+            innerpanel:'[name=adpanel] .innerpanel',
+                btclose:'[name=adpanel] [name=btback]'
             }
             ,infopanel1:{
                 panel:'[name=infopanel]'
@@ -289,6 +295,18 @@ function ui_map(){
                     });
                 }
             });
+            
+            /*setTimeout(function(){
+                       var width1 = me.dom.adpanel.panel.width();
+                       var width2 = me.dom.adpanel.innerpanel.width();
+                       var left = (parseInt(width1)-parseInt(width2))/2;
+                       me.dom.adpanel.innerpanel.css('left',left+'px');
+                       var height1 = me.dom.adpanel.panel.height();
+                       var height2 = me.dom.adpanel.innerpanel.height();
+                       var top = (parseInt(height1)-parseInt(height2))/2;
+                       me.dom.adpanel.innerpanel.css('top',top+'px');
+            });*/
+            this.dom.adpanel.btclose.click(function(){me.dom.adpanel.panel.hide();});
 
         }
         ,c_modifycarid:function(fn){
@@ -588,42 +606,54 @@ function ui_map(){
 
             return row;
         }
+        ,c_getsub:function(sub,blocklist){
+            var block = this.dom.areablock.clone();
+            block.find('.mui-media-body').html(sub[0]);
+            var me = this;
+            block.click(function(){
+                        me.dom.destbar.txt.html(sub[0]);
+                        var lnglat = new  AMap.LngLat(sub[2], sub[1]);
+                        //$(me).addClass('active');
+                        me.c_init_search(lnglat);
+                        });
+            blocklist.append(block);
+        }
+        ,c_getdefaultrow:function(data,pointlist){
+            var row = this.dom.tujianrow.clone();
+            row.find('[name=name]').html(data[0]);
+            row.find('[name=desc]').html(data[1]);
+            var expandbt = row.find('.mui-icon');
+            var blocklist = row.find('[name=areablocks]');
+            row.click(function(){
+                      if(expandbt.hasClass('mui-icon-arrowup')){
+                      expandbt.removeClass('mui-icon-arrowup');
+                      expandbt.addClass('mui-icon-arrowdown');
+                      }else{
+                      expandbt.removeClass('mui-icon-arrowdown');
+                      expandbt.addClass('mui-icon-arrowup');
+                      }
+                      blocklist.toggle();
+                      });
+            for(var j=0;j<data[2].length;j++){
+                var sub = data[2][j];
+                this.c_getsub(sub,blocklist);
+            }
+            pointlist.append(row);
+        }
         ,c_getnonerow:function(area){
+            if(area && !window.cfg.defaultpoint){
+                window.cfg.defaultpoint = area;
+            }else if(!area && window.cfg.defaultpoint){
+                area = window.cfg.defaultpoint;
+            }
             var me = this;
             var nonerow = this.dom.nonerow.clone();
-//            var pointcfg = {
-//                '1':{
-//                    A: 31.232135
-//                    ,lat: 31.232135
-//                    ,lng: 121.413217
-//                    ,t: 121.41321700000003
-//                }
-//            }
-            /**
-             * area: Array[4]0: Array[3]
-             * 0: "月星环球港"1: 31.2316332: 121.411393length: 3__proto__: Array[0]
-             * 1: Array[3]
-             * 2: Array[3]
-             * 3: Array[3]
-             */
+            var pointlist = nonerow.find('[name=pointlist]');
             area = area || [];
             for(var i=0;i<area.length;i++){
                 var data = area[i];
-                var tuijianrow = this.dom.tujianrow.clone();
-                tuijianrow.find('span').attr('pid',i).html(data[0]);
-                nonerow.find('[name=pointlist]').append(tuijianrow);
+                this.c_getdefaultrow(data,pointlist);
             }
-            setTimeout(function(){
-                nonerow.find('[name=pointlist]>li').aclick(function(){
-                    var p = $(this).find('span');
-                    var pid = p.attr('pid');
-                    var d = area[pid];
-                    var lnglat = new  AMap.LngLat(d[2], d[1]);
-                    $(this).addClass('active');
-                    me.c_init_search(lnglat);
-
-                });
-            },10);
 
             return nonerow;
         }

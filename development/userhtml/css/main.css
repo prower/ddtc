@@ -708,7 +708,7 @@ html{
                color: #16a7de;
            }
    #map_html .mui-table-view-cell{
-       padding: 7px 15px;
+       padding: 6px;
    }
    #map_html .distance{
        background-image: url(../img/jiantou.png);

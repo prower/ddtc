@@ -124,6 +124,24 @@
         .pointlist>li>span{
             line-height: 30px;
         }
+    #map_html .ad{
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+    }
+    #map_html .ad .innerpanel{
+        left:10px;
+        width:300px;
+        top: 35px;
+        height: 420px;
+        position: relative;
+        border: solid 1px rgba(0,0,0,.4);
+    }
+    
         #map_html .info .innerpanel{
             display: -moz-box;
             display: -webkit-box;
@@ -199,6 +217,14 @@
         #map_html [name=dqpanel]:after{
             color: #000 !important;
         }
+    
+    .innerlist .search_desc{
+        margin-top: 5px;margin-left: 16px;color: grey;font-size: small;display: block;
+    }
+    
+    .innerlist .search_arrowup{
+        position:absolute;right: 12px;color: rgb(215, 215, 215);top: 20px;
+    }
     </style>
     <div class="map_contaion">
         <div class="map" id="map_html_mapid"></div>
@@ -217,6 +243,14 @@
                     </li>
                 </ul>
             </div>
+        </div>
+    </div>
+    
+    <div style="display: none" class="ad animated zoomIn" name='adpanel'>
+        <div class="innerpanel">
+            
+            <iframe name="adframe" frameborder="no" border="0" marginwidth="0" marginheight="0" src="../pub/ce1.html" style="height:420px"></iframe>
+            <a name="btback" class="mui-action-back mui-icon mui-icon-closeempty mui-pull-left" style="top: 0px;position: absolute;background-color: white;"></a>
         </div>
     </div>
 
@@ -314,11 +348,21 @@
                 <div class="mui-btn mui-btn-primary" style="top: 70%">抢订</div>
             </li>
             <li class="mui-table-view-cell tccrow" name='nonerow'>
-                <h5 style="border-top: none;color: #000;">目前已开通区域</h5>
-                 <ul class="pointlist" name='pointlist'>
+                <h5 style="border:none;color:#000;">该区域没有合作停车场，您可以尝试：</h5>
+                 <ul class="innerlist mui-table-view" name='pointlist'>
                  </ul>
             </li>
-            <li  name='tujianrow'><div class="mk1 state1"></div><span pid='1'></span></li>
+            <li name="tujianrow" class="mui-table-view-cell row">
+                <img src="http://7xispd.com1.z0.glb.clouddn.com/user/img/dest1.png" width="16px" style="margin-top:4px;"/>
+                <b style="font-size:18px;" name="name"></b>
+                <span name="desc" class="search_desc"></span>
+                <span class="mui-icon mui-icon-arrowdown search_arrowup"></span>
+                <ul name="areablocks" style="display:none;margin-top:5px;" class="mui-table-view mui-grid-view mui-grid-9">
+                </ul>
+            </li>
+            <li class="mui-table-view-cell mui-media mui-col-xs-4" name="areablock" style="background-color:white">
+                <div class="mui-media-body" style="height:30px"></div>
+            </li>
         </ul>
         <div name='mk1'>
             <div  class="mk1 state{1}">{0}</div>
