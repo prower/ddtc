@@ -28,21 +28,6 @@ function ui_map(){
             innerpanel:'[name=adpanel] .innerpanel',
                 btclose:'[name=adpanel] [name=btback]'
             }
-            ,infopanel1:{
-                panel:'[name=infopanel]'
-                ,btback:'[name=infopanel] [name=btback]'
-                ,btdaohang:'[name=infopanel] [name=btdaohang]'
-                ,btpay:'[name=infopanel] [name=btpay]'
-                ,title:'[name=infopanel] [name=title]'
-                ,address:'[name=infopanel] [name=address]'
-                ,note:'[name=infopanel] [name=note]'
-                ,noteline:'[name=infopanel] [name=noteline]'
-                ,rules:'[name=infopanel] [name=rules]'
-                ,numberstatus:'[name=infopanel] [name=numberstatus]'
-                ,numbermax:'[name=infopanel] [name=numbermax]'
-                ,carid:'[name=infopanel] [name=carid]'
-                ,btmodifycarid:'[name=infopanel] [name=btmodifycarid]'
-            }
             ,infopanel:{
                 panel:'[name=infopanel]'
                 ,btback:'[name=infopanel] [name=btback]'
@@ -324,9 +309,7 @@ function ui_map(){
                     }
                     me.dom.infopanel.carid.html(defaultcarid || '没有设置车牌');
 
-                    for(var i=0;i<me.datas.length;i++){
-                       me.datas[i].carid = defaultcarid;
-                    }
+                    me.datas.e.c = defaultcarid;
 
                     fn && fn(defaultcarid);
                 }
@@ -336,7 +319,7 @@ function ui_map(){
         ,c_startPay:function(){
             var me = this;
 
-            if(!this.nowdata.carid){
+            if(!this.datas.e.c){
                 this.c_modifycarid(function(carid){
                     if(carid){
                         if(sysmanager.isapp){
@@ -357,7 +340,7 @@ function ui_map(){
             }
             var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D1');}
             function innerpay(){
-                me.m_startPay(me.nowdata.pid,(me.dqselectdata?me.dqselectdata.id:0), function(data){
+                me.m_startPay(me.nowdata.id,(me.dqselectdata?me.dqselectdata.id:0), function(data){
                     me.nowoid = data.oid;
                     //alert(data.oid);
                     //return [alert('跳过支付直接成功![测试s]'), me.c_startPayok()];
@@ -376,7 +359,7 @@ function ui_map(){
                 });
             }
             function innerpay_app(){
-                me.m_startPay_app(me.nowdata.pid,(me.dqselectdata?me.dqselectdata.id:0), function(data){
+                me.m_startPay_app(me.nowdata.id,(me.dqselectdata?me.dqselectdata.id:0), function(data){
                     me.nowoid = data.oid;
                     //alert(data.oid);
                     //return [alert('跳过支付直接成功![测试s]'), me.c_startPayok()];
@@ -446,13 +429,13 @@ function ui_map(){
             var me = this;
             this.datas = datas;
             this.dom.list.empty();
-            if(datas){
-                for(var i=0;i<datas.length;i++){
-                    var row = this.c_getrow(datas[i]);
+            if(datas.p){
+                for(var i=0;i<datas.p.length;i++){
+                    var row = this.c_getrow(datas.p[i]);
                     this.dom.list.append(row);
                 }
             }
-            if(!datas || datas.length == 0){
+            if(!datas.p || datas.p.length == 0){
                 var row = this.c_getnonerow(area);
                 this.dom.list.append(row);
             }
@@ -462,8 +445,8 @@ function ui_map(){
             });
         }
         ,c_addpoint:function(map,datas){
-            for(var i=0;i<datas.length;i++){
-                var data = datas[i];
+            for(var i=0;i<datas.p.length;i++){
+                var data = datas.p[i];
                 this.c_getpoint(map,data, i);
 
             }
@@ -471,9 +454,9 @@ function ui_map(){
         ,c_getpoint:function(map,data, index){
             var me = this;
             var content = this.dom.mk1.html();
-            content = content.replace('{0}', '¥'+data.prepay).replace('{1}',data.parkstate);
-            var marker = new AMap.Marker({                 
-              map:map,                 
+            content = content.replace('{0}', '¥'+data.p).replace('{1}',data.s);
+            var marker = new AMap.Marker({
+              map:map,
               position:data.point,
               icon:"http://7xispd.com1.z0.glb.clouddn.com/user/img/dest1.png",
              content:content,
@@ -484,34 +467,13 @@ function ui_map(){
                 me.c_activeRow(index);
             });
         }
-//        ,c_showinfo:function(data){
-//            this.nowdata = data;
-//            this.dom.listcontaion.addClass('next');
-//            //fill
-//            this.dom.infopanel.btpay.html('确认,预付{0}元'.replace('{0}',data.prepay));
-//            this.dom.infopanel.title.html(data.name);
-//            this.dom.infopanel.address.html(data.address);
-//            this.dom.infopanel.rules.html(data.rules);
-//
-//            this.dom.infopanel.numbermax.html(data.spacesum>0?(data.spacesum+'个'):'未知');
-//            this.dom.infopanel.numberstatus.html(window.cfg.parkstatestring[data.parkstate]);
-//
-//            this.dom.infopanel.carid.html(data.carid || '没有设置车牌');
-//
-//            if(data.note){
-//                this.dom.infopanel.note.html(data.note);
-//                this.dom.infopanel.noteline.show();
-//            }else{
-//                this.dom.infopanel.noteline.hide();
-//            }
-//        }
         ,c_back:function(){
             this.dom.listcontaion.removeClass('next');
         }
         ,c_daohang_my:function(){
             var me = this;
-            sysmanager.loadpage('views/', 'parkinfo', null, me.nowdata.name,function(v){
-                v.obj.setdata(me.nowdata);
+            sysmanager.loadpage('views/', 'parkinfo', null, me.nowdata.n,function(v){
+                v.obj.setdata(me.nowdata,me.datas.e);
             });
 
 
@@ -567,15 +529,15 @@ function ui_map(){
              */
             var me = this;
             var row = this.dom.row.clone();
-            row.find('[name=title]').html(data.name);
+            row.find('[name=title]').html(data.n);
             row.find('[name=distance]>span').html(data.distance);
-            row.find('[name=rules]').html(data.rules);
-            row.find('[name=address]').html(data.address);
+            row.find('[name=rules]').html(data.r);
+            //row.find('[name=address]').html(data.a);
 
-            if('0' == data.parkstate+''){
-                row.find('[name=numberstatus]').hide();
-            }else{
-                row.find('[name=numberstatus]').html(window.cfg.parkstatestring[data.parkstate]);
+            row.find('[name=numberstatus1]').html(window.cfg.parkstatestring2[data.s]);
+            if(data.e){
+                row.find('[name=numberstatus2]').html(window.cfg.parkstatestring2[data.e[0]]);
+                row.find('[name=numberstatus2t]').html(data.e[1].substr(0,5));
             }
 
             row.bind('touchstart', function(){
@@ -586,22 +548,18 @@ function ui_map(){
             row.bind('touchend', function(){
 //               me.mapObj.gotoHome();
             });
-            var parkstatestring = window.cfg.parkstatestring[parseInt(data.parkstate)];
-
-            switch(data.parkstate+''){
-                case '0':
-                    row.find('.mui-btn').css({
-                        border: 'none'
-                        ,color: '#999'
-                        ,'background-color':'#eee'
-                    }).html(parkstatestring);
-                    break;
-                case '1':
-                case '2':
-                    row.find('.mui-btn').click(function(){
-                       me.c_showinfo(data);
-                    });
-                    break;
+            
+            if(data.c != 0 && data.s+'' != '0'){
+                //可交易
+                row.find('.mui-btn').click(function(){
+                                           me.c_showinfo(data);
+                                           });
+            }else{
+                //信息化
+                row.find('.mui-btn').html('信息');
+                row.find('.mui-btn').click(function(){
+                                           me.c_showinfo(data);
+                                           });
             }
 
             return row;
@@ -664,26 +622,29 @@ function ui_map(){
             //fill
             var me = this;
             this.dom.infopanel.panel.show();
-//            this.dom.infopanel.btpay.html('确认,预付{0}元'.replace('{0}',data.prepay));
-            this.dom.infopanel.title.html(data.name);
-            this.dom.infopanel.address.html(data.address);
-            this.dom.infopanel.rules.html(data.rules);
+            this.dom.infopanel.title.html(data.n);
+            this.dom.infopanel.address.html(data.a);
+            this.dom.infopanel.rules.html(data.r);
 
-            this.dom.infopanel.numbermax.html(data.spacesum>0?(data.spacesum+'个'):'未知');
-            this.dom.infopanel.numberstatus.html(window.cfg.parkstatestring[data.parkstate]);
+            this.dom.infopanel.numbermax.html(data.m>0?(data.m+'个'):'未知');
+            this.dom.infopanel.numberstatus.html(window.cfg.parkstatestring[data.s]);
 
-            this.dom.infopanel.carid.html(data.carid || '没有设置车牌');
+            this.dom.infopanel.carid.html(this.datas.e.c || '没有设置车牌');
 
-            this.dom.infopanel.payinfo.html(data.prepay);
+            this.dom.infopanel.payinfo.html(data.p);
             
-            if(data.pretype){
-                this.dom.infopanel.paytype.html(data.pretype);
+            if(data.y){
+                this.dom.infopanel.paytype.html(data.y);
             }else{
                 this.dom.infopanel.paytype.html('元');
             }
 
-            if(data.note){
-                this.dom.infopanel.note.html(data.note);
+            if(data.t && data.t.length > 0){
+                var noteline = data.t[0];
+                for(var i=1;i<data.t.length;i++){
+                    noteline += ' | '+data.t[i];
+                }
+                this.dom.infopanel.note.html(noteline);
                 this.dom.infopanel.noteline.show();
             }else{
                 this.dom.infopanel.noteline.hide();
@@ -691,9 +652,9 @@ function ui_map(){
             this.c_showinfo_initcoupon(function(dqselectdata){
                 me.dqselectdata = dqselectdata;
                 if(!dqselectdata){
-                    me.dom.infopanel.payinfo.html(data.prepay);
+                    me.dom.infopanel.payinfo.html(data.p);
                 }else{
-                    var m = Math.round(data.prepay*100)/100;
+                    var m = Math.round(data.p*100)/100;
                     if('-1' == dqselectdata.t+''){  //壹元券
                         m = 1;
                     }else{                          //抵用券
@@ -816,13 +777,13 @@ function ui_map(){
         ,m_getdata:function(center, fn){
             var clng = center.lng;
             var clat = center.lat;
-            window.myajax.userget('index','search',{lat:clat,lng:clng}, function(result){
-                var data = result.data;
+            window.myajax.userget('index','search2',{lat:clat,lng:clng}, function(result){
+                var data = result.data.p;
                 for(var i=0;i<data.length;i++){
                     var d = data[i];
                     d.point = new AMap.LngLat(d.lng, d.lat);
                     d.distance = Math.abs(parseInt(d.point.distance(center)));
-                    d.prepay = parseInt(d.prepay);
+                    d.p = parseInt(d.p);
                 }
                 fn && fn(result.data,result.area);
                 setTimeout(function(){
@@ -866,35 +827,6 @@ function ui_map(){
                     }}
                 });
             }, null, false);
-        }
-        ,m_getdata1:function(center, fn){
-            var clng = center.lng;
-            var clat = center.lat;
-            var datas = [];
-            for(var i=0;i<10;i++){
-                var lng = clng+GetRandomNum(-0.004,0.004);
-                var lng = clng+GetRandomNum(-0.004,0.004);
-                var lat = clat+GetRandomNum(-0.0025,0.0025);
-                var point = new AMap.LngLat(lng,lat);
-                (function(point){
-                    var data = {
-                        point:point
-                        ,name:'第{0}街，第{0}号'.replace('{0}',i).replace('{0}',i)
-                        ,distance:Math.abs(parseInt(point.distance(center)))+'米'
-                    }
-                    datas.push(data);
-                })(point);
-            }
-            datas.sort(function(a,b){
-                return parseInt(a.distance) - parseInt(b.distance);
-            });
-            function GetRandomNum(Min,Max){
-                    var Range = Max - Min;
-                    var Rand = Math.random();
-                    return(Min + Rand * Range);
-            }
-            fn && fn(datas);
-
         }
         ,m_startPay:function(pid,cid, fn){
             var me = this;

@@ -15,9 +15,16 @@ function ui_parkinfo(){
             ,address2:'[name=address2]'
             ,bg:'[name=bg]'
             ,name:'[name=name]'
+            ,btios:'[name=parkinfo_pagecontainer] [name=nav_ios]'
+            ,btbaidu:'[name=parkinfo_pagecontainer] [name=nav_baidu]'
+            ,btgaode:'[name=parkinfo_pagecontainer] [name=nav_gaode]'
+            ,btlocal:'[name=parkinfo_pagecontainer] [name=nav_local]'
+            ,navpanel:'[name=parkinfo_pagecontainer]'
+            ,btnavclose:'[name=parkinfo_pagecontainer] [name=btclose]'
         }
         ,iscroll:null
         ,nowdata:null
+        ,extinfo:null
         ,init:function(context){
             if (!this.isInit){
                 this.isInit = true;
@@ -31,17 +38,21 @@ function ui_parkinfo(){
             var me = this;
             this.c_fill();
         }
-        ,setdata:function(data){
+        ,setdata:function(data,ext){
             this.nowdata =  data;
+            this.extinfo = ext;
             console.log(data);
         }
         ,c_fill:function(){
-            this.dom.name.html(this.nowdata.name);
-            this.dom.address.html(this.nowdata.address);
-
-            this.dom.bg.attr('src',this.nowdata.image);
-            if(this.nowdata.address2){
-                this.dom.address2.find('p').html(this.nowdata.address2).show();
+            this.dom.name.html(this.nowdata.n);
+            this.dom.address.html(this.nowdata.a);
+            var imgurl = this.nowdata.i;
+            if(this.extinfo && imgurl.indexOf('http://') != 0){
+                imgurl = this.extinfo.u+imgurl;
+            }
+            this.dom.bg.attr('src',imgurl);
+            if(this.nowdata.b){
+                this.dom.address2.find('p').html(this.nowdata.b).show();
             }else{
                 this.dom.address2.hide()
             }
@@ -49,8 +60,104 @@ function ui_parkinfo(){
         ,c_showInfo:function(){
             this.dom.info.panel.show();
         }
+        ,c_daohang_ios_official:function(){
+            var href='http://maps.apple.com/?q='+this.nowdata.address;
+            window.open(href, '_system');
+        }
+        ,c_daohang_baidu:function(){
+            var iosinfo = {
+            root:'baidumap://map/marker?'
+                ,key: {
+                src: '嘟嘟停车'            //应用名称
+                    , location: this.nowdata.lat+','+this.nowdata.lng
+                    , title: this.nowdata.n
+                    , content: this.nowdata.a
+                    , coord_type: 'gcj02'
+                }
+            };
+            
+            var androidinfo = {
+            root:'bdapp://map/marker?'
+                ,key: {
+                src: '嘟嘟停车'            //应用名称
+                    , location: this.nowdata.lat+','+this.nowdata.lng
+                    , title: this.nowdata.n
+                    , content: this.nowdata.a
+                    , coord_type: 'gcj02'
+                }
+            };
+            
+            var info = utils.browser.versions.ios?iosinfo:androidinfo;
+            
+            var href = info.root;
+            var first = true;
+            for(var k in info.key){
+                var v = info.key[k];
+                if(!first){
+                    href+='&';
+                }else{
+                    first = false;
+                }
+                href+=k+'='+v;
+            }
+            //alert(href);
+            //console.log(href);
+            window.open(href, '_system');
+            
+        }
+        ,c_daohang_gaode:function(){
+            var iosinfo = {
+            root:'iosamap://viewMap?'
+                ,key: {
+                sourceApplication: '嘟嘟停车'            //应用名称
+                    , backScheme: ''                              //第三方调回使用的 scheme
+                    , poiname: this.nowdata.n                             //poi 名称
+                    , poiid: ''                             //sourceApplication的poi id
+                    , lat: this.nowdata.lat                           //经度
+                    , lon: this.nowdata.lng                             //纬度
+                    , dev: 0                             //是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密
+                    
+                }
+            };
+            
+            var androidinfo = {
+            root:'androidamap://viewMap?'
+                ,key: {
+                sourceApplication: '嘟嘟停车'            //应用名称
+                    //, backScheme: ''                              //第三方调回使用的 scheme
+                    , poiname: this.nowdata.n                             //poi 名称
+                    //, poiid: ''                             //sourceApplication的poi id
+                    , lat: this.nowdata.lat                           //经度
+                    , lon: this.nowdata.lng                             //纬度
+                    , dev: 0                             //是否偏移(0:lat 和 lon 是已经加密后的,不需要国测加密; 1:需要国测加密
+                    
+                }
+            };
+            
+            var info = utils.browser.versions.ios?iosinfo:androidinfo;
+            
+            var href = info.root;
+            var first = true;
+            for(var k in info.key){
+                var v = info.key[k];
+                if(!first){
+                    href+='&';
+                }else{
+                    first = false;
+                }
+                href+=k+'='+v;
+            }
+            
+            //alert(href);
+            //console.log(href);
+            window.open(href, '_system');
+            
+        }
         ,r_init:function(){
             var me = this;
+            if(utils.browser.versions.ios){
+                me.dom.btios.show();
+            }
             this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
             me.dom.btdaohang.aclick(function(){
 
@@ -59,55 +166,36 @@ function ui_parkinfo(){
                     wx.openLocation({
                         latitude: parseFloat(me.nowdata.lat),
                         longitude:parseFloat(me.nowdata.lng),
-                        name: me.nowdata.name,
-                        address: me.nowdata.address,
+                        name: me.nowdata.n,
+                        address: me.nowdata.a,
                         scale: 16,
                         infoUrl: ''
                     });
                 }else{
-                    sysmanager.loadpage('views/', 'daohang', null, '导 航',function(v){
-                        v.obj.settarget(me.nowdata);
-                    });
+                                    me.dom.navpanel.show();
                 }
             });
-//            window.myajax.userget('index','open_wx_sign',{url:document.location.href}, function(result){
-//
-//            	/*alert(document.location.href);
-//            	alert(result.data.url);
-//            	alert(result.data.v);*/
-//
-//              	wx.config({
-//							    debug: false,
-//							    appId: result.data.appId,
-//							    timestamp: result.data.timestamp,
-//							    nonceStr: result.data.nonceStr,
-//							    signature: result.data.signature,
-//							    jsApiList: [
-//							      'checkJsApi',
-//							      'openLocation'
-//							    ]
-//							  });
-//            }, null, false);
-//            wx.ready(function () {
-//            	me.dom.btdaohang.aclick(function(){
-////                    wx.openLocation({
-////                                        latitude: me.nowdata.lat,
-////                                        longitude: me.nowdata.lng,
-////                                        name: me.nowdata.name,
-////                                        address: me.nowdata.address,
-////                                        scale: 16,
-////                                        infoUrl: ''
-////                                    });
-//              	wx.openLocation({
-//							    latitude: 31.233624,
-//    							longitude: 121.411293,
-//    							name: '密讯馆',
-//    							address: '中山北路3323号',
-//							    scale: 16,
-//							    infoUrl: ''
-//								});
-//            	});
-//					  });
+            me.dom.btlocal.aclick(function(){
+                sysmanager.loadpage('views/', 'daohang', null, '导 航',function(v){
+                    v.obj.settarget(me.nowdata);
+                });
+                me.dom.navpanel.hide();
+            });
+            me.dom.btnavclose.aclick(function(){
+                me.dom.navpanel.hide();
+            });
+            me.dom.btios.aclick(function(){
+                me.c_daohang_ios_official();
+                me.dom.navpanel.hide();
+            });
+            me.dom.btgaode.aclick(function(){
+                me.c_daohang_gaode();
+                me.dom.navpanel.hide();
+            });
+            me.dom.btbaidu.aclick(function(){
+                me.c_daohang_baidu();
+                me.dom.navpanel.hide();
+            });
         }
         ,close:function(){
 

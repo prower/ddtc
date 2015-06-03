@@ -370,6 +370,8 @@ function ui_myorderdetail(){
             });
             this.dom.orderpanel.btdaohang.aclick(function(){
                 sysmanager.loadpage('views/', 'parkinfo', null, me.data.name,function(v){
+                    //修正数据成为parkinfo可读格式
+                    me.data.n = me.data.name;me.data.a = me.data.address;me.data.b = me.data.address2;me.data.i = me.data.image;me.data.r = me.data.rule;
                     v.obj.setdata(me.data);
                 });
                 var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D4');}

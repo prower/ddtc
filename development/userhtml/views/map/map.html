@@ -99,9 +99,10 @@
             white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
         }
         .map_contaion .tccrow .numberstatus{
-            float: right;
+            right: 15px;
             width: auto;
-            margin-top: 5px;
+            top: 11px;
+            position: absolute;
         }
         .map_contaion .list .info p label{
             color: #000;
@@ -218,6 +219,14 @@
             color: #000 !important;
         }
     
+    #map_html .tccrow h4{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 80%;
+    white-space: nowrap;
+    }
+
+    
     .innerlist .search_desc{
         margin-top: 5px;margin-left: 16px;color: grey;font-size: small;display: block;
     }
@@ -246,18 +255,18 @@
         </div>
     </div>
     
-    <div style="display: none" class="ad animated zoomIn" name='adpanel'>
+    <!--<div class="ad animated zoomIn" name='adpanel'>
         <div class="innerpanel">
             
             <iframe name="adframe" frameborder="no" border="0" marginwidth="0" marginheight="0" src="../pub/ce1.html" style="height:420px"></iframe>
             <a name="btback" class="mui-action-back mui-icon mui-icon-closeempty mui-pull-left" style="top: 0px;position: absolute;background-color: white;"></a>
         </div>
-    </div>
+    </div>-->
 
     <div style="display: none" class="info animated zoomIn" name='infopanel'>
                 <div class="innerpanel">
                     <header class="mui-bar mui-bar-nav" style="position: static;">
-                    <h1 class="mui-title" name='title' style="right: 90px;">停车场名称</h1>
+                    <h1 class="mui-title" name='title' style="right: 90px;"></h1>
                     <a name="btback" class="mui-action-back mui-icon mui-icon-closeempty mui-pull-left"></a>
                         <button style="background-color:transparent" name="btdaohang" class="mui-btn mui-btn-primary mui-btn-link mui-pull-right">入口指示</button>
                 </header>
@@ -341,10 +350,10 @@
     <div class="template">
         <ul>
             <li class="mui-table-view-cell tccrow" name='row'>
-                <p class="numberstatus"><span name='numberstatus'>空位</span></p>
-                <h4 name='title'>名称</h4>
-                <p><span class="distance" name='distance'><span></span>米</span><span style="display: inline-block;padding-left: 10px"  name='address'></span></p>
+                <h4 name='title'></h4>
+                <p class="numberstatus"><span class="distance" name='distance'><span></span>米</span></p>
                 <p><span name='rules'></span></p>
+                <p>现时段<span name='numberstatus1'></span>，预计<span name='numberstatus2t'></span>后车位<span name='numberstatus2'></span></p>
                 <div class="mui-btn mui-btn-primary" style="top: 70%">抢订</div>
             </li>
             <li class="mui-table-view-cell tccrow" name='nonerow'>

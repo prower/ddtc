@@ -50,7 +50,6 @@
           <sources dir="${basedir}">
               <file name="${userdir}/views/map/map.js"/>
               <file name="${userdir}/views/searchmap/searchmap.js"/>
-              <file name="${userdir}/views/mapfull/mapfull.js"/>
               <file name="${userdir}/views/myorder/myorder.js"/>
               <file name="${userdir}/views/myorderdetail/myorderdetail.js"/>
               <file name="${userdir}/views/reg/reg.js"/>

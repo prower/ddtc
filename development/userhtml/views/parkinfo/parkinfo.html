@@ -53,4 +53,29 @@
             </ul>
         </div>
     </div>
+    
+    <div name="parkinfo_pagecontainer" class="pagecontainer" style="display: none;z-index: 500;-webkit-transform: none;">
+        <div class="mui-popover mui-active" style="display: block;position:relative;">            
+            <ul class="mui-table-view">
+                <li name='btclose' class="mui-table-view-cell" style="padding: 8px 15px;">
+                    请选择导航方式：
+                    <span class="mui-icon mui-icon-close" style="position:absolute;right:5px;top:5px;"></span>
+                </li>
+                    <li class="mui-table-view-cell" name="nav_baidu">
+                    百度地图：<p>需要已安装“百度地图App”</p><button name="btbaidu" class="mui-btn mui-btn-success mui-pull-right">导航</button>
+                    </li>
+                    <li class="mui-table-view-cell" name="nav_gaode">
+                    高德地图：<p>需要已安装“高德地图App”</p><button name="btgaode" class="mui-btn mui-btn-success">导航</button>
+                    </li>
+                    <li class="mui-table-view-cell" name="nav_ios" style="display:none;">
+                    苹果地图：<p>使用苹果官方地图App</p><button name="btios" class="mui-btn mui-btn-success">导航</button>
+                    </li>
+                    <li class="mui-table-view-cell" name="nav_local">
+                    路线规划：<p>显示行车路线和提示</p><button name="btios" class="mui-btn mui-btn-success">导航</button>
+                    </li>
+            </ul>
+        </div>
+        <div name='make' class="mui-backdrop mui-active"></div>
+    </div>
+    
 </div>
