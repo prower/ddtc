@@ -20,13 +20,15 @@ function ui_searchmap(){
             ,tujianrow:'.template [name=tujianrow]'
             ,historyrow:'.template [name=historyrow]'
             ,areablock:'.template [name=areablock]'
-            ,testnumber:'[name=testnumber]'
+            //,testnumber:'[name=testnumber]'
             ,historylist:'[name=history] .innerlist'
             ,history:'[name=history]'
             ,hintlist:'[name=hint]'
             ,scrollarea:'[name=scrollarea]'
             ,scrollparent:'[name=scrollparent]'
             ,searchmap_contaion:'.searchmap_contaion'
+            ,historyrow_head:'.template [name=historyrow_head]'
+            ,tujianrow_head:'.template [name=tujianrow_head]'
         }
         ,iscroll:null
         ,mapObj:null
@@ -112,10 +114,10 @@ function ui_searchmap(){
                             //console.log('nowsearchNumber',nowsearchNumber);
                             if(nowsearchNumber>=me.showSearchnumber){
                                 me.showSearchnumber = nowsearchNumber;
-                                me.dom.testnumber.html(me.dom.testnumber.html()+','+nowsearchNumber);
+                                //me.dom.testnumber.html(me.dom.testnumber.html()+','+nowsearchNumber);
                                 me.c_search_PlaceSearch_callback(result);
                             }else{
-                                me.dom.testnumber.html(me.dom.testnumber.html()+','+ "<span style='color: red'>"+nowsearchNumber+'-'+me.showSearchnumber+"</span>" );
+                                //me.dom.testnumber.html(me.dom.testnumber.html()+','+ "<span style='color: red'>"+nowsearchNumber+'-'+me.showSearchnumber+"</span>" );
                             }
                         }
                     });
@@ -125,7 +127,7 @@ function ui_searchmap(){
         ,c_search_PlaceSearch_callback:function(data){
             console.log('c_search_PlaceSearch_callback',data);
             var me = this;
-            this.dom.hintlist.empty();
+            this.dom.hintlist.empty().unbind();
             if(!data.poiList.pois || data.poiList.pois.length<=0){
                 var row = this.c_getrow_nodata();
                 this.dom.hintlist.append(row);
@@ -163,22 +165,30 @@ function ui_searchmap(){
                     this.defaulPointtList.push(p);
                 }
             }
-            for(var i=0;i<this.defaulPointtList.length;i++){
-                var d = this.defaulPointtList[i];
-                var row = this.c_getrow_defaultpoint(d);
-                this.dom.list.append(row);
+            if(this.defaulPointtList.length > 0){
+                this.dom.list.empty().unbind();
+                this.dom.list.append(this.dom.tujianrow_head.clone());
+                for(var i=0;i<this.defaulPointtList.length;i++){
+                    var d = this.defaulPointtList[i];
+                    var row = this.c_getrow_defaultpoint(d);
+                    this.dom.list.append(row);
+                }
             }
             //搜索历史
             var tmp = utils.cache.getItem(this.history_key);
             historydata = tmp?JSON.parse(tmp):null;
             if(historydata){
-                for(var i=0;i<historydata.length;i++){
-                    var d = historydata[i];
-                    if(!(d.location instanceof AMap.LngLat)){
-                        d.location = new AMap.LngLat(d.location.lng,d.location.lat);//修正对象
+                this.dom.historylist.empty().unbind();
+                if(historydata.length > 0){
+                    this.dom.historylist.append(this.dom.historyrow_head.clone());
+                    for(var i=0;i<historydata.length;i++){
+                        var d = historydata[i];
+                        if(!(d.location instanceof AMap.LngLat)){
+                            d.location = new AMap.LngLat(d.location.lng,d.location.lat);//修正对象
+                        }
+                        var row = this.c_getrow_historypoint(d);
+                        this.dom.historylist.append(row);
                     }
-                    var row = this.c_getrow_historypoint(d);
-                    this.dom.historylist.append(row);
                 }
                 this.dom.history.show();
             }
@@ -200,7 +210,7 @@ function ui_searchmap(){
         ,c_search_callback:function(data){
             //console.log('search',data);
             var me = this;
-            this.dom.hintlist.empty();
+            this.dom.hintlist.empty().unbind();
             if(!data.tips || data.tips.length<=0){
                 var row = this.c_getrow_nodata();
                 this.dom.hintlist.append(row);
@@ -225,7 +235,7 @@ function ui_searchmap(){
              * type: "complete"
              */
             var me = this;
-            this.dom.hintlist.empty();
+            this.dom.hintlist.empty().unbind();
             if(!data.geocodes || data.geocodes.length<=0){
                 var row = this.c_getrow_nodata();
                 this.dom.hintlist.append(row);
@@ -292,15 +302,23 @@ function ui_searchmap(){
                 var sub = data.sub[i];
                 this.c_get_defaultsub(blocklist,sub);
             }
-            
+            var emptynum = data.sub.length%3;
+            if(emptynum != 0){
+                while(emptynum < 3){
+                    this.c_get_defaultsub(blocklist,null);
+                    emptynum++;
+                }
+            }
             
             return row;
         }
         ,c_get_defaultsub:function(blocklist,sub){
             var me = this;
             var block = this.dom.areablock.clone();
-            block.find('.mui-media-body').html(sub.name);
-            block.click(function(){me.c_select(sub.location,sub.name);});
+            if(sub){
+                block.find('.mui-media-body').html(sub.name);
+                block.click(function(){me.c_select(sub.location,sub.name);});
+            }
             blocklist.append(block);
         }
         ,c_getrow:function(data){
@@ -339,7 +357,7 @@ function ui_searchmap(){
 
             });
             this.dom.input.blur(function(){
-                setTimeout(function(){me.dom.hintlist.empty();},1000);
+                setTimeout(function(){me.dom.hintlist.empty().unbind();},1000);
             });
             sysmanager.loadMapscript.load(function(){
                 me.r_init_input();
@@ -352,6 +370,7 @@ function ui_searchmap(){
         }
         ,c_select:function(position,name){
             var me = this;
+            this.dom.input.blur();
             var c = me.context.parent().parent();
             sysmanager.pagecontainerManager.hide(c);
             me.close(position,name);

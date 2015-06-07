@@ -3,7 +3,6 @@
 <head>
     <title>嘟嘟停车发红包</title>
     <meta charset="UTF-8">
-    <!--<script src="../golba_rs/js/sys.js"></script>-->
     <!--直接嵌入sys.js-->
     <script>
         var deviceAgent = navigator.userAgent.toLowerCase();
@@ -35,7 +34,6 @@
 <div style="display: none;position: absolute">
 <script src="http://s11.cnzz.com/z_stat.php?id=1254946209&web_id=1254946209"></script>
 </div>
-<!--<script src="./js/tongji.js"></script>-->
 <!--直接潜入统计脚本的压缩代码-->
 <script>
     window.TongjiObj=function(){return{push:function(a,b,c,d){setTimeout(function(){_czc.push(["_trackEvent",a,b,c||0,d||0,null]);console.log("_czc.push","_trackEvent",a,b,c,d)})},clickLink:function(a){this.push("B","B_"+a)},A:function(a){this.push("A",a)},C:function(a){this.push("C",a)},D:function(a){this.push("D",a)},E:function(a){this.push("E",a)}}}();
@@ -46,30 +44,28 @@
     	<div class="mui-inner-wrap">
     		<div class="mui-content mytabs">
                 <div id="tabbar-with-user" class="mui-control-content"   name='login'>
-                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div id="tabbar-with-collection" class="mui-control-content"   name='map'>
-                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div id="tabbar-with-in" class="mui-control-content"  name='myorder'>
-                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div id="tabbar-with-out" class="mui-control-content"   name='myorderdetail'>
-                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div class="mui-control-content"   name='userinfo'>
-                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div class="mui-control-content"   name='mapfull'>
-                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
                 <div class="mui-control-content"   name='coupon'>
-                    <h3 class="copyright">Copyright@@2015</h3>
                 </div>
     		</div>
     		<!-- off-canvas backdrop -->
     	</div>
     </div>
+    </div>
+    
+    <div id="pop_pagecontaion" class="pagecontainer" style="display: none">
+        <div class="page" style="background-color:#fff">
+        </div>
     </div>
 
     <div  class="pagecontainer toppagecontainer" animname='anim_rightin' style="display: none"><!--list-->
@@ -108,15 +104,8 @@
             </button>
         </header>
     </div>
-    <div id="pop_pagecontaion" class="pagecontainer" style="display: none">
-        <div class="page" style="background-color:#fff">
-        </div>
-    </div>
+    
     <div id="coupon_pagecontaion" class="pagecontainer" style="display: none">
-        <div class="page" style="background-color:#fff">
-        </div>
-    </div>
-    <div id="jiesuan_pagecontaion" class="pagecontainer" style="display: none">
         <div class="page" style="background-color:#fff">
         </div>
     </div>
@@ -127,11 +116,11 @@
     <div id="top_menu" class="pagecontainer" style=" display: none">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view" name='list'>
-                <li class="mui-table-view-cell" name='title'>菜单1:</li>
-                <li class="mui-table-view-cell" name='title'>菜单1:</li>
-                <li class="mui-table-view-cell" name='title'>菜单1:</li>
+                <li class="mui-table-view-cell" name='title'></li>
+                <li class="mui-table-view-cell" name='title'></li>
+                <li class="mui-table-view-cell" name='title'></li>
             </ul>
-            <ul class="template"><li class="mui-table-view-cell" name='title'>菜单1:</li></ul>
+            <ul class="template"><li class="mui-table-view-cell" name='title'></li></ul>
         </div>
         <div name='make' class="mui-backdrop mui-active"></div>
     </div>
@@ -154,8 +143,8 @@
     <div id="alert_pagecontainer" class="pagecontainer" style=" display: none">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view">
-                <li class="mui-table-view-cell" name='title'>错误信息:</li>
-                <li class="mui-table-view-cell" name='msg'>错误内容</li>
+                <li class="mui-table-view-cell" name='title'></li>
+                <li class="mui-table-view-cell" name='msg'></li>
             </ul>
         </div>
         <div name='make' class="mui-backdrop mui-active"></div>
@@ -163,8 +152,8 @@
     <div id="confirm_pagecontainer" class="pagecontainer" style=" display: none;z-index: 500">
         <div class="mui-popover mui-active" style="display: block;">
             <ul class="mui-table-view">
-                <li class="mui-table-view-cell title" name='title'>操作确认:</li>
-                <li class="mui-table-view-cell msg" name='msg'>内容</li>
+                <li class="mui-table-view-cell title" name='title'></li>
+                <li class="mui-table-view-cell msg" name='msg'></li>
                 <li class="mui-table-view-cell">
                     <table style="width: 80%">
                         <tr>
@@ -226,93 +215,7 @@
     };
     $(function(){
         window.sysmanager.init();
-        /**
-        var tabcontrols = $('[name=tabscontrol]');
-        var tabcards =  $('.mytabs>div');
-        var tabs = window.testtabs = utils.jq.initTab(tabcontrols,tabcards,'  mui-active');
-        var nowview = null;
-
-        tabs.activeHandle[6] = tabs.activeHandle[5] = tabs.activeHandle[4] = tabs.activeHandle[3] =tabs.activeHandle[2] = tabs.activeHandle[1] = function(context){
-
-            viewManager.viewroot('views/');
-            var viewname = context.attr('name');
-            var view = viewManager.loadview(viewname,function(v){
-                context.empty();
-                v.renderer(context);
-                if(nowview){
-                    nowview.obj.close();
-                }
-                nowview = v;
-            });
-        }
-
-        **/
-/*
-        function initstart(){
-            var model = utils.tools.getUrlParam('m');
-            switch (model){
-                case 'myorder':
-                    tabs.activeTab(2);
-                    break;
-                case 'myjiesuan':
-                    tabs.activeTab(3);
-                    break;
-                case 'userinfo':
-                    tabs.activeTab(4);
-                    break;
-                case 'mapfull':
-                    tabs.activeTab(5);
-                    break;
-                case 'coupon':
-                    tabs.activeTab(6);
-                    break;
-                case "map":
-                case "mapsearch":
-                default :
-                    tabs.activeTab(1);
-                    break;
-            }
-            $('#startpage').hide();
-        }
-
-**/
-/**
-        function type_1(){
-            sysmanager.checkLogin(function(islogin){
-                if(islogin){
-                    initstart();
-                }else{
-                    sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
-                        view.obj.onclose = function(){
-                            initstart();
-                        }
-                    });
-                }
-
-            });
-            $('#startpage').hide();
-        }
-
-        function type_2(){
-            sysmanager.loadpage('views/', 'reg', $('#reg_pagecontaion'),null, function(view){
-                view.obj.onclose = function(){
-                    initstart();
-                }
-            });
-            $('#startpage').hide();
-        }
-        function type_3(){      //已经注册
-            var userinfo = {
-                uid:utils.tools.getUrlParam('uid')
-                ,uuid:utils.tools.getUrlParam('uuid')
-            }
-            window.myajax.userinfo(userinfo);
-            setTimeout(function(){
-                initstart();
-            });
-            $('#startpage').hide();
-        }
- */
+      
         function type_10(){     //领取红包
             $('title').html('嘟嘟停车抢红包啦');
             var code = utils.tools.getUrlParam('hcode');
@@ -324,27 +227,10 @@
         var type = utils.tools.getUrlParam('type') || '1';
         var openid = utils.tools.getUrlParam('openid');
 
-        /**
-        switch (type){
-            case '1':       //非openid模式
-                    type_1();
-                break;
-            case '2':       //openid未注册
-                    type_2();
-                break;
-            case '3':       //openid注册
-                    type_3();
-                break;
-            case '10':      //领取红包
-                type_10();
-                break;
-        }*/
-
         type_10();
     });
 </script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<!--<script src="./js/wxfunc.js"></script>-->
 <!--直接嵌入 wxfunc.js-->
 <script>
     window.Myweixinobj=function(){var b="",c="",d="",e="",f=null;return{init:function(a,g,h,k,l){b=a;c=g;d=h;e=k;f=l},isready:!1,initFenxiang:function(){var a=this;wx.ready(function(){wx.checkJsApi({jsApiList:"checkJsApi onMenuShareTimeline onMenuShareAppMessage onMenuShareQQ onMenuShareWeibo openLocation".split(" "),success:function(b){a.isready=!0}});a.initBind()});wx.error(function(a){alert(a.errMsg)})},initBind:function(){wx.onMenuShareAppMessage({title:b,desc:c,link:d,imgUrl:e,trigger:function(a){},

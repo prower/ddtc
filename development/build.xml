@@ -58,6 +58,8 @@
               <file name="${userdir}/views/couponget/couponget.js"/>
               <file name="${userdir}/views/parkinfo/parkinfo.js"/>
               <file name="${userdir}/views/daohang/daohang.js"/>
+              <file name="${userdir}/views/orderpay/orderpay.js"/>
+              <file name="${userdir}/views/discover/discover.js"/>
           </sources>
         </jscomp>
         

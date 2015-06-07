@@ -36,7 +36,7 @@ window.mapPluginInit = function(){
                 }else{
                     this.marker = new AMap.Marker({
                         map:map
-                        ,content:"<div style='width:32px;height:32px;background-image: url(http://7xispd.com1.z0.glb.clouddn.com/user/img/dest1.png);'></div>"
+                        ,content:"<div style='width:32px;height:32px;background-image: url(http://7xispd.com1.z0.glb.clouddn.com/user/img/ic-m-l.png);'></div>"
                         ,position:position
                          ,offset:new AMap.Pixel(-16,-32)
                     });

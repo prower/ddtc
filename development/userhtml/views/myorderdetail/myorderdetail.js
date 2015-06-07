@@ -11,8 +11,7 @@ function ui_myorderdetail(){
         ,context:null
         ,dom:{
             panel:{
-                order_no:'[name=order_no]'
-                ,order_pay:'[name=order_pay]'
+                order_pay:'[name=order_pay]'
                 ,order_detail:'[name=orderdetail_pagecontainer]'
             }
             ,orderpanel:{
@@ -41,17 +40,10 @@ function ui_myorderdetail(){
                 list:'[name=lianxipanel]'
                 ,lianxipanel_row:'.template [name=lianxipanel_row]'
             }
+            ,btmore:'[name=btmore]'
             ,scrolldom:'.myorderdetail_html_contaion'
-            ,dqpanel:{
-                panel:'[name=dqpanel]'
-                ,active:'[name=dqpanel]>a'
-                ,list:'[name=dqpanel] [name=list]'
-                ,'qurow-1':'[name=dqpanel] .template [name=row-1]'
-                ,'qurow0':'[name=dqpanel] .template [name=row0]'
-                ,'qurownone':'[name=dqpanel] .template [name=rownone]'
-                ,'couponinfo':'[name=dqpanel] [name=couponinfo]'
-            }
             ,waittimedom:'[name=waittime]'
+            ,header:'header'
         }
         ,iscroll:null
         ,oid:null
@@ -95,8 +87,11 @@ function ui_myorderdetail(){
         }
         ,c_init:function(){
             var me = this;
-            this.dom.panel.order_no.hide();
             this.dom.panel.order_pay.hide();
+            var model = utils.tools.getUrlParam('m');
+            if('neworder' == model && this.waittimes <= 0){
+                this.waittimes = 3000;
+            }
             if(this.waittimes>0){
                 setTimeout(function(){
                     sysmanager.alert('您的车位最晚将于15分钟后开始计费，请尽快赶到停车场，谢谢！', '订单成功支付并已通知管理员');
@@ -107,14 +102,19 @@ function ui_myorderdetail(){
                 this.dom.waittimedom.hide();
                 me.c_initinfo();
             }
+            if('neworder' == model || 'myjiesuan' == model){
+                this.dom.header.show();
+            }else{
+                this.dom.header.hide();
+            }
         }
         ,c_fill:function(data){
             this.dom.waittimedom.hide();
-            this.dom.panel.order_no.hide();
-            this.dom.panel.order_pay.hide();
 
             if(!data){
-                this.c_fill_order_no(); //没有最后的缴费清单
+                //没有最后的缴费清单
+                sysmanager.alert('目前给您展示的是订单信息示例', '您目前没有订单信息');
+                this.dom.panel.order_pay.show();
             }else{
                 this.data = data;
                 this.oid = data.oid;
@@ -124,104 +124,19 @@ function ui_myorderdetail(){
                 var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.E('E1');}
             }
         }
-        ,c_fill_coupon:function(coupon, refreshscroll){            //填充卡券列表
-            console.log(coupon);
-            this.dqselectdata = null;
-            this.dom.dqpanel.list.empty();
-            if(coupon || coupon.length){
-                var list = [];
-                for(k in coupon){
-                    var data = coupon[k];
-                    data.id = k;
-                    list.push(data);
-                }
-                list.sort(function(a,b){
-                    return a.t - b.t;
-                });
-                for(var i=0;i<list.length;i++){
-                    var data = list[i];
-                    var row = this.c_getcoupon_row(data);
-                    this.dom.dqpanel.list.append(row);
-                }
-                this.dom.dqpanel.couponinfo.html('可用抵用券<span>{0}</span>张'.replace('{0}',list.length));
-            }else{
-                this.dom.dqpanel.list.append(this.dom.dqpanel.qurownone.clone());
-                this.dom.dqpanel.couponinfo.html('当前无可用抵用券');
-            }
-            if(!!refreshscroll){
-                this.c_refshScroll();
-            }
-
-        }
-        ,c_getcoupon_row:function(data){
-            var me = this;
-            var row = null;
-            switch (data.t+''){
-                case '-1':              //1元券
-                    row = this.dom.dqpanel['qurow-1'].clone();
-                    break;
-                case '0':               //抵消券
-                    row = this.dom.dqpanel['qurow0'].clone();
-                    row.find('[name=money]').html(data.m);
-                    break;
-            }
-            row.click(function(){
-                me.c_couponrow_active(data, $(this));
-            });
-            return row;
-        }
-        ,c_couponrow_active:function(data,row){
-            var clsname = 'mui-active'
-            if(this.dqselectdata && this.dqselectdata.id == data.id){           //选择后在选择：取消选择
-                this.dqselectdata = null;
-                row.removeClass(clsname);
-
-            }else{      //选择
-                this.dom.dqpanel.list.find('>*').removeClass(clsname);
-                row.addClass(clsname);
-                this.dqselectdata = data;
-            }
-            this.c_refreshPaymoney();
-        }
-        ,c_refreshPaymoney:function(){          //刷新需要支付的钱
-            console.log(this.dqselectdata);
-            var data = this.data;
-            if(!this.dqselectdata){
-                this.dom.remainFee.html(Math.round(data.remainFee*100)/100);
-                var list = [];
-                for(k in this.data.coupon){
-                    var data = this.data.coupon[k];
-                    data.id = k;
-                    list.push(data);
-                }
-                this.dom.dqpanel.couponinfo.html('可用抵用券<span>{0}</span>张'.replace('{0}',list.length));
-            }else{
-                var m = Math.round(data.remainFee*100)/100;
-                if('1' == this.dqselectdata.t+''){
-                    m = 1;
-                    this.dom.dqpanel.couponinfo.html('只付1元');
-                }else{
-                    m = m - this.dqselectdata.m;
-                    this.dom.dqpanel.couponinfo.html('减免{0}元'.replace('{0}',this.dqselectdata.m));
-                }
-                m =  Math.round(m*100)/100;
-                if(m<0){
-                    m = 0.1;
-                }
-                this.dom.remainFee.html(m);
-            }
-        }
-        ,c_fill_order_no:function(){
-            this.dom.panel.order_no.show();
-        }
         ,c_fill_lianxi:function(datas){      //填充联系
             if(datas && datas.length>0){
-                this.dom.lianxipanel.list.empty();
+                this.dom.lianxipanel.list.empty().unbind();
                 this.dom.lianxipanel.list.parent().show();
                 for(var i=0;i<datas.length;i++){
                     var data = datas[i];
                     var row = this.c_getLianxirow(data, 0==i);
                     this.dom.lianxipanel.list.append(row);
+                }
+                if(datas.length <= 2){
+                    this.dom.btmore.hide();
+                }else{
+                    this.dom.btmore.find('b').html(datas.length-2);
                 }
             }else{
                 this.dom.lianxipanel.list.parent().hide();
@@ -247,23 +162,8 @@ function ui_myorderdetail(){
             }
             if(!isfirst && data.nickname.indexOf('客服')<0){
                 row.addClass('other');
-            }else{
-                if(isfirst){
-                row.find('[name=btmore]').aclick(function(){
-                    me.dom.lianxipanel.list.addClass('all');
-                    me.c_refshScroll();
-                    return false;
-                });
-                row.find('[name=btmore_none]').aclick(function(){
-                    me.dom.lianxipanel.list.removeClass('all');
-                    me.c_refshScroll();
-                    return false;
-                });
-                }else{
-                    row.find('[name=btmore]').remove();
-                    row.find('[name=btmore_none]').remove();
-                }
             }
+            
             return row;
         }
         ,c_fill_pay:function(data){
@@ -296,8 +196,6 @@ function ui_myorderdetail(){
             this.dom.orderpanel.endtime.html(endtime.Format("yyyy-MM-dd hh:mm:ss"));
 
             this.c_fill_lianxi(data.admin);
-
-            this.c_fill_coupon(data.coupon);
 
             this.c_refshScroll();
         }
@@ -369,6 +267,7 @@ function ui_myorderdetail(){
                 me.dom.panel.order_detail.hide();
             });
             this.dom.orderpanel.btdaohang.aclick(function(){
+                                                 if(!me.data){return;}
                 sysmanager.loadpage('views/', 'parkinfo', null, me.data.name,function(v){
                     //修正数据成为parkinfo可读格式
                     me.data.n = me.data.name;me.data.a = me.data.address;me.data.b = me.data.address2;me.data.i = me.data.image;me.data.r = me.data.rule;
@@ -377,11 +276,21 @@ function ui_myorderdetail(){
                 var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.D('D4');}
             });
             this.dom.orderpanel.btdetail.aclick(function(){
+                                                if(!me.data){return;}
                 me.dom.panel.order_detail.show();
             });
-            this.dom.dqpanel.active.click(function(){
-                me.dom.dqpanel.panel.toggleClass('mui-active');
-                me.c_refshScroll();
+            this.dom.btmore.aclick(function(){
+                if(me.dom.btmore.find('span').hasClass('mui-icon-arrowdown')){
+                    me.dom.btmore.find('span').removeClass('mui-icon-arrowdown').addClass('mui-icon-arrowup');
+                    me.dom.lianxipanel.list.addClass('all');
+                    me.c_refshScroll();
+                }else{
+                    me.dom.btmore.find('span').removeClass('mui-icon-arrowup').addClass('mui-icon-arrowdown');
+                    me.dom.lianxipanel.list.removeClass('all');
+                    me.c_refshScroll();
+                }
+                          
+                return false;
             });
         }
         ,c_checkout_start:function(){

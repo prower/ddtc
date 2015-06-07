@@ -15,6 +15,7 @@ function ui_myorder(){
             ,scrollpanel:'[name=scrollpanel]'
             ,test:'.test'
             ,btclearlogin:'[name=btclearlogin]'
+            ,header:'header'
         }
         ,iscroll:null
         ,init:function(context){
@@ -37,7 +38,7 @@ function ui_myorder(){
         }
         ,c_fill:function(data){
             var me = this;
-            this.dom.list.empty();
+            this.dom.list.empty().unbind();
             for(var i=0;i<data.length;i++){
                 var d = data[i];
                 var row = this.c_getrow(d);
@@ -58,7 +59,7 @@ function ui_myorder(){
             row.find('[name=address]').html(data.address);
             row.find('[name=cost]').html(data.cost);
             
-            row.find('[name=btdetail]').click(function(){
+            row.click(function(){
                 me.c_paydetail(data.oid);
             });
             
@@ -66,15 +67,9 @@ function ui_myorder(){
         }
         ,c_paydetail:function(oid){
             var me = this;
-            if(me.iscroll){
-                me.iscroll.destroy();
-                me.iscroll = null;
-            }
             sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){
                 v.obj.initoid(oid);
                 v.obj.onclose = function(){
-                    me.iscroll = new iScroll(me.context[0], {desktopCompatibility:true});
-                    me.c_init();
                 }
             });
         }
@@ -83,7 +78,17 @@ function ui_myorder(){
         }
         ,r_init:function(){
             var me = this;
-            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            var model = utils.tools.getUrlParam('m');
+            if('myorder' == model){
+                this.dom.header.show();
+                var height = this.context.height() - this.dom.header.height();
+                this.dom.scrollpanel.height(height);
+            }else{
+                this.dom.header.hide();
+                var height = this.context.height();
+                this.dom.scrollpanel.height(height);
+            }
+            this.iscroll = new iScroll(this.dom.list[0], {desktopCompatibility:true});
             this.dom.btclearlogin.aclick(function(){
                 me.c_cleatlogin();
             });

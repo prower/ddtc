@@ -76,7 +76,7 @@ function ui_daohang(){
         }, c_driving_routeCallBack:function (data, start, end) {
             var me = this;
             var routeS = data.routes;
-            this.dom.list.empty();
+            this.dom.list.empty().unbind();
             if (routeS.length <= 0) {
                 //alert("未查找到任何结果!<br />建议：<br />1.请确保所有字词拼写正确。<br />2.尝试不同的关键字。<br />3.尝试更宽泛的关键字。");
             } else {

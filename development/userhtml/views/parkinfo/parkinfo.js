@@ -15,12 +15,24 @@ function ui_parkinfo(){
             ,address2:'[name=address2]'
             ,bg:'[name=bg]'
             ,name:'[name=name]'
-            ,btios:'[name=parkinfo_pagecontainer] [name=nav_ios]'
-            ,btbaidu:'[name=parkinfo_pagecontainer] [name=nav_baidu]'
-            ,btgaode:'[name=parkinfo_pagecontainer] [name=nav_gaode]'
-            ,btlocal:'[name=parkinfo_pagecontainer] [name=nav_local]'
-            ,navpanel:'[name=parkinfo_pagecontainer]'
-            ,btnavclose:'[name=parkinfo_pagecontainer] [name=btclose]'
+            ,rules:'[name=rules]'
+            ,spaces:'[name=spaces]'
+            ,numberstatus1:'[name=numberstatus1]'
+            ,numberstatus2:'[name=numberstatus2]'
+            ,numberstatus2t:'[name=numberstatus2t]'
+            ,tags:'[name=tags]'
+            ,btios:'#map-list [name=btios]'
+            ,btbaidu:'#map-list [name=btbaidu]'
+            ,btgaode:'#map-list [name=btgaode]'
+            ,btlocal:'#map-list [name=btlocal]'
+            ,infoarea:'[name=infoarea]'
+            ,reserve:'[name=reserve]'
+            ,scrollparent:'[name=scrollparent]'
+            ,bgbox:'[name=bgbox]'
+            ,daohanglist:'#map-list'
+            ,close_map_list:'[name=close_map-list]'
+            ,tags_item:'.template [name=tags-item]'
+            ,mytag:'[name=spaces] mytag'
         }
         ,iscroll:null
         ,nowdata:null
@@ -38,27 +50,70 @@ function ui_parkinfo(){
             var me = this;
             this.c_fill();
         }
-        ,setdata:function(data,ext){
+        ,setdata:function(data,ext,showbt){
             this.nowdata =  data;
             this.extinfo = ext;
-            console.log(data);
+            this.showbt = showbt;
         }
         ,c_fill:function(){
+            var me = this;
             this.dom.name.html(this.nowdata.n);
             this.dom.address.html(this.nowdata.a);
             var imgurl = this.nowdata.i;
-            if(this.extinfo && imgurl.indexOf('http://') != 0){
+            if(this.extinfo && imgurl && imgurl != '' && imgurl.indexOf('http://') != 0){
                 imgurl = this.extinfo.u+imgurl;
             }
-            this.dom.bg.attr('src',imgurl);
+            this.dom.bgbox.hide();
+            if(imgurl && imgurl != ''){
+                setTimeout(function(){
+                    me.dom.bg.attr('src',imgurl);
+                    me.dom.bg.load(function(){me.dom.bgbox.show();});
+                });
+            }
             if(this.nowdata.b){
-                this.dom.address2.find('p').html(this.nowdata.b).show();
+                this.dom.address2.html(this.nowdata.b).show();
             }else{
                 this.dom.address2.hide()
             }
+            this.dom.rules.html(this.nowdata.r);
+            if(this.nowdata.s){
+            this.dom.numberstatus1.html(window.cfg.parkstatestring2[this.nowdata.s]);
+            if(this.nowdata.e && this.nowdata.e[1]){
+                this.dom.numberstatus2.html(window.cfg.parkstatestring2[this.nowdata.e[0]]);
+                this.dom.numberstatus2t.html(this.nowdata.e[1].substr(0,5));
+                this.dom.mytag.show();
+            }}else if(this.nowdata.startTime){
+                this.dom.spaces.html('开始计费：'+this.nowdata.startTime);
+            }else{
+                this.dom.spaces.hide();
+            }
+            if(this.nowdata.t){for(var i=0;i<this.nowdata.t.length;i++){
+                var tagstr = this.nowdata.t[i];
+                var row = this.c_gettags(tagstr);
+                this.dom.tags.append(row);
+            }}
+            if(this.showbt){
+                this.dom.reserve.show();
+            }else{
+                this.dom.reserve.hide();
+            }
+            
+            //是否显示滚动
+            setTimeout(function(){
+                       var thisvar = me.dom.bgbox.parent();
+                       var imgheight = (imgurl && imgurl != '')?me.dom.bgbox.height():0;
+                       var scrollheight = thisvar.height() - imgheight - me.dom.reserve.height();
+                       var contentheight = me.dom.scrollparent.height();
+                       if(contentheight > scrollheight){
+                        me.dom.scrollparent.css('height',scrollheight+'px');
+                        me.iscroll = new iScroll(me.dom.infoarea[0], {desktopCompatibility:true});
+                       }
+            });
         }
-        ,c_showInfo:function(){
-            this.dom.info.panel.show();
+        ,c_gettags:function(str){
+            var row = this.dom.tags_item.clone();
+            row.html(str);
+            return row;
         }
         ,c_daohang_ios_official:function(){
             var href='http://maps.apple.com/?q='+this.nowdata.address;
@@ -158,7 +213,7 @@ function ui_parkinfo(){
             if(utils.browser.versions.ios){
                 me.dom.btios.show();
             }
-            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            
             me.dom.btdaohang.aclick(function(){
 
                 if(window.Myweixinobj.isready){
@@ -172,30 +227,39 @@ function ui_parkinfo(){
                         infoUrl: ''
                     });
                 }else{
-                                    me.dom.navpanel.show();
+                    me.dom.daohanglist.addClass('mui-active');
                 }
             });
             me.dom.btlocal.aclick(function(){
-                sysmanager.loadpage('views/', 'daohang', null, '导 航',function(v){
+                sysmanager.loadpage('views/', 'daohang', null, '导航：'+me.nowdata.n,function(v){
                     v.obj.settarget(me.nowdata);
                 });
-                me.dom.navpanel.hide();
-            });
-            me.dom.btnavclose.aclick(function(){
-                me.dom.navpanel.hide();
+                me.c_danghang_close();
             });
             me.dom.btios.aclick(function(){
                 me.c_daohang_ios_official();
-                me.dom.navpanel.hide();
+                me.c_danghang_close();
             });
             me.dom.btgaode.aclick(function(){
                 me.c_daohang_gaode();
-                me.dom.navpanel.hide();
+                me.c_danghang_close();
             });
             me.dom.btbaidu.aclick(function(){
                 me.c_daohang_baidu();
-                me.dom.navpanel.hide();
+                me.c_danghang_close();
             });
+            me.dom.close_map_list.aclick(function(){
+                me.c_danghang_close();
+            });
+            me.dom.reserve.aclick(function(){
+                sysmanager.loadpage('views/', 'orderpay', null, '预订：'+me.nowdata.n,function(v){
+                    v.obj.setdata(me.nowdata,me.extinfo);
+                });
+            });
+            
+        }
+        ,c_danghang_close:function(){
+            this.dom.daohanglist.removeClass('mui-active');
         }
         ,close:function(){
 
