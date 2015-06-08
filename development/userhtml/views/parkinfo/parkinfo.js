@@ -20,6 +20,7 @@ function ui_parkinfo(){
             ,numberstatus1:'[name=numberstatus1]'
             ,numberstatus2:'[name=numberstatus2]'
             ,numberstatus2t:'[name=numberstatus2t]'
+            ,activity:'[name=activity]'
             ,tags:'[name=tags]'
             ,btios:'#map-list [name=btios]'
             ,btbaidu:'#map-list [name=btbaidu]'
@@ -96,6 +97,15 @@ function ui_parkinfo(){
                 this.dom.reserve.show();
             }else{
                 this.dom.reserve.hide();
+            }
+            if(this.nowdata.d){//活动
+                if(this.nowdata.d[0] == 1){//停车只要1元
+                    this.dom.activity.html('现在预订只要'+this.nowdata.d[1]+'元');
+                }else{
+                    this.dom.activity.html('现在预订优惠'+this.nowdata.d[1]+'元');
+                }
+            }else{
+                this.dom.activity.hide();
             }
             
             //是否显示滚动
@@ -214,7 +224,7 @@ function ui_parkinfo(){
                 me.dom.btios.show();
             }
             
-            me.dom.btdaohang.aclick(function(){
+            me.dom.btdaohang.click(function(){
 
                 if(window.Myweixinobj.isready){
 //                    alert([parseFloat(me.nowdata.lat),parseFloat(me.nowdata.lng)]);

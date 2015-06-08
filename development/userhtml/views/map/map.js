@@ -274,9 +274,9 @@ function ui_map(){
              offset:new AMap.Pixel(-16,-64)
            });
             data.marker = marker;
-            AMap.event.addListener(marker,'touchstart',function callback(e){
+            /*AMap.event.addListener(marker,'touchstart',function callback(e){
                 me.c_activeRow(index);
-            });
+            });*/
         }
         ,c_setActiveRow:function(row, data, elemmove){
             this.dom.list.find('>*').removeClass('active');
@@ -325,6 +325,16 @@ function ui_map(){
                 row.find('[name=numberstatus2]').html(window.cfg.parkstatestring2[data.e[0]]);
                 row.find('[name=numberstatus2t]').html(data.e[1].substr(0,5));
                 row.find('mytag').show();
+            }
+            
+            if(data.d){//活动
+                if(data.d[0] == 1){//停车只要1元
+                    row.find('[name=activity]').html('现在预订只要'+data.d[1]+'元');
+                }else{
+                    row.find('[name=activity]').html('现在预订优惠'+data.d[1]+'元');
+                }
+            }else{
+                row.find('[name=activity]').remove();
             }
             
             if(data.c == 0){//信息化

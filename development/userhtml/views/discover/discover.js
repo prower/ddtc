@@ -40,12 +40,24 @@ function ui_discover(){
         }
         ,c_init:function(){
             var me = this;
+            window.myajax.userget('index','discover',null, function(result){
+                                  if(result.data.p && result.data.p.length>0){
+                                  for(var i=0;i<result.data.p.length;i++){
+                                  var data = result.data.p[i];
+                                  var row = me.c_getrow(data, result.data.e);
+                                  me.dom.park_list.append(row);
+                                  }
+                                  me.dom.park_list.show();
+                                  }else{
+                                  me.dom.park_list.hide();
+                                  }
+                                  me.dom.num_park_free.html(result.data.f);
+            }, null, true);
             
-            //活动停车场
+            /*
             var data = {"id":"1","n":"\u6d4b\u8bd5\u91d1\u6c99\u6c5f\u8def\u505c\u8f66\u573a","r":"<p><span style=\"color: rgb(255, 0, 0);\">10\u5143\/\u5c0f\u65f6<\/span>\uff0c\u5c01\u987640\u5143<\/p>","a":"\u4e2d\u5c71\u5317\u8def3553\u53f7","b":"\u4ece\u5b81\u590f\u8def\u7fdf\u5bb6\u5eca\u8def\u53e3\u659c\u5761\u9a76\u4e0a\u8d70\u9053\uff0c\u505c\u653e\u5728\u6cbf\u8857\u95e8\u5e97\u5916\u505c\u8f66\u4f4d","i":"Park_1_1433404243.jpg","y":"\u5143\/3\u5c0f\u65f6","lat":"31.230890","lng":"121.411072","m":"20","p":"20.00","t":["\u5730\u4e0b\u5e93","\u7acb\u4f53\u8f66\u5e93"],"e":[-1,null,null],"c":1,"s":"1"};
             var edata = {"c":"\u6caaAHB973","u":"http:\/\/7xispd.com1.z0.glb.clouddn.com\/Park\/"};
-            var row = this.c_getrow(data, edata);
-            this.dom.park_list.append(row);
+            */
         }
         ,c_getrow:function(data, edata){
             var me = this;
@@ -60,6 +72,14 @@ function ui_discover(){
                 row.find('[name=numberstatus2]').html(window.cfg.parkstatestring2[data.e[0]]);
                 row.find('[name=numberstatus2t]').html(data.e[1].substr(0,5));
                 row.find('mytag').show();
+            }
+            
+            if(data.d){//活动
+                if(data.d[0] == 1){//停车只要1元
+                    row.find('[name=activity]').html('现在预订只要'+data.d[1]+'元');
+                }else{
+                    row.find('[name=activity]').html('现在预订优惠'+data.d[1]+'元');
+                }
             }
             
             row.find('.mui-btn').aclick(function(){

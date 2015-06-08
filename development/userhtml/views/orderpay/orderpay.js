@@ -12,6 +12,7 @@ function ui_orderpay(){
         ,dom:{
             rules:'[name=rules]'
             ,prepay:'[name=prepay]'
+            ,prepay_old:'[name=prepay_old]'
             ,pretype:'[name=pretype]'
             ,coupon_panel:'[name=coupon_panel]'
             ,couponinfo:'[name=couponinfo]'
@@ -42,7 +43,21 @@ function ui_orderpay(){
         }
         ,c_fill:function(data){
             this.dom.rules.html(this.nowdata.r);
-            this.dom.prepay.html(this.nowdata.p);
+            if(this.nowdata.d){//活动
+                if(this.nowdata.d[0] == 1){//停车只要1元
+                    this.dom.prepay.html(this.nowdata.d[1]);
+                }else{
+                    var p = parseInt((this.nowdata.p - this.nowdata.d[1])*100)/100;
+                    if(p <= 0){
+                        p = 0.01;
+                    }
+                    this.dom.prepay.html(p);
+                }
+                this.dom.prepay_old.html(this.nowdata.p+'元');
+            }else{
+                this.dom.prepay.html(this.nowdata.p);
+                this.dom.prepay_old.html('');
+            }
             this.dom.carid.html(this.extinfo.c || '没有设置车牌');
             if(this.nowdata.y){
                 this.dom.pretype.html(this.nowdata.y);
@@ -104,7 +119,9 @@ function ui_orderpay(){
                     }
                     listui.append(row);
                 }
-                setTimeout(function(){firstrow && firstrow.find('[name=radio]').click();});
+                if(!me.nowdata.d){//活动时不默认选择优惠券
+                    setTimeout(function(){firstrow && firstrow.find('[name=radio]').click();});
+                }
                 
                 function getcouponrow(data){
                     var row = null;
@@ -148,9 +165,8 @@ function ui_orderpay(){
                 
                 function onselect(dqselectdata){
                     me.dqselectdata = dqselectdata;
-                    if(!dqselectdata){
-                        me.dom.prepay.html(me.nowdata.p);
-                    }else{
+                    var preprice = me.nowdata.p;
+                    if(dqselectdata){
                         var m = Math.round(me.nowdata.p*100)/100;
                         if('-1' == dqselectdata.t+''){  //壹元券
                             m = 1;
@@ -160,7 +176,22 @@ function ui_orderpay(){
                         if(m<0){
                             m = 0.1;
                         }
-                        me.dom.prepay.html(m);
+                        var preprice = m;
+                    }
+                    if(me.nowdata.d){//活动
+                        if(me.nowdata.d[0] == 1){//停车只要1元
+                            me.dom.prepay.html(me.nowdata.d[1]);
+                        }else{
+                            var p = parseInt((preprice - me.nowdata.d[1])*100)/100;
+                            if(p <= 0){
+                                p = 0.01;
+                            }
+                            me.dom.prepay.html(p);
+                        }
+                        me.dom.prepay_old.html(preprice+'元');
+                    }else{
+                        me.dom.prepay.html(preprice);
+                        me.dom.prepay_old.html('');
                     }
                 }
             }
