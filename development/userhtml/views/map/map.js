@@ -133,7 +133,7 @@ function ui_map(){
                 });
             var maptool = null;
 
-                mapObj.plugin(["AMap.ToolBar","AMap.Scale","AMap.myHomeControl"],function(){
+                mapObj.plugin(["AMap.ToolBar","AMap.Scale"/*,"AMap.myHomeControl"*/],function(){
 
                      //加载工具条
                     maptool = window.maptool = new AMap.ToolBar({
@@ -151,7 +151,7 @@ function ui_map(){
                      var scale = new AMap.Scale();
                      mapObj.addControl(scale);
                        //加载回原点
-                     mapObj.addControl(homecontrol);
+                     //mapObj.addControl(homecontrol);
                });
             //window.mapobj1 = mapObj;
             if(mapObj.loaded){
@@ -165,6 +165,7 @@ function ui_map(){
 
             function onmapload(mapobj){
                 var center = mapobj.getCenter();
+                homecontrol.setPosition(center,mapObj, true);
                 console.log(center);                /**
                  * B: 39.9092295056561lat: 39.90923lng: 116.397428r: 116.39742799999999
                  */
@@ -219,9 +220,9 @@ function ui_map(){
                     });
 
                 }
-                mapObj.gotoHome = function(){
+                /*mapObj.gotoHome = function(){
                     this.panTo(homecontrol.position);
-                }
+                }*/
             }
 
         }
@@ -234,22 +235,60 @@ function ui_map(){
             });
 
         }
+        ,c_fill_free:function(datas){//插入免费停车场
+            if(datas.f && datas.f.length > 0){
+                var row0 = this.dom.row0.clone();
+                row0.find('b').html(datas.f.length);
+                var intro = null;
+                var freelist = row0.find('ul');
+                for(var i=0;i<datas.f.length;i++){
+                    var row = this.c_getrow(datas.f[i]);
+                    freelist.append(row);
+                    if(i < 3){
+                        if(intro == null){
+                            intro = datas.f[i].n;
+                        }else{
+                            intro = intro+'、'+datas.f[i].n;
+                        }
+                    }else if(i == 3){
+                        intro = intro+'等';
+                    }
+                }
+                if(intro){
+                    row0.find('.park-free-intro').html(intro);
+                }
+                row0.find('[name=head]').click(function(){freelist.toggle();});
+                this.dom.list.append(row0);
+            }
+        }
         ,c_fill:function(datas,area){
             var me = this;
             this.datas = datas;
             this.dom.list.empty().unbind();
-            if(datas.p){
+            if(datas.p && datas.p.length > 0){
+                var first = false;
                 for(var i=0;i<datas.p.length;i++){
+                    if(!first && datas.p[i].c == 0){
+                        first = true;
+                        //插入免费停车场
+                        this.c_fill_free(datas);
+                    }
                     var row = this.c_getrow(datas.p[i]);
                     this.dom.list.append(row);
                 }
-            }
-            if(!datas.p || datas.p.length == 0){
+                this.dom.pointlist.hide();
+            }else{
+                //插入免费停车场
+                this.c_fill_free(datas);
+                if(datas.f && datas.f.length > 0){
+                    this.dom.pointlist.find('[name=nonerow]').html('按商圈查看');
+                }else{
+                    this.dom.pointlist.find('[name=nonerow]').html('附近没有合作停车场，您可以尝试：');
+                }
                 this.c_getnonerow(area);
                 this.dom.pointlist.show();
-            }else{
-                this.dom.pointlist.hide();
             }
+            
             setTimeout(function(){
                 me.iscroll.refresh();
                 setTimeout(function(){me.iscroll.scrollTo(0,0);});
@@ -259,13 +298,21 @@ function ui_map(){
             for(var i=0;i<datas.p.length;i++){
                 var data = datas.p[i];
                 this.c_getpoint(map,data, i);
-
+            }
+            for(var i=0;i<datas.f.length;i++){
+                var data = datas.f[i];
+                this.c_getpoint(map,data, i);
             }
         }
         ,c_getpoint:function(map,data, index){
             var me = this;
             var content = this.dom.mk1.html();
-            content = content.replace('{0}', '¥'+data.p).replace('{1}',data.c);
+            if(data.c==2){//免费
+                content = content.replace('{0}', '免费').replace('{1}',data.c);
+            }else{
+                content = content.replace('{0}', '¥'+data.p).replace('{1}',data.c);
+            }
+            
             var marker = new AMap.Marker({
               map:map,
               position:data.point,
@@ -280,12 +327,20 @@ function ui_map(){
         }
         ,c_setActiveRow:function(row, data, elemmove){
             this.dom.list.find('>*').removeClass('active');
+            this.dom.list.find('[name=row0] ul>*').removeClass('active');
             row.addClass('active');
             for(var i=0;i<this.datas.p.length;i++){
                 if(this.datas.p[i] == data){
                     this.datas.p[i].marker.show();
                 }else{
                     this.datas.p[i].marker.hide();
+                }
+            }
+            for(var i=0;i<this.datas.f.length;i++){
+                if(this.datas.f[i] == data){
+                    this.datas.f[i].marker.show();
+                }else{
+                    this.datas.f[i].marker.hide();
                 }
             }
             var vbounds = this.mapObj.getBounds();
@@ -313,7 +368,15 @@ function ui_map(){
         }
         ,c_getrow:function(data, index){
             var me = this;
-            var row = this.dom.row.clone();
+            var row = null;
+            
+            if(data.c == 2){//免费
+                row = this.dom.rowfree.clone();
+                row.find('[name=title]').html(data.n);
+                row.find('[name=distance]').html(data.distance);
+                row.find('[name=desc ]').html(data.b);
+            }else{
+            row = this.dom.row.clone();
             row.find('[name=title]').html(data.n);
             row.find('[name=distance]').html(data.distance);
             data.r = data.r.replace(/<p>/g, "").replace(/<\/p>/g, "");
@@ -341,6 +404,7 @@ function ui_map(){
                 row.find('[name=preorder]').hide();
             }else if(data.c == 1){//收费
                 
+            }
             }
 
             row.click(function(){
@@ -437,6 +501,12 @@ function ui_map(){
                     d.point = new AMap.LngLat(d.lng, d.lat);
                     d.distance = Math.abs(parseInt(d.point.distance(center)));
                     d.p = parseInt(d.p);
+                }
+                data = result.data.f;//免费停车场
+                for(var i=0;i<data.length;i++){
+                    var d = data[i];
+                    d.point = new AMap.LngLat(d.lng, d.lat);
+                    d.distance = Math.abs(parseInt(d.point.distance(center)));
                 }
                 fn && fn(result.data,result.area);
                 setTimeout(function(){

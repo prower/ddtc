@@ -16,6 +16,7 @@ function ui_discover(){
             ,scrollparent:'[name=scrollparent]'
             ,num_park_free:'[name=num_park_free]'
             ,park_list:'[name=park_list]'
+            ,free_list:'[name=free_list]'
             ,coop:'[name=coop]'
             ,hintlist:'[name=hint]'
             ,list:'[name=coop] .innerlist'
@@ -316,6 +317,9 @@ function ui_discover(){
                                            });
                                 return false;
                                 });
+            this.dom.free_list.click(function(){
+                sysmanager.loadpage('views/', 'freelist', null, '免费停车点',function(v){});
+            });
         }
         ,c_select:function(position,name){
             var me = this;

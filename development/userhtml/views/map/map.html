@@ -17,6 +17,9 @@
     .mk1.state1{
         background-position-x: 0px;
     }
+    .mk1.state2{
+        background-position-x: -32px;
+    }
     </style>
     <style>
         .map_contaion{
@@ -101,7 +104,7 @@
                 </ul>
                 <!--显示合作区域-->
                 <ul class="mui-table-view" name='pointlist' style="display:none">
-                    <li class="mui-table-view-cell" name='nonerow'>
+                    <li class="mui-table-view-divider" name='nonerow'>
                         附近没有合作停车场，您可以尝试：
                     </li>
                 </ul>
@@ -123,7 +126,7 @@
             </li>
             <!--免费停车位-->
             <li class="mui-table-view-cell mui-collapse" name='row0'>
-                <a class="mui-navigate-right">
+                <a class="mui-navigate-right" name="head">
                     <h4>附近有<b></b>个免费停车位</h4>
                     <p class="mui-ellipsis-2 park-free-intro"></p>
                 </a>

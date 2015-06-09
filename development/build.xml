@@ -60,6 +60,7 @@
               <file name="${userdir}/views/daohang/daohang.js"/>
               <file name="${userdir}/views/orderpay/orderpay.js"/>
               <file name="${userdir}/views/discover/discover.js"/>
+              <file name="${userdir}/views/freelist/freelist.js"/>
           </sources>
         </jscomp>
         
@@ -85,7 +86,15 @@
 
         <!--copy htmlfile-->
         <copy file='${basedir}/${userdir}/index.html' tofile='${pubdir}/${userdir}/index.html' ></copy>
-        <copy file='${basedir}/${userdir}/js/index.js' tofile='${pubdir}/${userdir}/js/index.js' ></copy>
+        <jscomp compilationLevel="simple"
+            warning="quiet"
+            debug="false"
+            output="${pubdir}/${userdir}/js/index.js"
+            languagein="ECMASCRIPT5">
+            <sources dir="${basedir}">
+                <file name="${userdir}/js/index_loc.js"/>
+            </sources>
+        </jscomp>
         <!--copy golba file-->
         <copy file="${basedir}/golba_rs/js/sys.js" tofile='${pubdir}/${userdir}/js/sys.js'></copy>
         <copy file="${basedir}/golba_rs/js/jquery-1.9.1.min.js" tofile='${pubdir}/${userdir}/js/jquery-1.9.1.min.js'></copy>

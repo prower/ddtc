@@ -59,7 +59,6 @@ function ui_parkinfo(){
         ,c_fill:function(){
             var me = this;
             this.dom.name.html(this.nowdata.n);
-            this.dom.address.html(this.nowdata.a);
             var imgurl = this.nowdata.i;
             if(this.extinfo && imgurl && imgurl != '' && imgurl.indexOf('http://') != 0){
                 imgurl = this.extinfo.u+imgurl;
@@ -74,8 +73,20 @@ function ui_parkinfo(){
             if(this.nowdata.b){
                 this.dom.address2.html(this.nowdata.b).show();
             }else{
-                this.dom.address2.hide()
+                this.dom.address2.hide();
             }
+            
+            if(this.nowdata.c == 2){//免费
+                this.dom.spaces.html('本免费停车点信息由网友提供，我们已尽量检查，但仍可能有误，敬请注意。');
+                this.dom.activity.hide();
+                if(this.nowdata.t){
+                    var tags=this.nowdata.t.split("|");
+                    for(var i=0;i<tags.length;i++){
+                    var tagstr = window.cfg.freeparktags[tags[i]];
+                    if(tagstr){var row = this.c_gettags(tagstr);this.dom.tags.append(row);}
+                }}
+            }else{
+            this.dom.address.html(this.nowdata.a);
             this.dom.rules.html(this.nowdata.r);
             if(this.nowdata.s){
             this.dom.numberstatus1.html(window.cfg.parkstatestring2[this.nowdata.s]);
@@ -107,7 +118,7 @@ function ui_parkinfo(){
             }else{
                 this.dom.activity.hide();
             }
-            
+            }
             //是否显示滚动
             setTimeout(function(){
                        var thisvar = me.dom.bgbox.parent();
