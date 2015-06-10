@@ -333,9 +333,9 @@ function ui_orderpay(){
         ,c_startPayok:function(){           //预付款成功
             if(sysmanager.isapp){
                 this.innerpay_app_postmessage(JSON.stringify({t:'nav',d:{target:'iframe3',href:'userorder',force:1}}));
-                $('#topheardpagecontainer [name=btupclose]').click();//退出
+                setTimeout(function(){$('#topheardpagecontainer [name=btupclose]').click();},100);
             }else{
-                setTimeout(function(){location.href='index.html?m=userorder'},100);
+                setTimeout(function(){location.href='index.html?m=userorder';},100);
             }
             //支付成功：D6
             var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.A('D6');}
