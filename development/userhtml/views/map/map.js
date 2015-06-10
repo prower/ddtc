@@ -452,9 +452,11 @@ function ui_map(){
                       if(expandbt.hasClass('mui-icon-arrowup')){
                       expandbt.removeClass('mui-icon-arrowup');
                       expandbt.addClass('mui-icon-arrowdown');
+                          row.find('.search_desc').show();
                       }else{
                       expandbt.removeClass('mui-icon-arrowdown');
                       expandbt.addClass('mui-icon-arrowup');
+                          row.find('.search_desc').hide();
                       }
                       blocklist.toggle();
                       me.iscroll.refresh();

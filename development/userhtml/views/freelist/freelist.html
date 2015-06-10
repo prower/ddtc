@@ -62,7 +62,10 @@
         <ul>
             <li>
                 <span class="mui-navigate-down" name="btarea">附近</span>
-                <ul style="display:none;" class="mui-table-view mui-grid-view mui-grid-9 select-menu-cell" name="panelarea">
+
+                <div style="display:none;" class="shadow-box select-menu-cell" name="panelarea">
+                    <ul class="mui-table-view mui-grid-view mui-grid-9">
+
                     <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" name="tags_area_0" style="display:none">
                         <div class="mui-media-body">附近</div>
                     </li>
@@ -115,10 +118,12 @@
                         <div class="mui-media-body">金山区</div>
                     </li>
                 </ul>
+                    </div>
             </li>
             <li>
                 <span class="mui-navigate-down" name="bttag">类型</span>
-                <ul style="display:none;" class="mui-table-view mui-grid-view mui-grid-9 select-menu-cell" name="paneltag">
+                <div style="display:none;" class="shadow-box select-menu-cell" name="paneltag">
+                    <ul class="mui-table-view mui-grid-view mui-grid-9">
                     <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" name="tags_sel_0">
                         <div class="mui-media-body">所有</div>
                     </li>
@@ -150,9 +155,10 @@
                         <div class="mui-media-body">学校</div>
                     </li>
                 </ul>
+                </div>
             </li>
             <li>
-                <span class="select-menu-btn" style="margin-right: 15px;float: right;" name="btfreeadd">+ 新增</span>
+                <span class="select-menu-btn" style="margin-right: 15px;float: right;" name="btfreeadd">+ 添加</span>
             </li>
         </ul>
     </div>
@@ -189,6 +195,8 @@
                                     </li>
 	            			<li class="mui-table-view-cell">
                                 <textarea name="txtDsc" rows="4" placeholder="请在这里对地址、入口、空忙时间等停车场情况进行描述，越详细对大家帮助越大"></textarea>
+                </li>
+                <li class="mui-table-view-cell">
                                 <p style="margin-top:15px;">请选择标签</p>
                                 <span class="tags-item" name="tags_item_1">有时间限制</span><span class="tags-item" name="tags_item_2">门店停车位</span><span class="tags-item" name="tags_item_3">画有停车线</span><span class="tags-item" name="tags_item_4">小道旁</span><span class="tags-item" name="tags_item_5">断头路</span><span class="tags-item" name="tags_item_6">空地</span><span class="tags-item" name="tags_item_7">小区</span><span class="tags-item" name="tags_item_8">老厂房</span>
                             </li>
