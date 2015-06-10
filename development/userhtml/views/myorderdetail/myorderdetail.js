@@ -173,7 +173,7 @@ function ui_myorderdetail(){
             var stoptime = utils.tools.t2s(new Date - data.startTimeStamp*1000);
             this.dom.orderdetailpanel.stoptime.html(stoptime);
             this.dom.orderdetailpanel.totalFee.html(data.totalFee);
-            this.dom.orderdetailpanel.preFee.html(parseInt((data.totalFee*100 - data.remainFee*100))/100);
+            this.dom.orderdetailpanel.preFee.html(Math.ceil((data.totalFee*100 - data.remainFee*100))/100);
             var remainFee = data.remainFee>0?Math.round(data.remainFee*100)/100:0;
             this.dom.orderdetailpanel.remainFee.val(remainFee);
             
@@ -182,11 +182,11 @@ function ui_myorderdetail(){
             this.dom.orderpanel.address.html(data.address);
             this.dom.orderpanel.parkrule.html(data.rule);
             this.dom.orderpanel.starttime.html(data.startTime);
-            var cost = parseInt((data.totalFee - data.remainFee)*100)/100;
+            var cost = Math.ceil((data.totalFee - data.remainFee)*100)/100;
             this.dom.orderpanel.cost.html(cost);
             if(data.cost_r < cost){
                 this.dom.orderpanel.cost_r.html(data.cost_r);
-                this.dom.orderpanel.cost_c.html(parseInt((cost - data.cost_r)*100)/100);
+                this.dom.orderpanel.cost_c.html(Math.ceil((cost - data.cost_r)*100)/100);
                 this.dom.orderpanel.costdetail.show();
             }else{
                 this.dom.orderpanel.costdetail.hide();
@@ -332,7 +332,7 @@ function ui_myorderdetail(){
                 window.removeEventListener("message", me.innerpay_app_onmessage);
                 window.addEventListener("message", me.innerpay_app_onmessage, false );
                 //发送支付信息给父窗口
-                me.innerpay_app_postmessage(JSON.stringify(paydata));
+                me.innerpay_app_postmessage(JSON.stringify({t:'pay',d:paydata}));
             });
         }
         ,innerpay_app_postmessage:function(data){   //发送支付信息

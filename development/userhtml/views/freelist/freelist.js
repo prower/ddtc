@@ -234,6 +234,7 @@ function ui_freelist(){
                                 //me.dom.btarea.toggleClass("mui-navigate-down");me.dom.btarea.toggleClass("mui-navigate-up");
                                     me.dom.panelarea.toggle();
                                     me.dom.paneltag.hide();
+
                                  });
             this.dom.btn_more.click(function(){
                                     me.loaddata(me.nowpage+1);
