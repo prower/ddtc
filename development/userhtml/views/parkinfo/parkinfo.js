@@ -31,6 +31,7 @@ function ui_parkinfo(){
             ,scrollparent:'[name=scrollparent]'
             ,bgbox:'[name=bgbox]'
             ,daohanglist:'#map-list'
+            ,daohanglist_bg:'#map-list-bg'
             ,close_map_list:'[name=close_map-list]'
             ,tags_item:'.template [name=tags-item]'
             ,mytag:'[name=spaces] mytag'
@@ -249,6 +250,7 @@ function ui_parkinfo(){
                     });
                 }else{
                     me.dom.daohanglist.addClass('mui-active');
+                    me.dom.daohanglist_bg.show();
                 }
             });
             me.dom.btlocal.aclick(function(){
@@ -281,6 +283,7 @@ function ui_parkinfo(){
         }
         ,c_danghang_close:function(){
             this.dom.daohanglist.removeClass('mui-active');
+            this.dom.daohanglist_bg.hide();
         }
         ,close:function(){
 
