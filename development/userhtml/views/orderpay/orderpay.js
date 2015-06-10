@@ -198,7 +198,7 @@ function ui_orderpay(){
         }
         ,r_init:function(){
             var me = this;
-            //this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
+            this.iscroll = new iScroll(this.context[0], {desktopCompatibility:true});
 
             this.dom.btpay.aclick(function(){
                 me.c_startPay();
@@ -309,7 +309,7 @@ function ui_orderpay(){
                                   window.removeEventListener("message", me.innerpay_app_onmessage);
                                   window.addEventListener("message", me.innerpay_app_onmessage, false );
                                   //发送支付信息给父窗口
-                                  me.innerpay_app_postmessage(JSON.stringify(paydata));
+                                  me.innerpay_app_postmessage(JSON.stringify({t:'pay',d:paydata}));
                                   });
             }
             //发送信息到父窗口
@@ -331,8 +331,12 @@ function ui_orderpay(){
             }
         }
         ,c_startPayok:function(){           //预付款成功
-            setTimeout(function(){location.href='index.html?m=neworder'},100);
-            
+            if(sysmanager.isapp){
+                this.innerpay_app_postmessage(JSON.stringify({t:'nav',d:{target:'iframe3',href:'userorder',force:1}}));
+                $('#topheardpagecontainer [name=btupclose]').click();//退出
+            }else{
+                setTimeout(function(){location.href='index.html?m=userorder'},100);
+            }
             //支付成功：D6
             var uid = myajax.uid();if(uid && uid > 41){window.TongjiObj.A('D6');}
         }

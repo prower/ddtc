@@ -40,6 +40,10 @@ function ui_userinfo(){
         }
         ,c_init:function(){
             var me = this;
+            var model = utils.tools.getUrlParam('m');
+            if('userorder' == model){
+                sysmanager.loadpage('views/', 'myorderdetail', null, '订单明细',function(v){v.obj.waittimes=3000;v.obj.onclose = function(){setTimeout(function(){me.iscroll && me.iscroll.refresh();});}});
+            }
             this.m_getuserinfo(function(data){
                 me.info = data;
                 me.info.carids = me.info.carids || [];
@@ -68,6 +72,7 @@ function ui_userinfo(){
             var me = this;
             this.dom.telphone.html(info.telephone);
             this.c_fillcarid(info.carids);
+            setTimeout(function(){me.iscroll && me.iscroll.refresh();});
         }
         ,c_fillcarid:function(carids){
             var me = this;
@@ -90,10 +95,6 @@ function ui_userinfo(){
                                               me.c_addCarid();
                                               });
             this.dom.pailist.append(row_tail);
-
-            setTimeout(function(){
-               me.iscroll && me.iscroll.refresh();
-            });
         }
         ,c_getcaridrow:function(data){
             var me=  this;
@@ -209,7 +210,7 @@ function ui_userinfo(){
         }
         ,r_init:function(){
             var model = utils.tools.getUrlParam('m');
-            if('userinfo' == model){
+            if('userinfo' == model || 'userorder' == model){
                 this.from_menu = true;
                 this.dom.coupon.show();
                 this.dom.order.show();

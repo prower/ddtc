@@ -228,10 +228,12 @@ function ui_freelist(){
             this.dom.bttag.click(function(){
                                  //me.dom.bttag.toggleClass("mui-navigate-down");me.dom.bttag.toggleClass("mui-navigate-up");
                                  me.dom.paneltag.toggle();
+                                 me.dom.panelarea.hide();
                                  });
             this.dom.btarea.click(function(){
                                 //me.dom.btarea.toggleClass("mui-navigate-down");me.dom.btarea.toggleClass("mui-navigate-up");
                                  me.dom.panelarea.toggle();
+                                  me.dom.paneltag.hide();
                                  });
             this.dom.btn_more.click(function(){
                                     me.loaddata(me.nowpage+1);
